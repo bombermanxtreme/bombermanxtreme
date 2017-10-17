@@ -1,0 +1,20 @@
+$escalaTxt:0;
+$mobile:0;
+$escala:0;
+@if $data==2000{
+	$escala:1;
+}@elseif $data==1400{
+	$escala:0.711458333;
+}@elseif $data==1200{
+	$escala:0.533333333;
+}@elseif $data==800{
+	$escala:0.416666667;
+}@elseif $data==0{//mobile
+	$escala:0.46;
+	$escalaTxt:0.8;
+	$mobile:1;
+}
+@if $data>0{
+	$mobile:0;
+	$escalaTxt:$escala;
+}
