@@ -1,1 +1,1 @@
-mvn compile&mvn spring-boot:run
+mvn compile&tomcat.bat
