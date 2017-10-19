@@ -10,25 +10,20 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import edu.eci.arsw.BomberManX.model.Point;
 import java.util.ArrayList;
 
 @Controller
 public class STOMPMessagesHandler {
 
-    ArrayList<Point> lista = new ArrayList<>();
-
     @Autowired
     SimpMessagingTemplate msgt;
 
-    @MessageMapping("/newpoint.{numdibujo}")
-    public void handlePointEvent(Point pt, @DestinationVariable String numdibujo) throws Exception {
-        synchronized (lista) {
-            lista.add(pt);
-            if (lista.size() == 4) {
-                msgt.convertAndSend("/topic/newpolygon." + numdibujo, lista);
-                lista = new ArrayList<>();
-            }
-        }
+    @MessageMapping("/estadisticas.{numjuego}")
+    public void handlePointEvent(int prueba, @DestinationVariable String numjuego) throws Exception {
+		msgt.convertAndSend("/topic/estadisticas." + numjuego, "{'hola':'se recibió una solicitud'}");
+    }
+    
+    public void hola(){
+        msgt.convertAndSend("/topic/estadisticas.1", "holaa");
     }
 }
