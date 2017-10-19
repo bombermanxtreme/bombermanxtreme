@@ -11,19 +11,19 @@ package edu.eci.arsw.BomberManX.model;
  */
 public class Man {
 	
+	public static final String[] colores={"red","yellow","blue"};
 	private Jugador jugador;
 	private int posX;
 	private int posY;
 	private int puntaje;
 	private Poder poder;
-	private Color color;
+        private String color;
 
-    public Man(Color color,Jugador jugador) {
-		this.color = color;
-		this.jugador = jugador;
-		posX=0;
-		posY=0;
-		puntaje=0;
+    public Man(String color,Jugador jugador) {
+        this.color = color;
+        this.jugador = jugador;
+        posX=0;
+        posY=0;
+        puntaje=0;
     }
-	
 }

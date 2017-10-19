@@ -27,4 +27,3 @@ public class Juego {
         tiempo=0;
     }
 }
-  
