@@ -12,12 +12,18 @@ package edu.eci.arsw.BomberManX.model;
 public class Jugador {
     private String nombre;
     private String correo;
+    private String clave;
     private int record;
 
-    public Jugador(String nombre,String correo,int record) {
+    public Jugador(String nombre,String correo,String clave) {
         this.nombre = nombre;
         this.correo = correo;
+        this.clave = clave;
         this.record = record<0?0:record;
     }
 
+    @Override
+    public String toString() {
+        return "Jugador{" + "nombre=" + nombre + ", record=" + record + '}';
+    }
 }

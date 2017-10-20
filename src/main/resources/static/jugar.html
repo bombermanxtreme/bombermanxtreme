@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Jugar - BomberManXtreme</title>
+		<meta charset="UTF-8">
+		<meta name="viewport" id="viewport" content="width=device-width, initial-scale=1.0"> 
+		<script src="/webjars/jquery/jquery.min.js"></script>
+		<script src="/webjars/sockjs-client/sockjs.min.js"></script>
+		<script src="/webjars/stomp-websocket/stomp.min.js"></script>
+		<script src="js/app.js"></script>
+		<script src="js/pantalla.js"></script> 
+		<link class="procesarCSS" rel="stylesheet" type="text/css" data-url="css/_bomber/_bomber" href=""/> 	   
+	</head>
+	<body>
+		<header>
+			<nav>
+				<a href="">Inicio</a>
+				<a href="">Instrucciones</a>
+				<a href="">Configuración</a>
+				<a href="">Perfil</a>
+			</nav>
+
+			<div class="nombre_jugador">Nombre jugador</div>
+			<a>
+				<div class="salir">Salir</div>
+			</a>
+		</header>
+
+		<table class="estadisticas">
+			<tr>
+				<td>
+					Salud<br/>
+					<span id="estadis_salud">100%</span>
+				</td>
+				<td>
+					Tiempo<br/>
+					<span id="estadis_tiempo">0</span> segundos
+				</td>
+				<td>
+					Velocidad<br/>
+					<span id="estadis_velocidad">100%</span>
+				</td>
+				<td>
+					Bombas<br/>
+					<span id="estadis_bombas">100%</span>
+				</td>
+				<td>
+					Poder<br/>
+					<span id="estadis_poder">100%</span>
+				</td>
+				<td>
+					Puntaje<br/>
+					<span id="estadis_puntaje">100%</span>
+				</td>
+			</tr>
+		</table>
+		<input type="text" id="id_jugador" placeholder="id jugador">
+		<canvas></canvas>
+	</body>
+</html>

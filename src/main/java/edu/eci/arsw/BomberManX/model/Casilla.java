@@ -9,6 +9,6 @@ package edu.eci.arsw.BomberManX.model;
  *
  * @author Kvn CF <ECI>
  */
-public class Color {
+public class Casilla {
     
 }
