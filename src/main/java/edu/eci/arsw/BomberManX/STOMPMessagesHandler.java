@@ -15,11 +15,14 @@ import java.util.ArrayList;
 @Controller
 public class STOMPMessagesHandler {
 
+	private Juego juego;
+
     @Autowired
     SimpMessagingTemplate msgt;
 
-    @MessageMapping("/estadisticas.{numjuego}")
+    @MessageMapping("/Empezar.{numjuego}")
     public void handlePointEvent(int prueba, @DestinationVariable String numjuego) throws Exception {
+		
 		msgt.convertAndSend("/topic/estadisticas." + numjuego, "{'hola':'se recibió una solicitud'}");
     }
     
