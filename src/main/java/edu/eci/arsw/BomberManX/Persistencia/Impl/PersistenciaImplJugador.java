@@ -14,8 +14,15 @@ import java.util.ArrayList;
  * @author Kvn CF <ECI>
  */
 public class PersistenciaImplJugador implements PersistenciaJugador{
+
     private ArrayList<Jugador> jugadores=new ArrayList<Jugador>();
 
+    public PersistenciaImplJugador() {
+        AgregarJugador("Kevin Alvarado", "ka@a.com", "123");
+        AgregarJugador("Sergio Pérez", "sp@a.com", "456");
+        AgregarJugador("Kevin Sánchez", "ks@a.com", "789");
+    }
+    
     @Override
     public void AgregarJugador(String nombre,String correo,String clave) {
         jugadores.add(new Jugador(nombre, correo, clave));

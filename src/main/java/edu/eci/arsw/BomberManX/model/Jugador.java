@@ -22,4 +22,8 @@ public class Jugador {
         this.record = record<0?0:record;
     }
 
+    @Override
+    public String toString() {
+        return "Jugador{" + "nombre=" + nombre + ", record=" + record + '}';
+    }
 }

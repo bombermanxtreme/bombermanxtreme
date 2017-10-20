@@ -16,7 +16,7 @@ var app = (function () {
 				//$("#id").val(idCanvas);
 			}
 			//var idCanvas = document.getElementById("id").value;
-			stompClient.subscribe('/topic/estadisticas.'+idCanvas, function (eventbody) {
+			stompClient.subscribe('/topic/EntraAJuego.'+idCanvas, function (eventbody) {
 				callback_connectAndSubscribe(eventbody);
 			});
 		});
@@ -25,7 +25,7 @@ var app = (function () {
 
 	var callback_connectAndSubscribe=function(message) {
 		var estadisticas=message.body;//JSON.parse(message.body);
-		console.log("se recibe estadisticas:");
+		console.log("se recibe mensaje:");
 		console.log(estadisticas);
 	};
 
@@ -37,8 +37,8 @@ var app = (function () {
 		},
 
 		iniciarJuego: function(){
-			stompClient.send("/app/estadisticas.1", {}, 1212);//JSON.stringify({hola:1})
-			console.info("enviando... ");
+			stompClient.send("/app/EntrarAJuego.1", {}, $("#id_jugador").val());
+			console.info("enviando...EntrarAJuego ");
 		},
 
 		disconnect: function () {
