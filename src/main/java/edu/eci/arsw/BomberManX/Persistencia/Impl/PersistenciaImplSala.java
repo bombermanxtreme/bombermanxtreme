@@ -5,31 +5,38 @@
  */
 package edu.eci.arsw.BomberManX.Persistencia.Impl;
 
-import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
+import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.model.Jugador;
+import edu.eci.arsw.BomberManX.model.Sala;
 import java.util.ArrayList;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author Kvn CF <ECI>
  */
-public class PersistenciaImplJugador implements PersistenciaJugador{
+@Service
+public class PersistenciaImplSala implements PersistenciaSala{
 
-    private ArrayList<Jugador> jugadores=new ArrayList<Jugador>();
+    private ArrayList<Sala> salas=new ArrayList<Sala>();
 
-    public PersistenciaImplJugador() {
-        AgregarJugador("Kevin Alvarado", "ka@a.com", "123");
-        AgregarJugador("Sergio Pérez", "sp@a.com", "456");
-        AgregarJugador("Kevin Sánchez", "ks@a.com", "789");
+    public PersistenciaImplSala() {
+        crearSala();
+    }
+
+    @Override
+    public int crearSala() {
+        salas.add(new Sala());
+        return salas.size();
     }
     
     @Override
-    public void AgregarJugador(String nombre,String correo,String clave) {
-        jugadores.add(new Jugador(nombre, correo, clave));
+    public ArrayList<Jugador> getJugadoresDeSala(int idSala) {
+        return salas.get(idSala).getJugadores();
     }
 
     @Override
-    public Jugador SeleccionarJugadorPorId(int idJugador) {
-        return jugadores.get(idJugador);
+    public void addJugadorASala(Jugador jugador, int idSala) {
+        salas.get(idSala).addJugador(jugador);
     }
 }

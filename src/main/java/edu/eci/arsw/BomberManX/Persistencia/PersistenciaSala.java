@@ -6,24 +6,31 @@
 package edu.eci.arsw.BomberManX.Persistencia;
 
 import edu.eci.arsw.BomberManX.model.Jugador;
+import java.util.ArrayList;
 
 /**
  *
  * @author Kvn CF <ECI>
  */
-public interface PersistenciaJugador {
-    /**
-     * Agregar un jugador nuevo
-     * @param nombre
-     * @param correo
-     * @param clave 
-     */
-    abstract public void AgregarJugador(String nombre,String correo,String clave);
+public interface PersistenciaSala {
     
     /**
-     * busca dentro de los jugadores creados basado en el id
-     * @param idJugador
-     * @return jugador
+     * crea una sala nueva
+     * @return idSala
      */
-    abstract public Jugador SeleccionarJugadorPorId(int idJugador);
+    abstract public int crearSala();
+    
+    /**
+     * retorna los jugadores actuales de una sala
+     * @param idSala
+     * @return lista de jugadores de la sala específica
+     */
+    abstract public ArrayList<Jugador> getJugadoresDeSala(int idSala);
+    
+    /**
+     * agrega un jugador a la sala
+     * @param jugador
+     * @param idSala
+     */
+    abstract public void addJugadorASala(Jugador jugador, int idSala);
 }
