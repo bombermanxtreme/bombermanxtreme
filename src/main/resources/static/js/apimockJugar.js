@@ -4,15 +4,19 @@ apimockJugar=(function(){
 	
 	var mockdata=[];
 
-	mockdata[1]=[
+	mockdata["jugadores"]=[
 		{nombre:"kvnLOCAL",correo:"kvnLOCAL@local.com",clave:"123local",record:"123",idSalaJugando:-1},
 		{nombre:"sergioLOCAL",correo:"sergioLOCAL@local.com",clave:"456local",record:"456",idSalaJugando:-1},
 		{nombre:"kevinLOCAL",correo:"kevinLOCAL@local.com",clave:"789local",record:"789",idSalaJugando:-1}
 	];
 
+	mockdata["salas"]=Array();
+	mockdata["salas"].push(Array(/*jugadores*/));//sala 0
+	mockdata["salas"].push(Array(/*jugadores*/));//sala 1
+
 	return {
 		getJugadoresDeSala:function(idSala,callback){
-			callback(mockdata[idSala]);
+			callback(mockdata["salas"][idSala]);
 		}
 	}	
 

@@ -35,6 +35,6 @@ public class Jugador {
 
     @Override
     public String toString() {
-        return "Jugador{nombre=" + nombre + ", record=" + record + ", idSalaJugando="+idSalaJugando+"}";
+        return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\", \"idSalaJugando\":\""+idSalaJugando+"\"}";
     }
 }

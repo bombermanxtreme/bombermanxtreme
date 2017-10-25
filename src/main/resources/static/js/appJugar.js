@@ -14,17 +14,22 @@ var appJugar = (function () {
 		
 		//subscribe to /topic/TOPICXX when connections succeed
 		stompClient.connect({}, function (frame) {
-			console.log('Connected: ' + frame);			
+			console.log('Connected: ' + frame);	
+			//reportamos que este usuario quiere entrar al juego
+			stompClient.send("/app/EntrarAJuego."+idSala, {}, $("#id_jugador").val());		
+			//especificamos que estamos atentos de nuevos jugadores que entren
 			stompClient.subscribe('/topic/EntraAJuego.'+idSala, function (eventbody) {
-				callback_connectAndSubscribe(eventbody);
+				callback_EntraAJuego(eventbody);
 			});
 		});
 	};
 
-	var callback_connectAndSubscribe=function(message) {
-		var data=message.body;//JSON.parse(message.body);
-		console.log("se recibe mensaje:");
-		console.log(data);
+	var callback_EntraAJuego=function(message) {
+		var jugador=JSON.parse(message.body);
+		console.log("Entra a juego:");
+		console.log(jugador);
+		//lo agregamos a la tabla de jugadores
+		agregarJugadoresATabla(jugador);
 	};
 
 	var callbackActualizarJugadores=function(jugadores) {
@@ -33,6 +38,8 @@ var appJugar = (function () {
 		//armamos tabla con jugadores actuales y listos
 		$("#antesDeEmpezar").html("<table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
 		jugadores.map(agregarJugadoresATabla);
+		//INICIAMOS CONEXIÓN
+		connectAndSubscribe();
 	};
 	
 	var agregarJugadoresATabla=function(jugador){
@@ -43,16 +50,19 @@ var appJugar = (function () {
 	}
 
 	return {
+		/*
+		COMENTADOS PORQUE SE GESTIONAN LUEGO DE CARGAR LA LISTA DE JUGADORES
 
 		init: function () {
 			//websocket connection
 			connectAndSubscribe();
 		},
 
-		iniciarJuego: function(){
+		EntrarAJuego: function(){
 			stompClient.send("/app/EntrarAJuego."+idSala, {}, $("#id_jugador").val());
 			console.info("enviando...EntrarAJuego ");
 		},
+		*/
 
 		disconnect: function () {
 			if (stompClient !== null) {
@@ -62,6 +72,7 @@ var appJugar = (function () {
 			console.log("Disconnected");
 		},
 		/**
+		 * PARA EMPEZAR EJECUTAR ESTA FUNCION DESDE CONSOLA: appJugar.actualizarJugadores(); 
 		 * esta función sólo se ejecuta cuando el jugador está ingresando porque de resto lo hace por medio de STOMP
 		 */
         actualizarJugadores:function(){
