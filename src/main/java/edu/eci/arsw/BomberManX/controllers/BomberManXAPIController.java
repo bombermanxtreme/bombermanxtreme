@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.controllers;
 
+import edu.eci.arsw.BomberManX.model.Jugador;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
 import java.util.Set;
 import java.util.logging.Level;
@@ -37,15 +38,15 @@ public class BomberManXAPIController {
      * @param model
      * @return
      */
-    @RequestMapping(path = "/{id_sala}/{jugador}", method = RequestMethod.GET)
-    public ResponseEntity<?> getForAuthor(@PathVariable String author, Model model){
+    @RequestMapping(path = "/{id_sala}/Jugadores", method = RequestMethod.GET)
+    public ResponseEntity<?> getJugadoresDeSala(@PathVariable int id_sala, Model model){
         try {     
-            Set<Jugador> data = gc.getBlueprintsByAuthor(author);
+            Set<Jugador> data = gc.getJugadoresDeSala(id_sala);
             if(data.isEmpty())throw new Exception("NOT FOUND");
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
-            Logger.getLogger(BlueprintAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Not Found User:" +author, HttpStatus.NOT_FOUND);
+            Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("Sala no encontrada: " +id_sala, HttpStatus.NOT_FOUND);
 
         }
 
