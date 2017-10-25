@@ -14,16 +14,27 @@ public class Jugador {
     private String correo;
     private String clave;
     private int record;
+    private int idSalaJugando;
 
     public Jugador(String nombre,String correo,String clave) {
         this.nombre = nombre;
         this.correo = correo;
         this.clave = clave;
-        this.record = record<0?0:record;
+        this.record = record<=0?0:record;
+        idSalaJugando=-1;
+    }
+    
+    public boolean setIdSalaJugando(int idSalaJugando){
+        boolean res=false;
+        if(this.idSalaJugando==-1){
+            this.idSalaJugando=idSalaJugando;
+            res=true;
+        }
+        return res;
     }
 
     @Override
     public String toString() {
-        return "Jugador{" + "nombre=" + nombre + ", record=" + record + '}';
+        return "Jugador{nombre=" + nombre + ", record=" + record + ", idSalaJugando="+idSalaJugando+"}";
     }
 }
