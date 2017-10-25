@@ -7,7 +7,8 @@
 		<script src="/webjars/jquery/jquery.min.js"></script>
 		<script src="/webjars/sockjs-client/sockjs.min.js"></script>
 		<script src="/webjars/stomp-websocket/stomp.min.js"></script>
-		<script src="js/app.js"></script>
+		<script src="js/apimockJugar.js"></script>
+		<script src="js/appJugar.js"></script>
 		<script src="js/pantalla.js"></script> 
 		<link class="procesarCSS" rel="stylesheet" type="text/css" data-url="css/_bomber/_bomber" href=""/> 	   
 	</head>
@@ -25,6 +26,11 @@
 				<div class="salir">Salir</div>
 			</a>
 		</header>
+
+		<div id="antesDeEmpezar">
+			Cargando...
+			<script>appJugar.actualizarJugadores();</script>
+		</div>
 
 		<table class="estadisticas">
 			<tr>
