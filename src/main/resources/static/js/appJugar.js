@@ -79,11 +79,16 @@ var appJugar = (function () {
 
             var datosInicio = {correo: correo, clave: clave};
 
-            console.info("datos de inicio: " + JSON.stringify(datosInicio.nombreusuario));
+            console.info("datos de inicio: " + correo);
 
             $.get("/users/" + correo + "/" + clave,
                     function (data) {
                         console.info("sersio: ok = "+data);
+                        
+                        if(data){
+                            alert("Sesion iniciada :)");
+                        }
+                        
                     }
             ).fail(
                     function (data) {
