@@ -4,6 +4,7 @@ var APIuseful = apimockJugar;
 var appJugar = (function () {
 
 	var stompClient = null;
+	var idJugador=null;
 	var idSala=1;//por ahora una sola sala
 	var numJugadores=0;
 
@@ -19,13 +20,16 @@ var appJugar = (function () {
 		stompClient.connect({}, function (frame) {
 			console.log('Conectado: ' + frame);	
 
+			//definimos el id del usuario
+			idJugador=$("#id_jugador").val();
+
 			//especificamos que estamos atentos de nuevos jugadores que entren
-			stompClient.subscribe('/topic/EntraAJuego.'+idSala, function (eventbody) {
-				callback_EntraAJuego(eventbody);
+			stompClient.subscribe('/topic/JugadoresQuierenJugar.'+idSala, function (eventbody) {
+				callback_JugadoresQuierenJugar(eventbody);
 			});
 			
 			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/EntrarAJuego."+idSala, {}, $("#id_jugador").val());		
+			stompClient.send("/app/EntrarAJuego."+idSala, {}, idJugador);
 		});
 	};
 
@@ -34,7 +38,7 @@ var appJugar = (function () {
 	 * y los coloca en la tabla de jugadores
 	 * @param {*} message 
 	 */
-	var callback_EntraAJuego=function(message) {
+	var callback_JugadoresQuierenJugar=function(message) {
 		var jugadores=JSON.parse(message.body);
 		//borramos y armamos tabla con jugadores actuales y listos
 		$("#antesDeEmpezar").html("<table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
@@ -65,12 +69,10 @@ var appJugar = (function () {
 			//setConnected(false);
 			console.log("Desconectado");
 		},
-		estoyListo:function(id) {
-			
+		estoyListo:function() {
 			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/listoJugar."+idSala, {}, id);		
+			stompClient.send("/app/listoJugar."+idSala, {}, idJugador);
 		}
-
     };
 })();
 

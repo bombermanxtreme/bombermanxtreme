@@ -24,6 +24,16 @@ public class Jugador implements Serializable {
         this.record = record<=0?0:record;
     }
 
+    public String getNombre() {
+        return nombre;
+    }
+
+    public int getRecord() {
+        return record;
+    }
+
+    
+    
     @Override
     public String toString() {
         return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
