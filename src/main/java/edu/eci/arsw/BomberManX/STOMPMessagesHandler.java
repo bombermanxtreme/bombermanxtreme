@@ -40,10 +40,15 @@ public class STOMPMessagesHandler {
      */
     @MessageMapping("/EntrarAJuego.{numjuego}")
     public void handleEntrarAJuego(int id_jugador, @DestinationVariable int numjuego) throws Exception {
-        //si no se ha creado se crea
+        //si no se ha creado se crea (jugadores listos)
         if(!listosParaEmpezar.containsKey(numjuego)){
             ArrayList<Jugador> v=new ArrayList<>();
             listosParaEmpezar.put(numjuego, v);
+        }
+        //si no se ha creado se crea (jugadores)
+        if(!jugadores.containsKey(numjuego)){
+            ArrayList<Jugador> v=new ArrayList<>();
+            jugadores.put(numjuego, v);
         }
         if(listosParaEmpezar.get(numjuego).size()<2){
             Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
@@ -86,7 +91,7 @@ public class STOMPMessagesHandler {
                     }
                 }
 
-                String json_="{nombre:"+jugador.getNombre()+",record:"+jugador.getRecord()+",listo:"+listo+"}";
+                String json_="{\"nombre\":\""+jugador.getNombre()+"\",\"record\":\""+jugador.getRecord()+"\",\"listo\":\""+listo+"\"}";
                 strJugadores.add(json_);
                 k++;
             }

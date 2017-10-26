@@ -18,10 +18,7 @@ var appJugar = (function () {
 		
 		//subscribe to /topic/TOPICXX when connections succeed
 		stompClient.connect({}, function (frame) {
-			console.log('Conectado: ' + frame);	
-
-			//definimos el id del usuario
-			idJugador=$("#id_jugador").val();
+			console.log('Conectado: ' + frame);
 
 			//especificamos que estamos atentos de nuevos jugadores que entren
 			stompClient.subscribe('/topic/JugadoresQuierenJugar.'+idSala, function (eventbody) {
@@ -43,6 +40,7 @@ var appJugar = (function () {
 		//borramos y armamos tabla con jugadores actuales y listos
 		$("#antesDeEmpezar").html("<table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
 		//agregamos TODOS los jugadores a la tabla
+		numJugadores=0;
 		jugadores.map(function(jugador){
 			numJugadores++;
 			var listo=idSala==jugador.idSalaJugando?"LISTO":"NO";
@@ -56,6 +54,13 @@ var appJugar = (function () {
 		 * encargado de realizar la conexión con STOMP
 		 */
 		init: function(){
+			//definimos el id del usuario
+			idJugador=$("#id_jugador").val();
+			//verificamos que el usuario haya iniciado
+			if(isNaN(idJugador) || idJugador<0){
+				alert("Inicia sesión por favor");
+				return false;
+			}
 			//INICIAMOS CONEXIÓN
 			connectAndSubscribe();
 		},
@@ -71,7 +76,7 @@ var appJugar = (function () {
 		},
 		estoyListo:function() {
 			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/listoJugar."+idSala, {}, idJugador);
+			stompClient.send("/app/listoJugar."+idSaala, {}, idJugador);
 		}
     };
 })();
