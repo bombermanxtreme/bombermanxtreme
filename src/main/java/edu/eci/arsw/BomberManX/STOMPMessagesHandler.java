@@ -23,11 +23,14 @@ import org.json.JSONArray;
 @Controller
 public class STOMPMessagesHandler {
 
-    private Juego juego;
     @Autowired
     private PersistenciaJugador PJ;
+    //lista jugadores que quieren jugar por "sala"
     private ConcurrentHashMap<Integer,ArrayList<Jugador>> jugadores=new ConcurrentHashMap<>();
+    //lista jugadores que están listos para jugar por "sala"
     private ConcurrentHashMap<Integer,ArrayList<Jugador>> listosParaEmpezar=new ConcurrentHashMap<>();
+    //lista idDeSalas que están con los mínimos jugadores listos para jugar 
+    private ConcurrentHashMap<Integer,Integer> salasCasiListas=new ConcurrentHashMap<>();
 
     @Autowired
     SimpMessagingTemplate msgt;
@@ -35,56 +38,56 @@ public class STOMPMessagesHandler {
     /**
      * Permite agregar a lista de jugadores que quieren jugar
      * @param id_jugador
-     * @param numjuego
+     * @param idSala
      * @throws Exception 
      */
-    @MessageMapping("/EntrarAJuego.{numjuego}")
-    public void handleEntrarAJuego(int id_jugador, @DestinationVariable int numjuego) throws Exception {
+    @MessageMapping("/EntrarAJuego.{idSala}")
+    public void handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
         //si no se ha creado se crea (jugadores listos)
-        if(!listosParaEmpezar.containsKey(numjuego)){
+        if(!listosParaEmpezar.containsKey(idSala)){
             ArrayList<Jugador> v=new ArrayList<>();
-            listosParaEmpezar.put(numjuego, v);
+            listosParaEmpezar.put(idSala, v);
         }
         //si no se ha creado se crea (jugadores)
-        if(!jugadores.containsKey(numjuego)){
+        if(!jugadores.containsKey(idSala)){
             ArrayList<Jugador> v=new ArrayList<>();
-            jugadores.put(numjuego, v);
+            jugadores.put(idSala, v);
         }
-        if(listosParaEmpezar.get(numjuego).size()<2){
+        if(listosParaEmpezar.get(idSala).size()<2){
             Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
-            jugadores.get(numjuego).add(j);
-            enviarListadoJugadoresQuierenJugar(numjuego);
+            jugadores.get(idSala).add(j);
+            enviarListadoJugadoresQuierenJugar(idSala);
         }
     }
 
     /**
      * Permite indicar que un jugador ya está listo
      * @param id_jugador
-     * @param numjuego
+     * @param idSala
      * @throws Exception 
      */
-    @MessageMapping("/JugadorListo.{numjuego}")
-    public void handleJugadorListo(int id_jugador, @DestinationVariable int numjuego) throws Exception {
+    @MessageMapping("/JugadorListo.{idSala}")
+    public void handleJugadorListo(int id_jugador, @DestinationVariable int idSala) throws Exception {
         Jugador jugadorListo=PJ.SeleccionarJugadorPorId(id_jugador);
         
-        listosParaEmpezar.get(numjuego).add(jugadorListo);
-        enviarListadoJugadoresQuierenJugar(numjuego);
+        listosParaEmpezar.get(idSala).add(jugadorListo);
+        enviarListadoJugadoresQuierenJugar(idSala);
     }
     
     /**
      * respondemos con TODOS los jugadores incluso el nuevo recibidos y los que están listos
-     * @param numjuego 
+     * @param idSala 
      */
-    public void enviarListadoJugadoresQuierenJugar(int numjuego){
+    public void enviarListadoJugadoresQuierenJugar(int idSala){
         ArrayList<String> strJugadores=new ArrayList<>();
-        synchronized(jugadores.get(numjuego)){
+        synchronized(jugadores.get(idSala)){
             int k=0;
-            while(k<jugadores.get(numjuego).size()){
-                Jugador jugador = jugadores.get(numjuego).get(k);
+            while(k<jugadores.get(idSala).size()){
+                Jugador jugador = jugadores.get(idSala).get(k);
                 //revisamos si ya está listo
                 int i=0;
                 boolean listo=false;
-                ArrayList<Jugador> jugadoresListos=listosParaEmpezar.get(numjuego);
+                ArrayList<Jugador> jugadoresListos=listosParaEmpezar.get(idSala);
                 synchronized(jugadoresListos){
                     while(!listo && i<jugadoresListos.size()){
                         if(jugadoresListos.get(i)==jugador)
@@ -98,7 +101,17 @@ public class STOMPMessagesHandler {
                 k++;
             }
         }
-        
-        msgt.convertAndSend("/topic/JugadoresQuierenJugar." + numjuego,strJugadores.toString());
+        //enviamos todos los jugadores
+        msgt.convertAndSend("/topic/JugadoresQuierenJugar." + idSala,strJugadores.toString());
+        //si ya están los jugadores mínimos requeridos para empezar
+        System.out.println("verificando minmos");
+        System.out.println(!salasCasiListas.containsValue(idSala));
+        System.out.println(listosParaEmpezar.get(idSala).size());
+        System.out.println(Juego.MINIMOJUGADAORES);
+        System.out.println(listosParaEmpezar.get(idSala).size()>=Juego.MINIMOJUGADAORES);
+        if(!salasCasiListas.containsValue(idSala) && listosParaEmpezar.get(idSala).size()>=Juego.MINIMOJUGADAORES){
+            msgt.convertAndSend("/topic/ListoMinimoJugadores."+idSala,Juego.TIEMPOENSALAPARAEMPEZAR);
+            salasCasiListas.put(salasCasiListas.size(), idSala);
+        }
     }
 }

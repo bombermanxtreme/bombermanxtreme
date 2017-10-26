@@ -7,6 +7,7 @@ var appJugar = (function () {
 	var idJugador=null;
 	var idSala=1;//por ahora una sola sala
 	var numJugadores=0;
+	var jugadorListo=false;
 
 	/**
 	 * función que realiza la conexión STOMP
@@ -24,6 +25,11 @@ var appJugar = (function () {
 			stompClient.subscribe('/topic/JugadoresQuierenJugar.'+idSala, function (eventbody) {
 				callback_JugadoresQuierenJugar(eventbody);
 			});
+
+			//especificamos que estamos atentos de que cumpla el mínimo de jugadores
+			stompClient.subscribe('/topic/ListoMinimoJugadores.'+idSala, function (eventbody) {
+				callback_ListoMinimoJugadores(eventbody);
+			});
 			
 			//reportamos que este usuario quiere entrar al juego
 			stompClient.send("/app/EntrarAJuego."+idSala, {}, idJugador);
@@ -37,8 +43,10 @@ var appJugar = (function () {
 	 */
 	var callback_JugadoresQuierenJugar=function(message) {
 		var jugadores=JSON.parse(message.body);
+		var botonHTML=jugadorListo?"":"<input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'>";
+		var mjTiempo=jugadorListo?"Esperando mínimo de jugadores":"";
 		//borramos y armamos tabla con jugadores actuales y listos
-		$("#antesDeEmpezar").html("<input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'><div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
+		$("#antesDeEmpezar").html(botonHTML+"<div id='tiempo'>"+mjTiempo+"</div><br><br><table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
 		//agregamos TODOS los jugadores a la tabla
 		numJugadores=0;
 		jugadores.map(function(jugador){
@@ -48,6 +56,17 @@ var appJugar = (function () {
 			$("#listaJugadores > tbody").append(filasHTML);
 		});
 	};
+
+	var callback_ListoMinimoJugadores=function(message) {
+		var segundosRestantes=message.body;
+		var mjTiempo=jugadorListo?"Esperando algunos jugadores":"Mínimos jugadores requeridos listos apúrate te quedan";
+		$("#tiempo").html(mjTiempo+": <span id='segundos'>"+segundosRestantes+"</span> segundos.");
+		var restarSegundos=function() {
+			$("#segundos").text($("#segundos").text()-1);
+			setTimeout(restarSegundos,1000);
+		};
+		setTimeout(restarSegundos,1000);
+	}
 
 	return {
 		/**
@@ -76,6 +95,8 @@ var appJugar = (function () {
 			console.log("Desconectado");
 		},
 		estoyListo:function() {
+			jugadorListo=true;
+			$("#antesDeEmpezar > input[type=button]").remove();
 			//reportamos que este usuario quiere entrar al juego
 			stompClient.send("/app/JugadorListo."+idSala, {}, idJugador);
 		},

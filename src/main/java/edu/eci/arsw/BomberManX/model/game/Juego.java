@@ -20,6 +20,10 @@ public class Juego {
     public static final int IZQUIERDA=3;
     public static final int ANCHO=15;
     public static final int ALTO=10;
+    //minimo de jugadores "listos" que se necesitan en la sala para jugar
+    public static final int MINIMOJUGADAORES=2;
+    //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
+    public static final int TIEMPOENSALAPARAEMPEZAR=10;
     private int tiempo;
     private Jugador[] jugadores;
     private Casilla[][] tablero;
