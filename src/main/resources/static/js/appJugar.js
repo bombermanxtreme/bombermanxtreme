@@ -78,6 +78,33 @@ var appJugar = (function () {
 		estoyListo:function() {
 			//reportamos que este usuario quiere entrar al juego
 			stompClient.send("/app/JugadorListo."+idSala, {}, idJugador);
+		},
+		
+		login: function () {
+
+
+			var correo = $("#nombreusuario").val();
+			var clave = $("#contrasena").val();
+
+			var datosInicio = {correo: correo, clave: clave};
+
+			console.info("datos de inicio: " + correo);
+
+			$.get("/users/" + correo + "/" + clave,
+					function (data) {
+						console.info("sersio: ok = "+data);
+						
+						if(data){
+							alert("Sesion iniciada :)");
+						}
+						
+					}
+			).fail(
+					function (data) {
+						alert("User: " + correo + " no existe " + data["responseText"]);
+					}
+
+			);
 		}
     };
 })();

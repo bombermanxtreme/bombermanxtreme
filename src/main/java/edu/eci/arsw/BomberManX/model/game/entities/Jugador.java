@@ -5,16 +5,13 @@
  */
 package edu.eci.arsw.BomberManX.model.game.entities;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Kvn CF <ECI>
  */
-public class Jugador implements Serializable {
-    private int id;
+public class Jugador {
     private String nombre;
-    private String correo;
+    private String correo;    
     private String clave;
     private int record;
 
@@ -24,23 +21,25 @@ public class Jugador implements Serializable {
         this.clave = clave;
         this.record = record<=0?0:record;
     }
-
+        
     public String getNombre() {
         return nombre;
     }
 
-    public int getRecord() {
-        return record;
+    public String getCorreo() {
+        return correo;
     }
 
-    
+    public String getClave() {
+        return clave;
+    }
+
+    public int getRecord() {
+        return record;
+    }    
     
     @Override
     public String toString() {
         return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
-    }
-
-    public boolean getId(int id_jugador) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

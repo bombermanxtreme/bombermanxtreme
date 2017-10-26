@@ -26,4 +26,12 @@ public interface PersistenciaJugador {
      * @return jugador
      */
     abstract public Jugador SeleccionarJugadorPorId(int idJugador);
+    
+    /**
+     * busca el jugador en los jugadores existentes
+     * @param correo
+     * @param clave
+     * @return
+     */
+    abstract public boolean loginJugador(String correo, String clave);
 }

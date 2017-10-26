@@ -31,7 +31,7 @@ public class BomberManXServices {
     @Autowired
     PersistenciaSala ps=null;
     
-    public void setBpp(PersistenciaJugador bpp,PersistenciaSala ps) {
+    public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
         this.pj = pj;
         this.ps = ps;
     }
@@ -43,4 +43,8 @@ public class BomberManXServices {
             r.add(jugadores.get(i));
         return r;
     }
+    
+    public boolean loginJugador(String correo, String clave){
+        return pj.loginJugador(correo, clave);        
+    }  
 }

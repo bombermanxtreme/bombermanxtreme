@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class PersistenciaImplJugador implements PersistenciaJugador{
 
-    private ArrayList<Jugador> jugadores=new ArrayList<Jugador>();
+    private ArrayList<Jugador> jugadores=new ArrayList<>();
 
     public PersistenciaImplJugador() {
         AgregarJugador("Kevin Alvarado", "ka@server.com", "123");
@@ -33,5 +33,18 @@ public class PersistenciaImplJugador implements PersistenciaJugador{
     @Override
     public Jugador SeleccionarJugadorPorId(int idJugador) {
         return jugadores.get(idJugador);
+    }
+
+    @Override
+    public boolean loginJugador(String correo, String clave) {
+        boolean correcto = false;
+        
+        for(int i=0;i<jugadores.size();i++){
+            if(jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)){
+                correcto = true;
+            }
+        }
+        
+        return correcto;
     }
 }
