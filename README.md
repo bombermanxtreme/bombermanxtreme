@@ -1,8 +1,8 @@
 # BOMBERMAN XTREME 💣
 ![](src/main/resources/static/media/black.jpg)
 - ## Estudiantes
-    - Kevin Julian Alvarado
-    - Sergio Pérez
+    - Kevin Julian Alvarado Pérez
+    - Manuel Sergio Pérez Espitia
     - Kevin S. Sánchez Prieto
 
 - ### Institución
