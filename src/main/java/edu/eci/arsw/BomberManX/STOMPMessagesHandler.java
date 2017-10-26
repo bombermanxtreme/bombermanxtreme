@@ -35,9 +35,6 @@ public class STOMPMessagesHandler {
         if(!listoParaEmpezar){
             Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
             jugadores.add(j);
-            System.out.println(jugadores);
-            JSONArray data=new JSONArray(jugadores);
-            System.out.println(data);
             //respondemos con TODOS los jugadores incluso el nuevo recibido
             msgt.convertAndSend("/topic/EntraAJuego." + numjuego,jugadores.toString());
         }

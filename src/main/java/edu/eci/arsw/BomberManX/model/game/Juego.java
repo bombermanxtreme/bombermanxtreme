@@ -18,13 +18,15 @@ public class Juego {
     public static final int ABAJO=1;
     public static final int DERECHA=2;
     public static final int IZQUIERDA=3;
+    public static final int ANCHO=15;
+    public static final int ALTO=10;
     private int tiempo;
     private Jugador[] jugadores;
     private Casilla[][] tablero;
     
-    public Juego(Jugador[] jugadores, int ancho, int alto) {
+    public Juego(Jugador[] jugadores) {
         this.jugadores=jugadores;
-        tablero=new Casilla[ancho][alto];
+        tablero=new Casilla[ALTO][ANCHO];
         tiempo=0;
     }
 }
