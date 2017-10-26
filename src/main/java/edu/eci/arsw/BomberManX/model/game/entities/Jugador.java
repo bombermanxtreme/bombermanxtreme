@@ -12,6 +12,7 @@ import java.io.Serializable;
  * @author Kvn CF <ECI>
  */
 public class Jugador implements Serializable {
+    private int id;
     private String nombre;
     private String correo;
     private String clave;
@@ -37,5 +38,9 @@ public class Jugador implements Serializable {
     @Override
     public String toString() {
         return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
+    }
+
+    public boolean getId(int id_jugador) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

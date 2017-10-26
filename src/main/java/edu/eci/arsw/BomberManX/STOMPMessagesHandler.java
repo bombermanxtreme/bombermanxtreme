@@ -65,7 +65,9 @@ public class STOMPMessagesHandler {
      */
     @MessageMapping("/JugadorListo.{numjuego}")
     public void handleJugadorListo(int id_jugador, @DestinationVariable int numjuego) throws Exception {
-        listosParaEmpezar.get(numjuego).add(jugadores.get(numjuego).get(id_jugador));
+        Jugador jugadorListo=PJ.SeleccionarJugadorPorId(id_jugador);
+        
+        listosParaEmpezar.get(numjuego).add(jugadorListo);
         enviarListadoJugadoresQuierenJugar(numjuego);
     }
     
@@ -91,7 +93,7 @@ public class STOMPMessagesHandler {
                     }
                 }
 
-                String json_="{\"nombre\":\""+jugador.getNombre()+"\",\"record\":\""+jugador.getRecord()+"\",\"listo\":\""+listo+"\"}";
+                String json_="{\"nombre\":\""+jugador.getNombre()+"\",\"record\":"+jugador.getRecord()+",\"listo\":"+listo+"}";
                 strJugadores.add(json_);
                 k++;
             }

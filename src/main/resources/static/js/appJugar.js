@@ -38,12 +38,13 @@ var appJugar = (function () {
 	var callback_JugadoresQuierenJugar=function(message) {
 		var jugadores=JSON.parse(message.body);
 		//borramos y armamos tabla con jugadores actuales y listos
-		$("#antesDeEmpezar").html("<table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
+		$("#antesDeEmpezar").html("<input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'><br><br><table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
 		//agregamos TODOS los jugadores a la tabla
 		numJugadores=0;
 		jugadores.map(function(jugador){
+			console.log(jugador);
 			numJugadores++;
-			var listo=idSala==jugador.idSalaJugando?"LISTO":"NO";
+			var listo=jugador.listo===true?"LISTO":"NO";
 			var filasHTML="<tr><td>"+numJugadores+"</td><td>"+jugador.nombre+"</td><td>"+jugador.record+"</td><td>"+listo+"</td></tr>";
 			$("#listaJugadores > tbody").append(filasHTML);
 		});
@@ -76,7 +77,7 @@ var appJugar = (function () {
 		},
 		estoyListo:function() {
 			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/listoJugar."+idSaala, {}, idJugador);
+			stompClient.send("/app/JugadorListo."+idSala, {}, idJugador);
 		}
     };
 })();
