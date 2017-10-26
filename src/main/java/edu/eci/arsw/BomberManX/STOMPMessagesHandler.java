@@ -16,6 +16,8 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import org.json.JSONArray;
 
 @Controller
@@ -24,25 +26,79 @@ public class STOMPMessagesHandler {
     private Juego juego;
     @Autowired
     private PersistenciaJugador PJ;
-    private ArrayList<Jugador> jugadores=new ArrayList<>();
-    private boolean listoParaEmpezar=false;
+    private ConcurrentHashMap<Integer,ArrayList<Jugador>> jugadores=new ConcurrentHashMap<>();
+    private ConcurrentHashMap<Integer,ArrayList<Jugador>> listosParaEmpezar=new ConcurrentHashMap<>();
 
     @Autowired
     SimpMessagingTemplate msgt;
 
+    /**
+     * Permite agregar a lista de jugadores que quieren jugar
+     * @param id_jugador
+     * @param numjuego
+     * @throws Exception 
+     */
     @MessageMapping("/EntrarAJuego.{numjuego}")
-    public void handleEntrarAJuego(int id_jugador, @DestinationVariable String numjuego) throws Exception {
-        if(!listoParaEmpezar){
+    public void handleEntrarAJuego(int id_jugador, @DestinationVariable int numjuego) throws Exception {
+        //si no se ha creado se crea (jugadores listos)
+        if(!listosParaEmpezar.containsKey(numjuego)){
+            ArrayList<Jugador> v=new ArrayList<>();
+            listosParaEmpezar.put(numjuego, v);
+        }
+        //si no se ha creado se crea (jugadores)
+        if(!jugadores.containsKey(numjuego)){
+            ArrayList<Jugador> v=new ArrayList<>();
+            jugadores.put(numjuego, v);
+        }
+        if(listosParaEmpezar.get(numjuego).size()<2){
             Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
-            jugadores.add(j);
-            //respondemos con TODOS los jugadores incluso el nuevo recibido
-            msgt.convertAndSend("/topic/EntraAJuego." + numjuego,jugadores.toString());
+            jugadores.get(numjuego).add(j);
+            enviarListadoJugadoresQuierenJugar(numjuego);
         }
     }
 
-    @MessageMapping("/Empezar.{numjuego}")
-    public void handleEmpezar(int id_jugador, @DestinationVariable String numjuego) throws Exception {
+    /**
+     * Permite indicar que un jugador ya está listo
+     * @param id_jugador
+     * @param numjuego
+     * @throws Exception 
+     */
+    @MessageMapping("/JugadorListo.{numjuego}")
+    public void handleJugadorListo(int id_jugador, @DestinationVariable int numjuego) throws Exception {
+        Jugador jugadorListo=PJ.SeleccionarJugadorPorId(id_jugador);
+        
+        listosParaEmpezar.get(numjuego).add(jugadorListo);
+        enviarListadoJugadoresQuierenJugar(numjuego);
+    }
+    
+    /**
+     * respondemos con TODOS los jugadores incluso el nuevo recibidos y los que están listos
+     * @param numjuego 
+     */
+    public void enviarListadoJugadoresQuierenJugar(int numjuego){
+        ArrayList<String> strJugadores=new ArrayList<>();
+        synchronized(jugadores.get(numjuego)){
+            int k=0;
+            while(k<jugadores.get(numjuego).size()){
+                Jugador jugador = jugadores.get(numjuego).get(k);
+                //revisamos si ya está listo
+                int i=0;
+                boolean listo=false;
+                ArrayList<Jugador> jugadoresListos=listosParaEmpezar.get(numjuego);
+                synchronized(jugadoresListos){
+                    while(!listo && i<jugadoresListos.size()){
+                        if(jugadoresListos.get(i)==jugador)
+                            listo=true;
+                        i++;
+                    }
+                }
 
-        msgt.convertAndSend("/topic/estadisticas." + numjuego, "{'hola':'se recibió una solicitud'}");
+                String json_="{\"nombre\":\""+jugador.getNombre()+"\",\"record\":"+jugador.getRecord()+",\"listo\":"+listo+"}";
+                strJugadores.add(json_);
+                k++;
+            }
+        }
+        
+        msgt.convertAndSend("/topic/JugadoresQuierenJugar." + numjuego,strJugadores.toString());
     }
 }

@@ -34,6 +34,10 @@ public class Jugador {
         return clave;
     }
 
+    public int getRecord() {
+        return record;
+    }    
+    
     @Override
     public String toString() {
         return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
