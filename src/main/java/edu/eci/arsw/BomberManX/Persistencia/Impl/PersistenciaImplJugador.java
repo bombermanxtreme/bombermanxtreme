@@ -6,7 +6,7 @@
 package edu.eci.arsw.BomberManX.Persistencia.Impl;
 
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
-import edu.eci.arsw.BomberManX.model.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import java.util.ArrayList;
 import org.springframework.stereotype.Service;
 

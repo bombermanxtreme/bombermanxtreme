@@ -5,9 +5,10 @@
  */
 package edu.eci.arsw.BomberManX;
 
+import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.Persistencia.Impl.PersistenciaImplJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
-import edu.eci.arsw.BomberManX.model.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;

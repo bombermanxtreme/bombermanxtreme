@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.arsw.BomberManX;
+package edu.eci.arsw.BomberManX.model.game;
 
-import edu.eci.arsw.BomberManX.model.*;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Casilla;
 
 /**
  *

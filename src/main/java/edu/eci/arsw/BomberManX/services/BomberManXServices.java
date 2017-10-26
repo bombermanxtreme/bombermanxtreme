@@ -2,7 +2,8 @@ package edu.eci.arsw.BomberManX.services;
 
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
-import edu.eci.arsw.BomberManX.model.Jugador;
+import edu.eci.arsw.BomberManX.cache.BomberManXCache;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,6 +23,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class BomberManXServices {
    
+    //cache con los datos volatiles del juego
+    @Autowired
+    BomberManXCache cache;
     @Autowired
     PersistenciaJugador pj=null;
     @Autowired

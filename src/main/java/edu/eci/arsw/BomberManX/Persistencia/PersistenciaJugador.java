@@ -5,7 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.Persistencia;
 
-import edu.eci.arsw.BomberManX.model.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 
 /**
  *

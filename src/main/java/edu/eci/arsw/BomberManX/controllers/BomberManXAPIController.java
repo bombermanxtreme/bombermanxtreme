@@ -5,7 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.controllers;
 
-import edu.eci.arsw.BomberManX.model.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
 import java.util.Set;
 import java.util.logging.Level;
