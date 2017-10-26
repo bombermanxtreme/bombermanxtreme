@@ -14,6 +14,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
+import java.util.Arrays;
+import org.json.JSONArray;
 
 @Controller
 public class STOMPMessagesHandler {
@@ -32,8 +34,9 @@ public class STOMPMessagesHandler {
         if(!listoParaEmpezar){
             Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
             jugadores.add(j);
-            System.out.println(jugadores);
-            msgt.convertAndSend("/topic/EntraAJuego." + numjuego, j.toString());
+            JSONArray data=new JSONArray(Arrays.asList(jugadores));
+            //respondemos con TODOS los jugadores incluso el nuevo recibido
+            msgt.convertAndSend("/topic/EntraAJuego." + numjuego,data.toString());
         }
     }
 

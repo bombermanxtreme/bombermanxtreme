@@ -7,6 +7,9 @@ var appJugar = (function () {
 	var idSala=1;//por ahora una sola sala
 	var numJugadores=0;
 
+	/**
+	 * función que realiza la conexión STOMP
+	 */
 	var connectAndSubscribe = function () {
 		console.info('Connecting to WS...');
 		var socket = new SockJS('/stompendpoint');
@@ -14,34 +17,36 @@ var appJugar = (function () {
 		
 		//subscribe to /topic/TOPICXX when connections succeed
 		stompClient.connect({}, function (frame) {
-			console.log('Connected: ' + frame);	
-			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/EntrarAJuego."+idSala, {}, $("#id_jugador").val());		
+			console.log('Conectado: ' + frame);	
+
 			//especificamos que estamos atentos de nuevos jugadores que entren
 			stompClient.subscribe('/topic/EntraAJuego.'+idSala, function (eventbody) {
 				callback_EntraAJuego(eventbody);
 			});
+			
+			//reportamos que este usuario quiere entrar al juego
+			stompClient.send("/app/EntrarAJuego."+idSala, {}, $("#id_jugador").val());		
 		});
 	};
 
+	/**
+	 * cada vez que hay un jugador nuevo esta función recibe TODOS los que quieren jugar (incluido el nuevo y los que ya están listos!)
+	 * y los coloca en la tabla de jugadores
+	 * @param {*} message 
+	 */
 	var callback_EntraAJuego=function(message) {
-		var jugador=JSON.parse(message.body);
-		console.log("Entra a juego:");
-		console.log(jugador);
-		//lo agregamos a la tabla de jugadores
-		agregarJugadoresATabla(jugador);
-	};
-
-	var callbackActualizarJugadores=function(jugadores) {
-		console.log("jugadores recibidos");
+		var jugadores=JSON.parse(message.body);
+		console.log("jugadores ACTUALES recibidos");
 		console.log(jugadores);
-		//armamos tabla con jugadores actuales y listos
+		//borramos y armamos tabla con jugadores actuales y listos
 		$("#antesDeEmpezar").html("<table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
 		jugadores.map(agregarJugadoresATabla);
-		//INICIAMOS CONEXIÓN
-		connectAndSubscribe();
 	};
 	
+	/**
+	 * encargado de agregar el jugador a la tabla #listaJugadores del DOM
+	 * @param {JSON} jugador 
+	 */
 	var agregarJugadoresATabla=function(jugador){
 		numJugadores++;
 		var listo=idSala==jugador.idSalaJugando?"LISTO":"NO";
@@ -50,33 +55,30 @@ var appJugar = (function () {
 	}
 
 	return {
-		/*
-		COMENTADOS PORQUE SE GESTIONAN LUEGO DE CARGAR LA LISTA DE JUGADORES
-
-		init: function () {
-			//websocket connection
+		/**
+		 * encargado de realizar la conexión con STOMP
+		 */
+		init: function(){
+			//INICIAMOS CONEXIÓN
 			connectAndSubscribe();
 		},
-
-		EntrarAJuego: function(){
-			stompClient.send("/app/EntrarAJuego."+idSala, {}, $("#id_jugador").val());
-			console.info("enviando...EntrarAJuego ");
-		},
-		*/
-
+		/**
+		 * desconecta del STOMP
+		 */
 		disconnect: function () {
 			if (stompClient !== null) {
 				stompClient.disconnect();
 			}
 			//setConnected(false);
-			console.log("Disconnected");
+			console.log("Desconectado");
 		},
-		/**
-		 * PARA EMPEZAR EJECUTAR ESTA FUNCION DESDE CONSOLA: appJugar.actualizarJugadores(); 
-		 * esta función sólo se ejecuta cuando el jugador está ingresando porque de resto lo hace por medio de STOMP
-		 */
-        actualizarJugadores:function(){
-            APIuseful.getJugadoresDeSala(idSala,callbackActualizarJugadores);
+		estoyListo:function(id) {
+			
+			//reportamos que este usuario quiere entrar al juego
+			stompClient.send("/app/listoJugar."+idSala, {}, id);		
 		}
+
     };
 })();
+
+//PARA EMPEZAR EJECUTAR ESTA FUNCION DESDE CONSOLA: appJugar.init(); 
