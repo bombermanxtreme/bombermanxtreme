@@ -36,23 +36,16 @@ var appJugar = (function () {
 	 */
 	var callback_EntraAJuego=function(message) {
 		var jugadores=JSON.parse(message.body);
-		console.log("jugadores ACTUALES recibidos");
-		console.log(jugadores);
 		//borramos y armamos tabla con jugadores actuales y listos
 		$("#antesDeEmpezar").html("<table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>Listo</th></thead><tbody></tbody></table>");
-		jugadores.map(agregarJugadoresATabla);
+		//agregamos TODOS los jugadores a la tabla
+		jugadores.map(function(jugador){
+			numJugadores++;
+			var listo=idSala==jugador.idSalaJugando?"LISTO":"NO";
+			var filasHTML="<tr><td>"+numJugadores+"</td><td>"+jugador.nombre+"</td><td>"+jugador.record+"</td><td>"+listo+"</td></tr>";
+			$("#listaJugadores > tbody").append(filasHTML);
+		});
 	};
-	
-	/**
-	 * encargado de agregar el jugador a la tabla #listaJugadores del DOM
-	 * @param {JSON} jugador 
-	 */
-	var agregarJugadoresATabla=function(jugador){
-		numJugadores++;
-		var listo=idSala==jugador.idSalaJugando?"LISTO":"NO";
-		var filasHTML="<tr><td>"+numJugadores+"</td><td>"+jugador.nombre+"</td><td>"+jugador.record+"</td><td>"+listo+"</td></tr>";
-		$("#listaJugadores > tbody").append(filasHTML);
-	}
 
 	return {
 		/**

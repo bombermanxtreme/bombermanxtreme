@@ -5,11 +5,13 @@
  */
 package edu.eci.arsw.BomberManX.model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Kvn CF <ECI>
  */
-public class Jugador {
+public class Jugador implements Serializable {
     private String nombre;
     private String correo;
     private String clave;

@@ -23,7 +23,7 @@ public class STOMPMessagesHandler {
     private Juego juego;
     @Autowired
     private PersistenciaJugador PJ;
-    private ArrayList<Jugador> jugadores=new ArrayList<Jugador>();
+    private ArrayList<Jugador> jugadores=new ArrayList<>();
     private boolean listoParaEmpezar=false;
 
     @Autowired
@@ -34,9 +34,11 @@ public class STOMPMessagesHandler {
         if(!listoParaEmpezar){
             Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
             jugadores.add(j);
-            JSONArray data=new JSONArray(Arrays.asList(jugadores));
+            System.out.println(jugadores);
+            JSONArray data=new JSONArray(jugadores);
+            System.out.println(data);
             //respondemos con TODOS los jugadores incluso el nuevo recibido
-            msgt.convertAndSend("/topic/EntraAJuego." + numjuego,data.toString());
+            msgt.convertAndSend("/topic/EntraAJuego." + numjuego,jugadores.toString());
         }
     }
 
