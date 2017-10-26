@@ -21,7 +21,7 @@ var pantalla=(function(){
 			//agregamos div para poder medir la resolución de pantalla
 			$("body").append('<div id="medidaParaMovile" style="height:0px;width: 8cm;"></div>');
 			//si no cabe el doble es un dispositivo muy pequeño (celular)
-			dispositivo_=(window.innerWidth>2*$("#medidaParaMovile").width())?"pc":"m";
+			dispositivo_=(screen.width>2*$("#medidaParaMovile").width())?"pc":"m";
 			//agregamos que no se pueda hacer zoom si es mobile
 			document.getElementById("viewport").setAttribute("content", (dispositivo_!="m")?"initial-scale=1, minimum-scale=1":"user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1");
 
@@ -34,7 +34,7 @@ var pantalla=(function(){
 				TAM_PANTALLA=pantalla;
 			}
 			$(".procesarCSS").each(function(){
-				$(this).attr("href",$(this).attr("data-url")+"_"+pantalla+".css");
+				$(this).attr("href",$(this).attr("data-url")+"_"+TAM_PANTALLA+".css");
 			});
 			//eliminamos el div que se creó para calcular los cm de la pantalla
 			$("#medidaParaMovile").remove();
