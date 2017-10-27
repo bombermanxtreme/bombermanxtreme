@@ -20,7 +20,7 @@ package edu.eci.arsw.BomberManX.services;
  *
  * @author hcadavid
  */
-public class GameServicesException extends Exception{
+public class GameServicesException extends Exception {
 
     public GameServicesException(String message, Throwable cause) {
         super(message, cause);
@@ -29,5 +29,5 @@ public class GameServicesException extends Exception{
     public GameServicesException(String cause) {
         super(cause);
     }
-    
+
 }

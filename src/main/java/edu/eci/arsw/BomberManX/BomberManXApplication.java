@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
 @ComponentScan(basePackages = {"edu.eci.arsw.BomberManX"})
 public class BomberManXApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(BomberManXApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(BomberManXApplication.class, args);
+    }
 }

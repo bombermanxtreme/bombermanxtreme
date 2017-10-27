@@ -23,28 +23,31 @@ import org.springframework.web.bind.annotation.RestController;
  *
  * @author Kvn CF <ECI>
  */
-
 @RestController
 @RequestMapping(value = "/sala")
 public class BomberManXAPIController {
+
     @Autowired
-    BomberManXServices gc=null;
-    
+    BomberManXServices gc = null;
+
     /**
      * Responde a a una petición get todos los Blueprints del author
+     *
      * @param author
      * @param model
      * @return
      */
     @RequestMapping(path = "/{id_sala}/Jugadores", method = RequestMethod.GET)
-    public ResponseEntity<?> getJugadoresDeSala(@PathVariable int id_sala, Model model){
-        try {     
+    public ResponseEntity<?> getJugadoresDeSala(@PathVariable int id_sala, Model model) {
+        try {
             Set<Jugador> data = gc.getJugadoresDeSala(id_sala);
-            if(data.isEmpty())throw new Exception("NOT FOUND");
+            if (data.isEmpty()) {
+                throw new Exception("NOT FOUND");
+            }
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("Sala no encontrada: " +id_sala, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Sala no encontrada: " + id_sala, HttpStatus.NOT_FOUND);
 
         }
 

@@ -16,9 +16,9 @@ import org.springframework.stereotype.Service;
  * @author Kvn CF <ECI>
  */
 @Service
-public class PersistenciaImplSala implements PersistenciaSala{
+public class PersistenciaImplSala implements PersistenciaSala {
 
-    private ArrayList<Sala> salas=new ArrayList<Sala>();
+    private ArrayList<Sala> salas = new ArrayList<Sala>();
 
     public PersistenciaImplSala() {
         crearSala();
@@ -29,7 +29,7 @@ public class PersistenciaImplSala implements PersistenciaSala{
         salas.add(new Sala());
         return salas.size();
     }
-    
+
     @Override
     public ArrayList<Jugador> getJugadoresDeSala(int idSala) {
         return salas.get(idSala).getJugadores();

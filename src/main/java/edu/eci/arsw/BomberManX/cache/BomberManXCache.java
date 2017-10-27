@@ -15,14 +15,15 @@ import edu.eci.arsw.BomberManX.services.GameServicesException;
  * @author Kvn CF <ECI>
  */
 public interface BomberManXCache {
-    
+
     /**
      * crea un juego nuevo
+     *
      * @param id
      * @param jugadores
-     * @throws GameCreationException 
+     * @throws GameCreationException
      */
-    public void createGame(int id,Jugador[] jugadores) throws GameCreationException;
-    
+    public void createGame(int id, Jugador[] jugadores) throws GameCreationException;
+
     public Juego getGame(int gameid) throws GameServicesException;
 }

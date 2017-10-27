@@ -18,28 +18,28 @@ import org.springframework.stereotype.Service;
  * @author Kvn CF <ECI>
  */
 @Service
-public class InMemoryBomberManXStatePersistence implements BomberManXCache{
-    private final ConcurrentHashMap<Integer,Juego> gamesState;
+public class InMemoryBomberManXStatePersistence implements BomberManXCache {
+
+    private final ConcurrentHashMap<Integer, Juego> gamesState;
 
     public InMemoryBomberManXStatePersistence() {
-        gamesState=new ConcurrentHashMap<>();
+        gamesState = new ConcurrentHashMap<>();
     }
-    
+
     @Override
-    public void createGame(int id,Jugador[] jugadores) throws GameCreationException{
-        if (gamesState.containsKey(id)){
-            throw new GameCreationException("el juego "+id+" ya existe.");
-        }
-        else{
+    public void createGame(int id, Jugador[] jugadores) throws GameCreationException {
+        if (gamesState.containsKey(id)) {
+            throw new GameCreationException("el juego " + id + " ya existe.");
+        } else {
             gamesState.put(id, new Juego(jugadores));
         }
     }
-    
+
     @Override
-    public Juego getGame(int gameid) throws GameServicesException{
-        if (!gamesState.containsKey(gameid)){
-            throw new GameServicesException("El juego "+gameid+" no existe.");
-        }else{
+    public Juego getGame(int gameid) throws GameServicesException {
+        if (!gamesState.containsKey(gameid)) {
+            throw new GameServicesException("El juego " + gameid + " no existe.");
+        } else {
             return gamesState.get(gameid);
         }
     }

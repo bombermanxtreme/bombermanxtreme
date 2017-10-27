@@ -15,49 +15,49 @@ import org.springframework.stereotype.Service;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Kvn CF <ECI>
  */
 @Service
 public class BomberManXServices {
-   
+
     //cache con los datos volatiles del juego
     @Autowired
     BomberManXCache cache;
     @Autowired
-    PersistenciaJugador pj=null;
+    PersistenciaJugador pj = null;
     @Autowired
-    PersistenciaSala ps=null;
-    
+    PersistenciaSala ps = null;
+
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
         this.pj = pj;
         this.ps = ps;
     }
-    
-    public Set<Jugador> getJugadoresDeSala(int id_sala){
-        Set<Jugador> r= new HashSet<>();
+
+    public Set<Jugador> getJugadoresDeSala(int id_sala) {
+        Set<Jugador> r = new HashSet<>();
         ArrayList<Jugador> jugadores = ps.getJugadoresDeSala(id_sala);
-        for (int i = 0; i < jugadores.size(); i++)
+        for (int i = 0; i < jugadores.size(); i++) {
             r.add(jugadores.get(i));
+        }
         return r;
     }
-    
-    public int loginJugador(String correo, String clave){        
-        return pj.loginJugador(correo, clave);        
-    }  
-    
-    
-    public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen){
-        
+
+    public int loginJugador(String correo, String clave) {
+        return pj.loginJugador(correo, clave);
+    }
+
+    public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
+
         // Muestra los jugadores 
-        System.out.println("-----------------------------------"); 
-        System.out.println("Usuarios registrados: "); 
-        ArrayList<Jugador> jugadores = pj.getJugadores(); 
-        for(int i=0;i<jugadores.size();i++){
+        System.out.println("-----------------------------------");
+        System.out.println("Usuarios registrados: ");        
+        ArrayList<Jugador> jugadores = pj.getJugadores();
+        for (int i = 0; i < jugadores.size(); i++) {
             System.out.println(jugadores.get(i).getCorreo());
         }
+        System.out.println("-----------------------------------");
         return pj.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
     }
 }

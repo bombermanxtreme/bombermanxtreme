@@ -1,53 +1,53 @@
 *{
-	margin:0;
-	padding:0;
-	list-style:none;
-	text-decoration:none;
+    margin:0;
+    padding:0;
+    list-style:none;
+    text-decoration:none;
 }
 
 body{
-	overflow:hidden;
+    overflow:hidden;
 }
 
 #contenedor{
-	position:relative;
-	margin:5vh auto;
-	width:1000px;
-	height:500px;
+    position:relative;
+    margin:5vh auto;
+    width:1000px;
+    height:500px;
 }
 
 #lienzo{
-	background:url(../media/canvas/grid.jpg);
+    background:url(../media/canvas/grid.jpg);
 }
 
 #contenedor button{
-	display:block;
-	position: relative;
-	margin:5px 0;
-	padding:10px;
-	cursor:pointer;
+    display:block;
+    position: relative;
+    margin:5px 0;
+    padding:10px;
+    cursor:pointer;
 }
 
 #vertical{
-	display:none;
+    display:none;
 }
 
 @media all and (orientation: portrait){
 
-	#contenedor{
-		display:none;
-	}
+    #contenedor{
+        display:none;
+    }
 
-	#vertical{
-		display:block;
-		position:fixed;
-		width:100%;
-		height:100vh;
-		z-index:1;
-		background:url(../media/canvas/vertical.jpg);
-		background-size:cover;
-		background-position:center;
-	}
+    #vertical{
+        display:block;
+        position:fixed;
+        width:100%;
+        height:100vh;
+        z-index:1;
+        background:url(../media/canvas/vertical.jpg);
+        background-size:cover;
+        background-position:center;
+    }
 
 }
 

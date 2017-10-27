@@ -12,10 +12,11 @@ import java.util.ArrayList;
  * @author Kvn CF <ECI>
  */
 public class Sala {
-    private ArrayList<Jugador> jugadores=new ArrayList<Jugador>();
-    private ArrayList<Integer> idJugadoresListos=new ArrayList<Integer>();
-    
-    public void addJugador(Jugador jugador){
+
+    private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+    private ArrayList<Integer> idJugadoresListos = new ArrayList<Integer>();
+
+    public void addJugador(Jugador jugador) {
         jugadores.add(jugador);
     }
 

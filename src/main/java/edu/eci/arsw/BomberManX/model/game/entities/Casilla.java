@@ -10,5 +10,5 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author Kvn CF <ECI>
  */
 public class Casilla {
-    
+
 }

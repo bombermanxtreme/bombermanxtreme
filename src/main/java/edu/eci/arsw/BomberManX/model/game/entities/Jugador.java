@@ -10,27 +10,28 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author Kvn CF <ECI>
  */
 public class Jugador {
+
     private String nombre;
-    private String correo;    
+    private String correo;
     private String clave;
-    private int record;    
+    private int record;
+
     /*
     private String apodo;
     private String imagen;
-    */
-
-    public Jugador(String nombre,String correo,String clave) {
+     */
+    public Jugador(String nombre, String correo, String clave) {
         this.nombre = nombre;
         this.correo = correo;
         this.clave = clave;
-        this.record = record<=0?0:record;
+        this.record = record <= 0 ? 0 : record;
         /*
         this.apodo=apodo;
         this.imagen=imagen;
-        */
-        
+         */
+
     }
-        
+
     public String getNombre() {
         return nombre;
     }
@@ -45,8 +46,8 @@ public class Jugador {
 
     public int getRecord() {
         return record;
-    }    
-    
+    }
+
     /*
     public String getApodo() {
         return apodo;
@@ -55,8 +56,7 @@ public class Jugador {
     public int getImagen() {
         return imagen;
     }   
-    */    
-
+     */
     @Override
     public String toString() {
         return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";

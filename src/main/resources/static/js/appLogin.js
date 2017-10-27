@@ -10,15 +10,15 @@ var appLogin = (function () {
         login: function () {
 
 
-            var correo = $("#nombreusuario").val();
-            var clave = $("#contrasena").val();
+            var correo = $("#form-username").val();
+            var clave = $("#form-password").val();
 
             var datosInicio = {correo: correo}
 
             console.info("datos de inicio: " + datosInicio);
 
 
-            if (correo == "" || clave == "" ) {
+            if (correo == "" || clave == "") {
                 alert("Uno o varios campos estan sin llenar !!! , completa el para poder iniciar sesion");
             } else {
                 $.get("/users/" + correo + "/" + clave,
@@ -38,39 +38,37 @@ var appLogin = (function () {
 
         registrer: function () {
 
-            var nombre = $("#Nnombre").val();
-            var apodo = $("#Napodo").val();
-            var iurl="url_imagen"; // aun no esta el campo en el html para cargar la imagen
-            var correo = $("#Ncorreo").val();
-            var clave = $("#nclave").val();
-            var nclave = $("#nnclave").val();
+            var nombre = $("#nnombre").val();
+            var apodo = $("#napodo").val();
+            var iurl = "url_imagen"; // aun no esta el campo en el html para cargar la imagen
+            var correo = $("ncorreo").val();
+            var clave = $("nclave").val();
+            var nclave = $("nrclave").val();
 
             var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo};
             //var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo, clave: clave, imagen:iurl};
 
-            console.info("datos de registro: " + datosNuevos);
+            console.info("datos de registro: " + datosNuevos.nomre+ " " +datosNuevos.apodo+" "+datosNuevos.correo);
 
 
             if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
                 alert("Uno o varios campos estan sin llenar !!! , completalo formulario de registro");
             } else {
-                    
+
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {
-                            
-                            console.log("registro: " + datosNuevos);
+                            console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " * Response: " + data);
                             //document.cookie = "iduser=" + data;
                             location.href = "/login.html";
                         }
                 ).fail(
                         function (data) {
-                            if(data==-2) {
-                                console.log("No se puede crear el usuario " + datosNuevos + " * Response: El usuario ya extiste. Codigo =" +data);
-                                alert("El usario "+correo+" ya existe!, usa una dirección de correo diferente");
-                            }
-                            else{
-                                console.log("No se puede crear el usuario " + datosNuevos + " * Response: " + data["responseText"]);
-                                alert("El usario "+correo+" no se puede crear: Response: " + data["responseText"]);
+                            if (data == -2) {
+                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: El usuario ya extiste. Codigo =" + data);
+                                alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente");
+                            } else {
+                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: " + data["responseText"]);
+                                alert("El usario " + correo + " no se puede crear: Response: " + data["responseText"]);
                             }
                         }
 

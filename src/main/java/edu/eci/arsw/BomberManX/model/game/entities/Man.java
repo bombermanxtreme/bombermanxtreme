@@ -10,20 +10,20 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author Kvn CF <ECI>
  */
 public class Man {
-	
-	public static final String[] colores={"red","yellow","blue"};
-	private Jugador jugador;
-	private int posX;
-	private int posY;
-	private int puntaje;
-	private Poder poder;
-        private String color;
 
-    public Man(String color,Jugador jugador) {
+    public static final String[] colores = {"red", "yellow", "blue"};
+    private Jugador jugador;
+    private int posX;
+    private int posY;
+    private int puntaje;
+    private Poder poder;
+    private String color;
+
+    public Man(String color, Jugador jugador) {
         this.color = color;
         this.jugador = jugador;
-        posX=0;
-        posY=0;
-        puntaje=0;
+        posX = 0;
+        posY = 0;
+        puntaje = 0;
     }
 }
