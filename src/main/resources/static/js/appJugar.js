@@ -90,6 +90,10 @@ var appJugar = (function () {
 
 		//disminuir tiempo cada segundo
 		var restarSegundos=function() {
+			if(segundosRestantes==0){
+				location.href="/indexCanvas.html";
+				return false;
+			}
 			$("#segundos").text(segundosRestantes--);
 			setTimeout(restarSegundos,1000);
 		};
@@ -101,8 +105,6 @@ var appJugar = (function () {
 		 * encargado de realizar la conexión con STOMP
 		 */
 		init: function(){
-			//definimos el id del usuario
-			idJugador=$("#id_jugador").val();
 			//verificamos que el usuario haya iniciado
 			if(isNaN(idJugador) || idJugador<0){
 				alert("Inicia sesión por favor");
