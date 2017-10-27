@@ -61,3 +61,17 @@ header .nombre_jugador{
     margin-right: auto;
     height: 1000px;
 }
+
+#listaJugadores > tbody > tr:even{
+	background-color: #ccc;
+}
+#listaJugadores > tbody > tr:odd{
+	background-color: #fff;
+}
+#listaJugadores > tbody td{
+	text-align: center;
+}
+#listaJugadores > thead th{
+	color:white;
+	background-color: #000;
+}
