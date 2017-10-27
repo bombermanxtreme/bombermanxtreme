@@ -33,5 +33,5 @@ public interface PersistenciaJugador {
      * @param clave
      * @return
      */
-    abstract public boolean loginJugador(String correo, String clave);
+    abstract public int loginJugador(String correo, String clave);
 }

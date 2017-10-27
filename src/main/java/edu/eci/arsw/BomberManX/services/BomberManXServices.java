@@ -44,7 +44,7 @@ public class BomberManXServices {
         return r;
     }
     
-    public boolean loginJugador(String correo, String clave){
+    public int loginJugador(String correo, String clave){
         return pj.loginJugador(correo, clave);        
     }  
 }
