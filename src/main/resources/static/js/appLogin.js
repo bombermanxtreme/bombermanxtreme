@@ -48,7 +48,7 @@ var appLogin = (function () {
             var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo};
             //var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo, clave: clave, imagen:iurl};
 
-            console.info("datos de registro: " + datosNuevos.nomre+ " " +datosNuevos.apodo+" "+datosNuevos.correo);
+            console.info("datos de registro para empezar el registro: " + datosNuevos.nomre+ " " +datosNuevos.apodo+" "+datosNuevos.correo);
 
 
             if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
@@ -57,9 +57,10 @@ var appLogin = (function () {
 
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {
-                            console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " * Response: ");
+                            console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
                             //document.cookie = "iduser=" + data;
-                            //location.href = "/login.html";
+                            alert("Bienvenido "+datosNuevos.nomre);
+                            location.href = "/login.html";
                         }
                 ).fail(
                         function (data) {
@@ -67,8 +68,8 @@ var appLogin = (function () {
                                 console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: El usuario ya extiste. Codigo =" + data);
                                 alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente");
                             } else {
-                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: ");
-                                alert("El usario " + correo + " no se puede crear: Response: " + data["responseText"]);
+                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: "+ data);
+                                alert("El usario " + correo + " no se puede crear: Response: " + data["responseText"] );
                             }
                         }
 
