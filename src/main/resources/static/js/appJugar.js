@@ -4,7 +4,7 @@ var APIuseful = apimockJugar;
 var appJugar = (function () {
 
 	var stompClient = null;
-	var idJugador=null;
+	var idJugador=document.cookie.replace("iduser=","");
 	var jugadorEnSala=null;// null=> usuario va a ingresar, false=>sala cerrada no pudo entrar, true=> usuario en sala
 	var idSala=1;//por ahora una sola sala
 	var jugadorListo=false;
@@ -133,5 +133,3 @@ var appJugar = (function () {
 		}
     };
 })();
-
-//PARA EMPEZAR EJECUTAR ESTA FUNCION DESDE CONSOLA: appJugar.init(); 
