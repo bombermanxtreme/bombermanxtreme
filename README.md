@@ -30,10 +30,10 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 | Page | Link |
 | ------ | ------ |
 | Heroku |  https://dashboard.heroku.com/apps/bombermanxtreme|
-| Circle.Ci | - |
+| Circle.Ci | https://circleci.com/gh/bombermanxtreme/bombermanxtreme |
 | Codacy | https://goo.gl/nkfhup |
 | Propuesta del Proyecto | https://goo.gl/hJdGtA
-| BurnDown_Sprint1 | - |
+| BurnDown_Sprint1 | https://docs.google.com/spreadsheets/d/1Xk-FP6lLLw7dM7gwbYdH6SoKfE5XDaPQ1CGRK9AQhhA/edit?usp=sharing |
 | System Architecture Document | - |
 | Ninja Mock | https://ninjamock.com/s/WFJQFWx   |
 
