@@ -38,12 +38,14 @@ public class PersistenciaImplJugador implements PersistenciaJugador{
     }
 
     @Override
-    public boolean loginJugador(String correo, String clave) {
-        boolean correcto = false;
+    public int loginJugador(String correo, String clave) {
+        int correcto = -1;
         
         for(int i=0;i<jugadores.size();i++){
             if(jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)){
-                correcto = true;
+                correcto = i;
+                System.out.println(correo);
+                System.out.println(clave);
             }
         }
         

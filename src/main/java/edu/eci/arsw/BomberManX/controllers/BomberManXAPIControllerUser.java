@@ -43,8 +43,16 @@ public class BomberManXAPIControllerUser {
     @RequestMapping(path = "/{correo}/{clave}", method = RequestMethod.GET)   
     
     public ResponseEntity<?> loginJugador(@PathVariable String correo, @PathVariable String clave){       
-
-        return new ResponseEntity<>(gameServices.loginJugador(correo, clave) ,HttpStatus.ACCEPTED);
+        HttpStatus status;
+        int funcion = gameServices.loginJugador(correo, clave);
+        if(funcion!=-1){           
+            status =HttpStatus.ACCEPTED;
+        }
+        else{
+            status =HttpStatus.NOT_FOUND;
+        }
+        System.out.println("++++++++++++++++++++++++++++++++++");
+        return new ResponseEntity<>(funcion,status);
         
     }   
    
