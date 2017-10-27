@@ -47,4 +47,17 @@ public interface PersistenciaJugador {
      * @return 
      */
     public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen);
+    
+    /**
+     * devuelve los jugadores registrados
+     * @return 
+     */
+    public ArrayList<Jugador> getJugadores();
+    
+    /**
+     * devuelve el id del jugador segun el correo, -1 si no esta
+     * @param correo
+     * @return 
+     */
+    public int getIDPorCorreo(String correo);
 }

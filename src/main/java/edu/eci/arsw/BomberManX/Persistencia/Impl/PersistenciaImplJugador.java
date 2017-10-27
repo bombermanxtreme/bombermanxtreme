@@ -60,25 +60,55 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
 
     @Override
     public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
-        int id_registro = -1;
+        int id_registro = -1; // -1: algo fallo, -2: ya existe el correo
 
         // No importa si no tiene imagen (avatar)
         
         boolean correo_valido = true;
 
+        System.out.println("xxxxxxxxxxxxxxx");
+        System.out.println(nombre);
+        System.out.println(apodo);
+        System.out.println(correo);
+        System.out.println(clave);
+        System.out.println(nclave);
+        System.out.println(imagen);
+        
+        
         //el correo debe ser unico
         for (int i = 0; i < jugadores.size(); i++) {
             if (jugadores.get(i).getCorreo().equals(correo)) {
                 correo_valido = false;
+                id_registro=-2;
             }
         }
 
         if (correo_valido) {
             if (nombre.length() > 2 && apodo.length() > 2 && correo.contains("@") && correo.length() > 5 && clave.equals(nclave) && clave.length() > 2) {
                 jugadores.add(new Jugador(nombre, correo, clave));
+                id_registro= getIDPorCorreo(correo);
             }
         }
 
         return id_registro;
+    }
+
+    @Override
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    @Override
+    public int getIDPorCorreo(String correo) {
+        int id_jugador=-1;
+       
+        for(int i=0;i<jugadores.size();i++){
+            if(jugadores.get(i).getCorreo().equals(correo)){
+                id_jugador=i;
+            }
+        }
+        
+        
+        return id_jugador;
     }
 }

@@ -52,18 +52,26 @@ var appLogin = (function () {
 
 
             if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
-                alert("Uno o varios campos estan sin llenar !!! , completa el formulario de registro");
+                alert("Uno o varios campos estan sin llenar !!! , completalo formulario de registro");
             } else {
-
+                    
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {
-                            console.info("registro: " + datosNuevos);
-                            document.cookie = "iduser=" + data;
+                            
+                            console.log("registro: " + datosNuevos);
+                            //document.cookie = "iduser=" + data;
                             location.href = "/login.html";
                         }
                 ).fail(
-                        function () {
-                            alert("No se puedo crear el usuario " + datosNuevos + " * Response: " + data["responseText"]);
+                        function (data) {
+                            if(data==-2) {
+                                console.log("No se puede crear el usuario " + datosNuevos + " * Response: El usuario ya extiste. Codigo =" +data);
+                                alert("El usario "+correo+" ya existe!, usa una dirección de correo diferente");
+                            }
+                            else{
+                                console.log("No se puede crear el usuario " + datosNuevos + " * Response: " + data["responseText"]);
+                                alert("El usario "+correo+" no se puede crear: Response: " + data["responseText"]);
+                            }
                         }
 
                 );

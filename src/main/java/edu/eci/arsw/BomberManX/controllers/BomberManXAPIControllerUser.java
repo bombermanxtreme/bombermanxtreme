@@ -37,9 +37,9 @@ public class BomberManXAPIControllerUser {
     }
     
     private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerUser.class.getName());
+
     
-    @RequestMapping(path = "/{correo}/{clave}", method = RequestMethod.GET)   
-    
+    @RequestMapping(path = "/{correo}/{clave}", method = RequestMethod.GET)    
     public ResponseEntity<?> loginJugador(@PathVariable String correo, @PathVariable String clave){       
         HttpStatus status;
         int id_login = gameServices.loginJugador(correo, clave);
@@ -58,13 +58,12 @@ public class BomberManXAPIControllerUser {
     
     
     
-    @RequestMapping(path = "/new/{nombre}/{apodo}/{correo}/{clave}/{nclave}/{imagen}", method = RequestMethod.GET)   
-    
+    @RequestMapping(path = "/new/{nombre}/{apodo}/{correo}/{clave}/{nclave}/{imagen}", method = RequestMethod.GET)     
     public ResponseEntity<?> RegistrerJugador(@PathVariable String nombre, @PathVariable String apodo, @PathVariable String correo, @PathVariable String clave, @PathVariable String nclave, @PathVariable String imagen){       
         HttpStatus status;
-        int id_nuevo = gameServices.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);        
-        
-        if(id_nuevo!=-1){           
+        int id_nuevo = gameServices.registrerJugador(nombre, apodo, correo, clave, nclave, imagen); 
+               
+        if(id_nuevo>=0){           
             status =HttpStatus.ACCEPTED;
         }
         else{

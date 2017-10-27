@@ -44,12 +44,20 @@ public class BomberManXServices {
         return r;
     }
     
-    public int loginJugador(String correo, String clave){
+    public int loginJugador(String correo, String clave){        
         return pj.loginJugador(correo, clave);        
     }  
     
     
     public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen){
+        
+        // Muestra los jugadores 
+        System.out.println("-----------------------------------"); 
+        System.out.println("Usuarios registrados: "); 
+        ArrayList<Jugador> jugadores = pj.getJugadores(); 
+        for(int i=0;i<jugadores.size();i++){
+            System.out.println(jugadores.get(i).getCorreo());
+        }
         return pj.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
     }
 }
