@@ -9,6 +9,7 @@ var appJugar = (function () {
 	var idSala=1;//por ahora una sola sala
 	var jugadorListo=false;
 	var segundosRestantes=null;//cuando el tiempo empieza a correr
+	var imgCargando="<img src='/media/cargando.gif' class='imgCargando'>";
 
 	/**
 	 * función que realiza la conexión STOMP
@@ -56,7 +57,7 @@ var appJugar = (function () {
 		
 		//si el tiempo no ha empezado
 		if(segundosRestantes==null)
-			$("#tiempo").text(jugadorListo?"Esperando mínimo de jugadores":"");
+			$("#tiempo").text(jugadorListo?"Esperando mínimo de jugadores "+imgCargando:"");
 		
 		//definimos que el jugador si pudo entrar a la sala
 		if(jugadorEnSala==null){
@@ -107,7 +108,7 @@ var appJugar = (function () {
 				alert("Inicia sesión por favor");
 				return false;
 			}
-			$("#antesDeEmpezar").text("Cargando Jugadores...");
+			$("#antesDeEmpezar").html("Cargando Jugadores... "+imgCargando);
 			//INICIAMOS CONEXIÓN
 			connectAndSubscribe();
 		},
