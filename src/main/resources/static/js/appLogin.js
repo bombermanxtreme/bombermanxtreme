@@ -41,7 +41,7 @@ var appLogin = (function () {
             var nombre = $("#nnombre").val();
             var apodo = $("#napodo").val();
             var iurl = "url_imagen"; // aun no esta el campo en el html para cargar la imagen
-            var correo = $("ncorreo").val();
+            var correo = $("#ncorreo").val();
             var clave = $("nclave").val();
             var nclave = $("nrclave").val();
 
@@ -57,9 +57,9 @@ var appLogin = (function () {
 
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {
-                            console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " * Response: " + data);
+                            console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " * Response: ");
                             //document.cookie = "iduser=" + data;
-                            location.href = "/login.html";
+                            //location.href = "/login.html";
                         }
                 ).fail(
                         function (data) {
@@ -67,7 +67,7 @@ var appLogin = (function () {
                                 console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: El usuario ya extiste. Codigo =" + data);
                                 alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente");
                             } else {
-                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: " + data["responseText"]);
+                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: ");
                                 alert("El usario " + correo + " no se puede crear: Response: " + data["responseText"]);
                             }
                         }
