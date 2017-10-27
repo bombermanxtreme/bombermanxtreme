@@ -57,7 +57,7 @@ var appJugar = (function () {
 		
 		//si el tiempo no ha empezado
 		if(segundosRestantes==null)
-			$("#tiempo").text(jugadorListo?"Esperando mínimo de jugadores "+imgCargando:"");
+			$("#tiempo").html(jugadorListo?"Esperando mínimo de jugadores "+imgCargando:"");
 		
 		//definimos que el jugador si pudo entrar a la sala
 		if(jugadorEnSala==null){

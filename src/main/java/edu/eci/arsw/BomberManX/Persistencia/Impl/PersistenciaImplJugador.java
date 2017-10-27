@@ -23,6 +23,8 @@ public class PersistenciaImplJugador implements PersistenciaJugador{
         AgregarJugador("Kevin Alvarado", "ka@server.com", "123");
         AgregarJugador("Sergio Pérez", "sp@server.com", "456");
         AgregarJugador("Kevin Sánchez", "ks@server.com", "789");
+        AgregarJugador("Lina Álvarez", "la@server.com", "321");
+        AgregarJugador("Fanny Pérez", "fp@server.com", "654");
     }
     
     @Override

@@ -5,9 +5,11 @@ apimockJugar=(function(){
 	var mockdata=[];
 
 	mockdata["jugadores"]=[
-		{nombre:"kvnLOCAL",correo:"kvnLOCAL@local.com",clave:"123local",record:"123",idSalaJugando:-1},
-		{nombre:"sergioLOCAL",correo:"sergioLOCAL@local.com",clave:"456local",record:"456",idSalaJugando:-1},
-		{nombre:"kevinLOCAL",correo:"kevinLOCAL@local.com",clave:"789local",record:"789",idSalaJugando:-1}
+		{nombre:"kvnLOCAL",correo:"kvnLOCAL@local.com",clave:"123local",record:"123"},
+		{nombre:"sergioLOCAL",correo:"sergioLOCAL@local.com",clave:"456local",record:"456"},
+		{nombre:"kevinLOCAL",correo:"kevinLOCAL@local.com",clave:"789local",record:"789"},
+		{nombre:"Lina ÁlvarezLOCAL",correo:"laLOCAL@local.com",clave:"321local",record:"789"},
+		{nombre:"Fanny PérezLOCAL",correo:"fpLOCAL@local.com",clave:"654local",record:"789"}
 	];
 
 	mockdata["salas"]=Array();

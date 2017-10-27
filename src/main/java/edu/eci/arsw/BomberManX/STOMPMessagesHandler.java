@@ -43,25 +43,21 @@ public class STOMPMessagesHandler {
      */
     @MessageMapping("/EntrarAJuego.{idSala}")
     public boolean handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        //si la sala está casi lista ya no pueden entrar más jugadores
         if(salasCasiListas.containsValue(idSala)){
             enviarListadoJugadoresQuierenJugar(idSala,false);
             return false;
         }
-        //si no se ha creado se crea (jugadores listos)
+        //si no se ha creado se crea (jugadores listos) y (jugadores)
         if(!listosParaEmpezar.containsKey(idSala)){
-            ArrayList<Jugador> v=new ArrayList<>();
-            listosParaEmpezar.put(idSala, v);
+            ArrayList<Jugador> tmp=new ArrayList<>();
+            listosParaEmpezar.put(idSala, tmp);
+            tmp=new ArrayList<>();
+            jugadores.put(idSala, tmp);
         }
-        //si no se ha creado se crea (jugadores)
-        if(!jugadores.containsKey(idSala)){
-            ArrayList<Jugador> v=new ArrayList<>();
-            jugadores.put(idSala, v);
-        }
-        if(listosParaEmpezar.get(idSala).size()<2){
-            Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
-            jugadores.get(idSala).add(j);
-            enviarListadoJugadoresQuierenJugar(idSala,true);
-        }
+        Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
+        jugadores.get(idSala).add(j);
+        enviarListadoJugadoresQuierenJugar(idSala,true);
         return true;
     }
 
