@@ -26,42 +26,43 @@
 				<div class="salir">Salir</div>
 			</a>
 		</header>
+		<div id="contenido">
+			<div id="antesDeEmpezar">
+				<input type="number" id="id_jugador" placeholder="numero jugador">
+				<input type="button" value="Entrar a la sala" onclick="appJugar.init();">
+			</div>
 
-		<div id="antesDeEmpezar">
-			<input type="number" id="id_jugador" placeholder="numero jugador">
-			<input type="button" value="Entrar a la sala" onclick="appJugar.init();">
+			<br><br><br>
+
+			<table class="estadisticas">
+				<tr>
+					<td>
+						Salud<br/>
+						<span id="estadis_salud">100%</span>
+					</td>
+					<td>
+						Tiempo<br/>
+						<span id="estadis_tiempo">0</span> segundos
+					</td>
+					<td>
+						Velocidad<br/>
+						<span id="estadis_velocidad">100%</span>
+					</td>
+					<td>
+						Bombas<br/>
+						<span id="estadis_bombas">100%</span>
+					</td>
+					<td>
+						Poder<br/>
+						<span id="estadis_poder">100%</span>
+					</td>
+					<td>
+						Puntaje<br/>
+						<span id="estadis_puntaje">100%</span>
+					</td>
+				</tr>
+			</table>
+			<canvas></canvas>
 		</div>
-
-		<br><br><br>
-
-		<table class="estadisticas">
-			<tr>
-				<td>
-					Salud<br/>
-					<span id="estadis_salud">100%</span>
-				</td>
-				<td>
-					Tiempo<br/>
-					<span id="estadis_tiempo">0</span> segundos
-				</td>
-				<td>
-					Velocidad<br/>
-					<span id="estadis_velocidad">100%</span>
-				</td>
-				<td>
-					Bombas<br/>
-					<span id="estadis_bombas">100%</span>
-				</td>
-				<td>
-					Poder<br/>
-					<span id="estadis_poder">100%</span>
-				</td>
-				<td>
-					Puntaje<br/>
-					<span id="estadis_puntaje">100%</span>
-				</td>
-			</tr>
-		</table>
-		<canvas></canvas>
 	</body>
 </html>

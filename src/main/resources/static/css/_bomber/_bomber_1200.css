@@ -1,6 +1,53 @@
 body {
   padding: 0px;
-  margin: 0px; }
+  margin: 0px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16.0px;
+  background-image: url(/media/sombra.jpg);
+  margin-top: 85.33333px; }
+
+input {
+  font-family: 'Roboto', sans-serif;
+  font-size: 16.0px; }
+
+header {
+  position: fixed;
+  z-index: 1000;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 100%;
+  border-bottom: solid 1px #000;
+  height: 21.33333px;
+  padding: 16.53333px 0px;
+  top: 0px; }
+
+a, a:link, a:visited {
+  text-decoration: none;
+  color: #000;
+  font-weight: bold; }
+
+a:hover {
+  color: red;
+  text-decoration: underline; }
+
+header > nav {
+  display: inline;
+  margin: 0px 13.33333px; }
+
+header .salir {
+  display: inline; }
+
+header .nombre_jugador {
+  display: inline;
+  margin: 0px 13.33333px; }
 
 .imgCargando {
   width: 32.0px; }
+
+#contenido {
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 1000px; }
