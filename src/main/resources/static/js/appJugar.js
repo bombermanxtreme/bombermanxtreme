@@ -4,7 +4,7 @@ var APIuseful = apimockJugar;
 var appJugar = (function () {
 
 	var stompClient = null;
-	var idJugador=null;
+	var idJugador=document.cookie.replace("iduser=","");
 	var jugadorEnSala=null;// null=> usuario va a ingresar, false=>sala cerrada no pudo entrar, true=> usuario en sala
 	var idSala=1;//por ahora una sola sala
 	var jugadorListo=false;
@@ -90,6 +90,13 @@ var appJugar = (function () {
 
 		//disminuir tiempo cada segundo
 		var restarSegundos=function() {
+			if(segundosRestantes==0){
+				if(jugadorListo)
+					location.href="/indexCanvas.html";
+				else
+					alert("no entraste al juego intenta en otra sala");
+				return false;
+			}
 			$("#segundos").text(segundosRestantes--);
 			setTimeout(restarSegundos,1000);
 		};
@@ -101,8 +108,6 @@ var appJugar = (function () {
 		 * encargado de realizar la conexión con STOMP
 		 */
 		init: function(){
-			//definimos el id del usuario
-			idJugador=$("#id_jugador").val();
 			//verificamos que el usuario haya iniciado
 			if(isNaN(idJugador) || idJugador<0){
 				alert("Inicia sesión por favor");
@@ -122,40 +127,14 @@ var appJugar = (function () {
 			//setConnected(false);
 			console.log("Desconectado");
 		},
+		/**
+		 * envia que ya está listo este usuario
+		 */
 		estoyListo:function() {
 			jugadorListo=true;
 			$("#antesDeEmpezar > input[type=button]").remove();
 			//reportamos que este usuario quiere entrar al juego
 			stompClient.send("/app/JugadorListo."+idSala, {}, idJugador);
-		},
-		
-		login: function () {
-
-
-			var correo = $("#nombreusuario").val();
-			var clave = $("#contrasena").val();
-
-			var datosInicio = {correo: correo, clave: clave};
-
-			console.info("datos de inicio: " + correo);
-		
-			$.get("/users/" + correo + "/" + clave,
-					function (data) {
-						console.info("sersio: ok = "+data);
-						
-						if(data){
-							alert("Sesion iniciada :)");
-						}
-						
-					}
-			).fail(
-					function (data) {
-						alert("User: " + correo + " no existe " + data["responseText"]);
-					}
-
-			);
 		}
     };
 })();
-
-//PARA EMPEZAR EJECUTAR ESTA FUNCION DESDE CONSOLA: appJugar.init(); 
