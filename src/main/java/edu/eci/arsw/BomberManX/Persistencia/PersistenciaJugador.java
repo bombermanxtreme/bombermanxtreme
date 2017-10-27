@@ -6,6 +6,7 @@
 package edu.eci.arsw.BomberManX.Persistencia;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import java.util.ArrayList;
 
 /**
  *
@@ -34,4 +35,16 @@ public interface PersistenciaJugador {
      * @return
      */
     abstract public int loginJugador(String correo, String clave);
+    
+    /**
+     * registrar un jugador nuevo
+     * @param nombre
+     * @param apodo
+     * @param correo
+     * @param clave
+     * @param nclave
+     * @param imagen
+     * @return 
+     */
+    public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen);
 }

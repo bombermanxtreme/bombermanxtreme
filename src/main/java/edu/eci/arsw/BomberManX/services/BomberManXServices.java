@@ -47,4 +47,9 @@ public class BomberManXServices {
     public int loginJugador(String correo, String clave){
         return pj.loginJugador(correo, clave);        
     }  
+    
+    
+    public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen){
+        return pj.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
+    }
 }
