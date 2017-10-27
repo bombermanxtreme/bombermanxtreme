@@ -15,9 +15,9 @@ import org.springframework.stereotype.Service;
  * @author Kvn CF <ECI>
  */
 @Service
-public class PersistenciaImplJugador implements PersistenciaJugador{
+public class PersistenciaImplJugador implements PersistenciaJugador {
 
-    private ArrayList<Jugador> jugadores=new ArrayList<>();
+    private ArrayList<Jugador> jugadores = new ArrayList<>();
 
     public PersistenciaImplJugador() {
         AgregarJugador("Kevin Alvarado", "ka@server.com", "123");
@@ -25,18 +25,18 @@ public class PersistenciaImplJugador implements PersistenciaJugador{
         AgregarJugador("Kevin Sánchez", "ks@server.com", "789");
         AgregarJugador("Lina Álvarez", "la@server.com", "321");
         AgregarJugador("Fanny Pérez", "fp@server.com", "654");
-        
+
         /*
         AgregarJugador("Kevin Alvarado", "kevincito", "ka@server.com", "123", "");
         AgregarJugador("Sergio Pérez", "finanzas", "sp@server.com", "456", "");
         AgregarJugador("Kevin Sánchez", "quevin", "ks@server.com", "789", "");
         AgregarJugador("Lina Álvarez", "anail", "la@server.com", "321", "");
         AgregarJugador("Fanny Pérez", "ynnaf", "fp@server.com", "654", "");
-        */
+         */
     }
-    
+
     @Override
-    public void AgregarJugador(String nombre,String correo,String clave) {
+    public void AgregarJugador(String nombre, String correo, String clave) {
         jugadores.add(new Jugador(nombre, correo, clave));
     }
 
@@ -48,24 +48,37 @@ public class PersistenciaImplJugador implements PersistenciaJugador{
     @Override
     public int loginJugador(String correo, String clave) {
         int id_login = -1;
-        
-        for(int i=0;i<jugadores.size();i++){
-            if(jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)){
+
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)) {
                 id_login = i;
             }
         }
-        
+
         return id_login;
     }
 
     @Override
     public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
         int id_registro = -1;
-        
+
         // No importa si no tiene imagen (avatar)
-        if(nombre.length()>2 && apodo.length()>2 && correo.contains("@") && correo.length()> 5 && clave.equals(nclave) && clave.length()>2){
-            jugadores.add(new Jugador(nombre,correo, clave));
-        }        
+        
+        boolean correo_valido = true;
+
+        //el correo debe ser unico
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getCorreo().equals(correo)) {
+                correo_valido = false;
+            }
+        }
+
+        if (correo_valido) {
+            if (nombre.length() > 2 && apodo.length() > 2 && correo.contains("@") && correo.length() > 5 && clave.equals(nclave) && clave.length() > 2) {
+                jugadores.add(new Jugador(nombre, correo, clave));
+            }
+        }
+
         return id_registro;
     }
 }

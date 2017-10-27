@@ -17,25 +17,30 @@ var appLogin = (function () {
 
             console.info("datos de inicio: " + datosInicio);
 
-            $.get("/users/" + correo + "/" + clave,
-                    function (data) {
-                        console.info("sesion: " + datosInicio);
-                        document.cookie = "iduser=" + data;
-                        location.href = "/jugar.html";
-                    }
-            ).fail(
-                    function (data) {
-                        alert("User: " + correo + " no existe " + data["responseText"]);
-                    }
 
-            );
+            if (correo == "" || clave == "" ) {
+                alert("Uno o varios campos estan sin llenar !!! , completa el para poder iniciar sesion");
+            } else {
+                $.get("/users/" + correo + "/" + clave,
+                        function (data) {
+                            console.info("sesion: " + datosInicio);
+                            document.cookie = "iduser=" + data;
+                            location.href = "/jugar.html";
+                        }
+                ).fail(
+                        function (data) {
+                            alert("User: " + correo + " no existe " + data["responseText"]);
+                        }
+
+                );
+            }
         },
 
         registrer: function () {
 
             var nombre = $("#Nnombre").val();
             var apodo = $("#Napodo").val();
-            var iurl; // aun no esta el campo en el html para cargar la imagen
+            var iurl="url_imagen"; // aun no esta el campo en el html para cargar la imagen
             var correo = $("#Ncorreo").val();
             var clave = $("#nclave").val();
             var nclave = $("#nnclave").val();
@@ -45,18 +50,26 @@ var appLogin = (function () {
 
             console.info("datos de registro: " + datosNuevos);
 
-            $.get("/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
-                    function (data) {
-                        console.info("registro: " + datosNuevos);
-                        document.cookie = "iduser=" + data;
-                        location.href = "/login.html";
-                    }
-            ).fail(
-                    function () {
-                        alert("No se puedo crear el usuario " + datosNuevos + " * Response: " + data["responseText"]);
-                    }
 
-            );
+            if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
+                alert("Uno o varios campos estan sin llenar !!! , completa el formulario de registro");
+            } else {
+
+                $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
+                        function (data) {
+                            console.info("registro: " + datosNuevos);
+                            document.cookie = "iduser=" + data;
+                            location.href = "/login.html";
+                        }
+                ).fail(
+                        function () {
+                            alert("No se puedo crear el usuario " + datosNuevos + " * Response: " + data["responseText"]);
+                        }
+
+                );
+
+            }
+
         },
 
         personaje_config: function () {
