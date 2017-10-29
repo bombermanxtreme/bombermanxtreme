@@ -53,6 +53,8 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
         System.out.println(clave);
         
         System.out.println("registrados Login");
+        System.out.println("tamaño");
+        System.out.println(jugadores.size());
         for (int i=0; i < jugadores.size(); i++) {  
             jugadores.get(i).getCorreo();
         }

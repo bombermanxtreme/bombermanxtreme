@@ -13,7 +13,7 @@ var appLogin = (function () {
             var correo = $("#correo").val();
             var clave = $("#clave").val();
 
-            var datosInicio = {correo: correo}
+            var datosInicio = {correo: correo};
 
             console.info("datos de inicio: " + datosInicio.correo);
 
