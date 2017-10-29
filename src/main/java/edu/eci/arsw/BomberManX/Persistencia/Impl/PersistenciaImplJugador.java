@@ -48,10 +48,26 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
     @Override
     public int loginJugador(String correo, String clave) {
         int id_login = -1;
-
-        for (int i = 0; i < jugadores.size(); i++) {
-            if (jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)) {
-                id_login = i;
+        
+        System.out.println(correo);
+        System.out.println(clave);
+        
+        System.out.println("registrados Login");
+        for (int i=0; i < jugadores.size(); i++) {  
+            jugadores.get(i).getCorreo();
+        }
+        System.out.println("/fin registrados Login");
+        
+        for (int i=0; i < jugadores.size(); i++) {           
+            if (jugadores.get(i).getCorreo().equals(correo) || jugadores.get(i).getClave().equals(clave)) {
+                if(!jugadores.get(i).getCorreo().equals(correo)) {System.out.println("No coincide correo");}
+                if(!jugadores.get(i).getClave().equals(clave))  {System.out.println("No coincide clave");}
+                
+                if(jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)){id_login = getIDPorCorreo(correo);    }
+               
+                
+                
+                
             }
         }
 

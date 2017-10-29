@@ -49,7 +49,9 @@ public class BomberManXServices {
     }
 
     public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
-
+        int id_registro = -1;
+        
+        id_registro = pj.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
         // Muestra los jugadores 
         System.out.println("-----------------------------------");
         System.out.println("Usuarios registrados: ");        
@@ -58,6 +60,6 @@ public class BomberManXServices {
             System.out.println(jugadores.get(i).getCorreo());
         }
         System.out.println("-----------------------------------");
-        return pj.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
+        return id_registro;
     }
 }

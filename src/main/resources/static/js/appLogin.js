@@ -10,29 +10,35 @@ var appLogin = (function () {
         login: function () {
 
 
-            var correo = $("#form-username").val();
-            var clave = $("#form-password").val();
+            var correo = $("#correo").val();
+            var clave = $("#clave").val();
 
             var datosInicio = {correo: correo}
 
-            console.info("datos de inicio: " + datosInicio);
+            console.info("datos de inicio: " + datosInicio.correo);
 
 
             if (correo == "" || clave == "") {
                 alert("Uno o varios campos estan sin llenar !!! , completa el para poder iniciar sesion");
             } else {
-                $.get("/users/" + correo + "/" + clave,
+               
+               $.get("/users/" + correo + "/" + clave,
                         function (data) {
-                            console.info("sesion: " + datosInicio);
+                            console.info("sesion: " + datosInicio.correo +" id user: "+data);
                             document.cookie = "iduser=" + data;
+                            alert("inicio de sesion para id "+ data);
+                            
                             location.href = "/jugar.html";
+                            
                         }
                 ).fail(
                         function (data) {
-                            alert("User: " + correo + " no existe " + data["responseText"]);
+                            alert("User: " + correo + " no existe " + data);
                         }
 
                 );
+               
+               
             }
         },
 
