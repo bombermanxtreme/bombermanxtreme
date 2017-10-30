@@ -26,7 +26,7 @@ var appLogin = (function () {
                         function (data) {
                             console.info("sesion: " + datosInicio.correo +" id user: "+data);
                             document.cookie = "iduser=" + data;
-                            alert("inicio de sesion para id "+ data);
+                            //alert("inicio de sesion para id "+ data);
                             
                             location.href = "/jugar.html";
                             
