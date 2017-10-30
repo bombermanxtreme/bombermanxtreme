@@ -48,8 +48,8 @@ var appLogin = (function () {
             var apodo = $("#napodo").val();
             var iurl = "url_imagen"; // aun no esta el campo en el html para cargar la imagen
             var correo = $("#ncorreo").val();
-            var clave = $("nclave").val();
-            var nclave = $("nrclave").val();
+            var clave = $("#nclave").val();            
+            var nclave = $("#nrclave").val();
 
             var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo};
             //var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo, clave: clave, imagen:iurl};
@@ -60,6 +60,9 @@ var appLogin = (function () {
             if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
                 alert("Uno o varios campos estan sin llenar !!! , completalo formulario de registro");
             } else {
+                    
+                 
+
 
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {

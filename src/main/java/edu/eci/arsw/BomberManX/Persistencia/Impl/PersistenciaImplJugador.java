@@ -52,27 +52,27 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
         System.out.println(correo);
         System.out.println(clave);
         
-        System.out.println("registrados Login");
-        System.out.println("tamaño");
+        System.out.println("registrados Login");        
         System.out.println(jugadores.size());
         for (int i=0; i < jugadores.size(); i++) {  
             jugadores.get(i).getCorreo();
+            System.out.println(jugadores.get(i).getCorreo());
         }
         System.out.println("/fin registrados Login");
         
-        for (int i=0; i < jugadores.size(); i++) {           
-            if (jugadores.get(i).getCorreo().equals(correo) || jugadores.get(i).getClave().equals(clave)) {
-                if(!jugadores.get(i).getCorreo().equals(correo)) {System.out.println("No coincide correo");}
-                if(!jugadores.get(i).getClave().equals(clave))  {System.out.println("No coincide clave");}
+        for (int i=0; i < jugadores.size(); i++)
+            if (jugadores.get(i).getCorreo().equals(correo)) {
+                System.out.println("correo encontrado y comparando clave");
+                System.out.println("clave1:*"+clave+"*");
+                System.out.println("clave2:*"+jugadores.get(i).getClave()+"*");
                 
-                if(jugadores.get(i).getCorreo().equals(correo) && jugadores.get(i).getClave().equals(clave)){id_login = getIDPorCorreo(correo);    }
-               
-                
-                
+                if(jugadores.get(i).getClave().equals(clave))  {
+                    System.out.println("clave correcta");
+                    id_login = getIDPorCorreo(correo);
+                    System.out.println("id:"+id_login);
+                }else System.out.println("No coincide clave");
                 
             }
-        }
-
         return id_login;
     }
 
