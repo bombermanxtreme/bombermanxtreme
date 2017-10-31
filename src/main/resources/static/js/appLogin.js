@@ -26,14 +26,13 @@ var appLogin = (function () {
                         function (data) {
                             console.info("sesion: " + datosInicio.correo +" id user: "+data);
                             document.cookie = "iduser=" + data;
-                            //alert("inicio de sesion para id "+ data);
-                            
                             location.href = "/jugar.html";
                             
                         }
                 ).fail(
                         function (data) {
-                            alert("User: " + correo + " no existe " + data);
+                            if(data==-1) console.info("User: " + correo + " no existe " + data);
+                            if(data==-2) {console.info("User: " + correo + " contraseña incorrecta, cod: " + data); alert("Contraseña Incorrecta :(");}
                         }
 
                 );
@@ -67,7 +66,7 @@ var appLogin = (function () {
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {
                             console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
-                            //document.cookie = "iduser=" + data;
+                            document.cookie = "iduser=" + data;
                             alert("Bienvenido "+datosNuevos.nomre);
                             location.href = "/login.html";
                         }
@@ -91,14 +90,8 @@ var appLogin = (function () {
         personaje_config: function () {
             console.info("configurar personaje  \U/ \U/ \U/ \U/ ");
             location.href = "http://tycho.escuelaing.edu.co/Eciciencia/GrupoInscrito?grupo=null&idconcurso=55&carne=2095112&secuencia=0&participante=EE&tipoconcurso=0&documento=1016046080&tip_doc=C&nombre=manuel&apellido1=perez&apellido2=espitia&mail=dark07perez%40gmail.com&telefono=3134479638&celular=3134479638&direccion=calle+96B+No+16H-70&ciudad=11001&carrera=INGENIERIA+DE+SISTEMAS+&semestre=9&participo=si";
-
-        }
-
-
-
-
-
+        }        
+       
     };
-
 
 })();

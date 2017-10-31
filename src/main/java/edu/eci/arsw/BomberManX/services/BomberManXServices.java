@@ -45,21 +45,45 @@ public class BomberManXServices {
     }
 
     public int loginJugador(String correo, String clave) {
-        return pj.loginJugador(correo, clave);
+        int id_login=-1; //-1: no se encontro el correo, -2: clave incorrecta
+        
+        ArrayList<Jugador> jugadores = pj.getJugadores();
+        
+        //jugadores diponibles
+        for (int i=0; i < jugadores.size(); i++){ System.out.println(jugadores.get(i)); }
+        
+        for (int i=0; i < jugadores.size(); i++)
+            if (jugadores.get(i).getCorreo().equals(correo)) {                
+                
+                if(jugadores.get(i).getClave().equals(clave))id_login = pj.getIDPorCorreo(correo);      
+                else id_login=-2;
+            }
+        return id_login;
     }
 
     public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
-        int id_registro = -1;
+        int id_registro = -1;// -1: algo fallo, -2: ya existe el correo
         
-        id_registro = pj.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
-        // Muestra los jugadores 
-        System.out.println("-----------------------------------");
-        System.out.println("Usuarios registrados: ");        
+        // No importa si no tiene imagen (avatar)
+        boolean correo_valido = true;
+        
         ArrayList<Jugador> jugadores = pj.getJugadores();
+
+        //el correo debe ser unico
         for (int i = 0; i < jugadores.size(); i++) {
-            System.out.println(jugadores.get(i).getCorreo());
+            if (jugadores.get(i).getCorreo().equals(correo) && correo.contains("@") && correo.length() > 5) {
+                correo_valido = false;
+                id_registro = -2;
+            }
         }
-        System.out.println("-----------------------------------");
+
+        if (correo_valido) {
+            if (nombre.length() > 2 && apodo.length() > 2 && clave.equals(nclave) && clave.length() > 2) {
+                jugadores.add(new Jugador(nombre, correo, clave));
+                id_registro = pj.getIDPorCorreo(correo);
+            }
+        }        
+        
         return id_registro;
     }
 }

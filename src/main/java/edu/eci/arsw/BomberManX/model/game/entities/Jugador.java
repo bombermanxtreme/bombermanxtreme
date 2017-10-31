@@ -60,6 +60,6 @@ public class Jugador {
     @Override
     public String toString() {
         return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
-        // return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
+        //return "{\"Nombre\":\"" + nombre + "\", \"Record\":\"" + record + "\", Correo\":\"" + correo + "\"}";        
     }
 }

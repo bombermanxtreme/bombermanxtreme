@@ -42,7 +42,7 @@ public class BomberManXAPIControllerUser {
         HttpStatus status;
         int id_login = gameServices.loginJugador(correo, clave);
 
-        if (id_login != -1) {
+        if (id_login >= 0) {
             status = HttpStatus.ACCEPTED;
         } else {
             status = HttpStatus.NOT_FOUND;
@@ -53,7 +53,6 @@ public class BomberManXAPIControllerUser {
         System.out.println(id_login);
         System.out.println(status);
         return new ResponseEntity<>(id_login, status);
-
     }
 
     @RequestMapping(path = "/new/{nombre}/{apodo}/{correo}/{clave}/{nclave}/{imagen}", method = RequestMethod.GET)
@@ -68,7 +67,6 @@ public class BomberManXAPIControllerUser {
         }
 
         return new ResponseEntity<>(id_nuevo, status);
-
     }
 
 }

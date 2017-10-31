@@ -46,62 +46,6 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
     }
 
     @Override
-    public int loginJugador(String correo, String clave) {
-        int id_login = -1;
-        
-        System.out.println(correo);
-        System.out.println(clave);
-        
-        System.out.println("registrados Login");        
-        System.out.println(jugadores.size());
-        for (int i=0; i < jugadores.size(); i++) {  
-            jugadores.get(i).getCorreo();
-            System.out.println(jugadores.get(i).getCorreo());
-        }
-        System.out.println("/fin registrados Login");
-        
-        for (int i=0; i < jugadores.size(); i++)
-            if (jugadores.get(i).getCorreo().equals(correo)) {
-                System.out.println("correo encontrado y comparando clave");
-                System.out.println("clave1:*"+clave+"*");
-                System.out.println("clave2:*"+jugadores.get(i).getClave()+"*");
-                
-                if(jugadores.get(i).getClave().equals(clave))  {
-                    System.out.println("clave correcta");
-                    id_login = getIDPorCorreo(correo);
-                    System.out.println("id:"+id_login);
-                }else System.out.println("No coincide clave");
-                
-            }
-        return id_login;
-    }
-
-    @Override
-    public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
-        int id_registro = -1; // -1: algo fallo, -2: ya existe el correo
-
-        // No importa si no tiene imagen (avatar)
-        boolean correo_valido = true;
-
-        //el correo debe ser unico
-        for (int i = 0; i < jugadores.size(); i++) {
-            if (jugadores.get(i).getCorreo().equals(correo)) {
-                correo_valido = false;
-                id_registro = -2;
-            }
-        }
-
-        if (correo_valido) {
-            if (nombre.length() > 2 && apodo.length() > 2 && correo.contains("@") && correo.length() > 5 && clave.equals(nclave) && clave.length() > 2) {
-                jugadores.add(new Jugador(nombre, correo, clave));
-                id_registro = getIDPorCorreo(correo);
-            }
-        }
-
-        return id_registro;
-    }
-
-    @Override
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
