@@ -19,7 +19,7 @@ var appLogin = (function () {
 
 
             if (correo == "" || clave == "") {
-                alert("Uno o varios campos estan sin llenar !!! , completa el para poder iniciar sesion");
+                alert("Uno o varios campos estan sin llenar. Completa los campos para poder continuar.");
             } else {
                
                $.get("/users/" + correo + "/" + clave,
@@ -31,8 +31,12 @@ var appLogin = (function () {
                         }
                 ).fail(
                         function (data) {
-                            if(data==-1) console.info("User: " + correo + " no existe " + data);
-                            if(data==-2) {console.info("User: " + correo + " contraseña incorrecta, cod: " + data); alert("Contraseña Incorrecta :(");}
+                            console.info("Response text: "+data.responseText);
+                            if(data.responseText=="-1") console.info("User: " + correo + " no existe " + data.responseText);
+                            if(data.responseText=="-2") {
+                                console.info("User: " + correo + " contraseña incorrecta, cod: " + data.responseText); 
+                                alert("Contraseña Incorrecta :(");
+                            }
                         }
 
                 );
@@ -58,11 +62,23 @@ var appLogin = (function () {
 
             if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
                 alert("Uno o varios campos estan sin llenar !!! , completalo formulario de registro");
-            } else {
-                    
-                 
-
-
+            
+            } else if(clave != nclave) {
+                alert("La contraseña no coincide.");
+                
+            }else if(!correo.includes("@")){
+                alert("El correo no es una dirección de correo valida.");
+                
+            }else if(nombre.length <5 ){
+                alert("Nombre muy corto, minimo 5 caracteres.");
+                
+            }else if(clave.length < 3){
+                alert("Contraseña muy corta, minimo 3 caracteres.");
+            
+            }else if(apodo.length < 3){
+                alert("Nombre muy corto, minimo 3 caracteres.");
+                
+            }else {
                 $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
                         function (data) {
                             console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
@@ -72,12 +88,12 @@ var appLogin = (function () {
                         }
                 ).fail(
                         function (data) {
-                            if (data == -2) {
-                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: El usuario ya extiste. Codigo =" + data);
-                                alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente");
+                            console.info("Response text: "+data.responseText);
+                            if (data.responseText == "-2") {
+                                console.info("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
+                                alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente.");
                             } else {
-                                console.info("No se puede crear el usuario " + datosNuevos.correo + " * Response: "+ data);
-                                alert("El usario " + correo + " no se puede crear: Response: " + data["responseText"] );
+                                console.info("Error: " + datosNuevos.correo + " Response text: "+ data.responseText);                                
                             }
                         }
 

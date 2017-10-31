@@ -49,9 +49,6 @@ public class BomberManXServices {
         
         ArrayList<Jugador> jugadores = pj.getJugadores();
         
-        //jugadores diponibles
-        for (int i=0; i < jugadores.size(); i++){ System.out.println(jugadores.get(i)); }
-        
         for (int i=0; i < jugadores.size(); i++)
             if (jugadores.get(i).getCorreo().equals(correo)) {                
                 
@@ -71,17 +68,19 @@ public class BomberManXServices {
 
         //el correo debe ser unico
         for (int i = 0; i < jugadores.size(); i++) {
-            if (jugadores.get(i).getCorreo().equals(correo) && correo.contains("@") && correo.length() > 5) {
+            if (jugadores.get(i).getCorreo().equals(correo)) {
                 correo_valido = false;
                 id_registro = -2;
             }
         }
 
         if (correo_valido) {
-            if (nombre.length() > 2 && apodo.length() > 2 && clave.equals(nclave) && clave.length() > 2) {
-                jugadores.add(new Jugador(nombre, correo, clave));
-                id_registro = pj.getIDPorCorreo(correo);
-            }
+            jugadores.add(new Jugador(nombre, correo, clave));
+            id_registro = pj.getIDPorCorreo(correo);    
+            
+            //jugadores diponibles
+            for (int i=0; i < jugadores.size(); i++){ System.out.println(jugadores.get(i)); }
+            
         }        
         
         return id_registro;
