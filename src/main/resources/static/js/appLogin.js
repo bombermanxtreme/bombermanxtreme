@@ -18,7 +18,7 @@ var appLogin = (function () {
             console.info("datos de inicio: " + datosInicio.correo);
 
 
-            if (correo == "" || clave == "") {
+            if (correo === "" || clave === "") {
                 alert("Uno o varios campos estan sin llenar. Completa los campos para poder continuar.");
             } else {
                
@@ -32,9 +32,9 @@ var appLogin = (function () {
                 ).fail(
                         function (data) {
                             console.info("Response text: "+data.responseText);
-                            if(data.responseText=="-1") console.info("User: " + correo + " no existe " + data.responseText);
-                            if(data.responseText=="-2") {
-                                console.info("User: " + correo + " contraseña incorrecta, cod: " + data.responseText); 
+                            if(data.responseText==="-1") {console.info("User: " + correo + " no existe " + data.responseText);}
+                            if(data.responseText==="-2") {
+                                console.log("User: " + correo + " contraseña incorrecta, cod: " + data.responseText); 
                                 alert("Contraseña Incorrecta :(");
                             }
                         }
@@ -60,10 +60,10 @@ var appLogin = (function () {
             console.info("datos de registro para empezar el registro: " + datosNuevos.nomre+ " " +datosNuevos.apodo+" "+datosNuevos.correo);
 
 
-            if (nombre == "" || apodo == "" || correo == "" || clave == "" || nclave == "") {
+            if (nombre === "" || apodo === "" || correo === "" || clave === "" || nclave === "") {
                 alert("Uno o varios campos estan sin llenar !!! , completalo formulario de registro");
             
-            } else if(clave != nclave) {
+            } else if(clave !== nclave) {
                 alert("La contraseña no coincide.");
                 
             }else if(!correo.includes("@")){
@@ -89,11 +89,11 @@ var appLogin = (function () {
                 ).fail(
                         function (data) {
                             console.info("Response text: "+data.responseText);
-                            if (data.responseText == "-2") {
-                                console.info("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
+                            if (data.responseText === "-2") {
+                                console.log("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
                                 alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente.");
                             } else {
-                                console.info("Error: " + datosNuevos.correo + " Response text: "+ data.responseText);                                
+                                console.log("Error: " + datosNuevos.correo + " Response text: "+ data.responseText);                                
                             }
                         }
 
