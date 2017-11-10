@@ -27,7 +27,7 @@ var jugador = {
     color: "blue",
     movimiento_x: 0,
     movimiento_y: 0,
-    velocidad: 2,
+    velocidad: 2.5,
     x1: null,
     x2: null,
     y1: null,
