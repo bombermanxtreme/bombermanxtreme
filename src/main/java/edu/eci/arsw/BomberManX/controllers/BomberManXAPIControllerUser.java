@@ -55,15 +55,24 @@ public class BomberManXAPIControllerUser {
         return new ResponseEntity<>(id_login, status);
     }
 
-    @RequestMapping(path = "/new/{nombre}/{apodo}/{correo}/{clave}/{nclave}/{imagen}", method = RequestMethod.GET)
-    public ResponseEntity<?> RegistrerJugador(@PathVariable String nombre, @PathVariable String apodo, @PathVariable String correo, @PathVariable String clave, @PathVariable String nclave, @PathVariable String imagen) {
+    /**
+     *
+     * @param nombre
+     * @param correo
+     * @param apodo
+     * @param clave
+     * @param imagen
+     * @return ResponseEntity status
+     */
+    @RequestMapping(path = "/new/{nombre}/{correo}/{apodo}/{clave}/{imagen}", method = RequestMethod.GET)
+    public ResponseEntity<?> RegistrerJugador(@PathVariable String nombre, @PathVariable String correo, @PathVariable String apodo, @PathVariable String clave, @PathVariable String imagen) {
         HttpStatus status;
-        int id_nuevo = gameServices.registrerJugador(nombre, apodo, correo, clave, nclave, imagen);
+        int id_nuevo = gameServices.registrerJugador(nombre, correo, apodo, clave, imagen);
 
         if (id_nuevo >= 0) {
             status = HttpStatus.ACCEPTED;
         } else {
-            status = HttpStatus.NOT_FOUND;
+            status = HttpStatus.NOT_FOUND;            
         }
 
         return new ResponseEntity<>(id_nuevo, status);

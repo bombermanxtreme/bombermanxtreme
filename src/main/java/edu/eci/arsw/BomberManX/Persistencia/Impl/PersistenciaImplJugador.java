@@ -19,25 +19,20 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
 
     private ArrayList<Jugador> jugadores = new ArrayList<>();
 
+    
     public PersistenciaImplJugador() {
-        AgregarJugador("Kevin Alvarado", "ka@server.com", "123");
-        AgregarJugador("Sergio Pérez", "sp@server.com", "456");
-        AgregarJugador("Kevin Sánchez", "ks@server.com", "789");
-        AgregarJugador("Lina Álvarez", "la@server.com", "321");
-        AgregarJugador("Fanny Pérez", "fp@server.com", "654");
-
-        /*
-        AgregarJugador("Kevin Alvarado", "kevincito", "ka@server.com", "123", "");
-        AgregarJugador("Sergio Pérez", "finanzas", "sp@server.com", "456", "");
-        AgregarJugador("Kevin Sánchez", "quevin", "ks@server.com", "789", "");
-        AgregarJugador("Lina Álvarez", "anail", "la@server.com", "321", "");
-        AgregarJugador("Fanny Pérez", "ynnaf", "fp@server.com", "654", "");
-         */
+        AgregarJugador("Kevin Alvarado", "ka@server.com", "kevincito", "123", "ninguna imagen");
+        AgregarJugador("Sergio Pérez", "sp@server.com", "finanzas", "456", "ninguna imagen");
+        AgregarJugador("Kevin Sánchez", "ks@server.com", "quevin", "789", "ninguna imagen");
+        AgregarJugador("Lina Álvarez", "la@server.com", "anail", "321", "ninguna imagen");
+        AgregarJugador("Fanny Pérez", "fp@server.com", "ynnaf", "654", "ninguna imagen");
+         
     }
+    
 
     @Override
-    public void AgregarJugador(String nombre, String correo, String clave) {
-        jugadores.add(new Jugador(nombre, correo, clave));
+    public void AgregarJugador(String nombre, String correo, String apodo, String clave, String imagen) {
+        jugadores.add(new Jugador(nombre, correo, apodo, clave, imagen));
     }
 
     @Override

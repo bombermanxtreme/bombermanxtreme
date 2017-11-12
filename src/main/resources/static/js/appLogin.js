@@ -32,11 +32,16 @@ var appLogin = (function () {
                 ).fail(
                         function (data) {
                             console.info("Response text: "+data.responseText);
-                            if(data.responseText==="-1") {console.info("User: " + correo + " no existe " + data.responseText);}
-                            if(data.responseText==="-2") {
+                            if(data.responseText==="-1") {
+                                console.info("User: " + correo + " no existe " + data.responseText);}
+                            else if(data.responseText==="-2") {
                                 console.log("User: " + correo + " contraseña incorrecta, cod: " + data.responseText); 
                                 alert("Contraseña Incorrecta :(");
                             }
+                            else {
+                                console.log("error desconocido: "+data.responseText);                                
+                            }
+
                         }
 
                 );
@@ -61,7 +66,7 @@ var appLogin = (function () {
 
 
             if (nombre === "" || apodo === "" || correo === "" || clave === "" || nclave === "") {
-                alert("Uno o varios campos estan sin llenar !!! , completalo formulario de registro");
+                alert("Uno o varios campos estan sin llenar !!! , completa el formulario de registro");
             
             } else if(clave !== nclave) {
                 alert("La contraseña no coincide.");
@@ -79,7 +84,7 @@ var appLogin = (function () {
                 alert("Nombre muy corto, minimo 3 caracteres.");
                 
             }else {
-                $.get("/users/new/" + nombre + "/" + apodo + "/" + correo + "/" + clave + "/" + nclave + "/" + iurl,
+                $.get("/users/new/" + nombre + "/" + correo + "/" + apodo + "/" + clave + "/" + iurl,
                         function (data) {
                             console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
                             document.cookie = "iduser=" + data;
@@ -91,9 +96,11 @@ var appLogin = (function () {
                             console.info("Response text: "+data.responseText);
                             if (data.responseText === "-2") {
                                 console.log("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
-                                alert("El usario " + correo + " ya existe!, usa una dirección de correo diferente.");
-                            } else {
-                                console.log("Error: " + datosNuevos.correo + " Response text: "+ data.responseText);                                
+                                alert("El usario " + datosNuevos.correo + " ya existe!, usa una dirección de correo diferente.");
+                            }else if(data.responseText === "3"){
+                                
+                            }else {
+                                console.log("Error desconodido:" + data.responseText);                                
                             }
                         }
 

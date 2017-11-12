@@ -58,11 +58,12 @@ public class BomberManXServices {
         return id_login;
     }
 
-    public int registrerJugador(String nombre, String apodo, String correo, String clave, String nclave, String imagen) {
-        int id_registro = -1;// -1: algo fallo, -2: ya existe el correo
+    public int registrerJugador(String nombre, String correo, String apodo, String clave, String imagen) {
+        int id_registro = -1;// -1: algo fallo, -2: correo ya existe, -3: apodo ya existe
         
         // No importa si no tiene imagen (avatar)
         boolean correo_valido = true;
+        boolean apodo_valido = true;
         
         ArrayList<Jugador> jugadores = pj.getJugadores();
 
@@ -73,12 +74,21 @@ public class BomberManXServices {
                 id_registro = -2;
             }
         }
+        
+        //el apodo debe ser unico
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getApodo().equals(apodo)) {
+                apodo_valido = false;
+                id_registro = -3;
+            }
+        }
 
-        if (correo_valido) {
-            jugadores.add(new Jugador(nombre, correo, clave));
+        if (correo_valido && apodo_valido) {
+            jugadores.add(new Jugador(nombre, correo, apodo, clave, imagen));
             id_registro = pj.getIDPorCorreo(correo);    
             
             //jugadores diponibles
+            System.out.println("----- jugadores disponibles ---");
             for (int i=0; i < jugadores.size(); i++){ System.out.println(jugadores.get(i)); }
             
         }        

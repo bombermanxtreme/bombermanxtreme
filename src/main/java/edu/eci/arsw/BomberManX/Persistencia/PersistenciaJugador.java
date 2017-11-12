@@ -19,9 +19,11 @@ public interface PersistenciaJugador {
      *
      * @param nombre
      * @param correo
+     * @param apodo
      * @param clave
+     * @param imagen
      */
-    abstract public void AgregarJugador(String nombre, String correo, String clave);
+    abstract public void AgregarJugador(String nombre, String correo, String apodo, String clave, String imagen);
 
     /**
      * busca dentro de los jugadores creados basado en el id
@@ -45,4 +47,5 @@ public interface PersistenciaJugador {
      * @return
      */
     public int getIDPorCorreo(String correo);
+    
 }
