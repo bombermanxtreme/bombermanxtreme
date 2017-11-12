@@ -97,8 +97,9 @@ var appLogin = (function () {
                             if (data.responseText === "-2") {
                                 console.log("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
                                 alert("El usario " + datosNuevos.correo + " ya existe!, usa una dirección de correo diferente.");
-                            }else if(data.responseText === "3"){
-                                
+                            }else if(data.responseText === "-3"){
+                                console.log("No se puede crear el usuario " + datosNuevos.apodo + "El apodo ya extiste. Codigo =" + data.responseText);
+                                alert("El apodo " + datosNuevos.apodo + " ya existe!, usa un apodo diferente.");                                
                             }else {
                                 console.log("Error desconodido:" + data.responseText);                                
                             }

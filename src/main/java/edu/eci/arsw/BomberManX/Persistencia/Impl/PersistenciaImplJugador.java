@@ -20,13 +20,18 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
     private ArrayList<Jugador> jugadores = new ArrayList<>();
 
     
-    public PersistenciaImplJugador() {
+    public PersistenciaImplJugador() {        
+         Poblar();
+    }
+    
+    @Override
+    public final void Poblar() {
+        //necesario para evitar error: overridable method call in constructor//
         AgregarJugador("Kevin Alvarado", "ka@server.com", "kevincito", "123", "ninguna imagen");
         AgregarJugador("Sergio Pérez", "sp@server.com", "finanzas", "456", "ninguna imagen");
         AgregarJugador("Kevin Sánchez", "ks@server.com", "quevin", "789", "ninguna imagen");
         AgregarJugador("Lina Álvarez", "la@server.com", "anail", "321", "ninguna imagen");
         AgregarJugador("Fanny Pérez", "fp@server.com", "ynnaf", "654", "ninguna imagen");
-         
     }
     
 

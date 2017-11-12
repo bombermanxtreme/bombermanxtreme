@@ -15,6 +15,12 @@ import java.util.ArrayList;
 public interface PersistenciaJugador {
 
     /**
+     * Pobla jugadores
+     * 
+     */
+    public abstract void Poblar();
+    
+    /**
      * Agregar un jugador nuevo
      *
      * @param nombre
