@@ -96,10 +96,10 @@ var juego = {
             case 40:
                 datos.abajo = true;
 				break;
-			case 8:
-				// Barra espaciadora - quiere ponder Bomba
-				appCanvas.ponerBomba();
-				break;
+            case 8:
+                // Barra espaciadora - quiere ponder Bomba
+                appCanvas.ponerBomba();
+                break;
         }
     },
 
