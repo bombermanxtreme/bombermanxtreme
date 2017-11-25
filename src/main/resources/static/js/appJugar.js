@@ -111,9 +111,9 @@ var appJugar = (function () {
         init: function () {
             //verificamos que el usuario haya iniciado
             if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
-				MJ_simple("Jugar","Inicia sesión por favor");
+				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
 				setTimeout(function(){
-					
+					location.href="login.html";
 				},3000);
                 return false;
             }
