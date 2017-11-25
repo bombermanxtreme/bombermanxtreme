@@ -1,4 +1,4 @@
-var APIuseful = apimockJugar;
+//var APIuseful = apimockJugar;
 //var APIuseful=apiclientJugar;
 
 var appJugar = (function () {
@@ -15,21 +15,21 @@ var appJugar = (function () {
      * función que realiza la conexión STOMP
      */
     var connectAndSubscribe = function () {
-        console.info('Connecting to WS...');
+        Console.info("Connecting to WS...");
         var socket = new SockJS('/stompendpoint');
         stompClient = Stomp.over(socket);
 
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
-            console.log('Conectado: ' + frame);
+            Console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos de nuevos jugadores que entren
-            stompClient.subscribe('/topic/JugadoresQuierenJugar.' + idSala, function (eventbody) {
+            stompClient.subscribe("/topic/JugadoresQuierenJugar." + idSala, function (eventbody) {
                 callback_JugadoresQuierenJugar(eventbody);
             });
 
             //especificamos que estamos atentos de que cumpla el mínimo de jugadores
-            stompClient.subscribe('/topic/ListoMinimoJugadores.' + idSala, function (eventbody) {
+            stompClient.subscribe("/topic/ListoMinimoJugadores." + idSala, function (eventbody) {
                 callback_ListoMinimoJugadores(eventbody);
             });
 
@@ -45,23 +45,23 @@ var appJugar = (function () {
      */
     var callback_JugadoresQuierenJugar = function (message) {
         //verificamos si el usuario acaba de entrar y si la sala ya está cerrada
-        if (jugadorEnSala == null && message.body == "false") {
+        if (jugadorEnSala === null && message.body === "false") {
             $("#antesDeEmpezar").html("Sala cerrada");
             jugadorEnSala = false;
             return false;
         }
         //omitir si es un jugador que está en sala pero alguien intentó entrar y ya la sala está cerrada
-        if (message.body == "false")
+        if (message.body === "false")
             return false;
 
         var jugadores = JSON.parse(message.body);
 
         //si el tiempo no ha empezado
-        if (segundosRestantes == null)
+        if (segundosRestantes === null)
             $("#tiempo").html(jugadorListo ? "Esperando mínimo de jugadores " + imgCargando : "");
 
         //definimos que el jugador si pudo entrar a la sala
-        if (jugadorEnSala == null) {
+        if (jugadorEnSala === null) {
             jugadorEnSala = true;
             //armamos tabla con jugadores actuales y listos
             $("#antesDeEmpezar").html("<input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'><div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
@@ -91,7 +91,7 @@ var appJugar = (function () {
 
         //disminuir tiempo cada segundo
         var restarSegundos = function () {
-            if (segundosRestantes == 0) {
+            if (segundosRestantes === 0) {
                 if (jugadorListo)
                     location.href = "/indexCanvas.html";
                 else
@@ -102,13 +102,13 @@ var appJugar = (function () {
             setTimeout(restarSegundos, 1000);
         };
         setTimeout(restarSegundos, 1000);
+    
     }
-
     return {
         /**
          * encargado de realizar la conexión con STOMP
          */
-        init: function () {
+        init() {
             //verificamos que el usuario haya iniciado
             if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
 				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
@@ -124,17 +124,17 @@ var appJugar = (function () {
         /**
          * desconecta del STOMP
          */
-        disconnect: function () {
+        disconnect() {
             if (stompClient !== null) {
                 stompClient.disconnect();
             }
             //setConnected(false);
-            console.log("Desconectado");
+            Console.log("Desconectado");
         },
         /**
          * envia que ya está listo este usuario
          */
-        estoyListo: function () {
+        estoyListo() {
             jugadorListo = true;
             $("#antesDeEmpezar > input[type=button]").remove();
             //reportamos que este usuario quiere entrar al juego

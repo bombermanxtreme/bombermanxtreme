@@ -95,6 +95,10 @@ var juego = {
                 // Flecha Abajo
             case 40:
                 datos.abajo = true;
+				break;
+            case 8:
+                // Barra espaciadora - quiere ponder Bomba
+                appCanvas.ponerBomba();
                 break;
         }
     },
@@ -116,6 +120,9 @@ var juego = {
                 break;
             case 40:
                 datos.abajo = false;
+				break;
+			case 8:
+                appCanvas.ponerBomba();
                 break;
         }
     },
