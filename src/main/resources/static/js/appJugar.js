@@ -110,8 +110,11 @@ var appJugar = (function () {
          */
         init: function () {
             //verificamos que el usuario haya iniciado
-            if (isNaN(idJugador) || idJugador < 0) {
-                alert("Inicia sesión por favor");
+            if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
+				MJ_simple("Jugar","Inicia sesión por favor");
+				setTimeout(function(){
+					
+				},3000);
                 return false;
             }
             $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
