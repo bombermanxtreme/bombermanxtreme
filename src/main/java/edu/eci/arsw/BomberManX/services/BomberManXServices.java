@@ -95,4 +95,10 @@ public class BomberManXServices {
         
         return id_registro;
     }
+    
+    public String getUrl(String correo){
+        String url= pj.getUrlPorCorreo(correo);
+        return url;
+    }
+   
 }

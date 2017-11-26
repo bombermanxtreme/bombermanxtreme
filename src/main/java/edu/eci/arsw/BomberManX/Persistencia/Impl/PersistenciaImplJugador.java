@@ -27,11 +27,11 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
     @Override
     public final void Poblar() {
         //necesario para evitar error: overridable method call in constructor//
-        AgregarJugador("Kevin Alvarado", "ka@server.com", "kevincito", "123", "ninguna imagen");
-        AgregarJugador("Sergio Pérez", "sp@server.com", "finanzas", "456", "ninguna imagen");
-        AgregarJugador("Kevin Sánchez", "ks@server.com", "quevin", "789", "ninguna imagen");
-        AgregarJugador("Lina Álvarez", "la@server.com", "anail", "321", "ninguna imagen");
-        AgregarJugador("Fanny Pérez", "fp@server.com", "ynnaf", "654", "ninguna imagen");
+        AgregarJugador("Kevin Alvarado", "ka@server.com", "kevincito", "123", "https://vignette.wikia.nocookie.net/looneytunes/images/a/ad/Baby_Lola.png/revision/latest?cb=20110509194052");
+        AgregarJugador("Sergio Pérez", "sp@server.com", "finanzas", "123", "https://i.pinimg.com/736x/e4/a7/5a/e4a75a1b9ef50e99224830bd2dad8e65--cute-baby-elephant-baby-elephants.jpg");
+        AgregarJugador("Kevin Sánchez", "ks@server.com", "quevin", "123", "https://i.pinimg.com/736x/cb/eb/46/cbeb46a7bcde12bea4ff0e7f06b70a03--cartoon-foxes-cartoon-fox-drawing.jpg");
+        AgregarJugador("Lina Álvarez", "la@server.com", "anail", "123", "https://upload.wikimedia.org/wikipedia/commons/d/d3/Bull_cartoon_04.svg");
+        AgregarJugador("Fanny Pérez", "fp@server.com", "ynnaf", "123", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYGIRwH_hoWi2hLZ10SR_WkbQ4s35SiRaaVKd-YPXtibOj0-0i-g");
     }
     
 
@@ -51,15 +51,26 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
     }
 
     @Override
-    public int getIDPorCorreo(String correo) {
-        int id_jugador = -1;
-
+    public int getIDPorCorreo(String correo) {    
+        
         for (int i = 0; i < jugadores.size(); i++) {
             if (jugadores.get(i).getCorreo().equals(correo)) {
-                id_jugador = i;
+                return i;
             }
         }
 
-        return id_jugador;
+        return -1;
+    }
+
+    @Override
+    public String getUrlPorCorreo(String correo) {     
+        for (int i = 0; i < jugadores.size(); i++) {
+            if (jugadores.get(i).getCorreo().equals(correo)) {
+                  
+                return jugadores.get(i).getImagen();
+            }
+        }
+        
+        return "no_existe";
     }
 }

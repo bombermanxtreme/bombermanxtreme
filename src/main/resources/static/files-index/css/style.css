@@ -126,7 +126,18 @@ img { max-width: 100%; }
 
 .avtar img {
 	margin: 2em 0 0;
+	width: 80px; 
+	height: 80px;
   }
+
+.avtar-center img {
+	margin-left: 200px;
+}
+
+.clear{
+	clear:both;
+	margin-bottom: 10px;
+}
 
 .form-box {
     margin-top: 35px;

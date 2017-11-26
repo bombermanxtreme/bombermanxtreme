@@ -77,5 +77,20 @@ public class BomberManXAPIControllerUser {
 
         return new ResponseEntity<>(id_nuevo, status);
     }
+    
+    
+    @RequestMapping(path = "/avatar/{correo}/view", method = RequestMethod.GET)
+    public ResponseEntity<?> LoadAvatar(@PathVariable String correo) {
+        HttpStatus status;
+        String url = gameServices.getUrl(correo);
+        
+        if (!"no_existe".equals(url)) {
+            status = HttpStatus.ACCEPTED;
+        } else {
+            status = HttpStatus.NOT_FOUND;            
+        }
+
+        return new ResponseEntity<>(url, status);
+    }
 
 }

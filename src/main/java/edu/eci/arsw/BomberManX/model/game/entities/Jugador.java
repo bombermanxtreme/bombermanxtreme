@@ -55,10 +55,36 @@ public class Jugador {
     public String getImagen() {
         return imagen;
     }   
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
+    }
+
+    public void setApodo(String apodo) {
+        this.apodo = apodo;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
+    public void setRecord(int record) {
+        this.record = record;
+    }
      
+    
+    
     @Override
     public String toString() {
         //return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
-        return "{\"Nombre\":\"" + nombre + "\", \"Record\":\"" + record + "\", Correo\":\"" + "\", Apodo\":\"" + apodo + "\"}";        
+        return "{\"Nombre\":\"" + nombre + "\", \"Record\":\"" + record + "\", Correo\":\"" + correo + "\", url\":\"" + imagen + "\", Apodo\":\"" + apodo + "\"}";        
     }
 }
