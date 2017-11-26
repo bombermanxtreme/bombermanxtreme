@@ -11,13 +11,13 @@ var appCanvas = (function () {
      * función que realiza la conexión STOMP
      */
     var connectAndSubscribe = function () {
-        Console.info("Connecting to WS...");
+        console.info("Connecting to WS...");
         var socket = new SockJS("/stompendpoint");
         stompClient = Stomp.over(socket);
 
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
-            Console.log("Conectado: " + frame);
+            console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos a poner bombas de jugadores
             stompClient.subscribe("/topic/ponerBobmba." + idSala, function (eventbody) {
@@ -52,7 +52,7 @@ var appCanvas = (function () {
                 stompClient.disconnect();
             }
             //setConnected(false);
-            Console.log("Desconectado");
+            console.log("Desconectado");
         },
         /**
          * envia que ya está listo este usuario
