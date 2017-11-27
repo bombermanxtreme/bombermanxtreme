@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Registrarse</title>
+        <title>Conf Personaje</title>
 
         <!-- CSS -->
         <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
@@ -42,11 +42,11 @@
 
                             <div class="stroke">
                                 <h1>
-                                    <strong>Registro Bomberman Xtreme</strong>
+                                    <strong>Configuración del Personaje</strong>
                                 </h1>
                             </div>
                             <div class="description">
-                                <h3 style="color:#bee621">Completa tu registro y juega!</h3>
+                                <h3 style="color:#bee621">Personaliza tu personaje!</h3>
                                 <br/>
                             </div>
                         </div>
@@ -55,6 +55,11 @@
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                             <div class="form-top">
+                                
+                                <!-- div class="form-top">
+                                    <img src="https://http2.mlstatic.com/pasto-en-rollo-D_NQ_NP_401815-MLM25305826417_012017-F.jpg" alt="Pasto Verde" width="500" height="600">
+                                </div -->
+                               
                                 <div class="form-top-left">
                                     <h3>Registrate ahora</h3>
                                     <p>Coloca tus datos para poder registrase</p>
@@ -90,26 +95,6 @@
                                     <label class="sr-only" for="form-password">clave repeticion</label>
                                     <input id="nrclave" type="password" name="form-password" placeholder="Rectifique su contraseña..." class="form-password form-control">
                                 </div>
-
-                                <hr>
-
-                                <div>
-                                    <div class="form-top-left">
-                                        <h3>Avatar del Jugador</h3>
-                                        <p>Pega una url de una imagen</p>                                        
-                                    </div>       
-                                    <div class="form-group">                                        
-                                        <input id="niurl" type="text"  placeholder="url" onblur="appLogin.avatarLoad_temp()">
-                                    </div> 
-                                    
-                                    <div class="clear"></div>
-                                    
-                                    <div class="avtar-border">                                        
-                                        <img id="avatar-load" src="https://www.drupal.org/files/issues/default-avatar.png" alt="Avatar">
-                                    </div>
-                                </div>
-                                
-                                <div class="clear"></div>
 
                                 <div>
                                     <button onclick="appLogin.registrer()" class="btn">Registrese</button>

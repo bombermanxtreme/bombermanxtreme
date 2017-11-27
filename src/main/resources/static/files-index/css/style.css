@@ -134,6 +134,10 @@ img { max-width: 100%; }
 	margin-left: 200px;
 }
 
+.avtar-border img {
+	margin: 10px;
+}
+
 .clear{
 	clear:both;
 	margin-bottom: 5px;
