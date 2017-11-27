@@ -37,6 +37,13 @@ public class BomberManXAPIControllerUser {
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerUser.class.getName());
 
+    /**
+     *  Permite validar datos de sesion
+     * 
+     * @param correo
+     * @param clave
+     * @return 
+     */
     @RequestMapping(path = "/{correo}/{clave}", method = RequestMethod.GET)
     public ResponseEntity<?> loginJugador(@PathVariable String correo, @PathVariable String clave) {
         HttpStatus status;
@@ -52,7 +59,8 @@ public class BomberManXAPIControllerUser {
     }
 
     /**
-     *
+     * Registra un nuevo jugador
+     * 
      * @param nombre
      * @param correo
      * @param apodo
@@ -75,7 +83,8 @@ public class BomberManXAPIControllerUser {
     }
     
     /**
-     *
+     * Devuelve la imagen url del personaje
+     * 
      * @param correo
      * @return ResponseEntity status
      */
@@ -93,7 +102,12 @@ public class BomberManXAPIControllerUser {
         return new ResponseEntity<>(url, status);
     }
 
-    
+    /**
+     * Cambia la imagen url del personaje
+     * 
+     * @param correo
+     * @return 
+     */
     @RequestMapping(path = "/avatar/{correo}/set", method = RequestMethod.GET)
     public ResponseEntity<?> setAvatar(@PathVariable String correo) {
         HttpStatus status;

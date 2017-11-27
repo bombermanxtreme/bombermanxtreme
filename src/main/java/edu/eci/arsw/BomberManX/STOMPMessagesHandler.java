@@ -6,7 +6,6 @@
 package edu.eci.arsw.BomberManX;
 
 import edu.eci.arsw.BomberManX.model.game.Juego;
-import edu.eci.arsw.BomberManX.Persistencia.Impl.PersistenciaImplJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +14,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.json.JSONArray;
 
 @Controller
 public class STOMPMessagesHandler {
@@ -40,6 +36,7 @@ public class STOMPMessagesHandler {
      *
      * @param id_jugador
      * @param idSala
+     * @return 
      * @throws Exception
      */
     @MessageMapping("/EntrarAJuego.{idSala}")
@@ -82,6 +79,8 @@ public class STOMPMessagesHandler {
      * están listos
      *
      * @param idSala
+     * @param salaAbierta
+     * @return 
      */
     public boolean enviarListadoJugadoresQuierenJugar(int idSala, boolean salaAbierta) {
         //url de msgt.convertAndSend();
@@ -120,6 +119,12 @@ public class STOMPMessagesHandler {
             msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Juego.TIEMPOENSALAPARAEMPEZAR);
             salasCasiListas.put(salasCasiListas.size(), idSala);
         }
+        return true;
+    }
+    
+    @MessageMapping("/ponerBomba.{idSala}")
+    public boolean ponerBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        String casa;
         return true;
     }
 }
