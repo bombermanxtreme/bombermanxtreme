@@ -9,23 +9,20 @@ var appLogin = (function () {
         avatarLoad: function () {
             var correo_login = $("#correo").val();
             if (correo_login !== "") {
-                console.info("A MANDR "+correo_login);
                 $.get("/users/avatar/" + correo_login+"/view",
                         function (data) {
-                            console.info("carangando imagen: url: " + data);
+                            console.info("carangando imagen url: " + data);
                             $("#avatar-load").attr("src", data);
                             $("#avatar-load").attr("alt", correo_login);
                         }
                 ).fail(
                         function (data) {
+                            $("#avatar-load").attr("src", "https://www.drupal.org/files/issues/default-avatar.png");
+                            $("#avatar-load").attr("alt", "Avatar");
                             console.info("Error: No es posible cargar la imagen: " + data.responseText);
                         }
-
                 );
             }
-
-
-
         },
 
         login: function () {

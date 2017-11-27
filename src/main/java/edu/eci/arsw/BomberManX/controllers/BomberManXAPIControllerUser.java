@@ -47,11 +47,7 @@ public class BomberManXAPIControllerUser {
         } else {
             status = HttpStatus.NOT_FOUND;
         }
-        System.out.println("retorno");
-        System.out.println(correo);
-        System.out.println(clave);
-        System.out.println(id_login);
-        System.out.println(status);
+        
         return new ResponseEntity<>(id_login, status);
     }
 
