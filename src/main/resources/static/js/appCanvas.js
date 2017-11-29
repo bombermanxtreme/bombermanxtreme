@@ -23,6 +23,12 @@ var appCanvas = (function () {
             stompClient.subscribe("/topic/ponerBomba." + idSala, function (eventbody) {
                 callback_ponerBomba(eventbody);
             }); 
+            
+            //Estamos atentos si se mueve algun jugador dentro de l
+            stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
+                callback_moverPersonaje(eventbody);
+            });
+
         });
     };
 
@@ -62,6 +68,43 @@ var appCanvas = (function () {
         ponerBomba() {
             //reportamos que este usuario quiere poner una bomba			
             stompClient.send("/app/ponerBomba." + idSala, {},idJugador);
+        }
+
+    };
+    
+    var callback_moverPersonaje = function (message) {        
+        
+    }
+    return {
+	/**
+         * encargado de realizar la conexión con STOMP
+         */
+        init() {
+            //verificamos que el usuario haya iniciado
+            if (isNaN(idJugador) || idJugador < 0) {
+                alert("Inicia sesión por favor");
+                return false;
+            }
+            $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
+            //INICIAMOS CONEXIÓN
+            connectAndSubscribe();
+        },
+        /**
+         * desconecta del STOMP
+         */
+        disconnect() {
+            if (stompClient !== null) {
+                stompClient.disconnect();
+            }
+            //setConnected(false);
+            console.log("Desconectado");
+        },
+        /**
+         * envia que ya está listo este usuario
+         */
+        moverPersonaje() {
+            //reportamos que este usuario ha presionado una tecla para mover el personaje			
+            stompClient.send("/app/moverPersonaje." + idSala, {},idJugador);
         }
 
     };

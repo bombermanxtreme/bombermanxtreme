@@ -10,7 +10,6 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author Kvn CF <ECI>
  */
 public class Man {
-
     public static final String[] colores = {"red", "yellow", "blue"};
     private Jugador jugador;
     private int casilla; // casilla en la que se encuentra      

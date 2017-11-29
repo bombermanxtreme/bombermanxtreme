@@ -127,4 +127,10 @@ public class STOMPMessagesHandler {
         String casa;
         return true;
     }
+    
+    @MessageMapping("/moverPersonaje.{idSala}")
+    public boolean moverPersonaje(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        String casa;
+        return true;
+    }
 }

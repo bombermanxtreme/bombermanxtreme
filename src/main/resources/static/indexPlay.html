@@ -4,8 +4,10 @@
         <meta charset="utf-8" />
         <title>Play BomberMan Xtreme</title>
         <link href="css/estiloCanvas.css" type="text/css" rel="stylesheet" media="">
-        <script type="text/javascript" src="js/lib/phaser.min.js"></script>
-
+        <script src="/webjars/jquery/jquery.min.js"></script>
+        <script src="/webjars/sockjs-client/sockjs.min.js"></script>
+        <script src="/webjars/stomp-websocket/stomp.min.js"></script>
+        <script src="/appGame.js"></script>
         <style>
             body{
                 background:#8ba987 url('media/BackGround_Play.jpg') no-repeat center center;
@@ -15,10 +17,8 @@
     </head>
     <body>
         <div id="vertical"></div>
-        <div id="contenedor" style="border:1"></div>
-
-        <!-- Scripts de BomberMan -->
-        <script type="text/javascript" src="js/boot.js"></script>
-        <script type="text/javascript" src="js/main.js"></script>    
+        <div id="contenedor" style="border:1">
+                <canvas id="lienzo" width="1000px" height="500px"></canvas>
+        </div>  
     </body>
 </html>
