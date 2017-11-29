@@ -26,7 +26,7 @@ public class Casilla {
      * 
      * @return  hay o no objetos en esa casilla
      */
-    public boolean hay_objetos() {
+    public boolean hay_objeto() {
         if (bomba || npc || man) {
             return false;
         } else {
@@ -36,7 +36,7 @@ public class Casilla {
     }
 
     public void setBomba(boolean valor) {
-        bomba = bomba;
+        bomba = valor;
     }
 
     public void setNpc(boolean valor) {

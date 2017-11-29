@@ -25,16 +25,27 @@ public class Man {
         bombas = 3;       
     }
     
-    public boolean poner_bomba(){
-        boolean puede;
-        
-        
-        
-        return puede;
+    /***
+     * retorna si puede o no realizar un acciones
+     * @return 
+     */
+    public boolean puede_realizar_accion(){
+        return false;
     }
     
     public void explotar_bomba(){
     
     }
     
+    public boolean moverse(){
+        return false;
+    
+    }
+    
+    public boolean recoger_poder(){
+        return false;
+    
+    }
+    
+   
 }
