@@ -59,11 +59,6 @@
                     <div class="row">
                         <div class="col-sm-6 col-sm-offset-3 form-box">
                             <div class="form-top">
-                                
-                                <!-- div class="form-top">
-                                    <img src="https://http2.mlstatic.com/pasto-en-rollo-D_NQ_NP_401815-MLM25305826417_012017-F.jpg" alt="Pasto Verde" width="500" height="600">
-                                </div -->
-                               
                                 <div class="form-top-left">
                                     <h3>Registrate ahora</h3>
                                     <p>Coloca tus datos para poder registrase</p>
@@ -100,9 +95,28 @@
                                     <input id="nrclave" type="password" name="form-password" placeholder="Rectifique su contraseña..." class="form-password form-control">
                                 </div>
 
+                                <hr>
+
+                                <div>
+                                    <div class="form-top-left">
+                                        <h3>Avatar del Jugador</h3>
+                                        <p>Pega una url de una imagen</p>                                        
+                                    </div>       
+                                    <div class="form-group">                                        
+                                        <input id="niurl" type="text"  placeholder="url" onblur="appLogin.avatarLoad_temp()">
+                                    </div> 
+                                    
+                                    <div class="clear"></div>
+                                    
+                                    <div class="avtar-border">                                        
+                                        <img id="avatar-load" src="https://www.drupal.org/files/issues/default-avatar.png" alt="Avatar">
+                                    </div>
+                                </div>
+                                
+                                <div class="clear"></div>
+
                                 <div>
                                     <button onclick="appLogin.registrer()" class="btn">Registrese</button>
-                                    <button onclick="appLogin.personaje_config()" class="btn">Configurar personaje</button>
                                 </div>
                             </div>
 

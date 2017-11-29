@@ -112,6 +112,37 @@ img { max-width: 100%; }
 .top-content .description a:hover, 
 .top-content .description a:focus { border-bottom: 1px dotted #fff; }
 
+.login-form {
+	background: #2b2b36;
+	position: relative;
+	width: 30%;
+	margin: 3% auto 0 auto;
+	text-align: center;
+	border-radius: 15px;
+	-webkit-border-radius: 15px;
+	-moz-border-radius: 15px;
+	-o-border-radius: 15px;
+}
+
+.avtar img {
+	margin: 2em 0 0;
+	width: 100px; 
+	height: 100px;
+  }
+
+.avtar-center img {
+	margin-left: 200px;
+}
+
+.avtar-border img {
+	margin: 10px;
+}
+
+.clear{
+	clear:both;
+	margin-bottom: 5px;
+}
+
 .form-box {
     margin-top: 35px;
 }

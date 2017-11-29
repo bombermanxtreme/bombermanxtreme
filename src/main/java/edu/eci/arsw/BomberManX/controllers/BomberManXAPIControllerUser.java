@@ -37,6 +37,13 @@ public class BomberManXAPIControllerUser {
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerUser.class.getName());
 
+    /**
+     *  Permite validar datos de sesion
+     * 
+     * @param correo
+     * @param clave
+     * @return 
+     */
     @RequestMapping(path = "/{correo}/{clave}", method = RequestMethod.GET)
     public ResponseEntity<?> loginJugador(@PathVariable String correo, @PathVariable String clave) {
         HttpStatus status;
@@ -47,16 +54,13 @@ public class BomberManXAPIControllerUser {
         } else {
             status = HttpStatus.NOT_FOUND;
         }
-        System.out.println("retorno");
-        System.out.println(correo);
-        System.out.println(clave);
-        System.out.println(id_login);
-        System.out.println(status);
+        
         return new ResponseEntity<>(id_login, status);
     }
 
     /**
-     *
+     * Registra un nuevo jugador
+     * 
      * @param nombre
      * @param correo
      * @param apodo
@@ -64,7 +68,7 @@ public class BomberManXAPIControllerUser {
      * @param imagen
      * @return ResponseEntity status
      */
-    @RequestMapping(path = "/new/{nombre}/{correo}/{apodo}/{clave}/{imagen}", method = RequestMethod.GET)
+    @RequestMapping(path = "/new/{nombre}/{correo}/{apodo}/{clave}/{imagen}/", method = RequestMethod.GET)
     public ResponseEntity<?> RegistrerJugador(@PathVariable String nombre, @PathVariable String correo, @PathVariable String apodo, @PathVariable String clave, @PathVariable String imagen) {
         HttpStatus status;
         int id_nuevo = gameServices.registrerJugador(nombre, correo, apodo, clave, imagen);
@@ -77,5 +81,44 @@ public class BomberManXAPIControllerUser {
 
         return new ResponseEntity<>(id_nuevo, status);
     }
+    
+    /**
+     * Devuelve la imagen url del personaje
+     * 
+     * @param correo
+     * @return ResponseEntity status
+     */
+    @RequestMapping(path = "/avatar/{correo}/view", method = RequestMethod.GET)
+    public ResponseEntity<?> loadAvatar(@PathVariable String correo) {
+        HttpStatus status;
+        String url = gameServices.getUrl(correo);
+        
+        if (!"no_existe".equals(url)) {
+            status = HttpStatus.ACCEPTED;
+        } else {
+            status = HttpStatus.NOT_FOUND;            
+        }
 
+        return new ResponseEntity<>(url, status);
+    }
+
+    /**
+     * Cambia la imagen url del personaje
+     * 
+     * @param correo
+     * @return 
+     */
+    @RequestMapping(path = "/avatar/{correo}/set", method = RequestMethod.GET)
+    public ResponseEntity<?> setAvatar(@PathVariable String correo) {
+        HttpStatus status;
+        String url = gameServices.getUrl(correo);
+        
+        if (!"no_existe".equals(url)) {
+            status = HttpStatus.ACCEPTED;
+        } else {
+            status = HttpStatus.NOT_FOUND;            
+        }
+
+        return new ResponseEntity<>(url, status);
+    }
 }

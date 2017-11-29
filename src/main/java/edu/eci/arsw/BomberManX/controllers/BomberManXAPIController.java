@@ -31,9 +31,9 @@ public class BomberManXAPIController {
     BomberManXServices gc = null;
 
     /**
-     * Responde a a una petición get todos los Blueprints del author
+     * Responde a una petición get todos los Blueprints del author
      *
-     * @param author
+     * @param id_sala
      * @param model
      * @return
      */

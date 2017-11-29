@@ -59,7 +59,7 @@ var appCanvas = (function () {
          */
         ponerBomba() {
             //reportamos que este usuario quiere poner una bomba			
-            stompClient.send("/app/ponerBomba." + idSala, {}, idJugador);
+            stompClient.send("/app/ponerBomba." + idSala, {},idJugador);
         }
 
     };

@@ -54,4 +54,12 @@ public interface PersistenciaJugador {
      */
     public int getIDPorCorreo(String correo);
     
+    /**
+     * Retorna la url de la imagen del jugador
+     * 
+     * @param correo
+     * @return
+     */
+    public String getUrlPorCorreo(String correo);
+    
 }
