@@ -35,33 +35,29 @@ public class Juego {
     }
     
     /**
-     * Recibe el numero de casilla y revisa que la coordenada del tablero no este ocuapda
-     * @param casilla
+     * Revisa que fila y columna del tablero no este ocuapda
+     * @param fila
+     * @param columna
      * @return 
      */
-    public boolean hay_objeto(int casilla){
-        int[] coor = get_coordenada(casilla);
-        
-        return tablero[coor[0]][coor[1]].hay_objeto();
+    public boolean hay_objeto(int fila, int columna){        
+        //return tablero[fila][columna].hay_elemento();
+        return false;
     }
     
     /**
-     * Convierte las coordenadas del tablero a una posicion 
-     * @param fila coordenada
-     * @param columna coodenada
+     * Retorna los tipos de lo que hay 
+     * @param fila
+     * @param columna
      * @return 
      */
-    public int get_posicion(int fila, int columna){
-    int posicion = fila*ANCHO+columna;
-        
-    return posicion;
+    public Object[] hay_objeto_tipo(int fila, int columna){
+        Object[] lista = new Object[2];
+        return lista;
     }
     
-    public int[] get_coordenada(int casilla){
-        int[] coor = new int[2];
-        coor[0] = (int)(casilla/ANCHO);; //fila
-        coor[1] = casilla%ANCHO;;  //columna
-        return coor;
+    public boolean mover(){
+        return false;
     }
     
 }
