@@ -115,7 +115,7 @@ public class STOMPMessagesHandler {
         //enviamos todos los jugadores
         msgt.convertAndSend(url, strJugadores.toString());
         //si ya están los jugadores mínimos requeridos para empezar
-        if (!salasCasiListas.containsValue(idSala) && listosParaEmpezar.get(idSala).size() >= Juego.MINIMOJUGADAORES) {
+        if (!salasCasiListas.containsValue(idSala) && listosParaEmpezar.get(idSala).size() >= Juego.MINIMOJUGADORES) {
             msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Juego.TIEMPOENSALAPARAEMPEZAR);
             salasCasiListas.put(salasCasiListas.size(), idSala);
         }
