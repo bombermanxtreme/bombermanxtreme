@@ -20,7 +20,7 @@ var appCanvas = (function () {
             console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos a poner bombas de jugadores
-            stompClient.subscribe("/topic/ponerBobmba." + idSala, function (eventbody) {
+            stompClient.subscribe("/topic/ponerBomba." + idSala, function (eventbody) {
                 callback_ponerBomba(eventbody);
             }); 
             
@@ -40,13 +40,15 @@ var appCanvas = (function () {
 		/**
          * encargado de realizar la conexión con STOMP
          */
-        init() {
+        init(){
             //verificamos que el usuario haya iniciado
-            if (isNaN(idJugador) || idJugador < 0) {
-                alert("Inicia sesión por favor");
+            if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
+				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
+				setTimeout(function(){
+					location.href="login.html";
+				},3000);
                 return false;
             }
-            $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
             //INICIAMOS CONEXIÓN
             connectAndSubscribe();
         },

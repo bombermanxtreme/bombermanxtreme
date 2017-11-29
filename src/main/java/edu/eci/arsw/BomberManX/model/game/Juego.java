@@ -23,7 +23,7 @@ public class Juego {
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     public static final int MINIMOJUGADAORES = 2;
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
-    public static final int TIEMPOENSALAPARAEMPEZAR = 10;
+    public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     private int tiempo;
     private Jugador[] jugadores;
     private Casilla[][] tablero;
@@ -33,4 +33,35 @@ public class Juego {
         tablero = new Casilla[ALTO][ANCHO];
         tiempo = 0;
     }
+    
+    /**
+     * Recibe el numero de casilla y revisa que la coordenada del tablero no este ocuapda
+     * @param casilla
+     * @return 
+     */
+    public boolean hay_objeto(int casilla){
+        int[] coor = get_coordenada(casilla);
+        
+        return tablero[coor[0]][coor[1]].hay_objeto();
+    }
+    
+    /**
+     * Convierte las coordenadas del tablero a una posicion 
+     * @param fila coordenada
+     * @param columna coodenada
+     * @return 
+     */
+    public int get_posicion(int fila, int columna){
+    int posicion = fila*ANCHO+columna;
+        
+    return posicion;
+    }
+    
+    public int[] get_coordenada(int casilla){
+        int[] coor = new int[2];
+        coor[0] = (int)(casilla/ANCHO);; //fila
+        coor[1] = casilla%ANCHO;;  //columna
+        return coor;
+    }
+    
 }
