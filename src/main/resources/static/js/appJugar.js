@@ -1,37 +1,14 @@
 //var APIuseful = apimockJugar;
 //var APIuseful=apiclientJugar;
 
-var appJugar = (function () {
-
+var appJugar=(function(){
     var stompClient = null;
     var jugadorEnSala = null;// null=> usuario va a ingresar, false=>sala cerrada no pudo entrar, true=> usuario en sala
     var idSala = 1;//por ahora una sola sala
     var jugadorListo = false;
     var segundosRestantes = null;//cuando el tiempo empieza a correr
     var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
-
-	var _getIdJugador=function(fueraDeJuego){
-		var idJugador=-1;
-		document.cookie.split("; ").map(function(e) {
-			var _cookie=e.split("=");
-			if(_cookie[0]=="iduser")
-				idJugador=_cookie[1];
-		});
-
-		if (!fueraDeJuego && idJugador<0) {
-			setTimeout(function(params) {//demoramos un poco
-				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
-			},100);
-			setTimeout(function(){
-				location.href="login.html";
-			},3000);
-		}
-
-		if(fueraDeJuego && idJugador>=0)
-			location.href="jugar.html";
-		return idJugador;
-	}
-    var idJugador = -1;
+    var idJugador = appCookie.getIdJugador();
 
     /**
      * función que realiza la conexión STOMP
@@ -132,7 +109,7 @@ var appJugar = (function () {
          */
         init() {
 			//verificamos que el usuario haya iniciado
-			idJugador=_getIdJugador(false);
+			idJugador=appCookie.getIdJugador(false);
 			if(idJugador==-1)
 				return false;
             $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
@@ -157,7 +134,6 @@ var appJugar = (function () {
             $("#antesDeEmpezar > input[type=button]").remove();
             //reportamos que este usuario quiere entrar al juego
             stompClient.send("/app/JugadorListo." + idSala, {}, idJugador);
-		},
-		getIdJugador:_getIdJugador
+		}
     };
 })();

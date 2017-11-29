@@ -50,9 +50,9 @@ var appLogin = (function () {
                 $.get("/users/" + correo + "/" + clave,
                         function (data) {
                             console.info("sesion: " + datosInicio.correo + " id user: " + data);
-							document.cookie = "iduser=" + data;
+							appCookie.setIdJugador(data);
 							//si inicia sesión correctamente lo envia al juego
-                            appJugar.getIdJugador(true);
+                            appCookie.getIdJugador(true);
                         }
                 ).fail(
                         function (data) {
@@ -109,7 +109,7 @@ var appLogin = (function () {
                 $.get("/users/new/" + datosNuevos.nombre + "/" + datosNuevos.correo + "/" + datosNuevos.apodo + "/" + datosNuevos.clave + "/" + datosNuevos.iurl+"/",
                         function (data) {
                             console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
-                            document.cookie = "iduser=" + data;
+                            appCookie.setIdJugador(data);
                             MJ_simple("ingresar","Bienvenido "+datosNuevos.nomre);
                             location.href = "/login.html";
                         }
@@ -137,4 +137,4 @@ var appLogin = (function () {
 
 })();
 //si ya inició sesión  lo direcciona al juego
-appJugar.getIdJugador(true);
+appCookie.getIdJugador(true);
