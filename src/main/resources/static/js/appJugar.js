@@ -4,12 +4,34 @@
 var appJugar = (function () {
 
     var stompClient = null;
-    var idJugador = document.cookie.replace("iduser=", "");
     var jugadorEnSala = null;// null=> usuario va a ingresar, false=>sala cerrada no pudo entrar, true=> usuario en sala
     var idSala = 1;//por ahora una sola sala
     var jugadorListo = false;
     var segundosRestantes = null;//cuando el tiempo empieza a correr
     var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
+
+	var _getIdJugador=function(fueraDeJuego){
+		var idJugador=-1;
+		document.cookie.split("; ").map(function(e) {
+			var _cookie=e.split("=");
+			if(_cookie[0]=="iduser")
+				idJugador=_cookie[1];
+		});
+
+		if (!fueraDeJuego && idJugador<0) {
+			setTimeout(function(params) {//demoramos un poco
+				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
+			},100);
+			setTimeout(function(){
+				location.href="login.html";
+			},3000);
+		}
+
+		if(fueraDeJuego && idJugador>=0)
+			location.href="jugar.html";
+		return idJugador;
+	}
+    var idJugador = -1;
 
     /**
      * función que realiza la conexión STOMP
@@ -78,8 +100,8 @@ var appJugar = (function () {
             var filasHTML = "<tr><td>" + numJugadores + "</td><td>" + jugador.nombre + "</td><td>" + jugador.record + "</td><td>" + listo + "</td></tr>";
             $("#listaJugadores > tbody").append(filasHTML);
         });
-    };
-
+	};
+	
     /**
      * cuando los jugadores están listos empieza el reloj
      * @param {*} message 
@@ -109,14 +131,10 @@ var appJugar = (function () {
          * encargado de realizar la conexión con STOMP
          */
         init() {
-            //verificamos que el usuario haya iniciado
-            if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
-				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
-				setTimeout(function(){
-					location.href="login.html";
-				},3000);
-                return false;
-            }
+			//verificamos que el usuario haya iniciado
+			idJugador=_getIdJugador(false);
+			if(idJugador==-1)
+				return false;
             $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
             //INICIAMOS CONEXIÓN
             connectAndSubscribe();
@@ -139,6 +157,7 @@ var appJugar = (function () {
             $("#antesDeEmpezar > input[type=button]").remove();
             //reportamos que este usuario quiere entrar al juego
             stompClient.send("/app/JugadorListo." + idSala, {}, idJugador);
-        }
+		},
+		getIdJugador:_getIdJugador
     };
 })();

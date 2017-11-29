@@ -50,9 +50,9 @@ var appLogin = (function () {
                 $.get("/users/" + correo + "/" + clave,
                         function (data) {
                             console.info("sesion: " + datosInicio.correo + " id user: " + data);
-                            document.cookie = "iduser=" + data;
-                            location.href = "/jugar.html";
-
+							document.cookie = "iduser=" + data;
+							//si inicia sesión correctamente lo envia al juego
+                            appJugar.getIdJugador(true);
                         }
                 ).fail(
                         function (data) {
@@ -136,3 +136,5 @@ var appLogin = (function () {
     };
 
 })();
+//si ya inició sesión  lo direcciona al juego
+appJugar.getIdJugador(true);
