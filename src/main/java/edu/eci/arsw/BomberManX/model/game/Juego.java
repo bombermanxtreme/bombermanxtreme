@@ -23,7 +23,7 @@ public class Juego {
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     public static final int MINIMOJUGADORES = 2;
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
-    public static final int TIEMPOENSALAPARAEMPEZAR = 10;
+    public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     private int tiempo;
     private Jugador[] jugadores;
     private Casilla[][] tablero;
@@ -33,4 +33,31 @@ public class Juego {
         tablero = new Casilla[ALTO][ANCHO];
         tiempo = 0;
     }
+    
+    /**
+     * Revisa que fila y columna del tablero no este ocuapda
+     * @param fila
+     * @param columna
+     * @return 
+     */
+    public boolean hay_objeto(int fila, int columna){        
+        //return tablero[fila][columna].hay_elemento();
+        return false;
+    }
+    
+    /**
+     * Retorna los tipos de lo que hay 
+     * @param fila
+     * @param columna
+     * @return 
+     */
+    public Object[] hay_objeto_tipo(int fila, int columna){
+        Object[] lista = new Object[2];
+        return lista;
+    }
+    
+    public boolean mover(){
+        return false;
+    }
+    
 }
