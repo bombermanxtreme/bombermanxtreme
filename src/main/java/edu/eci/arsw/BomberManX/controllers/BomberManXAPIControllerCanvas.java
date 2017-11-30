@@ -6,6 +6,9 @@
 package edu.eci.arsw.BomberManX.controllers;
 
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
+import edu.eci.arsw.BomberManX.services.GameServicesException;
+import java.util.ArrayList;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -36,4 +39,21 @@ public class BomberManXAPIControllerCanvas {
     }
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerUser.class.getName());
+    
+    // Author: Kevin S. Sanchez
+    @RequestMapping(path = "/tablero", method = RequestMethod.GET)
+    public ResponseEntity<?> getTablero() {
+        
+        try {
+            ArrayList<Object> informacion = new ArrayList();
+            informacion.add(gameServices.getTablero(1));
+            return new ResponseEntity<>(informacion, HttpStatus.ACCEPTED);
+        } catch (GameServicesException ex) {
+            Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+        } catch (NumberFormatException ex){
+            Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
+        }
+    }
 }
