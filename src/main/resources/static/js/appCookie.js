@@ -9,6 +9,9 @@ var appCookie=(function(){
 	};
 	
     return {
+		setSala(id) {
+			document.cookie="idsala="+id;		
+		},
 		/**
 		 * establece la cookie en -1 y redirije
 		 */
