@@ -30,8 +30,8 @@ public class STOMPMessagesHandler {
     private ConcurrentHashMap<Integer, ArrayList<Jugador>> listosParaEmpezar = new ConcurrentHashMap<>();
     //lista idDeSalas que están con los mínimos jugadores listos para jugar, bloqueando el ingreso de nuevos jugadores 
     private ConcurrentHashMap<Integer, Integer> salasCasiListas = new ConcurrentHashMap<>();
-    // Matriz con estado del juego
-    private String[][] tablero = TableroTexto.muestraContenido();
+    // Matriz con estado del juego mandando como parametro el numero del escenario
+    private String[][] tablero = TableroTexto.muestraContenido(1);
     
 
     @Autowired

@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public class TableroTexto {
 
-    public static String[][] MuestraContenido(int idEscenario) {
+    public static String[][] muestraContenido(int idEscenario) {
         String[][] tab = new String[10][20];
         FileReader f= null;
         try {
