@@ -1,15 +1,22 @@
 var appCookie=(function(){
+
+	/**
+	 * establece el id del jugador en la cookie
+	 * @param {*} id 
+	 */
+	var _setIdJugador=function(id) {
+		document.cookie="iduser="+id;
+	};
+	
     return {
-		cerrarSesion() {
-			document.cookie="";
-		},
 		/**
-		 * establece el id del jugador en la cookie
-		 * @param {*} id 
+		 * establece la cookie en -1 y redirije
 		 */
-		setIdJugador(id) {
-			document.cookie="iduser="+id;
+		cerrarSesion() {
+			_setIdJugador(-1);
+			location.href="login.html";
 		},
+		setIdJugador:_setIdJugador,
 		/**
 		 * retorna el id del jugador si no ha iniciado sesión retorna -1
 		 * si fueraDeJuego=true y está iniciada la sesión lo envía a jugar.html
