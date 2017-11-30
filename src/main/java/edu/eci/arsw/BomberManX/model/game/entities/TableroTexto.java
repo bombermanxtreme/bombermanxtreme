@@ -5,14 +5,61 @@
  */
 package edu.eci.arsw.BomberManX.model.game.entities;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author Kevin S. Sanchez
  */
 public class TableroTexto {
 
-    public static String[][] muestraContenido() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static String[][] MuestraContenido(int idEscenario) {
+        String[][] tab = new String[10][20];
+        FileReader f= null;
+        try {
+            // Convenciones para hacer escenarios:
+            // * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
+            // * 'O' = Espacio vacio.
+            // * 'B' = Bomba.
+            // * 'C' = Caja que se puede destruir.
+            // * 'X' = Bloque (No se puede destruir).
+            // * 'R' = Poder de Correr.
+            // * 'T' = Poder de expansion de explosion de Bomba.
+            // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
+            // * {'@', '-', '/'} = Caracteres especiales para enemigos.
+            // * /t = (Tabulador) para separar columnas dentro del archivo.
+            // * ',' = separador de objetos en una sola casilla.
+            // Por el momento se supone para el caso que solo tenga un objeto en una sola celda
+            String cadena;
+            f = new FileReader("Escenario" + idEscenario + ".txt");
+            BufferedReader b = new BufferedReader(f);
+            int iRow = 0;
+            while((cadena = b.readLine()) != null) {
+                String[] row = cadena.split("\t");
+                
+                for (int col = 0; col < row.length; col++){
+                    tab[iRow][col] = row[col];
+                }
+                iRow++;
+            }
+            b.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger("No se encontro archivo de texto para cargar escenario " + idEscenario);
+        } catch (IOException ex) {
+            Logger.getLogger(TableroTexto.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            try {
+                f.close();
+            } catch (IOException ex) {
+                Logger.getLogger(TableroTexto.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        return tab;
     }
     
 }
