@@ -4,6 +4,7 @@ import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.cache.BomberManXCache;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
@@ -29,6 +30,8 @@ public class BomberManXServices {
     PersistenciaJugador pj = null;
     @Autowired
     PersistenciaSala ps = null;
+    
+    String[][] tablero;
 
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
         this.pj = pj;
@@ -100,5 +103,12 @@ public class BomberManXServices {
         String url= pj.getUrlPorCorreo(correo);
         return url;
     }
+    
+    public String[][] getTablero(int idEscenario) throws GameServicesException {
+        if (tablero == null){
+            tablero = TableroTexto.muestraContenido(idEscenario);
+        }
+        return tablero;
+    } 
    
 }
