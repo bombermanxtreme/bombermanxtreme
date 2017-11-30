@@ -93,7 +93,7 @@ var appJugar=(function(){
             if (segundosRestantes === 0) {
                 if (jugadorListo){
 					appCookie.setSala(idSala);
-                    location.href = "/indexCanvas.html";
+                    location.href = "/indexPlay.html";
                 }else
                     MJ_simple("Jugar","no entraste al juego intenta en otra sala");
                 return false;
