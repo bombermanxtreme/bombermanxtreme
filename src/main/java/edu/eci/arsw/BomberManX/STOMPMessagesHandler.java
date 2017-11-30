@@ -14,6 +14,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
@@ -54,7 +55,16 @@ public class STOMPMessagesHandler {
             jugadores.put(idSala, tmp);
         }
         Jugador j = PJ.SeleccionarJugadorPorId(id_jugador);
-        jugadores.get(idSala).add(j);
+        boolean yaExiste = false;
+        //revisamos que aún no esté en la lista
+        for (Jugador entry : jugadores.get(idSala)) {
+            if(entry.equals(j)){
+                yaExiste=true;
+                break;
+            }
+        }
+        //si no está en la lista entonces lo agregamos
+        if(!yaExiste)jugadores.get(idSala).add(j);
         enviarListadoJugadoresQuierenJugar(idSala, true);
         return true;
     }
