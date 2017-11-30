@@ -7,14 +7,16 @@ package edu.eci.arsw.BomberManX;
 
 import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Man;
+import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
@@ -28,6 +30,9 @@ public class STOMPMessagesHandler {
     private ConcurrentHashMap<Integer, ArrayList<Jugador>> listosParaEmpezar = new ConcurrentHashMap<>();
     //lista idDeSalas que están con los mínimos jugadores listos para jugar, bloqueando el ingreso de nuevos jugadores 
     private ConcurrentHashMap<Integer, Integer> salasCasiListas = new ConcurrentHashMap<>();
+    // Matriz con estado del juego
+    private String[][] tablero = TableroTexto.muestraContenido();
+    
 
     @Autowired
     SimpMessagingTemplate msgt;
@@ -138,9 +143,75 @@ public class STOMPMessagesHandler {
         return true;
     }
     
+    // Author: Kevin S. Sanchez
     @MessageMapping("/moverPersonaje.{idSala}")
-    public boolean moverPersonaje(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        String casa;
-        return true;
+    public void moverPersonaje(int id_jugador, Man player, @DestinationVariable int idSala) throws Exception {
+        synchronized (msgt) {
+            // Variables (pendiente definir si el man tendra posiciones en X y Y
+            int posRow = 0;
+            int posCol = 1;
+            int key = 40;
+            // Pendientes estas variables
+            ArrayList<Elemento> cambios = new ArrayList();
+            // Los jugadores solo tienen identificador numerico
+            if (isNumeric(tablero[posRow][posCol])) {
+                // Flecha Abajo
+                if (key == 40) {
+                    if (tablero[posRow + 1][posCol].equals("O")) {
+                        // Definir si colocar el IdJugador
+                        tablero[posRow + 1][posCol] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow + 1, posCol, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                // Flecha Izquierda
+                } else if (key == 37) {
+                    if (!(tablero[posRow][posCol - 1]).equals("O")) {
+                        tablero[posRow][posCol - 1] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow, posCol - 1, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                // Flecha Arriba
+                } else if (key == 38) {
+                    if (!(tablero[posRow - 1][posCol]).equals("O")) {
+                        tablero[posRow - 1][posCol] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow - 1, posCol, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                // Flecha Derecha 
+                } else if (key == 39) {
+                    if (!(tablero[posRow][posCol + 1]).equals("O")) {
+                        tablero[posRow][posCol + 1] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow, posCol + 1, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                }
+            }
+        }
+    }
+    
+    public static boolean isNumeric(String str){  
+      try{  
+        double d = Double.parseDouble(str);  
+      }  
+      catch(NumberFormatException nfe){  
+        return false;  
+      }  
+      return true;  
     }
 }

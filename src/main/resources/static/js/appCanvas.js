@@ -32,7 +32,7 @@ var appCanvas = (function () {
         });
     };
 
-    
+    // Funciones 
     var callback_ponerBomba = function (message) {        
         
     }
@@ -73,7 +73,7 @@ var appCanvas = (function () {
     };
     
     var callback_moverPersonaje = function (message) {        
-        
+        var data = message;
     }
     return {
 	/**
@@ -100,12 +100,33 @@ var appCanvas = (function () {
             console.log("Desconectado");
         },
         /**
-         * envia que ya está listo este usuario
+         * Mover Personaje
          */
         moverPersonaje() {
+            console.log(data);
+            var cambios = JSON.parse(data.body);
             //reportamos que este usuario ha presionado una tecla para mover el personaje			
-            stompClient.send("/app/moverPersonaje." + idSala, {},idJugador);
+            stompClient.send("/app/moverPersonaje." + idSala, {}, idJugador);
         }
-
     };
+    
 })();
+
+//$(document).ready(
+//    function () {
+//        console.info('Cargando script!');
+//        connect();
+//        canvas = document.getElementById('lienzo');
+//        ctx = canvas.getContext('2d');
+//
+//        window.addEventListener('keydown', function (e) {
+//            key = e.keyCode;
+//            moverPersonaje(key);
+//            console.log(key);
+//        })
+//        window.addEventListener('keyup', function (e) {
+//            key = false;
+//        })
+//
+//    }
+//);
