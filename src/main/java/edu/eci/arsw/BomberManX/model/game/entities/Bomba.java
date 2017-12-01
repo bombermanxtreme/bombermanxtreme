@@ -16,5 +16,19 @@ public abstract class Bomba {
     private int radio;
     
     
-    //public abstract void explotar();
+    public abstract void explotar();
+
+    public abstract int getId_jugador();
+
+    public abstract void setId_jugador(int id_jugador);
+
+    public abstract String getColor();
+
+    public abstract void setColor(String color);
+
+    public abstract int getRadio();
+
+    public abstract void setRadio(int radio);
+    
+    
 }
