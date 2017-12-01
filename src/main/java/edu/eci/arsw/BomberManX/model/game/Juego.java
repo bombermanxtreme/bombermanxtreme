@@ -28,6 +28,7 @@ public class Juego {
     private int tiempo;
     private ArrayList<Jugador> jugadores;
     private Elemento[][] tablero;
+    
 
     public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
@@ -35,9 +36,13 @@ public class Juego {
         tiempo = 0;
     }
 
-    public boolean accionBomba(int id_jugador){
+    public boolean accionBomba(Jugador jugador){
+        boolean pudo = false;
         
-        return false;
+        jugador.getMan().accionBomba();
+        
+        
+        return pudo;
     }
     
     public boolean mover(int id_jugador){

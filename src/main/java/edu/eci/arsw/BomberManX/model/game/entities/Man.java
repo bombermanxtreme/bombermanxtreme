@@ -17,16 +17,19 @@ public class Man {
     private int posicion; // posicion en la que se encuentra      
     private Poder poder;
     private int bombas; //numero de bombas
-    private ArrayList<Bomba> bombas_jugador;
+    private ArrayList<Bomba> bombas_man;
     private String color;    
     private int radio;
+    
+    private int tiempo; // tiempo de explotar bomba
     
     public Man(String color, Jugador jugador) {
         this.color = color;
         this.jugador = jugador;
         posicion = 10; // posicion inicial
         bombas = 3; 
-        radio=3;
+        radio=3; // unidades de tablero
+        tiempo = 5; // segundos
         
         inicar_bombas("black",radio);
         
@@ -36,7 +39,15 @@ public class Man {
         return jugador;
     } 
     
+    /**
+     * Poner bomba, contar tiempo y explotar
+     */
     public void accionBomba(){
+        
+        for(int i=0;i<bombas_man.size();i++){
+           bombas_man.get(i).setDisponible(false);
+          // falta contar tiempo 5s
+        }
     
     }
     
@@ -51,10 +62,10 @@ public class Man {
     }
     
     private void inicar_bombas(String color, int radio){
-        bombas_jugador = new ArrayList<>();
+        bombas_man = new ArrayList<>();
         
         for(int i=0;i<bombas;i++){
-            bombas_jugador.add(new Bomba_n(this, color, radio));
+            bombas_man.add(new Bomba_n(this, color, radio));
         }
     
     }

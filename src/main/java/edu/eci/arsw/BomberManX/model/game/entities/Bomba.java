@@ -21,5 +21,9 @@ public abstract class Bomba {
 
     public abstract void setRadio(int radio);
     
+    public abstract void setDisponible(boolean valor);
+    
+    public abstract boolean getDisponible();
+    
     
 }

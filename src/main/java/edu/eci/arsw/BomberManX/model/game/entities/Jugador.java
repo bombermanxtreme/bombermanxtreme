@@ -17,6 +17,7 @@ public class Jugador {
     private String clave;
     private String imagen;
     private int record;
+    private Man man;
 
     /*
     private String apodo;
@@ -28,7 +29,12 @@ public class Jugador {
         this.apodo = apodo;
         this.clave = clave;
         this.imagen = imagen;
-        this.record = record <= 0 ? 0 : record;        
+        this.record = record <= 0 ? 0 : record;     
+        man = new Man("black", this);
+    }
+    
+    public Man getMan(){
+        return man;
     }
 
     public String getNombre() {

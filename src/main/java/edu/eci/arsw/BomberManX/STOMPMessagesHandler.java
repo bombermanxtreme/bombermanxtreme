@@ -141,7 +141,7 @@ public class STOMPMessagesHandler {
         
         juego = new Juego(jugadorez);
         
-        return juego.accionBomba(id_jugador);
+        return juego.accionBomba(jugadorez.get(0));
     }
     
     @MessageMapping("/moverPersonaje.{idSala}")
