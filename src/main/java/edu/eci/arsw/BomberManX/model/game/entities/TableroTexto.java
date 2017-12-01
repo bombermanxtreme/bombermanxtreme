@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 public class TableroTexto {
 
     public static String[][] muestraContenido(int idEscenario) {
-        String[][] tab = new String[10][20];
-        FileReader f= null;
-        try {
+//        String[][] tab = new String[10][20];
+//        FileReader f= null;
+//        try {
             // Convenciones para hacer escenarios:
             // * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
             // * 'O' = Espacio vacio.
@@ -35,30 +35,42 @@ public class TableroTexto {
             // * /t = (Tabulador) para separar columnas dentro del archivo.
             // * ',' = separador de objetos en una sola casilla.
             // Por el momento se supone para el caso que solo tenga un objeto en una sola celda
-            String cadena;
-            f = new FileReader("Escenario" + idEscenario + ".txt");
-            BufferedReader b = new BufferedReader(f);
-            int iRow = 0;
-            while((cadena = b.readLine()) != null) {
-                String[] row = cadena.split("\t");
-                
-                for (int col = 0; col < row.length; col++){
-                    tab[iRow][col] = row[col];
-                }
-                iRow++;
-            }
-            b.close();
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger("No se encontro archivo de texto para cargar escenario " + idEscenario);
-        } catch (IOException ex) {
-            Logger.getLogger(TableroTexto.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                f.close();
-            } catch (IOException ex) {
-                Logger.getLogger(TableroTexto.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
+            
+//            String cadena;
+//            f = new FileReader("Escenario" + idEscenario + ".txt");
+//            BufferedReader b = new BufferedReader(f);
+//            int iRow = 0;
+//            while((cadena = b.readLine()) != null) {
+//                System.out.println("Esta es la linea de texto = " + cadena);
+//                String[] row = cadena.split("\t");
+//                
+//                for (int col = 0; col < row.length; col++){
+//                    tab[iRow][col] = row[col];
+//                }
+//                iRow++;
+//            }
+//            b.close();
+//        } catch (FileNotFoundException ex) {
+//            Logger.getLogger("No se encontro archivo de texto para cargar escenario " + idEscenario);
+//        } catch (IOException ex) {
+//            Logger.getLogger(TableroTexto.class.getName()).log(Level.SEVERE, null, ex);
+//        } finally {
+//            try {
+//                f.close();
+//            } catch (IOException ex) {
+//                Logger.getLogger(TableroTexto.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        }
+        String[][] tab = {{"1","O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
+            {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"}};
+        
         return tab;
     }
     
