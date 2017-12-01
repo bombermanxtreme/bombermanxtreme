@@ -98,7 +98,7 @@ var juego = {
 				break;
             case 8:
                 // Barra espaciadora - quiere ponder Bomba
-                appCanvas.ponerBomba();
+                appCanvas.accionBomba();
                 break;
         }
     },
@@ -122,7 +122,7 @@ var juego = {
                 datos.abajo = false;
 				break;
 			case 8:
-                appCanvas.ponerBomba();
+                appCanvas.accionBomba();
                 break;
         }
     },

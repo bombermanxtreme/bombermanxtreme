@@ -14,7 +14,6 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
@@ -132,8 +131,8 @@ public class STOMPMessagesHandler {
         return true;
     }
     
-    @MessageMapping("/ponerBomba.{idSala}")
-    public boolean ponerBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
+    @MessageMapping("/AccionBomba.{idSala}")
+    public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
         String casa;
         return true;
     }

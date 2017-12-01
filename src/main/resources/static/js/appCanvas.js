@@ -20,8 +20,8 @@ var appCanvas = (function () {
             console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos a poner bombas de jugadores
-            stompClient.subscribe("/topic/ponerBomba." + idSala, function (eventbody) {
-                callback_ponerBomba(eventbody);
+            stompClient.subscribe("/topic/accionBomba." + idSala, function (eventbody) {
+                callback_accionBomba(eventbody);
             }); 
             
             //Estamos atentos si se mueve algun jugador dentro de l
@@ -33,7 +33,7 @@ var appCanvas = (function () {
     };
 
     
-    var callback_ponerBomba = function (message) {        
+    var callback_accionBomba = function (message) {        
         
     }
     return {
@@ -65,9 +65,9 @@ var appCanvas = (function () {
         /**
          * envia que ya está listo este usuario
          */
-        ponerBomba() {
+        accionBomba() {
             //reportamos que este usuario quiere poner una bomba			
-            stompClient.send("/app/ponerBomba." + idSala, {},idJugador);
+            stompClient.send("/app/accionBomba." + idSala, {},idJugador);
         }
 
     };
