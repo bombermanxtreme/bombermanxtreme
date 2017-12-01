@@ -7,8 +7,8 @@ package edu.eci.arsw.BomberManX.model.game.entities;
 
 /**
  *
- * @author sergioxl
+ * @author Kevin S. Sanchez
  */
-public class Bomba_n implements Elemento{
+public class Caja_Metalica implements Elemento{
     
 }

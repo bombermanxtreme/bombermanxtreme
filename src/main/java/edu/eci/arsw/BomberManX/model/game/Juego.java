@@ -5,8 +5,13 @@
  */
 package edu.eci.arsw.BomberManX.model.game;
 
+import edu.eci.arsw.BomberManX.model.game.entities.Caja;
+import edu.eci.arsw.BomberManX.model.game.entities.Caja_Metalica;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Casilla;
+import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
+import edu.eci.arsw.BomberManX.model.game.entities.Espacio;
+import edu.eci.arsw.BomberManX.model.game.entities.Man;
 import java.util.ArrayList;
 
 /**
@@ -27,12 +32,77 @@ public class Juego {
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     private int tiempo;
     private ArrayList<Jugador> jugadores;
-    private Casilla[][] tablero;
+    // Kevin S. Sanchez: Cambio de Casilla por Elemento
+    private Elemento[][] tablero;
 
-    public Juego(ArrayList<Jugador> jugadores) {
+    public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
-        tablero = new Casilla[ALTO][ANCHO];
+        this.tablero = new Elemento[ALTO][ANCHO];
         tiempo = 0;
+        // Mapear Tablero
+        mapearTablero(tableroTemporal);
+    }
+    
+    /**
+     * Mapear tablero de String a Objetos
+     * Author: Kevin S Sanchez
+     * @param temp Matriz de Strings
+     */
+    private void mapearTablero(String[][] temp){
+        //Recorrer Filas
+        String letter;
+        for (int row = 0; row < temp.length; row++){
+            //Recorrer Columnas
+            for (int col = 0; col < temp[row].length; col++){
+                letter = temp[row][col];
+                // Convenciones para hacer escenarios:
+                // * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
+                // * 'O' = Espacio vacio.
+                // * 'B' = Bomba.
+                // * 'C' = Caja que se puede destruir.
+                // * 'X' = Bloque (No se puede destruir).
+                // * 'R' = Poder de Correr.
+                // * 'T' = Poder de expansion de explosion de Bomba.
+                // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
+                // * {'@', '-', '/'} = Caracteres especiales para enemigos.
+                if(isNumeric(letter)){
+                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter)));
+                }else{
+                    switch (letter) {
+                        case "O":
+                            this.tablero[row][col] = new Espacio(); 
+                            break;
+
+                        case "C":
+                            this.tablero[row][col] = new Caja();
+                            break;
+                            
+                        case "X":
+                            this.tablero[row][col] = new Caja_Metalica();
+                            break;
+                        
+                        default:
+                            this.tablero[row][col] = new Espacio(); 
+                            break;
+                    }
+                }
+            }
+        }
+    }
+    
+    /**
+     * Verificar si String es Numerico
+     * @param str Cadena de texto a verificar
+     * @return True: Es numerico, False: NO es numerico
+     */
+    private boolean isNumeric(String str){  
+      try{  
+        double d = Double.parseDouble(str);  
+      }  
+      catch(NumberFormatException nfe){  
+        return false;  
+      }  
+      return true;  
     }
     
     /**

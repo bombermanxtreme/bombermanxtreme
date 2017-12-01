@@ -11,4 +11,12 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  */
 public interface Elemento {
     
+    public int getPosRow();
+    
+    public void setPosRow(int pos);
+    
+    public int getPosCol();
+    
+    public void setPosCol(int pos);
+    
 }
