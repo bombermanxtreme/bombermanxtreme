@@ -31,6 +31,8 @@ public class BomberManXAPIController {
     @Autowired
     BomberManXServices gc = null;
 
+    private static final Logger LOG = Logger.getLogger(BomberManXAPIController.class.getName());
+    
     /**
      * Responde a una petición get todos los Blueprints del author
      *
@@ -55,17 +57,16 @@ public class BomberManXAPIController {
     }
     
     
-    @RequestMapping(path = "/", method = RequestMethod.GET)
+    @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<?> getSalas(Model model) {
         try {
             Set<Sala> data = gc.getSalas();
-            
+            System.out.println("salas encontradas:");
+            System.out.println(data);
             return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Buscando salas", HttpStatus.NOT_FOUND);
-
         }
-
     }
 }

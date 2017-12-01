@@ -28,7 +28,7 @@ apiclientJugar = (function () {
     return {
         getJugadoresDeSala: function (idSala, callback) {
             $.ajax({
-                url: "http://localhost:8080/sala/" + idSala + "/Jugadores",
+                url: "/sala/" + idSala + "/Jugadores",
                 type: "GET",
             }).done(function (data) {
                 callback(data);
