@@ -7,6 +7,7 @@ package edu.eci.arsw.BomberManX.model.game;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Casilla;
+import java.util.ArrayList;
 
 /**
  *
@@ -25,10 +26,10 @@ public class Juego {
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     private int tiempo;
-    private Jugador[] jugadores;
+    private ArrayList<Jugador> jugadores;
     private Casilla[][] tablero;
 
-    public Juego(Jugador[] jugadores) {
+    public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
         tablero = new Casilla[ALTO][ANCHO];
         tiempo = 0;

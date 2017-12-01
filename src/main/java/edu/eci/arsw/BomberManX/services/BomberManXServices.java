@@ -6,6 +6,7 @@ import edu.eci.arsw.BomberManX.cache.BomberManXCache;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,12 +30,28 @@ public class BomberManXServices {
     PersistenciaJugador pj = null;
     @Autowired
     PersistenciaSala ps = null;
-
+    
+    /**
+     * crea un juego nuevo
+     * @param gameid
+     * @param jugadores
+     * @throws GameCreationException 
+     */
+    public void createGame(int id_sala) throws GameCreationException{
+        cache.createGame(id_sala,ps.getJugadoresDeSala(id_sala));
+        System.out.println("Juego creado en CreateGame");
+    }
+    
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
         this.pj = pj;
         this.ps = ps;
     }
 
+    /**
+     * retorna los jugadores que se encuentran en una sala
+     * @param id_sala
+     * @return 
+     */
     public Set<Jugador> getJugadoresDeSala(int id_sala) {
         Set<Jugador> r = new HashSet<>();
         ArrayList<Jugador> jugadores = ps.getJugadoresDeSala(id_sala);
@@ -44,6 +61,12 @@ public class BomberManXServices {
         return r;
     }
 
+    /**
+     * permite verificar para el inicio de sesión del usuario
+     * @param correo
+     * @param clave
+     * @return 
+     */
     public int loginJugador(String correo, String clave) {
         int id_login=-1; //-1: no se encontro el correo, -2: clave incorrecta
         
@@ -58,6 +81,15 @@ public class BomberManXServices {
         return id_login;
     }
 
+    /**
+     * Registra un jugador
+     * @param nombre
+     * @param correo
+     * @param apodo
+     * @param clave
+     * @param imagen
+     * @return id del usuario
+     */
     public int registrerJugador(String nombre, String correo, String apodo, String clave, String imagen) {
         int id_registro = -1;// -1: algo fallo, -2: correo ya existe, -3: apodo ya existe
         
@@ -96,6 +128,11 @@ public class BomberManXServices {
         return id_registro;
     }
     
+    /**
+     * retorna la URL de la foto de un usuario 
+     * @param correo
+     * @return 
+     */
     public String getUrl(String correo){
         String url= pj.getUrlPorCorreo(correo);
         return url;

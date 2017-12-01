@@ -10,6 +10,7 @@ import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.services.GameCreationException;
 import edu.eci.arsw.BomberManX.services.GameServicesException;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +28,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     }
 
     @Override
-    public void createGame(int id, Jugador[] jugadores) throws GameCreationException {
+    public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
