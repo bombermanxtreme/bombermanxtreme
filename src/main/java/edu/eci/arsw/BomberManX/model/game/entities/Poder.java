@@ -11,24 +11,31 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  */
 public class Poder implements Elemento {
 
+    private int posRow;
+    private int posCol;
+
+    public Poder() {
+    }
+
+    
     @Override
     public int getPosRow() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.posRow;
     }
 
     @Override
     public void setPosRow(int pos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.posRow = pos;
     }
 
     @Override
     public int getPosCol() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.posCol;
     }
 
     @Override
     public void setPosCol(int pos) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.posCol = pos;
     }
 
 }

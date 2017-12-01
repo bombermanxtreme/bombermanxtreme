@@ -15,7 +15,8 @@ public class Man implements Elemento{
     private int casilla; // casilla en la que se encuentra      
     private Poder poder;
     private int bombas; //numero de bombas
-    private String color;    
+    private String color;  
+    private int posRow, posCol;
     
     public Man(String color, Jugador jugador) {
         this.color = color;
@@ -45,6 +46,24 @@ public class Man implements Elemento{
         return false;
     
     }
-    
-   
+
+    @Override
+    public int getPosRow() {
+        return this.posRow;
+    }
+
+    @Override
+    public void setPosRow(int pos) {
+        this.posRow = pos;
+    }
+
+    @Override
+    public int getPosCol() {
+        return this.posCol;
+    }
+
+    @Override
+    public void setPosCol(int pos) {
+        this.posCol = pos;
+    }
 }

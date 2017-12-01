@@ -10,5 +10,32 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author sergioxl
  */
 public class Bomba_n implements Elemento{
+
+    private int posRow;
+    private int posCol;
+
+    public Bomba_n() {
+    }
+    
+    
+    @Override
+    public int getPosRow() {
+        return this.posRow;
+    }
+
+    @Override
+    public void setPosRow(int pos) {
+        this.posRow = pos;
+    }
+
+    @Override
+    public int getPosCol() {
+        return this.posCol;
+    }
+
+    @Override
+    public void setPosCol(int pos) {
+        this.posCol = pos;
+    }
     
 }
