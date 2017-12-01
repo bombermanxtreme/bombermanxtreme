@@ -21,27 +21,32 @@ public class PersistenciaImplSala implements PersistenciaSala {
     private ArrayList<Sala> salas = new ArrayList<Sala>();
 
     public PersistenciaImplSala() {
-        crearSala();
+        //aca se pueden crear salas para probar
     }
 
     @Override
-    public int crearSala(creador, nombre, equipos, friendfire) {
-        salas.add(new Sala(creador, nombre, equipos, friendfire));
+    public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
+        salas.add(new Sala(creador, nombre, equipos, friendFire));
         return salas.size();
     }
 
     @Override
     public ArrayList<Jugador> getJugadoresDeSala(int idSala) {
-        return salas.get(idSala).getJugadores();
+        return getSala(idSala).getJugadores();
     }
 
     @Override
     public void addJugadorASala(Jugador jugador, int idSala) {
-        salas.get(idSala).addJugador(jugador);
+        getSala(idSala).addJugador(jugador);
     }
 
     @Override
     public ArrayList<Sala> getSalas() {
         return salas;
+    }
+
+    @Override
+    public Sala getSala(int id) {
+        return salas.get(id);
     }
 }

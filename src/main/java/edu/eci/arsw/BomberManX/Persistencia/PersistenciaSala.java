@@ -24,6 +24,13 @@ public interface PersistenciaSala {
      * @return 
      */
     abstract public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire);
+    
+    /**
+     * retorna una sala pedida
+     * @param id
+     * @return 
+     */
+    abstract public Sala getSala(int id);
 
     /**
      * retorna los jugadores actuales de una sala
