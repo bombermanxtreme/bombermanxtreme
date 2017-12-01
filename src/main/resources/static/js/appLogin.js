@@ -17,7 +17,7 @@ var appLogin = (function () {
                         }
                 ).fail(
                         function (data) {
-                            $("#avatar-load").attr("src", "https://www.drupal.org/files/issues/default-avatar.png");
+                            $("#avatar-load").attr("src", "../media/default-avatar.png");
                             $("#avatar-load").attr("alt", "Avatar");
                             console.info("Error: No es posible cargar la imagen: " + data.responseText);
                         }
@@ -78,7 +78,7 @@ var appLogin = (function () {
 
             var nombre = $("#nnombre").val();
             var apodo = $("#napodo").val();
-            var iurl = "https://www.drupal.org/files/issues/default-avatar.png"; 
+            var iurl = "../media/default-avatar.png"; 
             var correo = $("#ncorreo").val();
             var clave = $("#nclave").val();
             var nclave = $("#nrclave").val();
