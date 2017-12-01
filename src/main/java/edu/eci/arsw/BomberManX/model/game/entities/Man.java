@@ -22,6 +22,7 @@ public class Man {
     private int radio;
     
     private int tiempo; // tiempo de explotar bomba
+    private int indice;
     
     public Man(String color, Jugador jugador) {
         this.color = color;
@@ -30,6 +31,7 @@ public class Man {
         bombas = 3; 
         radio=3; // unidades de tablero
         tiempo = 5; // segundos
+        indice = 0; // indice de donde van las bombas
         
         inicar_bombas("black",radio);
         
@@ -44,11 +46,7 @@ public class Man {
      */
     public void accionBomba(){
         
-        for(int i=0;i<bombas_man.size();i++){
-           bombas_man.get(i).setDisponible(false);
-          // falta contar tiempo 5s
-        }
-    
+        bombas_man.get(siguiente_bomba_indice()).setDisponible(false);
     }
     
     public boolean moverse(){
@@ -64,9 +62,19 @@ public class Man {
     private void inicar_bombas(String color, int radio){
         bombas_man = new ArrayList<>();
         
-        for(int i=0;i<bombas;i++){
+        for(int i=0;i<bombas_man.size();i++){
             bombas_man.add(new Bomba_n(this, color, radio));
         }
     
     }
+    
+    /**
+     * retorna el sigiente indice en la lista de las bombas
+     * @return 
+     */
+    private int siguiente_bomba_indice(){    
+        // falta poner el timer de 5s
+       return (int)(indice++%(bombas_man.size()+1));
+    }
+    
 }

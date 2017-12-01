@@ -11,7 +11,7 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  */
 public class Bomba_n extends Bomba implements Elemento{
     
-    private Man man;
+    private final Man man;
     private String color;
     private int radio;
     private boolean disponible; // si esta disponible para usar
