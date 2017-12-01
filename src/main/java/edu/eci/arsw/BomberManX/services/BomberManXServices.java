@@ -3,10 +3,12 @@ package edu.eci.arsw.BomberManX.services;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.cache.BomberManXCache;
+import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
-import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
+import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,13 +33,31 @@ public class BomberManXServices {
     @Autowired
     PersistenciaSala ps = null;
     
-    String[][] tablero;
-
+    /**
+     * crea un juego nuevo
+     * @param gameid
+     * @param jugadores
+     * @throws GameCreationException 
+     */
+    public void createGame(int id_sala) throws GameCreationException{
+        cache.createGame(id_sala,ps.getJugadoresDeSala(id_sala));
+        System.out.println("Juego creado en CreateGame");
+    }
+    
+    public boolean existeGame(int id_sala) throws GameCreationException, GameServicesException{
+        return cache.existeGame(id_sala);
+    }
+    
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
         this.pj = pj;
         this.ps = ps;
     }
 
+    /**
+     * retorna los jugadores que se encuentran en una sala
+     * @param id_sala
+     * @return 
+     */
     public Set<Jugador> getJugadoresDeSala(int id_sala) {
         Set<Jugador> r = new HashSet<>();
         ArrayList<Jugador> jugadores = ps.getJugadoresDeSala(id_sala);
@@ -47,6 +67,12 @@ public class BomberManXServices {
         return r;
     }
 
+    /**
+     * permite verificar para el inicio de sesión del usuario
+     * @param correo
+     * @param clave
+     * @return 
+     */
     public int loginJugador(String correo, String clave) {
         int id_login=-1; //-1: no se encontro el correo, -2: clave incorrecta
         
@@ -61,6 +87,15 @@ public class BomberManXServices {
         return id_login;
     }
 
+    /**
+     * Registra un jugador
+     * @param nombre
+     * @param correo
+     * @param apodo
+     * @param clave
+     * @param imagen
+     * @return id del usuario
+     */
     public int registrerJugador(String nombre, String correo, String apodo, String clave, String imagen) {
         int id_registro = -1;// -1: algo fallo, -2: correo ya existe, -3: apodo ya existe
         
@@ -99,16 +134,33 @@ public class BomberManXServices {
         return id_registro;
     }
     
+    /**
+     * retorna la URL de la foto de un usuario 
+     * @param correo
+     * @return 
+     */
     public String getUrl(String correo){
         String url= pj.getUrlPorCorreo(correo);
         return url;
     }
-    
-    public String[][] getTablero(int idEscenario) throws GameServicesException {
-        if (tablero == null){
-            tablero = TableroTexto.muestraContenido(idEscenario);
-        }
-        return tablero;
-    } 
    
+    public Set<Sala> getSalas(){
+        /*
+        Set<Sala> r = new HashSet<>();
+        //ArrayList<Sala> salas = ps.getSalas();
+        for (int i = 0; i < salas.size(); i++) {
+            r.add(salas.get(i));
+        }
+        return r;
+        */
+        return null;
+    }
+
+    public Object getTablero(int i) {
+        return null;
+    }
+
+    public Juego getGame(int id_sala) throws GameServicesException {
+        return cache.getGame(id_sala);
+    }
 }

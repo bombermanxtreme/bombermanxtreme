@@ -9,6 +9,7 @@ import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.services.GameCreationException;
 import edu.eci.arsw.BomberManX.services.GameServicesException;
+import java.util.ArrayList;
 
 /**
  *
@@ -23,7 +24,9 @@ public interface BomberManXCache {
      * @param jugadores
      * @throws GameCreationException
      */
-    public void createGame(int id, Jugador[] jugadores) throws GameCreationException;
+    public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException;
 
     public Juego getGame(int gameid) throws GameServicesException;
+    
+    public boolean existeGame(int gameid) throws GameServicesException;
 }

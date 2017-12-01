@@ -1,5 +1,5 @@
 //var APIuseful = apimockJugar;
-//var APIuseful=apiclientJugar;
+var APIuseful=apiclientCanvas;
 
 var appCanvas = (function () {
 
@@ -36,6 +36,20 @@ var appCanvas = (function () {
     var callback_ponerBomba = function (message) {        
         
     }
+
+    var getJuego=function() {
+        APIuseful.getJuego(idSala,function(data){
+            console.log(data);
+            //hacemos el tablero str
+            //actualizamos el canvas
+            actualizar();
+        });
+    }
+
+    var actualizar=function(){
+        //dibuja el camvas COMPLETO!
+    }
+
     return {
 		/**
          * encargado de realizar la conexión con STOMP
@@ -49,6 +63,9 @@ var appCanvas = (function () {
 				},3000);
                 return false;
             }
+            
+            //pedir estado inicial del juego
+            getJuego();
             //INICIAMOS CONEXIÓN
             connectAndSubscribe();
         },
@@ -75,6 +92,7 @@ var appCanvas = (function () {
     var callback_moverPersonaje = function (message) {        
         var data = message;
     }
+    
     return {
 	/**
          * encargado de realizar la conexión con STOMP
@@ -86,6 +104,7 @@ var appCanvas = (function () {
                 return false;
             }
             $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
+            
             //INICIAMOS CONEXIÓN
             connectAndSubscribe();
         },

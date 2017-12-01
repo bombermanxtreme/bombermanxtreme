@@ -8,8 +8,10 @@ package edu.eci.arsw.BomberManX.cache.stub;
 import edu.eci.arsw.BomberManX.cache.BomberManXCache;
 import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
 import edu.eci.arsw.BomberManX.services.GameCreationException;
 import edu.eci.arsw.BomberManX.services.GameServicesException;
+import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Service;
 
@@ -27,20 +29,27 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     }
 
     @Override
-    public void createGame(int id, Jugador[] jugadores) throws GameCreationException {
+    public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
+            String[][] tablero=TableroTexto.muestraContenido(id);
+            
             gamesState.put(id, new Juego(jugadores));
         }
     }
 
     @Override
     public Juego getGame(int gameid) throws GameServicesException {
-        if (!gamesState.containsKey(gameid)) {
+        if (!existeGame(gameid)) {
             throw new GameServicesException("El juego " + gameid + " no existe.");
         } else {
             return gamesState.get(gameid);
         }
+    }
+
+    @Override
+    public boolean existeGame(int gameid) throws GameServicesException {
+        return gamesState.containsKey(gameid);
     }
 }

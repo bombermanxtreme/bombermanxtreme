@@ -5,7 +5,9 @@
  */
 package edu.eci.arsw.BomberManX.controllers;
 
+import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
+import edu.eci.arsw.BomberManX.services.GameCreationException;
 import edu.eci.arsw.BomberManX.services.GameServicesException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -38,16 +40,23 @@ public class BomberManXAPIControllerCanvas {
         return "Ok";
     }
 
-    private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerUser.class.getName());
+    private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerCanvas.class.getName());
     
     // Author: Kevin S. Sanchez
-    @RequestMapping(path = "/tablero", method = RequestMethod.GET)
-    public ResponseEntity<?> getTablero() {
+    @RequestMapping(path = "/tablero/{id_sala}", method = RequestMethod.GET)
+    public ResponseEntity<?> getTablero(@PathVariable int id_sala) {
         
-        try {
-            ArrayList<Object> informacion = new ArrayList();
-            informacion.add(gameServices.getTablero(1));
-            return new ResponseEntity<>(informacion, HttpStatus.ACCEPTED);
+        try{
+            try {
+                if(!gameServices.existeGame(id_sala)){
+                    gameServices.createGame(id_sala);
+                }
+            } catch (GameCreationException ex) {
+                Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            
+            Juego j=gameServices.getGame(id_sala);
+            return new ResponseEntity<>(j, HttpStatus.ACCEPTED);
         } catch (GameServicesException ex) {
             Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
