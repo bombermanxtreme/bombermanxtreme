@@ -69,4 +69,15 @@ public class BomberManXAPIController {
             return new ResponseEntity<>("Buscando salas", HttpStatus.NOT_FOUND);
         }
     }
+    
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public ResponseEntity<?> newSala(Model model) {
+        try {
+            gc.getSalas();
+            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("Creando sala", HttpStatus.NOT_FOUND);
+        }
+    }
 }

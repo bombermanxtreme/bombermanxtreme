@@ -16,11 +16,14 @@ import java.util.ArrayList;
 public interface PersistenciaSala {
 
     /**
-     * crea una sala nueva
-     *
-     * @return idSala
+     * permite crear una sala
+     * @param creador
+     * @param nombre
+     * @param equipos
+     * @param friendFire
+     * @return 
      */
-    abstract public int crearSala();
+    abstract public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire);
 
     /**
      * retorna los jugadores actuales de una sala

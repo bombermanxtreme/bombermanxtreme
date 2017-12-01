@@ -13,8 +13,19 @@ import java.util.ArrayList;
  */
 public class Sala {
 
+    private Jugador creador;
+    private String nombre;
+    private boolean equipos;
+    private boolean friendFire;
     private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
     private ArrayList<Integer> idJugadoresListos = new ArrayList<Integer>();
+
+    public Sala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
+        this.creador = creador;
+        this.nombre = nombre;
+        this.equipos = equipos;
+        this.friendFire = friendFire;
+    }
 
     public void addJugador(Jugador jugador) {
         jugadores.add(jugador);

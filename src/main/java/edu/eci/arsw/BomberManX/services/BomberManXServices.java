@@ -44,7 +44,7 @@ public class BomberManXServices {
     }
     
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
-        this.pj = pj;
+        this.pj = bpp;
         this.ps = ps;
     }
 
@@ -146,5 +146,9 @@ public class BomberManXServices {
             r.add(salas.get(i));
         }
         return r;
+    }
+    
+    public int newSala(Jugador creador, String nombre, boolean equipos, boolean friendFire){
+        return ps.crearSala(creador, nombre, equipos, friendFire);
     }
 }

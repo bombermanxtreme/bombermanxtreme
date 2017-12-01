@@ -1,9 +1,8 @@
 //var APIuseful = apimockJugar;
-//var APIuseful=apiclientJugar;
+var APIuseful=apiclientSala;
 
 var appSala=(function(){
 	var stompClient = null;
-	var idSala = 1;//por ahora una sola sala
 	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
 
 	/**
@@ -35,13 +34,10 @@ var appSala=(function(){
 	};
 
 	var getSalas=function(){
-		$.get("/sala",
-			function (data) {
-				console.info("data: "+data);
-			}
-		).fail(
-			
-		);
+		$("#antesDeEmpezar").html("Cargando Salas... " + imgCargando);
+		APIuseful.getSalas(function (data) {
+			console.info("data: "+data);
+		});
 	};
 
 	return {
@@ -53,7 +49,6 @@ var appSala=(function(){
 			idJugador=appCookie.getIdJugador(false);
 			if(idJugador==-1)
 				return false;
-			$("#antesDeEmpezar").html("Cargando Salas... " + imgCargando);
 			//INICIAMOS CONEXIÓN
 			connectAndSubscribe();
 			getSalas();
