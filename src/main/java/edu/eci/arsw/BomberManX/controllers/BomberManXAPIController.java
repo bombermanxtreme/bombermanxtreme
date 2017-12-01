@@ -6,6 +6,7 @@
 package edu.eci.arsw.BomberManX.controllers;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
 import java.util.Set;
 import java.util.logging.Level;
@@ -48,6 +49,21 @@ public class BomberManXAPIController {
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Sala no encontrada: " + id_sala, HttpStatus.NOT_FOUND);
+
+        }
+
+    }
+    
+    
+    @RequestMapping(path = "/", method = RequestMethod.GET)
+    public ResponseEntity<?> getSalas(Model model) {
+        try {
+            Set<Sala> data = gc.getSalas();
+            
+            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+        } catch (Exception ex) {
+            Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
+            return new ResponseEntity<>("Buscando salas", HttpStatus.NOT_FOUND);
 
         }
 

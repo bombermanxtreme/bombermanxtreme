@@ -6,6 +6,7 @@
 package edu.eci.arsw.BomberManX.Persistencia;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
 
 /**
@@ -36,4 +37,10 @@ public interface PersistenciaSala {
      * @param idSala
      */
     abstract public void addJugadorASala(Jugador jugador, int idSala);
+    
+    /**
+     * retorna las salas
+     * @return 
+     */
+    abstract public ArrayList<Sala> getSalas();
 }

@@ -4,6 +4,7 @@ import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.cache.BomberManXCache;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -138,4 +139,12 @@ public class BomberManXServices {
         return url;
     }
    
+    public Set<Sala> getSalas(){
+        Set<Sala> r = new HashSet<>();
+        ArrayList<Sala> salas = ps.getSalas();
+        for (int i = 0; i < salas.size(); i++) {
+            r.add(salas.get(i));
+        }
+        return r;
+    }
 }
