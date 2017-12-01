@@ -6,7 +6,7 @@
 package edu.eci.arsw.BomberManX.model.game;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
-import edu.eci.arsw.BomberManX.model.game.entities.Casilla;
+import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
 import java.util.ArrayList;
 
 /**
@@ -27,21 +27,30 @@ public class Juego {
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     private int tiempo;
     private ArrayList<Jugador> jugadores;
-    private Casilla[][] tablero;
+    private Elemento[][] tablero;
 
     public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
-        tablero = new Casilla[ALTO][ANCHO];
+        tablero = new Elemento[ALTO][ANCHO];
         tiempo = 0;
     }
+
+    public boolean accionBomba(int id_jugador){
+        
+        return false;
+    }
     
+    public boolean mover(int id_jugador){
+        return false;
+    }
+        
     /**
      * Revisa que fila y columna del tablero no este ocuapda
      * @param fila
      * @param columna
      * @return 
      */
-    public boolean hay_objeto(int fila, int columna){        
+    private boolean hay_objeto(int fila, int columna){        
         //return tablero[fila][columna].hay_elemento();
         return false;
     }
@@ -52,13 +61,9 @@ public class Juego {
      * @param columna
      * @return 
      */
-    public Object[] hay_objeto_tipo(int fila, int columna){
+    private Object[] hay_objeto_tipo(int fila, int columna){
         Object[] lista = new Object[2];
         return lista;
-    }
-    
-    public boolean mover(){
-        return false;
     }
     
 }

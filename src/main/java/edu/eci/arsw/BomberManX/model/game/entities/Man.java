@@ -5,6 +5,8 @@
  */
 package edu.eci.arsw.BomberManX.model.game.entities;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kvn CF <ECI>
@@ -12,27 +14,29 @@ package edu.eci.arsw.BomberManX.model.game.entities;
 public class Man {
     public static final String[] colores = {"red", "yellow", "blue"};
     private Jugador jugador;
-    private int casilla; // casilla en la que se encuentra      
+    private int posicion; // posicion en la que se encuentra      
     private Poder poder;
     private int bombas; //numero de bombas
+    private ArrayList<Bomba> bombas_jugador;
     private String color;    
+    private int radio;
     
     public Man(String color, Jugador jugador) {
         this.color = color;
         this.jugador = jugador;
-        casilla = 10; // posicion inicial
-        bombas = 3;       
+        posicion = 10; // posicion inicial
+        bombas = 3; 
+        radio=3;
+        
+        inicar_bombas("black",radio);
+        
     }
+     
+    public Jugador getJugador(){
+        return jugador;
+    } 
     
-    /***
-     * retorna si puede o no realizar un acciones
-     * @return 
-     */
-    public boolean puede_realizar_accion(){
-        return false;
-    }
-    
-    public void explotar_bomba(){
+    public void accionBomba(){
     
     }
     
@@ -46,5 +50,12 @@ public class Man {
     
     }
     
-   
+    private void inicar_bombas(String color, int radio){
+        bombas_jugador = new ArrayList<>();
+        
+        for(int i=0;i<bombas;i++){
+            bombas_jugador.add(new Bomba_n(this, color, radio));
+        }
+    
+    }
 }

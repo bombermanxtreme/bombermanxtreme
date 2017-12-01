@@ -4,7 +4,7 @@
 var appCanvas = (function () {
 
     var stompClient = null;
-    var idJugador = document.cookie.replace("iduser=", "");    
+    var idJugador = document.cookie.replace("iduser=", "");
     var idSala = 1;//por ahora una sola sala    
 
     /**
@@ -22,8 +22,8 @@ var appCanvas = (function () {
             //especificamos que estamos atentos a poner bombas de jugadores
             stompClient.subscribe("/topic/accionBomba." + idSala, function (eventbody) {
                 callback_accionBomba(eventbody);
-            }); 
-            
+            });
+
             //Estamos atentos si se mueve algun jugador dentro de l
             stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
                 callback_moverPersonaje(eventbody);
@@ -32,21 +32,22 @@ var appCanvas = (function () {
         });
     };
 
+
+    var callback_accionBomba = function (message) {
+
+    };
     
-    var callback_accionBomba = function (message) {        
-        
-    }
     return {
-		/**
+        /**
          * encargado de realizar la conexión con STOMP
          */
-        init(){
+        init() {
             //verificamos que el usuario haya iniciado
-            if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
-				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
-				setTimeout(function(){
-					location.href="login.html";
-				},3000);
+            if (idJugador === "" || isNaN(idJugador) || idJugador < 0) {
+                MJ_simplex("Jugar", "Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>", true);
+                setTimeout(function () {
+                    location.href = "login.html";
+                }, 3000);
                 return false;
             }
             //INICIAMOS CONEXIÓN
@@ -67,16 +68,17 @@ var appCanvas = (function () {
          */
         accionBomba() {
             //reportamos que este usuario quiere poner una bomba			
-            stompClient.send("/app/accionBomba." + idSala, {},idJugador);
+            stompClient.send("/app/accionBomba." + idSala, {}, idJugador);
         }
 
     };
+
+    var callback_moverPersonaje = function (message) {
+
+    };
     
-    var callback_moverPersonaje = function (message) {        
-        
-    }
     return {
-	/**
+        /**
          * encargado de realizar la conexión con STOMP
          */
         init() {
@@ -104,7 +106,7 @@ var appCanvas = (function () {
          */
         moverPersonaje() {
             //reportamos que este usuario ha presionado una tecla para mover el personaje			
-            stompClient.send("/app/moverPersonaje." + idSala, {},idJugador);
+            stompClient.send("/app/moverPersonaje." + idSala, {}, idJugador, sentido);
         }
 
     };

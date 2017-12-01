@@ -27,6 +27,8 @@ public class STOMPMessagesHandler {
     private ConcurrentHashMap<Integer, ArrayList<Jugador>> listosParaEmpezar = new ConcurrentHashMap<>();
     //lista idDeSalas que están con los mínimos jugadores listos para jugar, bloqueando el ingreso de nuevos jugadores 
     private ConcurrentHashMap<Integer, Integer> salasCasiListas = new ConcurrentHashMap<>();
+    // acciones en el Juego
+    private Juego juego;
 
     @Autowired
     SimpMessagingTemplate msgt;
@@ -133,13 +135,18 @@ public class STOMPMessagesHandler {
     
     @MessageMapping("/AccionBomba.{idSala}")
     public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        String casa;
-        return true;
+        // para probar sala 100
+        ArrayList<Jugador>  jugadorez = new ArrayList<>();
+        jugadorez.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
+        
+        juego = new Juego(jugadorez);
+        
+        return juego.accionBomba(id_jugador);
     }
     
     @MessageMapping("/moverPersonaje.{idSala}")
-    public boolean moverPersonaje(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        String casa;
+    public boolean moverPersonaje(int id_jugador, int sentido, @DestinationVariable int idSala) throws Exception {
+        
         return true;
     }
 }

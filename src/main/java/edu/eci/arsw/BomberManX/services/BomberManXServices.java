@@ -30,6 +30,17 @@ public class BomberManXServices {
     PersistenciaJugador pj = null;
     @Autowired
     PersistenciaSala ps = null;
+
+    public BomberManXServices() throws GameCreationException {
+        // para probar sala 100
+        ArrayList<Jugador>  jugadores = new ArrayList<>();
+        jugadores.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
+        
+        cache.createGame(100,jugadores);
+    }
+    
+    
+    
     
     /**
      * crea un juego nuevo

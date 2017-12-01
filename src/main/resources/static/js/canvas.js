@@ -57,7 +57,7 @@ var datos = {
     derecha: false,
     arriba: false,
     abajo: false
-}
+};
 
 /*+++++++++++++++++++++++
  Funcionalidades del Juego
@@ -69,8 +69,8 @@ var juego = {
      Evento al presionar o soltar tecla
      ++++++++++++++++++++++++++++++++++*/
     teclado: function () {
-        document.addEventListener("keydown", juego.oprimir)
-        document.addEventListener("keyup", juego.soltar)
+        document.addEventListener("keydown", juego.oprimir);
+        document.addEventListener("keyup", juego.soltar);
     },
 
     /*+++++++++++++++
@@ -95,7 +95,7 @@ var juego = {
                 // Flecha Abajo
             case 40:
                 datos.abajo = true;
-				break;
+                break;
             case 8:
                 // Barra espaciadora - quiere ponder Bomba
                 appCanvas.accionBomba();
@@ -120,8 +120,8 @@ var juego = {
                 break;
             case 40:
                 datos.abajo = false;
-				break;
-			case 8:
+                break;
+            case 8:
                 appCanvas.accionBomba();
                 break;
         }
@@ -134,17 +134,17 @@ var juego = {
         // Movimiento hacia la izquierda (Tecla oprimida)
         if (datos.izquierda) {
             jugador.movimiento_x = -jugador.velocidad;
-            jugador.movimiento_y = 0
+            jugador.movimiento_y = 0;
         }
         // Movimiento a la Derecha (Tecla oprimida)
         if (datos.derecha) {
             jugador.movimiento_x = jugador.velocidad;
-            jugador.movimiento_y = 0
+            jugador.movimiento_y = 0;
         }
 
         // Cuando la tecla no este oprimida no se reliza movimiento
         if (!datos.izquierda && !datos.derecha) {
-            jugador.movimiento_x = 0
+            jugador.movimiento_x = 0;
         }
 
         /* Movimiento Vertical del Jugador */
@@ -153,7 +153,7 @@ var juego = {
         // Movimiento arriba
         if (datos.arriba) {
             jugador.movimiento_y = -jugador.velocidad;
-            jugador.movimiento_x = 0
+            jugador.movimiento_x = 0;
         }
         // Movimiento abajo
         if (datos.abajo) {
@@ -162,7 +162,7 @@ var juego = {
         }
         // No realizar movimiento cuando no esta presionada la tecla
         if (!datos.arriba && !datos.abajo) {
-            jugador.movimiento_y = 0
+            jugador.movimiento_y = 0;
         }
 
         /* COLISIONES */
@@ -181,19 +181,19 @@ var juego = {
 
                 //NO COLISIÓN DE IZQ A DER
                 if (jugador.x2 < bloques[i].x1) {
-                    return false
+                    return false;
                 }
                 //NO COLISIÓN DE DER A IZQ
                 if (jugador.x1 > bloques[i].x2) {
-                    return false
+                    return false;
                 }
                 //NO COLISIÓN DE ARRIBA HACIA ABAJO
                 if (jugador.y2 < bloques[i].y1) {
-                    return false
+                    return false;
                 }
                 //NO COLISIÓN DE ABAJO HACIA ARRIBA
                 if (jugador.y1 > bloques[i].y2) {
-                    return false
+                    return false;
                 }
 
                 return true;
@@ -204,25 +204,25 @@ var juego = {
             //COLISIÓN DE IZQ A DER
             if (colisiones() && jugador.x2 < bloques[i].x1 + jugador.movimiento_x) {
 
-                jugador.movimiento_x = 0
+                jugador.movimiento_x = 0;
             }
 
             //COLISIÓN DE DER A IZQ
             if (colisiones() && jugador.x1 - jugador.movimiento_x > bloques[i].x2) {
 
-                jugador.movimiento_x = 0
+                jugador.movimiento_x = 0;
             }
 
             //COLISIÓN DE ARRIBA HACIA ABAJO
             if (colisiones() && jugador.y2 < bloques[i].y1 + jugador.movimiento_y) {
 
-                jugador.movimiento_y = 0
+                jugador.movimiento_y = 0;
             }
 
             //COLISIÓN DE ABAJO HACIA ARRIBA
             if (colisiones() && jugador.y1 - jugador.movimiento_y > bloques[i].y2) {
 
-                jugador.movimiento_y = 0
+                jugador.movimiento_y = 0;
             }
 
         }
@@ -235,7 +235,7 @@ var juego = {
         /*+++
          Se activa Linea de Tiempo
          ++*/
-        frame(juego.tiempo)
+        frame(juego.tiempo);
     },
 
     /* Limpiar canvas y redibujar jugador y obstaculos */

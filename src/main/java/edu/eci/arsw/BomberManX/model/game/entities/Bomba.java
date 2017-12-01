@@ -6,21 +6,12 @@
 package edu.eci.arsw.BomberManX.model.game.entities;
 
 /**
- *
+ * Interfaz para varios tipos de bombas
  * @author sergioxl
  */
 public abstract class Bomba {
     
-    private int id_jugador;
-    private String color;
-    private int radio;
-    
-    
-    public abstract void explotar();
-
-    public abstract int getId_jugador();
-
-    public abstract void setId_jugador(int id_jugador);
+    public abstract Man get_man();
 
     public abstract String getColor();
 
