@@ -47,6 +47,7 @@ public class Man { // se crea el man el Jugador
     public Bomba accionBomba(){      
         Bomba bomba = bombas_man.get(siguiente_bomba_indice());
         bomba.setDisponible(false);
+        System.out.println("accionó Bomba >>");
         return bomba;
     }
     

@@ -46,7 +46,8 @@ public class Juego {
         
         puede = hay_objeto(coor_x,coor_y, man);
         
-        if(puede){            
+        if(puede){      
+            System.out.println("Pudo moverse >>");
             tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
         }        
         
