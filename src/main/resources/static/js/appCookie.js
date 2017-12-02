@@ -9,7 +9,7 @@ var appCookie=(function(){
 	};
 
 	var _findCookie=function(key) {
-		var res=null;
+		var res=-1;
 		document.cookie.split("; ").map(function(e) {
 			var _cookie=e.split("=");
 			if(_cookie[0]==key)
@@ -49,6 +49,7 @@ var appCookie=(function(){
         getIdJugador(fueraDeJuego){
 			var idJugador=-1;
 			idJugador=_findCookie("iduser");
+			console.log("buscando cookiee jugador"+idJugador);
 	
 			if (!fueraDeJuego && idJugador<0) {
 				setTimeout(function(params) {//demoramos un poco

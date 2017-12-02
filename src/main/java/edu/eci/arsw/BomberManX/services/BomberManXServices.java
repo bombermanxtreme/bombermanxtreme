@@ -8,7 +8,6 @@ import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,8 +34,7 @@ public class BomberManXServices {
     
     /**
      * crea un juego nuevo
-     * @param gameid
-     * @param jugadores
+     * @param id_sala
      * @throws GameCreationException 
      */
     public void createGame(int id_sala) throws GameCreationException{
@@ -49,7 +47,7 @@ public class BomberManXServices {
     }
     
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
-        this.pj = pj;
+        this.pj = bpp;
         this.ps = ps;
     }
 
@@ -145,15 +143,16 @@ public class BomberManXServices {
     }
    
     public Set<Sala> getSalas(){
-        /*
         Set<Sala> r = new HashSet<>();
-        //ArrayList<Sala> salas = ps.getSalas();
+        ArrayList<Sala> salas = ps.getSalas();
         for (int i = 0; i < salas.size(); i++) {
             r.add(salas.get(i));
         }
         return r;
-        */
-        return null;
+    }
+    
+    public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire){
+        return ps.crearSala(creador, nombre, equipos, friendFire);
     }
 
     public Object getTablero(int i) {

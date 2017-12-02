@@ -21,29 +21,57 @@ public class PersistenciaImplSala implements PersistenciaSala {
     private ArrayList<Sala> salas = new ArrayList<Sala>();
 
     public PersistenciaImplSala() {
-        crearSala();
+        //aca se pueden crear salas para probar
     }
 
     @Override
-    public int crearSala() {
-        salas.add(new Sala());
-        return salas.size();
+    public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
+        salas.add(new Sala(salas.size(),creador, nombre, equipos, friendFire));
+        return salas.size()-1;
     }
 
     @Override
     public ArrayList<Jugador> getJugadoresDeSala(int idSala) {
-        System.out.println("***************************************** Estoy entrando a obtener jugadres de SALA " + idSala + " Numero de salas: " + salas.get(0));
-        // BETA: Agregamos jugadores
-        Jugador j1 = new Jugador("Kevin", "ks@server.com", "HOla", "123", "none");
-        Jugador j2 = new Jugador("Sergio", "s@server.com", "seg", "123", "none");
-        salas.get(idSala-1).addJugador(j1);
-        salas.get(idSala-1).addJugador(j2);
-        //***********************************
-        return salas.get(idSala-1).getJugadores();
+        return getSala(idSala).getJugadores();
     }
 
     @Override
     public void addJugadorASala(Jugador jugador, int idSala) {
-        salas.get(idSala-1).addJugador(jugador);
+        getSala(idSala).addJugador(jugador);
+    }
+
+    @Override
+    public ArrayList<Sala> getSalas() {
+        return salas;
+    }
+
+    @Override
+    public Sala getSala(int id) {
+        return salas.get(id);
+    }
+
+    @Override
+    public ArrayList<Jugador> getJugadoresListos(int idSala) {
+        return salas.get(idSala).getJugadoresListos();
+    }
+
+    @Override
+    public boolean estaCasiLista(int id_sala) {
+        return salas.get(id_sala).casiLista();
+    }
+
+    @Override
+    public void setLista(int id_sala) {
+        salas.get(id_sala).lista();
+    }
+
+    @Override
+    public void addJugador(int id_sala, Jugador j) {
+        salas.get(id_sala).addJugador(j);
+    }
+
+    @Override
+    public void addJugadorListo(int id_sala, Jugador jugadorListo) {
+        salas.get(id_sala).addJugadorListo(jugadorListo);
     }
 }

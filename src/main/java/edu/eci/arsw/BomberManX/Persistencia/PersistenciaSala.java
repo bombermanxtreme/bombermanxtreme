@@ -6,6 +6,7 @@
 package edu.eci.arsw.BomberManX.Persistencia;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
 
 /**
@@ -15,11 +16,21 @@ import java.util.ArrayList;
 public interface PersistenciaSala {
 
     /**
-     * crea una sala nueva
-     *
-     * @return idSala
+     * permite crear una sala
+     * @param creador
+     * @param nombre
+     * @param equipos
+     * @param friendFire
+     * @return 
      */
-    abstract public int crearSala();
+    abstract public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire);
+    
+    /**
+     * retorna una sala pedida
+     * @param id
+     * @return 
+     */
+    abstract public Sala getSala(int id);
 
     /**
      * retorna los jugadores actuales de una sala
@@ -36,4 +47,25 @@ public interface PersistenciaSala {
      * @param idSala
      */
     abstract public void addJugadorASala(Jugador jugador, int idSala);
+    
+    /**
+     * retorna las salas
+     * @return 
+     */
+    abstract public ArrayList<Sala> getSalas();
+
+    /**
+     * retorna los jugadores que ya están listos para empezar a jugar
+     * @param idSala
+     * @return 
+     */
+    public ArrayList<Jugador> getJugadoresListos(int idSala);
+
+    public boolean estaCasiLista(int id_sala);
+
+    public void setLista(int id_sala);
+
+    public void addJugador(int id_sala, Jugador j);
+
+    public void addJugadorListo(int id_sala, Jugador jugadorListo);
 }

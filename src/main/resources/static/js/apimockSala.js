@@ -1,9 +1,7 @@
 //@author hcadavid
 
-apimockJugar = (function () {
-
+apimockSala = (function () {
     var mockdata = [];
-
     mockdata["jugadores"] = [
         {nombre: "kvnLOCAL", correo: "kvnLOCAL@local.com", clave: "123local", record: "123"},
         {nombre: "sergioLOCAL", correo: "sergioLOCAL@local.com", clave: "456local", record: "456"},
@@ -17,18 +15,18 @@ apimockJugar = (function () {
     mockdata["salas"].push(Array(/*jugadores*/));//sala 1
 
     return {
-        getJugadoresDeSala: function (idSala, callback) {
+        getSalas: function (idSala, callback) {
             callback(mockdata["salas"][idSala]);
         }
     }
 
 })();
 
-apiclientJugar = (function () {
+apiclientSala = (function () {
     return {
-        getJugadoresDeSala: function (idSala, callback) {
+        getSalas: function (callback) {
             $.ajax({
-                url: "/sala/" + idSala + "/Jugadores",
+                url: "/sala",
                 type: "GET",
             }).done(function (data) {
                 callback(data);
