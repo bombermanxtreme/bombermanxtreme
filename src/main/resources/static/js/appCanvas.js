@@ -36,8 +36,12 @@ var appCanvas = (function () {
     var callback_ponerBomba = function (message) {        
         
     }
+    
+    var callback_moverPersonaje = function (message) {        
+        var data = message;
+    }
 
-    var getJuego=function() {
+    var getJuego = function() {
         APIuseful.getJuego(idSala,function(data){
             console.log(data);
             //hacemos el tablero str
@@ -46,8 +50,9 @@ var appCanvas = (function () {
         });
     }
 
-    var actualizar=function(){
-        //dibuja el camvas COMPLETO!
+    var actualizar = function(){
+        //dibuja el canvas COMPLETO!
+        console.log("LLENANDO CANVAS");
     }
 
     return {
@@ -57,10 +62,10 @@ var appCanvas = (function () {
         init(){
             //verificamos que el usuario haya iniciado
             if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
-				MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
-				setTimeout(function(){
-					location.href="login.html";
-				},3000);
+                MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
+                setTimeout(function(){
+                        location.href="login.html";
+                },3000);
                 return false;
             }
             
@@ -88,47 +93,7 @@ var appCanvas = (function () {
         }
 
     };
-    
-    var callback_moverPersonaje = function (message) {        
-        var data = message;
-    }
-    
-    return {
-	/**
-         * encargado de realizar la conexión con STOMP
-         */
-        init() {
-            //verificamos que el usuario haya iniciado
-            if (isNaN(idJugador) || idJugador < 0) {
-                alert("Inicia sesión por favor");
-                return false;
-            }
-            $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
-            
-            //INICIAMOS CONEXIÓN
-            connectAndSubscribe();
-        },
-        /**
-         * desconecta del STOMP
-         */
-        disconnect() {
-            if (stompClient !== null) {
-                stompClient.disconnect();
-            }
-            //setConnected(false);
-            console.log("Desconectado");
-        },
-        /**
-         * Mover Personaje
-         */
-        moverPersonaje() {
-            console.log(data);
-            var cambios = JSON.parse(data.body);
-            //reportamos que este usuario ha presionado una tecla para mover el personaje			
-            stompClient.send("/app/moverPersonaje." + idSala, {}, idJugador);
-        }
-    };
-    
+
 })();
 
 //$(document).ready(

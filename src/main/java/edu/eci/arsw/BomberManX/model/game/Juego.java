@@ -66,7 +66,7 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
                 if(isNumeric(letter)){
-                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter)));
+                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter)-1));
                 }else{
                     switch (letter) {
                         case "O":
