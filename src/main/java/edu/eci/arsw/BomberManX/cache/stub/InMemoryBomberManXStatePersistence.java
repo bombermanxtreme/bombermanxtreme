@@ -8,10 +8,14 @@ package edu.eci.arsw.BomberManX.cache.stub;
 import edu.eci.arsw.BomberManX.cache.BomberManXCache;
 import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
 import edu.eci.arsw.BomberManX.services.GameCreationException;
 import edu.eci.arsw.BomberManX.services.GameServicesException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -25,6 +29,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
 
     public InMemoryBomberManXStatePersistence() {
         gamesState = new ConcurrentHashMap<>();
+        preloadGames();
     }
 
     @Override
@@ -32,16 +37,38 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
-            gamesState.put(id, new Juego(jugadores));
+            try {
+                String[][] tablero = TableroTexto.muestraContenido(id);
+                
+                gamesState.put(id, new Juego(jugadores, tablero));
+            } catch (IOException ex) {
+                Logger.getLogger(InMemoryBomberManXStatePersistence.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
 
     @Override
     public Juego getGame(int gameid) throws GameServicesException {
-        if (!gamesState.containsKey(gameid)) {
+        if (!existeGame(gameid)) {
             throw new GameServicesException("El juego " + gameid + " no existe.");
         } else {
             return gamesState.get(gameid);
         }
+    }
+
+    @Override
+    public boolean existeGame(int gameid) throws GameServicesException {
+        return gamesState.containsKey(gameid);
+	}
+    
+    private void preloadGames(){
+        //para probar sala 100
+           
+        ArrayList<Jugador>  jugadores = new ArrayList<>();
+        
+        jugadores.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
+        
+        Juego juego = new Juego(jugadores);
+       
     }
 }

@@ -7,19 +7,19 @@ package edu.eci.arsw.BomberManX.model.game.entities;
 
 /**
  *
- * @author Kvn CF <ECI>
+ * @author Kevin S. Sanchez
  */
-public class Poder implements Elemento {
+public class Espacio implements Elemento {
     private String key;
     private int posRow;
     private int posCol;
 
-    public Poder(String key, int posRow, int posCol) {
+    public Espacio(String key, int posRow, int posCol) {
         this.key = key;
         this.posRow = posRow;
         this.posCol = posCol;
     }
-    
+
     @Override
     public int getPosRow() {
         return this.posRow;
@@ -54,5 +54,5 @@ public class Poder implements Elemento {
     public Object getElemento() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
 }

@@ -27,4 +27,6 @@ public interface BomberManXCache {
     public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException;
 
     public Juego getGame(int gameid) throws GameServicesException;
+    
+    public boolean existeGame(int gameid) throws GameServicesException;
 }

@@ -6,44 +6,104 @@
 package edu.eci.arsw.BomberManX.model.game.entities;
 
 /**
- *
+ * Bomba Normal
  * @author sergioxl
  */
 public class Bomba_n extends Bomba implements Elemento{
+    
+    private final Man man;
+    private String color;
+    private int radio;
+    private boolean disponible; // si esta disponible para usar
+    private int posRow;
+    private int posCol;
+    private String key;
 
+    public Bomba_n(Man man, String color, int radio) {
+        this.man = man;
+        this.color = color;
+        this.radio = radio;
+        disponible = true;
+    }
+
+    public Bomba_n(String key, int posRow, int posCol) {
+        this.posRow = posRow;
+        this.posCol = posCol;
+        this.key = key;
+        this.man = null;
+    }
+ 
     @Override
-    public void explotar() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getPosRow() {
+        return this.posRow;
     }
 
     @Override
-    public int getId_jugador() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public void setPosRow(int pos) {
+        this.posRow = pos;
     }
 
     @Override
-    public void setId_jugador(int id_jugador) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int getPosCol() {
+        return this.posCol;
     }
 
+    @Override
+    public void setPosCol(int pos) {
+        this.posCol = pos;
+    }
+    
+    @Override
+    public String getKey() {
+        return this.key;
+    }
+
+    @Override
+    public void setKey(String k) {
+        this.key = k;
+    }
+    
+    @Override
+    public Man get_man() {
+        return man;
+    }
+    
     @Override
     public String getColor() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return color;
     }
 
     @Override
     public void setColor(String color) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.color = color;
     }
 
     @Override
     public int getRadio() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return radio;
     }
 
     @Override
     public void setRadio(int radio) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.radio = radio;
     }
+
+    @Override
+    public void setDisponible(boolean valor) {
+        disponible=valor;
+    }
+
+    @Override
+    public boolean getDisponible() {
+        return disponible;
+    }
+
+    @Override
+    public Object getElemento() {
+        return this;
+    }
+
+   
+
     
 }

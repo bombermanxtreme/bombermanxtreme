@@ -8,15 +8,16 @@ package edu.eci.arsw.BomberManX;
 import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
+import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Man;
+import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 import java.util.ArrayList;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 
 @Controller
 public class STOMPMessagesHandler {
@@ -113,15 +114,87 @@ public class STOMPMessagesHandler {
         return true;
     }
     
-    @MessageMapping("/ponerBomba.{idSala}")
-    public boolean ponerBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        String casa;
-        return true;
+    @MessageMapping("/AccionBomba.{idSala}")
+    public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        // para probar sala 100
+        ArrayList<Jugador>  jugadorez = new ArrayList<>();
+        jugadorez.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
+        
+        Juego juego = new Juego(jugadorez);
+        
+        return juego.accionBomba(jugadorez.get(0));
     }
     
+    // Author: Kevin S. Sanchez
     @MessageMapping("/moverPersonaje.{idSala}")
-    public boolean moverPersonaje(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        String casa;
-        return true;
+    public void moverPersonaje(int id_jugador, Man player, @DestinationVariable int idSala) throws Exception {
+        String[][] tablero = TableroTexto.muestraContenido(1);
+        synchronized (msgt) {
+            // Variables (pendiente definir si el man tendra posiciones en X y Y
+            int posRow = 0;
+            int posCol = 1;
+            int key = 40;
+            // Pendientes estas variables
+            ArrayList<Elemento> cambios = new ArrayList();
+            // Los jugadores solo tienen identificador numerico
+            if (isNumeric(tablero[posRow][posCol])) {
+                // Flecha Abajo
+                if (key == 40) {
+                    if (tablero[posRow + 1][posCol].equals("O")) {
+                        // Definir si colocar el IdJugador
+                        tablero[posRow + 1][posCol] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow + 1, posCol, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                // Flecha Izquierda
+                } else if (key == 37) {
+                    if (!(tablero[posRow][posCol - 1]).equals("O")) {
+                        tablero[posRow][posCol - 1] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow, posCol - 1, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                // Flecha Arriba
+                } else if (key == 38) {
+                    if (!(tablero[posRow - 1][posCol]).equals("O")) {
+                        tablero[posRow - 1][posCol] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow - 1, posCol, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                // Flecha Derecha 
+                } else if (key == 39) {
+                    if (!(tablero[posRow][posCol + 1]).equals("O")) {
+                        tablero[posRow][posCol + 1] = tablero[posRow][posCol];
+                        tablero[posRow][posCol] = "O";
+                        //Elemento e = new Elemento(posRow, posCol + 1, Integer.toString(id_jugador));
+                        //Elemento e2 = new Elemento(posRow, posCol, "O");
+                        //actualizaciones.add(e);
+                        //actualizaciones.add(e2);
+                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                    }
+                }
+            }
+        }
+    }
+    
+    public static boolean isNumeric(String str){  
+      try{  
+        double d = Double.parseDouble(str);  
+      }  
+      catch(NumberFormatException nfe){  
+        return false;  
+      }  
+      return true;  
     }
 }

@@ -3,6 +3,7 @@ package edu.eci.arsw.BomberManX.services;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.cache.BomberManXCache;
+import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
@@ -37,8 +38,12 @@ public class BomberManXServices {
      * @throws GameCreationException 
      */
     public void createGame(int id_sala) throws GameCreationException{
-        cache.createGame(id_sala,ps.getJugadoresDeSala(id_sala));
+        cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala));
         System.out.println("Juego creado en CreateGame");
+    }
+    
+    public boolean existeGame(int id_sala) throws GameCreationException, GameServicesException{
+        return cache.existeGame(id_sala);
     }
     
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
@@ -148,5 +153,13 @@ public class BomberManXServices {
     
     public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire){
         return ps.crearSala(creador, nombre, equipos, friendFire);
+    }
+
+    public Object getTablero(int i) {
+        return null;
+    }
+
+    public Juego getGame(int id_sala) throws GameServicesException {
+        return cache.getGame(id_sala);
     }
 }

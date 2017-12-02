@@ -46,6 +46,7 @@ public class Sala {
     }
 
     public ArrayList<Jugador> getJugadores() {
+        System.out.println("++++++++++++++++++++++++ Numero de jugadores: " + jugadores.size());
         return jugadores;
     }
     
