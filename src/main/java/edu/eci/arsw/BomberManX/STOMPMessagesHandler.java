@@ -40,7 +40,7 @@ public class STOMPMessagesHandler {
     @MessageMapping("/EntrarAJuego.{idSala}")
     public boolean handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
         //si la sala está casi lista ya no pueden entrar más jugadores
-        if (PS.estaCasiLista()) {
+        if (PS.estaCasiLista(idSala)) {
             enviarListadoJugadoresQuierenJugar(idSala, false);
             return false;
         }
@@ -115,9 +115,9 @@ public class STOMPMessagesHandler {
         //enviamos todos los jugadores
         msgt.convertAndSend(url, strJugadores.toString());
         //si ya están los jugadores mínimos requeridos para empezar
-        if (!PS.estaCasiLista() && PS.getJugadoresListos(idSala).size() >= Juego.MINIMOJUGADORES) {
+        if (!PS.estaCasiLista(idSala) && PS.getJugadoresListos(idSala).size() >= Juego.MINIMOJUGADORES) {
             msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Juego.TIEMPOENSALAPARAEMPEZAR);
-            PS.setLista();
+            PS.setLista(idSala);
         }
         return true;
     }

@@ -7,7 +7,6 @@ import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -34,8 +33,7 @@ public class BomberManXServices {
     
     /**
      * crea un juego nuevo
-     * @param gameid
-     * @param jugadores
+     * @param id_sala
      * @throws GameCreationException 
      */
     public void createGame(int id_sala) throws GameCreationException{
