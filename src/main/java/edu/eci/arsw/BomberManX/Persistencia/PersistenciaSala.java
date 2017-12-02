@@ -52,5 +52,16 @@ public interface PersistenciaSala {
      * retorna las salas
      * @return 
      */
-    abstract public ArrayList<Sala> getSalas();
+    abstract public ArrayList<Sala> getSalas(int id_sala);
+
+    /**
+     * retorna los jugadores que ya están listos para empezar a jugar
+     * @param idSala
+     * @return 
+     */
+    public ArrayList<Jugador> getJugadoresListos(int idSala);
+
+    public boolean estaCasiLista(int id_sala);
+
+    public void setLista(int id_sala);
 }

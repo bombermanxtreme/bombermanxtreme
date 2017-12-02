@@ -19,6 +19,7 @@ public class Sala {
     private boolean friendFire;
     private boolean casiLista;
     private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+    private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
     private ArrayList<Integer> idJugadoresListos = new ArrayList<Integer>();
 
     public Sala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
@@ -38,5 +39,13 @@ public class Sala {
     
     public boolean casiLista(){
         return casiLista;
+    }
+    
+    public ArrayList<Jugador> getJugadoresListos(){
+        return jugadoresListos;
+    }
+
+    public void lista() {
+        casiLista=true;
     }
 }

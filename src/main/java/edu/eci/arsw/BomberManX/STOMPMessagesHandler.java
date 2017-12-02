@@ -40,7 +40,7 @@ public class STOMPMessagesHandler {
     @MessageMapping("/EntrarAJuego.{idSala}")
     public boolean handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
         //si la sala está casi lista ya no pueden entrar más jugadores
-        if (PS.getSala(idSala).casiLista()) {
+        if (PS.estaCasiLista()) {
             enviarListadoJugadoresQuierenJugar(idSala, false);
             return false;
         }
@@ -70,7 +70,7 @@ public class STOMPMessagesHandler {
     public void handleJugadorListo(int id_jugador, @DestinationVariable int idSala) throws Exception {
         Jugador jugadorListo = PJ.SeleccionarJugadorPorId(id_jugador);
 
-        listosParaEmpezar.get(idSala).add(jugadorListo);
+        PS.getJugadoresListos(idSala).add(jugadorListo);
         enviarListadoJugadoresQuierenJugar(idSala, true);
     }
 
@@ -97,7 +97,7 @@ public class STOMPMessagesHandler {
                 //revisamos si ya está listo
                 int i = 0;
                 boolean listo = false;
-                ArrayList<Jugador> jugadoresListos = listosParaEmpezar.get(idSala);
+                ArrayList<Jugador> jugadoresListos = PS.getJugadoresListos(idSala);
                 synchronized (jugadoresListos) {
                     while (!listo && i < jugadoresListos.size()) {
                         if (jugadoresListos.get(i) == jugador) {
@@ -115,9 +115,9 @@ public class STOMPMessagesHandler {
         //enviamos todos los jugadores
         msgt.convertAndSend(url, strJugadores.toString());
         //si ya están los jugadores mínimos requeridos para empezar
-        if (!salasCasiListas.containsValue(idSala) && listosParaEmpezar.get(idSala).size() >= Juego.MINIMOJUGADORES) {
+        if (!PS.estaCasiLista() && PS.getJugadoresListos(idSala).size() >= Juego.MINIMOJUGADORES) {
             msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Juego.TIEMPOENSALAPARAEMPEZAR);
-            salasCasiListas.put(salasCasiListas.size(), idSala);
+            PS.setLista();
         }
         return true;
     }
