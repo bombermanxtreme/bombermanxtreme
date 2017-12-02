@@ -23,14 +23,14 @@ public class Man implements Elemento{
     private ArrayList<Bomba> bombas_man;
     private int indice;
 	
-	public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
+    public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
         this.color = color;
         this.jugador = jugador;
         bombas = 3;  
         this.key = key;
         this.posRow = posRow;
-		this.posCol = posCol;
-	}
+	this.posCol = posCol;
+    }
 
     public Man(String color, Jugador jugador, int posCol, int posRow) {
         this.color = color;
@@ -68,22 +68,22 @@ public class Man implements Elemento{
     
     }
 
-    //@Override
+    @Override
     public int getPosRow() {
         return this.posRow;
     }
 
-    //@Override
+    @Override
     public void setPosRow(int pos) {
         this.posRow = pos;
     }
 
-    //@Override
+    @Override
     public int getPosCol() {
         return this.posCol;
     }
 
-    //@Override
+    @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
     }
@@ -104,12 +104,12 @@ public class Man implements Elemento{
         return color;
     }
     
-    //@Override
+    @Override
     public String getKey() {
         return this.key;
     }
 
-    //@Override
+    @Override
     public void setKey(String k) {
         this.key = k;
     }

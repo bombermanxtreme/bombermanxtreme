@@ -61,11 +61,30 @@ public interface PersistenciaSala {
      */
     public ArrayList<Jugador> getJugadoresListos(int idSala);
 
+    /**
+     * retorna true si ya están el mínimo número de jugadores LISTOS
+     * @param id_sala
+     * @return 
+     */
     public boolean estaCasiLista(int id_sala);
 
+    /**
+     * se establece que la sala está lista es decir que cumple con el mínimo número de jugadores listos
+     * @param id_sala 
+     */
     public void setLista(int id_sala);
 
+    /**
+     * agregar un jugador a una sala
+     * @param id_sala
+     * @param j 
+     */
     public void addJugador(int id_sala, Jugador j);
 
+    /**
+     * indicar que un jugador que está en la sala, YA ESTÁ LISTO!
+     * @param id_sala
+     * @param jugadorListo 
+     */
     public void addJugadorListo(int id_sala, Jugador jugadorListo);
 }

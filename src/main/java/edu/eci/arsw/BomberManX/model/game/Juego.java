@@ -35,6 +35,10 @@ public class Juego {
     // Kevin S. Sanchez: Cambio de Casilla por Elemento
     private Elemento[][] tablero;
 
+    /**
+     * constructor
+     * @param jugadores 
+     */
     public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
     }
@@ -222,5 +226,4 @@ public class Juego {
     public int getTIEMPOENSALAPARAEMPEZAR() {
         return TIEMPOENSALAPARAEMPEZAR;
     }
-    
 }

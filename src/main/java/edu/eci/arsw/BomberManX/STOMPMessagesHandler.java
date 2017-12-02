@@ -125,7 +125,7 @@ public class STOMPMessagesHandler {
         return juego.accionBomba(jugadorez.get(0));
     }
     
-    // Author: Kevin S. Sanchez
+    // Author: Kevin S. Sanchez (DOCUEMENTACION)
     @MessageMapping("/moverPersonaje.{idSala}")
     public void moverPersonaje(int id_jugador, Man player, @DestinationVariable int idSala) throws Exception {
         String[][] tablero = TableroTexto.muestraContenido(1);

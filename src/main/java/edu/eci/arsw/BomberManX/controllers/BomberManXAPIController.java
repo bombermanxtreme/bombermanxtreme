@@ -57,6 +57,11 @@ public class BomberManXAPIController {
         }
     }
     
+    /**
+     * retorna todas las salas
+     * @param model
+     * @return 
+     */
     @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<?> getSalas(Model model) {
         try {
@@ -69,6 +74,11 @@ public class BomberManXAPIController {
         }
     }
     
+    /**
+     * crea una sala
+     * @param model
+     * @return 
+     */
     @RequestMapping(path = "", method = RequestMethod.POST)
     public ResponseEntity<?> newSala(Model model) {
         try {

@@ -19,9 +19,13 @@ public class Jugador {
     private int record;
     private Man man;
 
-    /*
-    private String apodo;
-    private String imagen;
+    /**
+     * constructor
+     * @param nombre
+     * @param correo
+     * @param apodo
+     * @param clave
+     * @param imagen 
      */
     public Jugador(String nombre, String correo, String apodo, String clave, String imagen) {
         this.nombre = nombre;
@@ -88,7 +92,6 @@ public class Jugador {
     
     @Override
     public String toString() {
-        //return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
         return "{\"Nombre\":\"" + nombre + "\", \"Record\":\"" + record + "\", Correo\":\"" + correo + "\", url\":\"" + imagen + "\", Apodo\":\"" + apodo + "\"}";        
     }
 }
