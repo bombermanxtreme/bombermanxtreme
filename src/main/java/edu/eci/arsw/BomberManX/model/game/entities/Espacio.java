@@ -10,11 +10,14 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author Kevin S. Sanchez
  */
 public class Espacio implements Elemento {
-
+    private String key;
     private int posRow;
     private int posCol;
 
-    public Espacio() {
+    public Espacio(String key, int posRow, int posCol) {
+        this.key = key;
+        this.posRow = posRow;
+        this.posCol = posCol;
     }
 
     @Override
@@ -35,6 +38,16 @@ public class Espacio implements Elemento {
     @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
+    }
+    
+    @Override
+    public String getKey() {
+        return this.key;
+    }
+
+    @Override
+    public void setKey(String k) {
+        this.key = k;
     }
     
 }

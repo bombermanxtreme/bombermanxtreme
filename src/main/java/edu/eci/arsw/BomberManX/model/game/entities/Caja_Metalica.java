@@ -10,9 +10,13 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * @author Kevin S. Sanchez
  */
 public class Caja_Metalica implements Elemento{
+    private String key;
     private int posRow, posCol;
 
-    public Caja_Metalica() {
+    public Caja_Metalica(String key, int posRow, int posCol) {
+        this.key = key;
+        this.posRow = posRow;
+        this.posCol = posCol;
     }
     
     
@@ -34,6 +38,16 @@ public class Caja_Metalica implements Elemento{
     @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
+    }
+    
+    @Override
+    public String getKey() {
+        return this.key;
+    }
+
+    @Override
+    public void setKey(String k) {
+        this.key = k;
     }
     
 }

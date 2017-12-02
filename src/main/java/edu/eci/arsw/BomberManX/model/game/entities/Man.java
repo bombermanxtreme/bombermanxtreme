@@ -11,18 +11,19 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  */
 public class Man implements Elemento{
     public static final String[] colores = {"red", "yellow", "blue"};
-    private Jugador jugador;
-    private int casilla; // casilla en la que se encuentra      
+    private Jugador jugador; 
     private Poder poder;
     private int bombas; //numero de bombas
-    private String color;  
+    private String color, key;  
     private int posRow, posCol;
     
-    public Man(String color, Jugador jugador) {
+    public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
         this.color = color;
         this.jugador = jugador;
-        casilla = 10; // posicion inicial
-        bombas = 3;       
+        bombas = 3;  
+        this.key = key;
+        this.posRow = posRow;
+        this.posCol = posCol;
     }
     
     /***
@@ -65,5 +66,35 @@ public class Man implements Elemento{
     @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
+    }
+
+    public static String[] getColores() {
+        return colores;
+    }
+
+    public Jugador getJugador() {
+        return jugador;
+    }
+
+    public Poder getPoder() {
+        return poder;
+    }
+
+    public int getBombas() {
+        return bombas;
+    }
+
+    public String getColor() {
+        return color;
+    }
+    
+    @Override
+    public String getKey() {
+        return this.key;
+    }
+
+    @Override
+    public void setKey(String k) {
+        this.key = k;
     }
 }

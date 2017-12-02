@@ -55,7 +55,7 @@ public class Juego {
             //Recorrer Columnas
             for (int col = 0; col < temp[row].length; col++){
                 letter = temp[row][col];
-                //System.out.println("///////////////////////// Letra: " + letter);
+                System.out.println("///////////////////////// Letra: " + letter);
                 // Convenciones para hacer escenarios:
                 // * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
                 // * 'O' = Espacio vacio.
@@ -67,23 +67,28 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
                 if(isNumeric(letter)){
-                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter)-1));
+                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter)-1), letter, row, col);
+                    System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                 }else{
                     switch (letter) {
                         case "O":
-                            this.tablero[row][col] = new Espacio(); 
+                            this.tablero[row][col] = new Espacio(letter, row, col); 
+                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
 
                         case "C":
-                            this.tablero[row][col] = new Caja();
+                            this.tablero[row][col] = new Caja(letter, row, col);
+                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
                             
                         case "X":
-                            this.tablero[row][col] = new Caja_Metalica();
+                            this.tablero[row][col] = new Caja_Metalica(letter, row, col);
+                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
                         
                         default:
-                            this.tablero[row][col] = new Espacio(); 
+                            this.tablero[row][col] = new Espacio(letter, row, col); 
+                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
                     }
                 }
@@ -137,4 +142,61 @@ public class Juego {
         //return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
         return "{\"cajas\":[\"" + ARRIBA + "\"]}";        
     }
+
+    public int getTiempo() {
+        return tiempo;
+    }
+
+    public void setTiempo(int tiempo) {
+        this.tiempo = tiempo;
+    }
+
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    public void setJugadores(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public Elemento[][] getTablero() {
+        return tablero;
+    }
+
+    public void setTablero(Elemento[][] tablero) {
+        this.tablero = tablero;
+    }
+
+    public int getARRIBA() {
+        return ARRIBA;
+    }
+
+    public int getABAJO() {
+        return ABAJO;
+    }
+
+    public int getDERECHA() {
+        return DERECHA;
+    }
+
+    public int getIZQUIERDA() {
+        return IZQUIERDA;
+    }
+
+    public int getANCHO() {
+        return ANCHO;
+    }
+
+    public int getALTO() {
+        return ALTO;
+    }
+
+    public int getMINIMOJUGADORES() {
+        return MINIMOJUGADORES;
+    }
+
+    public int getTIEMPOENSALAPARAEMPEZAR() {
+        return TIEMPOENSALAPARAEMPEZAR;
+    }
+    
 }

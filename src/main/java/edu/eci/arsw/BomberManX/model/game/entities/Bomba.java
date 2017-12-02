@@ -12,11 +12,17 @@ package edu.eci.arsw.BomberManX.model.game.entities;
 public class Bomba implements Elemento{
     
     private int id_jugador;
-    private String color;
+    private String color, key;
     private int radio;
     private int posRow, posCol;
     
     //public abstract void explotar();
+
+    public Bomba(String key, int posRow, int posCol) {
+        this.key = key;
+        this.posRow = posRow;
+        this.posCol = posCol;
+    }
 
     @Override
     public int getPosRow() {
@@ -36,5 +42,15 @@ public class Bomba implements Elemento{
     @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
+    }
+
+    @Override
+    public String getKey() {
+        return this.key;
+    }
+
+    @Override
+    public void setKey(String k) {
+        this.key = k;
     }
 }

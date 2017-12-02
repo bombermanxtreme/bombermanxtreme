@@ -60,16 +60,13 @@ public class BomberManXAPIControllerCanvas {
             }
             
             Juego j = gameServices.getGame(id_sala);
-            Set<Juego> x= new HashSet<>();
-            x.add(j);
             System.out.println("Voy a enviar esto: "  + j);
-            return new ResponseEntity<>(j.toString(), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(j, HttpStatus.ACCEPTED);
         } catch (GameServicesException ex) {
-            Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
+            Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);     
         } catch (NumberFormatException ex){
             Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
-            return new ResponseEntity<>("", HttpStatus.BAD_REQUEST);
         }
+        return null;
     }
 }
