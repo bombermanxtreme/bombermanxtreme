@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.model.game.entities;
 
+import edu.eci.arsw.BomberManX.model.game.Juego;
 import java.util.ArrayList;
 
 /**
@@ -21,6 +22,10 @@ public class Sala {
     private boolean casiLista;
     private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
     private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
+    //minimo de jugadores "listos" que se necesitan en la sala para jugar
+    private static final int MINIMOJUGADORES = 2;
+    //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
+    public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
 
     /**
      * constructor
@@ -109,5 +114,18 @@ public class Sala {
     @Override
     public String toString() {
         return "{\"id\":\""+id+"\",\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\"}";
+    }
+
+    /**
+     * retorna true si la sala acaba de cerrarse y pasa a estar casi lista
+     * @return 
+     */
+    public boolean cerrarSala() {
+        //si ya están los jugadores mínimos requeridos para empezar
+        if (!casiLista && jugadoresListos.size() >= MINIMOJUGADORES) {
+            casiLista=true;
+            return true;
+        }
+        return false;
     }
 }

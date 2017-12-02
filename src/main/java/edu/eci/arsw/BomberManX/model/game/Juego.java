@@ -26,10 +26,6 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
-    //minimo de jugadores "listos" que se necesitan en la sala para jugar
-    public static final int MINIMOJUGADORES = 2;
-    //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
-    public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     private int tiempo;
     private ArrayList<Jugador> jugadores;
     // Kevin S. Sanchez: Cambio de Casilla por Elemento
@@ -193,37 +189,5 @@ public class Juego {
 
     public void setTablero(Elemento[][] tablero) {
         this.tablero = tablero;
-    }
-
-    public int getARRIBA() {
-        return ARRIBA;
-    }
-
-    public int getABAJO() {
-        return ABAJO;
-    }
-
-    public int getDERECHA() {
-        return DERECHA;
-    }
-
-    public int getIZQUIERDA() {
-        return IZQUIERDA;
-    }
-
-    public int getANCHO() {
-        return ANCHO;
-    }
-
-    public int getALTO() {
-        return ALTO;
-    }
-
-    public int getMINIMOJUGADORES() {
-        return MINIMOJUGADORES;
-    }
-
-    public int getTIEMPOENSALAPARAEMPEZAR() {
-        return TIEMPOENSALAPARAEMPEZAR;
     }
 }
