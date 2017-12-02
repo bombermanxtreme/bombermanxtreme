@@ -11,10 +11,11 @@ import java.util.ArrayList;
  *
  * @author Kvn CF <ECI>
  */
-public class Man implements Elemento{    
+public class Man implements Elemento {
+
     public static final String[] colores = {"red", "yellow", "blue"};
-    private Jugador jugador;    
-    private Poder poder;        
+    private Jugador jugador;
+    private Poder poder;
     private int posCol; // posicion en x
     private int posRow; // posicion en y
     private int bombas; //numero de bombas
@@ -22,50 +23,44 @@ public class Man implements Elemento{
     private int radio;
     private ArrayList<Bomba> bombas_man;
     private int indice;
-	
-	public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
+
+    public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
         this.color = color;
         this.jugador = jugador;
-        bombas = 3;  
+        bombas = 3;
         this.key = key;
         this.posRow = posRow;
-		this.posCol = posCol;
-	}
+        this.posCol = posCol;
+        radio = 3;
+        indice = 0;
 
-    public Man(String color, Jugador jugador, int posCol, int posRow) {
-        this.color = color;
-        this.jugador = jugador;
-        this.posCol = posCol; 
-        this.posRow = posCol;
-        bombas = 3; 
-        radio=3; // unidades de tablero       
-        indice = 0; // indice de donde van las bombas
-        
-        inicar_bombas("black",radio);        
+        inicar_bombas("black", radio);
     }
-     
-    public Jugador getJugador(){
+
+    public Jugador getJugador() {
         return jugador;
-    } 
-    
+    }
+
     /**
      * Poner bomba, contar tiempo y explotar
+     *
+     * @return
      */
-    public Bomba accionBomba(){      
+    public Bomba accionBomba() {
         Bomba bomba = bombas_man.get(siguiente_bomba_indice());
         bomba.setDisponible(false);
         System.out.println("accionó Bomba >>");
         return bomba;
     }
-    
-    public boolean moverse(){
+
+    public boolean moverse() {
         return false;
-    
+
     }
-    
-    public boolean recoger_poder(){
+
+    public boolean recoger_poder() {
         return false;
-    
+
     }
 
     //@Override
@@ -103,7 +98,7 @@ public class Man implements Elemento{
     public String getColor() {
         return color;
     }
-    
+
     //@Override
     public String getKey() {
         return this.key;
@@ -113,22 +108,24 @@ public class Man implements Elemento{
     public void setKey(String k) {
         this.key = k;
     }
-    private void inicar_bombas(String color, int radio){
+
+    private void inicar_bombas(String color, int radio) {
         bombas_man = new ArrayList<>();
-        
-        for(int i=0;i<bombas_man.size();i++){
+
+        for (int i = 0; i < bombas_man.size(); i++) {
             bombas_man.add(new Bomba_n(this, color, radio));
         }
-    
+
     }
-    
+
     /**
      * retorna el sigiente indice en la lista de las bombas
-     * @return 
+     *
+     * @return
      */
-    private int siguiente_bomba_indice(){    
+    private int siguiente_bomba_indice() {
         // falta poner el timer de 5s
-       return (int)(indice++%(bombas_man.size()+1));
+        return (int) (indice++ % (bombas_man.size() + 1));
     }
 
     public int getposCol() {

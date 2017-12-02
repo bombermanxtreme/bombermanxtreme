@@ -38,6 +38,7 @@ public class Juego {
 
     public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
+        iniciar_manes();
     }
     
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
@@ -53,7 +54,7 @@ public class Juego {
         manes = new ArrayList<>();
         
         for(int i=0;i<jugadores.size();i++){ // posicion inicial provisional
-            manes.add(new Man("black", jugadores.get(i), 10, 10));
+            manes.add(new Man("black", jugadores.get(i), "key", 10, 10));
         }
     }
     
@@ -126,9 +127,9 @@ public class Juego {
     }
 
     public boolean accionBomba(Jugador jugador){
-        Man man = jugador.getMan();
-        int coor_x = jugador.getMan().getPosCol();
-        int coor_y = jugador.getMan().getPosRow();
+        Man man = manes.get(jugadores.indexOf(jugador));
+        int coor_x = man.getPosCol();
+        int coor_y = man.getPosRow();
         boolean puede = false; // puede hacer accion
         
         puede = hay_objeto(coor_x,coor_y, man);
