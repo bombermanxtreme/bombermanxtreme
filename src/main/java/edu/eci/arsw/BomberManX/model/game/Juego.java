@@ -5,8 +5,10 @@
  */
 package edu.eci.arsw.BomberManX.model.game;
 
+import edu.eci.arsw.BomberManX.model.game.entities.Bomba;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
+import edu.eci.arsw.BomberManX.model.game.entities.Man;
 import java.util.ArrayList;
 
 /**
@@ -37,12 +39,18 @@ public class Juego {
     }
 
     public boolean accionBomba(Jugador jugador){
-        boolean pudo = false;
+        Man man = jugador.getMan();
+        int coor_x = jugador.getMan().getCoor_x();
+        int coor_y = jugador.getMan().getCoor_y();
+        boolean puede = false; // puede hacer accion
         
-        jugador.getMan().accionBomba();
+        puede = hay_objeto(coor_x,coor_y, man);
         
+        if(puede){            
+            tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
+        }        
         
-        return pudo;
+        return puede;
     }
     
     public boolean mover(int id_jugador){
@@ -50,14 +58,14 @@ public class Juego {
     }
         
     /**
-     * Revisa que fila y columna del tablero no este ocuapda
+     * Revisa que fila y columna del tablero no este ocuapda, expectuando por el Man
      * @param fila
      * @param columna
      * @return 
      */
-    private boolean hay_objeto(int fila, int columna){        
-        //return tablero[fila][columna].hay_elemento();
-        return false;
+    private boolean hay_objeto(int fila, int columna, Man man){        
+        Bomba bomba = (Bomba) tablero[fila][columna].getElemento();
+        return bomba.get_man()!=man ;         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
     
     /**

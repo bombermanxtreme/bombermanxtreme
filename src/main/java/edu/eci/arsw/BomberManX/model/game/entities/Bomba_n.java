@@ -15,6 +15,7 @@ public class Bomba_n extends Bomba implements Elemento{
     private String color;
     private int radio;
     private boolean disponible; // si esta disponible para usar
+   
 
     public Bomba_n(Man man, String color, int radio) {
         this.man = man;
@@ -59,6 +60,13 @@ public class Bomba_n extends Bomba implements Elemento{
     public boolean getDisponible() {
         return disponible;
     }
+
+    @Override
+    public Object getElemento() {
+        return this;
+    }
+
+   
 
     
 }

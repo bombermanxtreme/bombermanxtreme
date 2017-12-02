@@ -30,7 +30,7 @@ public class Jugador {
         this.clave = clave;
         this.imagen = imagen;
         this.record = record <= 0 ? 0 : record;     
-        man = new Man("black", this);
+        man = new Man("black", this,10,10);// posicion inicial 10
     }
     
     public Man getMan(){

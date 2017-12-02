@@ -11,4 +11,8 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  */
 public interface Elemento {
     
+    
+    public Object getElemento();
+    
+    
 }

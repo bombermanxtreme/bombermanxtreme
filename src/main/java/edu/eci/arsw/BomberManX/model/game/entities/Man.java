@@ -11,30 +11,30 @@ import java.util.ArrayList;
  *
  * @author Kvn CF <ECI>
  */
-public class Man {
+public class Man { // se crea el man el Jugador
     public static final String[] colores = {"red", "yellow", "blue"};
-    private Jugador jugador;
-    private int posicion; // posicion en la que se encuentra      
-    private Poder poder;
-    private int bombas; //numero de bombas
-    private ArrayList<Bomba> bombas_man;
+    private Jugador jugador;    
+    private Poder poder;        
     private String color;    
-    private int radio;
+    private int coor_x; // posicion en x
+    private int coor_y; // posicion en y
     
-    private int tiempo; // tiempo de explotar bomba
+    private int radio;  
+    
+    private ArrayList<Bomba> bombas_man;
     private int indice;
+    private int bombas; //numero de bombas
     
-    public Man(String color, Jugador jugador) {
+    public Man(String color, Jugador jugador, int coor_x, int coor_y) {
         this.color = color;
         this.jugador = jugador;
-        posicion = 10; // posicion inicial
+        this.coor_x = coor_x; 
+        this.coor_y = coor_x;
         bombas = 3; 
-        radio=3; // unidades de tablero
-        tiempo = 5; // segundos
+        radio=3; // unidades de tablero       
         indice = 0; // indice de donde van las bombas
         
-        inicar_bombas("black",radio);
-        
+        inicar_bombas("black",radio);        
     }
      
     public Jugador getJugador(){
@@ -44,9 +44,10 @@ public class Man {
     /**
      * Poner bomba, contar tiempo y explotar
      */
-    public void accionBomba(){
-        
-        bombas_man.get(siguiente_bomba_indice()).setDisponible(false);
+    public Bomba accionBomba(){      
+        Bomba bomba = bombas_man.get(siguiente_bomba_indice());
+        bomba.setDisponible(false);
+        return bomba;
     }
     
     public boolean moverse(){
@@ -76,5 +77,23 @@ public class Man {
         // falta poner el timer de 5s
        return (int)(indice++%(bombas_man.size()+1));
     }
+
+    public int getCoor_x() {
+        return coor_x;
+    }
+
+    public void setCoor_x(int coor_x) {
+        this.coor_x = coor_x;
+    }
+
+    public int getCoor_y() {
+        return coor_y;
+    }
+
+    public void setCoor_y(int coor_y) {
+        this.coor_y = coor_y;
+    }
+    
+    
     
 }
