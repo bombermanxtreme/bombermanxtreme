@@ -42,7 +42,7 @@ var appCanvas = (function () {
     }
 
     var getJuego = function() {
-        APIuseful.getJuego(idSala,function(data){
+        APIuseful.getJuego(idSala, function(data){
             console.log(data);
             //hacemos el tablero str
             //actualizamos el canvas

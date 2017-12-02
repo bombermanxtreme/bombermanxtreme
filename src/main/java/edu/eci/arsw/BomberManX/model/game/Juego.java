@@ -24,7 +24,7 @@ public class Juego {
     public static final int ABAJO = 1;
     public static final int DERECHA = 2;
     public static final int IZQUIERDA = 3;
-    public static final int ANCHO = 15;
+    public static final int ANCHO = 20;
     public static final int ALTO = 10;
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     public static final int MINIMOJUGADORES = 2;
@@ -55,6 +55,7 @@ public class Juego {
             //Recorrer Columnas
             for (int col = 0; col < temp[row].length; col++){
                 letter = temp[row][col];
+                //System.out.println("///////////////////////// Letra: " + letter);
                 // Convenciones para hacer escenarios:
                 // * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
                 // * 'O' = Espacio vacio.
@@ -131,4 +132,9 @@ public class Juego {
         return false;
     }
     
+    @Override
+    public String toString() {
+        //return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
+        return "{\"cajas\":[\"" + ARRIBA + "\"]}";        
+    }
 }

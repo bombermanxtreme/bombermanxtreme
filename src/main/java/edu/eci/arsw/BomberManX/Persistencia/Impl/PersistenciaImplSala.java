@@ -33,6 +33,12 @@ public class PersistenciaImplSala implements PersistenciaSala {
     @Override
     public ArrayList<Jugador> getJugadoresDeSala(int idSala) {
         System.out.println("***************************************** Estoy entrando a obtener jugadres de SALA " + idSala + " Numero de salas: " + salas.get(0));
+        // BETA: Agregamos jugadores
+        Jugador j1 = new Jugador("Kevin", "ks@server.com", "HOla", "123", "none");
+        Jugador j2 = new Jugador("Sergio", "s@server.com", "seg", "123", "none");
+        salas.get(idSala-1).addJugador(j1);
+        salas.get(idSala-1).addJugador(j2);
+        //***********************************
         return salas.get(idSala-1).getJugadores();
     }
 

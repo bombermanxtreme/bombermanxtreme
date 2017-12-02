@@ -6,10 +6,13 @@
 package edu.eci.arsw.BomberManX.controllers;
 
 import edu.eci.arsw.BomberManX.model.game.Juego;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
 import edu.eci.arsw.BomberManX.services.GameCreationException;
 import edu.eci.arsw.BomberManX.services.GameServicesException;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +51,7 @@ public class BomberManXAPIControllerCanvas {
         
         try{
             try {
+                
                 if(!gameServices.existeGame(id_sala)){
                     gameServices.createGame(id_sala);
                 }
@@ -55,8 +59,11 @@ public class BomberManXAPIControllerCanvas {
                 Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            Juego j=gameServices.getGame(id_sala);
-            return new ResponseEntity<>(j, HttpStatus.ACCEPTED);
+            Juego j = gameServices.getGame(id_sala);
+            Set<Juego> x= new HashSet<>();
+            x.add(j);
+            System.out.println("Voy a enviar esto: "  + j);
+            return new ResponseEntity<>(j.toString(), HttpStatus.ACCEPTED);
         } catch (GameServicesException ex) {
             Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>(ex.getLocalizedMessage(),HttpStatus.NOT_FOUND);
