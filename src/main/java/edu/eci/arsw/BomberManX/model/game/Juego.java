@@ -34,6 +34,7 @@ public class Juego {
     private ArrayList<Jugador> jugadores;
     // Kevin S. Sanchez: Cambio de Casilla por Elemento
     private Elemento[][] tablero;
+    private ArrayList<Man> manes;
 
     public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
@@ -41,10 +42,19 @@ public class Juego {
     
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
+        iniciar_manes();
         this.tablero = new Elemento[ALTO][ANCHO];
         tiempo = 0;
         // Mapear Tablero
         mapearTablero(tableroTemporal);
+    }
+    
+    public void iniciar_manes(){
+        manes = new ArrayList<>();
+        
+        for(int i=0;i<jugadores.size();i++){ // posicion inicial provisional
+            manes.add(new Man("black", jugadores.get(i), 10, 10));
+        }
     }
     
     /**
@@ -142,8 +152,8 @@ public class Juego {
      * @return 
      */
     private boolean hay_objeto(int fila, int columna, Man man){        
-        Bomba bomba = (Bomba) tablero[fila][columna].getElemento();
-        return bomba.get_man()!=man ;         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
+        Bomba bomba = (Bomba) tablero[fila][columna];
+        return bomba.get_man().equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
     
     /**

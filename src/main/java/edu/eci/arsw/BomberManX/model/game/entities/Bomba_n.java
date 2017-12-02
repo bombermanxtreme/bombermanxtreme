@@ -9,7 +9,7 @@ package edu.eci.arsw.BomberManX.model.game.entities;
  * Bomba Normal
  * @author sergioxl
  */
-public class Bomba_n extends Bomba implements Elemento{
+public class Bomba_n extends Bomba{
     
     private final Man man;
     private String color;

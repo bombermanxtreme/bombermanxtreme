@@ -137,6 +137,8 @@ public class STOMPMessagesHandler {
     @MessageMapping("/AccionBomba.{idSala}")
     public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
         // para probar sala 100
+        PJ.SeleccionarJugadorPorId(id_jugador);
+        
         ArrayList<Jugador>  jugadorez = new ArrayList<>();
         jugadorez.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
         

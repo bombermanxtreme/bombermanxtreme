@@ -6,7 +6,7 @@
 package edu.eci.arsw.BomberManX.model.game.entities;
 
 /**
- * Interfaz para varios tipos de bombas
+ * Clase abstracta para varios tipos de bombas
  * @author sergioxl
  */
 public abstract class Bomba implements Elemento{
