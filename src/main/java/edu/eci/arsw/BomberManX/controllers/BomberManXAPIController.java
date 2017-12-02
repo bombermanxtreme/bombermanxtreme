@@ -50,8 +50,6 @@ public class BomberManXAPIController {
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Sala no encontrada: " + id_sala, HttpStatus.NOT_FOUND);
-
         }
-
     }
 }

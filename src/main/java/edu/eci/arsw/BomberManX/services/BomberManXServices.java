@@ -32,11 +32,12 @@ public class BomberManXServices {
     PersistenciaSala ps = null;
 
     public BomberManXServices() throws GameCreationException {
-        // para probar sala 100
+    /*        
+    // para probar sala 100
         ArrayList<Jugador>  jugadores = new ArrayList<>();
         jugadores.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
         
-        cache.createGame(100,jugadores);
+        cache.createGame(100,jugadores); */
     }
     
     
