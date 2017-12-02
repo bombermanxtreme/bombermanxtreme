@@ -31,7 +31,7 @@ public class STOMPMessagesHandler {
     //lista idDeSalas que están con los mínimos jugadores listos para jugar, bloqueando el ingreso de nuevos jugadores 
     private ConcurrentHashMap<Integer, Integer> salasCasiListas = new ConcurrentHashMap<>();
     // Matriz con estado del juego mandando como parametro el numero del escenario
-    private String[][] tablero = TableroTexto.muestraContenido(1);
+    private String[][] tablero;
     
 
     @Autowired
@@ -146,6 +146,7 @@ public class STOMPMessagesHandler {
     // Author: Kevin S. Sanchez
     @MessageMapping("/moverPersonaje.{idSala}")
     public void moverPersonaje(int id_jugador, Man player, @DestinationVariable int idSala) throws Exception {
+        tablero = TableroTexto.muestraContenido(1);
         synchronized (msgt) {
             // Variables (pendiente definir si el man tendra posiciones en X y Y
             int posRow = 0;
