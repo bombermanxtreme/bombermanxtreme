@@ -29,6 +29,8 @@ public class BomberManXAPIController {
 
     @Autowired
     BomberManXServices gc = null;
+    
+    private static final Logger LOG = Logger.getLogger(BomberManXAPIController.class.getName());
 
     /**
      * Responde a una petición get todos los Blueprints del author
