@@ -17,22 +17,14 @@ public class Jugador {
     private String clave;
     private String imagen;
     private int record;
-<<<<<<< HEAD
-    
-    /*
-    private String apodo;
-    private String imagen;
-=======
-    private Man man;
 
     /**
-     * constructor
+     * 
      * @param nombre
      * @param correo
      * @param apodo
      * @param clave
      * @param imagen 
->>>>>>> 3915b96aeffe6d81ddcf866dd62e8f68cac7f38a
      */
     public Jugador(String nombre, String correo, String apodo, String clave, String imagen) {
         this.nombre = nombre;

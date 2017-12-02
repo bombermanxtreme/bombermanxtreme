@@ -99,13 +99,8 @@ public class Man implements Elemento {
     public String getColor() {
         return color;
     }
-<<<<<<< HEAD
-
-    //@Override
-=======
     
     @Override
->>>>>>> 3915b96aeffe6d81ddcf866dd62e8f68cac7f38a
     public String getKey() {
         return this.key;
     }
