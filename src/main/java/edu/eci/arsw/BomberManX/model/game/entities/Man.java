@@ -5,37 +5,57 @@
  */
 package edu.eci.arsw.BomberManX.model.game.entities;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Kvn CF <ECI>
  */
-public class Man implements Elemento{
+public class Man implements Elemento{    
     public static final String[] colores = {"red", "yellow", "blue"};
-    private Jugador jugador; 
-    private Poder poder;
+    private Jugador jugador;    
+    private Poder poder;        
+    private int posCol; // posicion en x
+    private int posRow; // posicion en y
     private int bombas; //numero de bombas
-    private String color, key;  
-    private int posRow, posCol;
-    
-    public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
+    private String color, key;
+    private int radio;
+    private ArrayList<Bomba> bombas_man;
+    private int indice;
+	
+	public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
         this.color = color;
         this.jugador = jugador;
         bombas = 3;  
         this.key = key;
         this.posRow = posRow;
-        this.posCol = posCol;
+		this.posCol = posCol;
+	}
+
+    public Man(String color, Jugador jugador, int posCol, int posRow) {
+        this.color = color;
+        this.jugador = jugador;
+        this.posCol = posCol; 
+        this.posRow = posCol;
+        bombas = 3; 
+        radio=3; // unidades de tablero       
+        indice = 0; // indice de donde van las bombas
+        
+        inicar_bombas("black",radio);        
     }
+     
+    public Jugador getJugador(){
+        return jugador;
+    } 
     
-    /***
-     * retorna si puede o no realizar un acciones
-     * @return 
+    /**
+     * Poner bomba, contar tiempo y explotar
      */
-    public boolean puede_realizar_accion(){
-        return false;
-    }
-    
-    public void explotar_bomba(){
-    
+    public Bomba accionBomba(){      
+        Bomba bomba = bombas_man.get(siguiente_bomba_indice());
+        bomba.setDisponible(false);
+        System.out.println("accionó Bomba >>");
+        return bomba;
     }
     
     public boolean moverse(){
@@ -48,32 +68,28 @@ public class Man implements Elemento{
     
     }
 
-    @Override
+    //@Override
     public int getPosRow() {
         return this.posRow;
     }
 
-    @Override
+    //@Override
     public void setPosRow(int pos) {
         this.posRow = pos;
     }
 
-    @Override
+    //@Override
     public int getPosCol() {
         return this.posCol;
     }
 
-    @Override
+    //@Override
     public void setPosCol(int pos) {
         this.posCol = pos;
     }
 
     public static String[] getColores() {
         return colores;
-    }
-
-    public Jugador getJugador() {
-        return jugador;
     }
 
     public Poder getPoder() {
@@ -88,13 +104,51 @@ public class Man implements Elemento{
         return color;
     }
     
-    @Override
+    //@Override
     public String getKey() {
         return this.key;
     }
 
-    @Override
+    //@Override
     public void setKey(String k) {
         this.key = k;
+    }
+    private void inicar_bombas(String color, int radio){
+        bombas_man = new ArrayList<>();
+        
+        for(int i=0;i<bombas_man.size();i++){
+            bombas_man.add(new Bomba_n(this, color, radio));
+        }
+    
+    }
+    
+    /**
+     * retorna el sigiente indice en la lista de las bombas
+     * @return 
+     */
+    private int siguiente_bomba_indice(){    
+        // falta poner el timer de 5s
+       return (int)(indice++%(bombas_man.size()+1));
+    }
+
+    public int getposCol() {
+        return posCol;
+    }
+
+    public void setposCol(int posCol) {
+        this.posCol = posCol;
+    }
+
+    public int getposRow() {
+        return posRow;
+    }
+
+    public void setposRow(int posRow) {
+        this.posRow = posRow;
+    }
+
+    @Override
+    public Object getElemento() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

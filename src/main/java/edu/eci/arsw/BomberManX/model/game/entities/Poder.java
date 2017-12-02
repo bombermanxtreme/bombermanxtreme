@@ -50,4 +50,9 @@ public class Poder implements Elemento {
         this.key = k;
     }
 
+    @Override
+    public Object getElemento() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
 }

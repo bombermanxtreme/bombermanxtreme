@@ -4,7 +4,7 @@ var APIuseful=apiclientCanvas;
 var appCanvas = (function () {
 
     var stompClient = null;
-    var idJugador = document.cookie.replace("iduser=", "");    
+    var idJugador = document.cookie.replace("iduser=", "");
     var idSala = 1;//por ahora una sola sala    
 
     /**
@@ -20,10 +20,10 @@ var appCanvas = (function () {
             console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos a poner bombas de jugadores
-            stompClient.subscribe("/topic/ponerBomba." + idSala, function (eventbody) {
-                callback_ponerBomba(eventbody);
-            }); 
-            
+            stompClient.subscribe("/topic/accionBomba." + idSala, function (eventbody) {
+                callback_accionBomba(eventbody);
+            });
+
             //Estamos atentos si se mueve algun jugador dentro de l
             stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
                 callback_moverPersonaje(eventbody);
@@ -55,17 +55,22 @@ var appCanvas = (function () {
         console.log("LLENANDO CANVAS");
     }
 
+
+    var callback_accionBomba = function (message) {
+
+    };
+    
     return {
-		/**
+        /**
          * encargado de realizar la conexión con STOMP
          */
-        init(){
+        init() {
             //verificamos que el usuario haya iniciado
-            if (idJugador=="" || isNaN(idJugador) || idJugador < 0) {
-                MJ_simplex("Jugar","Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>",true);
-                setTimeout(function(){
-                        location.href="login.html";
-                },3000);
+            if (idJugador === "" || isNaN(idJugador) || idJugador < 0) {
+                MJ_simplex("Jugar", "Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>", true);
+                setTimeout(function () {
+                    location.href = "login.html";
+                }, 3000);
                 return false;
             }
             
@@ -87,9 +92,9 @@ var appCanvas = (function () {
         /**
          * envia que ya está listo este usuario
          */
-        ponerBomba() {
+        accionBomba() {
             //reportamos que este usuario quiere poner una bomba			
-            stompClient.send("/app/ponerBomba." + idSala, {},idJugador);
+            stompClient.send("/app/accionBomba." + idSala, {}, idJugador);
         }
 
     };

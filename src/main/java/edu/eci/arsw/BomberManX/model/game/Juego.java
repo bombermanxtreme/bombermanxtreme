@@ -7,10 +7,10 @@ package edu.eci.arsw.BomberManX.model.game;
 
 import edu.eci.arsw.BomberManX.model.game.entities.Caja;
 import edu.eci.arsw.BomberManX.model.game.entities.Caja_Metalica;
-import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
-import edu.eci.arsw.BomberManX.model.game.entities.Casilla;
-import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
 import edu.eci.arsw.BomberManX.model.game.entities.Espacio;
+import edu.eci.arsw.BomberManX.model.game.entities.Bomba;
+import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
+import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
 import edu.eci.arsw.BomberManX.model.game.entities.Man;
 import java.util.ArrayList;
 
@@ -35,6 +35,10 @@ public class Juego {
     // Kevin S. Sanchez: Cambio de Casilla por Elemento
     private Elemento[][] tablero;
 
+    public Juego(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+    
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
         this.tablero = new Elemento[ALTO][ANCHO];
@@ -110,16 +114,36 @@ public class Juego {
       }  
       return true;  
     }
+
+    public boolean accionBomba(Jugador jugador){
+        Man man = jugador.getMan();
+        int coor_x = jugador.getMan().getPosCol();
+        int coor_y = jugador.getMan().getPosRow();
+        boolean puede = false; // puede hacer accion
+        
+        puede = hay_objeto(coor_x,coor_y, man);
+        
+        if(puede){      
+            System.out.println("Pudo moverse >>");
+            tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
+        }        
+        
+        return puede;
+    }
     
+    public boolean mover(int id_jugador){
+        return false;
+    }
+        
     /**
-     * Revisa que fila y columna del tablero no este ocuapda
+     * Revisa que fila y columna del tablero no este ocuapda, expectuando por el Man
      * @param fila
      * @param columna
      * @return 
      */
-    public boolean hay_objeto(int fila, int columna){        
-        //return tablero[fila][columna].hay_elemento();
-        return false;
+    private boolean hay_objeto(int fila, int columna, Man man){        
+        Bomba bomba = (Bomba) tablero[fila][columna].getElemento();
+        return bomba.get_man()!=man ;         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
     
     /**
@@ -128,7 +152,7 @@ public class Juego {
      * @param columna
      * @return 
      */
-    public Object[] hay_objeto_tipo(int fila, int columna){
+    private Object[] hay_objeto_tipo(int fila, int columna){
         Object[] lista = new Object[2];
         return lista;
     }

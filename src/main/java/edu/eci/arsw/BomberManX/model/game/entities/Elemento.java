@@ -23,4 +23,7 @@ public interface Elemento {
     
     public void setPosCol(int pos);
     
+    public Object getElemento();
+    
+    
 }

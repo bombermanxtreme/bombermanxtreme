@@ -6,10 +6,10 @@
 package edu.eci.arsw.BomberManX.model.game.entities;
 
 /**
- *
+ * Interfaz para varios tipos de bombas
  * @author sergioxl
  */
-public class Bomba implements Elemento{
+public abstract class Bomba implements Elemento{
     
     private int id_jugador;
     private String color, key;
@@ -18,11 +18,6 @@ public class Bomba implements Elemento{
     
     //public abstract void explotar();
 
-    public Bomba(String key, int posRow, int posCol) {
-        this.key = key;
-        this.posRow = posRow;
-        this.posCol = posCol;
-    }
 
     @Override
     public int getPosRow() {
@@ -53,4 +48,18 @@ public class Bomba implements Elemento{
     public void setKey(String k) {
         this.key = k;
     }
+
+    public abstract Man get_man();
+
+    public abstract String getColor();
+
+    public abstract void setColor(String color);
+
+    public abstract int getRadio();
+
+    public abstract void setRadio(int radio);
+    
+    public abstract void setDisponible(boolean valor);
+    
+    public abstract boolean getDisponible();
 }

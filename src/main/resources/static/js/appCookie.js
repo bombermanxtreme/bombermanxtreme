@@ -7,8 +7,31 @@ var appCookie=(function(){
 	var _setIdJugador=function(id) {
 		document.cookie="iduser="+id;
 	};
+
+	var _findCookie=function(key) {
+		var res=null;
+		document.cookie.split("; ").map(function(e) {
+			var _cookie=e.split("=");
+			if(_cookie[0]==key)
+				res=_cookie[1];
+		});
+		return res;
+	}
 	
     return {
+		/**
+		 * guarda el id sala elegida
+		 * @param {*} id 
+		 */
+		setSala(id) {
+			document.cookie="idsala="+id;
+		},
+		/**
+		 * retorna el id sala
+		 */
+		getSala() {
+			return _findCookie("idsala");
+		},
 		/**
 		 * establece la cookie en -1 y redirije
 		 */
@@ -25,11 +48,7 @@ var appCookie=(function(){
 		 */
         getIdJugador(fueraDeJuego){
 			var idJugador=-1;
-			document.cookie.split("; ").map(function(e) {
-				var _cookie=e.split("=");
-				if(_cookie[0]=="iduser")
-					idJugador=_cookie[1];
-			});
+			idJugador=_findCookie("iduser");
 	
 			if (!fueraDeJuego && idJugador<0) {
 				setTimeout(function(params) {//demoramos un poco

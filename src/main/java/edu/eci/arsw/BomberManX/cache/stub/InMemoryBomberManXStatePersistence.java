@@ -29,6 +29,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
 
     public InMemoryBomberManXStatePersistence() {
         gamesState = new ConcurrentHashMap<>();
+        preloadGames();
     }
 
     @Override
@@ -58,5 +59,16 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     @Override
     public boolean existeGame(int gameid) throws GameServicesException {
         return gamesState.containsKey(gameid);
+	}
+    
+    private void preloadGames(){
+        //para probar sala 100
+           
+        ArrayList<Jugador>  jugadores = new ArrayList<>();
+        
+        jugadores.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
+        
+        Juego juego = new Juego(jugadores);
+       
     }
 }

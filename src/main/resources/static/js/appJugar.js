@@ -91,10 +91,11 @@ var appJugar=(function(){
         //disminuir tiempo cada segundo
         var restarSegundos = function () {
             if (segundosRestantes === 0) {
-                if (jugadorListo)
-                    location.href = "/indexCanvas.html";
-                else
-                    alert("no entraste al juego intenta en otra sala");
+                if (jugadorListo){
+					appCookie.setSala(idSala);
+                    location.href = "/indexPlay.html";
+                }else
+                    MJ_simple("Jugar","no entraste al juego intenta en otra sala");
                 return false;
             }
             $("#segundos").text(segundosRestantes--);

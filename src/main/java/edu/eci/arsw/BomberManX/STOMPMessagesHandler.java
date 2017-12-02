@@ -30,9 +30,6 @@ public class STOMPMessagesHandler {
     private ConcurrentHashMap<Integer, ArrayList<Jugador>> listosParaEmpezar = new ConcurrentHashMap<>();
     //lista idDeSalas que están con los mínimos jugadores listos para jugar, bloqueando el ingreso de nuevos jugadores 
     private ConcurrentHashMap<Integer, Integer> salasCasiListas = new ConcurrentHashMap<>();
-    // Matriz con estado del juego mandando como parametro el numero del escenario
-    private String[][] tablero;
-    
 
     @Autowired
     SimpMessagingTemplate msgt;
@@ -137,16 +134,21 @@ public class STOMPMessagesHandler {
         return true;
     }
     
-    @MessageMapping("/ponerBomba.{idSala}")
-    public boolean ponerBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        String casa;
-        return true;
+    @MessageMapping("/AccionBomba.{idSala}")
+    public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        // para probar sala 100
+        ArrayList<Jugador>  jugadorez = new ArrayList<>();
+        jugadorez.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
+        
+        Juego juego = new Juego(jugadorez);
+        
+        return juego.accionBomba(jugadorez.get(0));
     }
     
     // Author: Kevin S. Sanchez
     @MessageMapping("/moverPersonaje.{idSala}")
     public void moverPersonaje(int id_jugador, Man player, @DestinationVariable int idSala) throws Exception {
-        tablero = TableroTexto.muestraContenido(1);
+        String[][] tablero = TableroTexto.muestraContenido(1);
         synchronized (msgt) {
             // Variables (pendiente definir si el man tendra posiciones en X y Y
             int posRow = 0;
