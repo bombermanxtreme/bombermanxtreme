@@ -64,4 +64,14 @@ public class PersistenciaImplSala implements PersistenciaSala {
     public void setLista(int id_sala) {
         salas.get(id_sala).lista();
     }
+
+    @Override
+    public void addJugador(int id_sala, Jugador j) {
+        salas.get(id_sala).addJugador(j);
+    }
+
+    @Override
+    public void addJugadorListo(int id_sala, Jugador jugadorListo) {
+        salas.get(id_sala).addJugadorListo(jugadorListo);
+    }
 }

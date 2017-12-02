@@ -64,4 +64,8 @@ public interface PersistenciaSala {
     public boolean estaCasiLista(int id_sala);
 
     public void setLista(int id_sala);
+
+    public void addJugador(int id_sala, Jugador j);
+
+    public void addJugadorListo(int id_sala, Jugador jugadorListo);
 }

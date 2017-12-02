@@ -79,8 +79,6 @@ public class Jugador {
     public void setRecord(int record) {
         this.record = record;
     }
-     
-    
     
     @Override
     public String toString() {

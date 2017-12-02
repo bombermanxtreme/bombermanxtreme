@@ -146,7 +146,7 @@ public class BomberManXServices {
         return r;
     }
     
-    public int newSala(Jugador creador, String nombre, boolean equipos, boolean friendFire){
+    public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire){
         return ps.crearSala(creador, nombre, equipos, friendFire);
     }
 }

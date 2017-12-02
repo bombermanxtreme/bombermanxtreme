@@ -45,16 +45,7 @@ public class STOMPMessagesHandler {
             return false;
         }
         Jugador j = PJ.SeleccionarJugadorPorId(id_jugador);
-        boolean yaExiste = false;
-        //revisamos que aún no esté en la lista
-        for (Jugador entry : PS.getJugadoresDeSala(idSala)) {
-            if(entry.equals(j)){
-                yaExiste=true;
-                break;
-            }
-        }
-        //si no está en la lista entonces lo agregamos
-        if(!yaExiste)PS.getJugadoresDeSala(idSala).add(j);
+        PS.addJugador(idSala,j);
         enviarListadoJugadoresQuierenJugar(idSala, true);
         return true;
     }
@@ -70,7 +61,7 @@ public class STOMPMessagesHandler {
     public void handleJugadorListo(int id_jugador, @DestinationVariable int idSala) throws Exception {
         Jugador jugadorListo = PJ.SeleccionarJugadorPorId(id_jugador);
 
-        PS.getJugadoresListos(idSala).add(jugadorListo);
+        PS.addJugadorListo(idSala,jugadorListo);
         enviarListadoJugadoresQuierenJugar(idSala, true);
     }
 
@@ -100,7 +91,7 @@ public class STOMPMessagesHandler {
                 ArrayList<Jugador> jugadoresListos = PS.getJugadoresListos(idSala);
                 synchronized (jugadoresListos) {
                     while (!listo && i < jugadoresListos.size()) {
-                        if (jugadoresListos.get(i) == jugador) {
+                        if (jugadoresListos.get(i).equals(jugador)) {
                             listo = true;
                         }
                         i++;

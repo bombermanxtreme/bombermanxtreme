@@ -30,6 +30,16 @@ public class Sala {
     }
 
     public void addJugador(Jugador jugador) {
+        boolean yaExiste = false;
+        //revisamos que aún no esté en la lista
+        for (Jugador entry : jugadores) {
+            if(entry.equals(jugador)){
+                yaExiste=true;
+                break;
+            }
+        }
+        //si no está en la lista entonces lo agregamos
+        if(!yaExiste)
         jugadores.add(jugador);
     }
 
@@ -47,5 +57,24 @@ public class Sala {
 
     public void lista() {
         casiLista=true;
+    }
+
+    public void addJugadorListo(Jugador jugadorListo) {
+        boolean yaExiste = false;
+        //revisamos que aún no esté en la lista
+        for (Jugador entry : jugadoresListos) {
+            if(entry.equals(jugadorListo)){
+                yaExiste=true;
+                break;
+            }
+        }
+        //si no está en la lista entonces lo agregamos
+        if(!yaExiste)
+        jugadoresListos.add(jugadorListo);
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\"}";
     }
 }

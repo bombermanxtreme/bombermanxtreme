@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.controllers;
 
+import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
@@ -30,6 +31,8 @@ public class BomberManXAPIController {
 
     @Autowired
     BomberManXServices gc = null;
+    @Autowired
+    PersistenciaJugador PJ = null;
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIController.class.getName());
     
@@ -51,19 +54,15 @@ public class BomberManXAPIController {
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Sala no encontrada: " + id_sala, HttpStatus.NOT_FOUND);
-
         }
-
     }
-    
     
     @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<?> getSalas(Model model) {
         try {
+            gc.crearSala(PJ.SeleccionarJugadorPorId(0),"PRIMERAAA (cada q entra) STUUUB",false,true);
             Set<Sala> data = gc.getSalas();
-            System.out.println("salas encontradas:");
-            System.out.println(data);
-            return new ResponseEntity<>(data, HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(data.toString(), HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Buscando salas", HttpStatus.NOT_FOUND);

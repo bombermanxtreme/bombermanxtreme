@@ -1,6 +1,17 @@
 //var APIuseful = apimockJugar;
 var APIuseful=apiclientSala;
 
+	/**
+	 * desconecta del STOMP
+	 */
+	var disconnect=function() {
+		if (stompClient!==null) {
+			stompClient.disconnect();
+		}
+		//setConnected(false);
+		console.log("Desconectado");
+	}
+
 var appSala=(function(){
 	var stompClient = null;
 	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
@@ -34,9 +45,19 @@ var appSala=(function(){
 	};
 
 	var getSalas=function(){
-		$("#antesDeEmpezar").html("Cargando Salas... " + imgCargando);
+		$("#antesDeEmpezar").html("<div id='titulo_salas'>Salas De Juego</div><input type='button' onclick='appSala.crearSala();' value='Crear Nueva Sala'><div id='lista_salas'>Cargando Salas..." + imgCargando+"</div>");
 		APIuseful.getSalas(function (data) {
-			console.info("data: "+data);
+			var J=eval("("+data+")");
+			console.info("data: ");
+			console.info(J);
+			if(J.length>0){
+				$("#lista_salas").html(" ");
+				for (let i=0; i<J.length;i++){
+					$("#lista_salas").append("<div onclick=''>"+J[i].nombre+" - "+J[i].numJugadores+" jugadores</div>");
+				}
+			}else{
+				console.log("no se han encontrado salas disponibles");
+			}
 		});
 	};
 
@@ -54,14 +75,10 @@ var appSala=(function(){
 			getSalas();
 		},
 		/**
-		 * desconecta del STOMP
+		 * permite crear sala nueva
 		 */
-		disconnect() {
-			if (stompClient!==null) {
-				stompClient.disconnect();
-			}
-			//setConnected(false);
-			console.log("Desconectado");
+		crearSala(){
+			disconnect();
 		}
 	};
 })();
