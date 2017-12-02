@@ -26,8 +26,8 @@ public class PersistenciaImplSala implements PersistenciaSala {
 
     @Override
     public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
-        salas.add(new Sala(creador, nombre, equipos, friendFire));
-        return salas.size();
+        salas.add(new Sala(salas.size(),creador, nombre, equipos, friendFire));
+        return salas.size()-1;
     }
 
     @Override

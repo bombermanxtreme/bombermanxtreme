@@ -13,6 +13,7 @@ import java.util.ArrayList;
  */
 public class Sala {
 
+    private int id;
     private Jugador creador;
     private String nombre;
     private boolean equipos;
@@ -22,7 +23,8 @@ public class Sala {
     private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
     private ArrayList<Integer> idJugadoresListos = new ArrayList<Integer>();
 
-    public Sala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
+    public Sala(int id,Jugador creador, String nombre, boolean equipos, boolean friendFire) {
+        this.id = id;
         this.creador = creador;
         this.nombre = nombre;
         this.equipos = equipos;
@@ -75,6 +77,6 @@ public class Sala {
     
     @Override
     public String toString() {
-        return "{\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\"}";
+        return "{\"id\":\""+id+"\",\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\"}";
     }
 }

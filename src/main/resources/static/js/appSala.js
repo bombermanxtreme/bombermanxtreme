@@ -1,6 +1,10 @@
 //var APIuseful = apimockJugar;
 var APIuseful=apiclientSala;
 
+var appSala=(function(){
+	var stompClient = null;
+	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
+
 	/**
 	 * desconecta del STOMP
 	 */
@@ -11,11 +15,6 @@ var APIuseful=apiclientSala;
 		//setConnected(false);
 		console.log("Desconectado");
 	}
-
-var appSala=(function(){
-	var stompClient = null;
-	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
-
 	/**
 	 * función que realiza la conexión STOMP
 	 */
@@ -53,7 +52,7 @@ var appSala=(function(){
 			if(J.length>0){
 				$("#lista_salas").html(" ");
 				for (let i=0; i<J.length;i++){
-					$("#lista_salas").append("<div onclick=''>"+J[i].nombre+" - "+J[i].numJugadores+" jugadores</div>");
+					$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'>"+J[i].nombre+" - "+J[i].numJugadores+" jugadores</div>");
 				}
 			}else{
 				console.log("no se han encontrado salas disponibles");
@@ -79,6 +78,14 @@ var appSala=(function(){
 		 */
 		crearSala(){
 			disconnect();
+		},
+		/**
+		 * entra a la sala y empezamos a ejecutar appJugar
+		 */
+		entrarASala(id){
+			disconnect();
+			appCookie.setSala(id);
+			appJugar.init();
 		}
 	};
 })();
