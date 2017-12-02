@@ -59,7 +59,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     @Override
     public boolean existeGame(int gameid) throws GameServicesException {
         return gamesState.containsKey(gameid);
-	}
+    }
     
     private void preloadGames(){
         //para probar sala 100

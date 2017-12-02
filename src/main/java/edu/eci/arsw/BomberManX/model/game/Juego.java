@@ -36,6 +36,10 @@ public class Juego {
     private Elemento[][] tablero;
     private ArrayList<Man> manes;
 
+    /**
+     * constructor
+     * @param jugadores 
+     */
     public Juego(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
         iniciar_manes();
@@ -233,5 +237,4 @@ public class Juego {
     public int getTIEMPOENSALAPARAEMPEZAR() {
         return TIEMPOENSALAPARAEMPEZAR;
     }
-    
 }

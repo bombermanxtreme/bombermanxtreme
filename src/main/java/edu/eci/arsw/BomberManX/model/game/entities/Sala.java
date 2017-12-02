@@ -21,8 +21,15 @@ public class Sala {
     private boolean casiLista;
     private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
     private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
-    private ArrayList<Integer> idJugadoresListos = new ArrayList<Integer>();
 
+    /**
+     * constructor
+     * @param id
+     * @param creador
+     * @param nombre
+     * @param equipos
+     * @param friendFire 
+     */
     public Sala(int id,Jugador creador, String nombre, boolean equipos, boolean friendFire) {
         this.id = id;
         this.creador = creador;
@@ -31,6 +38,10 @@ public class Sala {
         this.friendFire = friendFire;
     }
 
+    /**
+     * agrega un jugador a la sala SI NO HA SIDO AGREGADO
+     * @param jugador 
+     */
     public void addJugador(Jugador jugador) {
         boolean yaExiste = false;
         //revisamos que aún no esté en la lista
@@ -45,23 +56,42 @@ public class Sala {
         jugadores.add(jugador);
     }
 
+    /**
+     * retorna los jugadores que están en la sala
+     * @return 
+     */
     public ArrayList<Jugador> getJugadores() {
         System.out.println("++++++++++++++++++++++++ Numero de jugadores: " + jugadores.size());
         return jugadores;
     }
     
+    /**
+     * retorna si está casi lista o faltan jugadores que estén listos para empezar
+     * @return 
+     */
     public boolean casiLista(){
         return casiLista;
     }
     
+    /**
+     * retorna los jugadores listos
+     * @return 
+     */
     public ArrayList<Jugador> getJugadoresListos(){
         return jugadoresListos;
     }
 
+    /**
+     * establece que la sala está casi lista, es decir que los estudiantes mínimos que están listos lo estén
+     */
     public void lista() {
         casiLista=true;
     }
 
+    /**
+     * agrega que un jugador ya está listo
+     * @param jugadorListo 
+     */
     public void addJugadorListo(Jugador jugadorListo) {
         boolean yaExiste = false;
         //revisamos que aún no esté en la lista

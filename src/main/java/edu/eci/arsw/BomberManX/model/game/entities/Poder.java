@@ -14,6 +14,12 @@ public class Poder implements Elemento {
     private int posRow;
     private int posCol;
 
+    /**
+     * constructor
+     * @param key
+     * @param posRow
+     * @param posCol 
+     */
     public Poder(String key, int posRow, int posCol) {
         this.key = key;
         this.posRow = posRow;

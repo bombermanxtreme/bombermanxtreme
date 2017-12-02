@@ -24,6 +24,7 @@ public class Man implements Elemento {
     private ArrayList<Bomba> bombas_man;
     private int indice;
 
+
     public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
         this.color = color;
         this.jugador = jugador;
@@ -33,7 +34,7 @@ public class Man implements Elemento {
         this.posCol = posCol;
         radio = 3;
         indice = 0;
-
+    
         inicar_bombas("black", radio);
     }
 
@@ -63,22 +64,22 @@ public class Man implements Elemento {
 
     }
 
-    //@Override
+    @Override
     public int getPosRow() {
         return this.posRow;
     }
 
-    //@Override
+    @Override
     public void setPosRow(int pos) {
         this.posRow = pos;
     }
 
-    //@Override
+    @Override
     public int getPosCol() {
         return this.posCol;
     }
 
-    //@Override
+    @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
     }
@@ -98,13 +99,18 @@ public class Man implements Elemento {
     public String getColor() {
         return color;
     }
+<<<<<<< HEAD
 
     //@Override
+=======
+    
+    @Override
+>>>>>>> 3915b96aeffe6d81ddcf866dd62e8f68cac7f38a
     public String getKey() {
         return this.key;
     }
 
-    //@Override
+    @Override
     public void setKey(String k) {
         this.key = k;
     }

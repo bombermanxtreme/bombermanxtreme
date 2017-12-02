@@ -41,11 +41,22 @@ public class BomberManXServices {
         cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala));
         System.out.println("Juego creado en CreateGame");
     }
-    
+    /**
+     * verifica si un juego ya existe
+     * @param id_sala
+     * @return
+     * @throws GameCreationException
+     * @throws GameServicesException 
+     */
     public boolean existeGame(int id_sala) throws GameCreationException, GameServicesException{
         return cache.existeGame(id_sala);
     }
     
+    /**
+     * setter
+     * @param bpp
+     * @param ps 
+     */
     public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
         this.pj = bpp;
         this.ps = ps;
@@ -142,6 +153,10 @@ public class BomberManXServices {
         return url;
     }
    
+    /**
+     * retorna las salas existentes
+     * @return 
+     */
     public Set<Sala> getSalas(){
         Set<Sala> r = new HashSet<>();
         ArrayList<Sala> salas = ps.getSalas();
@@ -151,6 +166,14 @@ public class BomberManXServices {
         return r;
     }
     
+    /**
+     * permite crear una sala
+     * @param creador
+     * @param nombre
+     * @param equipos
+     * @param friendFire
+     * @return 
+     */
     public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire){
         return ps.crearSala(creador, nombre, equipos, friendFire);
     }
@@ -159,6 +182,12 @@ public class BomberManXServices {
         return null;
     }
 
+    /**
+     * retorna un juego
+     * @param id_sala
+     * @return
+     * @throws GameServicesException 
+     */
     public Juego getGame(int id_sala) throws GameServicesException {
         return cache.getGame(id_sala);
     }

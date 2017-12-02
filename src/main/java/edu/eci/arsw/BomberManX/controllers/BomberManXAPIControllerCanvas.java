@@ -45,7 +45,7 @@ public class BomberManXAPIControllerCanvas {
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerCanvas.class.getName());
     
-    // Author: Kevin S. Sanchez
+    // Author: Kevin S. Sanchez (DOCUMENTACIÓN)
     @RequestMapping(path = "/tablero/{id_sala}", method = RequestMethod.GET)
     public ResponseEntity<?> getTablero(@PathVariable int id_sala) {
         

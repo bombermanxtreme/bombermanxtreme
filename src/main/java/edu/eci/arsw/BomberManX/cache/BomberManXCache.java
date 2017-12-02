@@ -26,7 +26,19 @@ public interface BomberManXCache {
      */
     public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException;
 
+    /**
+     * retorna el juego número gameid
+     * @param gameid
+     * @return
+     * @throws GameServicesException 
+     */
     public Juego getGame(int gameid) throws GameServicesException;
     
+    /**
+     * retorna true si el juego número gameid ya existe
+     * @param gameid
+     * @return
+     * @throws GameServicesException 
+     */
     public boolean existeGame(int gameid) throws GameServicesException;
 }
