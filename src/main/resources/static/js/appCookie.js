@@ -49,7 +49,6 @@ var appCookie=(function(){
         getIdJugador(fueraDeJuego){
 			var idJugador=-1;
 			idJugador=_findCookie("iduser");
-			console.log("buscando cookiee jugador"+idJugador);
 	
 			if (!fueraDeJuego && idJugador<0) {
 				setTimeout(function(params) {//demoramos un poco

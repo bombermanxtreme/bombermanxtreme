@@ -5,7 +5,6 @@ var appGame=(function(){
 	var stompClient = null;
 	var idSala = appCookie.getSala();
 	var idJugador = appCookie.getIdJugador();
-	console.log(idSala);
 	/**
 	 * función que realiza la conexión STOMP
 	 */
