@@ -69,12 +69,6 @@ public interface PersistenciaSala {
     public boolean estaCasiLista(int id_sala);
 
     /**
-     * se establece que la sala está lista es decir que cumple con el mínimo número de jugadores listos
-     * @param id_sala 
-     */
-    public void setLista(int id_sala);
-
-    /**
      * agregar un jugador a una sala
      * @param id_sala
      * @param j 
@@ -87,4 +81,10 @@ public interface PersistenciaSala {
      * @param jugadorListo 
      */
     public void addJugadorListo(int id_sala, Jugador jugadorListo);
+
+    /**
+     * cierra una sala y retorna true SOLO LA PRIMERA vez, sala cerra NO permite entrar a nadie más
+     * @return 
+     */
+    public boolean cerrarSala(int id_sala);
 }

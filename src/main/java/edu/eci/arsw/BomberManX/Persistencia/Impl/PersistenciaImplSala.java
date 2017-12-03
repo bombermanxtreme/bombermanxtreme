@@ -21,7 +21,6 @@ public class PersistenciaImplSala implements PersistenciaSala {
     private ArrayList<Sala> salas = new ArrayList<Sala>();
 
     public PersistenciaImplSala() {
-        //aca se pueden crear salas para probar
     }
 
     @Override
@@ -61,11 +60,6 @@ public class PersistenciaImplSala implements PersistenciaSala {
     }
 
     @Override
-    public void setLista(int id_sala) {
-        salas.get(id_sala).lista();
-    }
-
-    @Override
     public void addJugador(int id_sala, Jugador j) {
         salas.get(id_sala).addJugador(j);
     }
@@ -73,5 +67,10 @@ public class PersistenciaImplSala implements PersistenciaSala {
     @Override
     public void addJugadorListo(int id_sala, Jugador jugadorListo) {
         salas.get(id_sala).addJugadorListo(jugadorListo);
+    }
+
+    @Override
+    public boolean cerrarSala(int id_sala) {
+        return salas.get(id_sala).cerrarSala();
     }
 }

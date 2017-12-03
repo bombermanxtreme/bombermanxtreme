@@ -11,6 +11,7 @@ import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Man;
+import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
@@ -40,6 +41,7 @@ public class STOMPMessagesHandler {
      */
     @MessageMapping("/EntrarAJuego.{idSala}")
     public boolean handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        System.out.println("entrando a sala: "+idSala);
         //si la sala está casi lista ya no pueden entrar más jugadores
         if (PS.estaCasiLista(idSala)) {
             enviarListadoJugadoresQuierenJugar(idSala, false);
@@ -106,11 +108,8 @@ public class STOMPMessagesHandler {
         }
         //enviamos todos los jugadores
         msgt.convertAndSend(url, strJugadores.toString());
-        //si ya están los jugadores mínimos requeridos para empezar
-        if (!PS.estaCasiLista(idSala) && PS.getJugadoresListos(idSala).size() >= Juego.MINIMOJUGADORES) {
-            msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Juego.TIEMPOENSALAPARAEMPEZAR);
-            PS.setLista(idSala);
-        }
+        if(PS.cerrarSala(idSala))
+            msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Sala.TIEMPOENSALAPARAEMPEZAR);
         return true;
     }
     

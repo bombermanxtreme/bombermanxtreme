@@ -6,6 +6,7 @@
 package edu.eci.arsw.BomberManX.controllers;
 
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
+import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
@@ -33,6 +34,8 @@ public class BomberManXAPIController {
     BomberManXServices gc = null;
     @Autowired
     PersistenciaJugador PJ = null;
+    @Autowired
+    PersistenciaSala PS = null;
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIController.class.getName());
     
@@ -65,7 +68,15 @@ public class BomberManXAPIController {
     @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<?> getSalas(Model model) {
         try {
-            gc.crearSala(PJ.SeleccionarJugadorPorId(0),"PRIMERAAA (cada q entra) STUUUB",false,true);
+            if(PS.getSalas().size()==0){
+                int tmp=PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los BOMBERS",false,true);
+                System.out.println("creada sala:"+tmp);
+                tmp=PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los perdidos",false,true);
+                System.out.println("creada sala:"+tmp);
+                tmp=PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los XXX",false,true);
+                System.out.println("creada sala:"+tmp);
+            }
+            
             Set<Sala> data = gc.getSalas();
             return new ResponseEntity<>(data.toString(), HttpStatus.ACCEPTED);
         } catch (Exception ex) {
