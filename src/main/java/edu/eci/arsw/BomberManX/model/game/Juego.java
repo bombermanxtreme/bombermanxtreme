@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.model.game;
 
+import edu.eci.arsw.BomberManX.Recursos.Timeout;
 import edu.eci.arsw.BomberManX.model.game.entities.Caja;
 import edu.eci.arsw.BomberManX.model.game.entities.Caja_Metalica;
 import edu.eci.arsw.BomberManX.model.game.entities.Espacio;
@@ -130,17 +131,22 @@ public class Juego {
       return true;  
     }
 
+    /**
+     * Ejecuta la accion de la bomba de ser posible, la coloca y luego temporiza 5s para explotar
+     * @param jugador
+     * @return 
+     */
     public boolean accionBomba(Jugador jugador){
         Man man = manes.get(jugadores.indexOf(jugador));
         int coor_x = man.getPosCol();
         int coor_y = man.getPosRow();
-        boolean puede = false; // puede hacer accion
-        
-        puede = hay_objeto(coor_x,coor_y, man);
+        boolean puede = hay_objeto(coor_x,coor_y, man);
         
         if(puede){      
             System.out.println("Pudo moverse >>");
             tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
+            Timeout timeout = new Timeout();
+            timeout.start(5000);
         }        
         
         return puede;
