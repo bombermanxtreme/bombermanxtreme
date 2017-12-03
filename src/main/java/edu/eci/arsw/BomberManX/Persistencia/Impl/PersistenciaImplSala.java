@@ -21,7 +21,6 @@ public class PersistenciaImplSala implements PersistenciaSala {
     private ArrayList<Sala> salas = new ArrayList<Sala>();
 
     public PersistenciaImplSala() {
-        //aca se pueden crear salas para probar
     }
 
     @Override

@@ -41,6 +41,7 @@ public class STOMPMessagesHandler {
      */
     @MessageMapping("/EntrarAJuego.{idSala}")
     public boolean handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        System.out.println("entrando a sala: "+idSala);
         //si la sala está casi lista ya no pueden entrar más jugadores
         if (PS.estaCasiLista(idSala)) {
             enviarListadoJugadoresQuierenJugar(idSala, false);
