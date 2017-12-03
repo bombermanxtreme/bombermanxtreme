@@ -4,7 +4,7 @@
 var appJugar=(function(){
 	var stompClient = null;
 	var jugadorEnSala = null;// null=> usuario va a ingresar, false=>sala cerrada no pudo entrar, true=> usuario en sala
-	var idSala = 1;//por ahora una sola sala
+	var idSala = -1;//por ahora una sola sala
 	var jugadorListo = false;
 	var segundosRestantes = null;//cuando el tiempo empieza a correr
 	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
@@ -111,8 +111,13 @@ var appJugar=(function(){
 		init() {
 			//verificamos que el usuario haya iniciado
 			idJugador=appCookie.getIdJugador(false);
+			idSala=appCookie.getIdJugador(false);
 			if(idJugador==-1)
 				return false;
+			if(idSala==-1){
+				MJ_simple("Entrar a la sala","No se ha seleccionado la sala");
+				return false;
+			}
 			$("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
 			//INICIAMOS CONEXIÓN
 			connectAndSubscribe();
