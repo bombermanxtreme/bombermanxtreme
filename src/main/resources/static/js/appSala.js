@@ -55,7 +55,7 @@ var appSala=(function(){
 					$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'>"+J[i].nombre+" - "+J[i].numJugadores+" jugadores</div>");
 				}
 			}else{
-				console.log("no se han encontrado salas disponibles");
+				$("#lista_salas").html("no se han encontrado salas disponibles");
 			}
 		});
 	};
@@ -74,10 +74,26 @@ var appSala=(function(){
 			getSalas();
 		},
 		/**
-		 * permite crear sala nueva
+		 * muestra formulario para crear sala nueva
 		 */
 		crearSala(){
 			disconnect();
+			$("#antesDeEmpezar").html("<div id='titulo_salas'>Crear Sala Nueva</div><div id='formulario'>Nombre:<input type='text' placeholder='Nombre de Sala' id='nombre'><br>Equipos <input type='checkbox' id='equipos'><br>Fuego Amigo <input type='checkbox' id='fuegoamigo'><br><input type='button' onclick='appSala.crearSalaForm();' value='Crear'>");
+		},
+		/**
+		 * envia crear sala nueva
+		 */
+		crearSalaForm(){
+			//verificamos los datos primero
+			var nombre=$("#nombre").val();
+			var equipos=$("#equipos").val();
+			var fuegoamigo=$("#fuegoamigo").val();
+			if (nombre=="") {
+				MJ_simple("Crear Sala","El nombre no puede ser vacío");
+				return false;
+			}
+			//enviamos los datos
+			APIuseful.createSala(nombre,equipos,fuegoamigo);
 		},
 		/**
 		 * entra a la sala y empezamos a ejecutar appJugar
