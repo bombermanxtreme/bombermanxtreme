@@ -111,7 +111,7 @@ var appJugar=(function(){
 		init() {
 			//verificamos que el usuario haya iniciado
 			idJugador=appCookie.getIdJugador(false);
-			idSala=appCookie.getIdJugador(false);
+			idSala=appCookie.getSala();
 			if(idJugador==-1)
 				return false;
 			if(idSala==-1){
