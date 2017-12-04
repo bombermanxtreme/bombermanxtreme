@@ -87,12 +87,13 @@ public class BomberManXAPIController {
     /**
      * crea una sala
      * @param model
+     * @param csa
      * @return 
      */
     @RequestMapping(path = "", method = RequestMethod.POST)
     public ResponseEntity<?> newSala(Model model, @RequestBody CrearSalaAttempt csa) {
         try {
-            gc.getSalas();
+            gc.crearSala(PJ.SeleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
             return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);

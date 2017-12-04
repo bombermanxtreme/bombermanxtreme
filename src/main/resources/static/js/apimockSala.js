@@ -12,11 +12,13 @@ apiclientSala = (function () {
                     alert("Error " + jqXHR.status + " peticion GET!");
             });
         },
-        createSala: function (nombre,equipos,fuegoamigo,callback) {
+        createSala: function (_nombre,_equipos,_fuegoamigo,callback) {
             $.ajax({
                 url: "/sala",
 				type: "POST",
-				data: "nombre="+nombre +"&equipos="+equipos+"&fuegoamigo="+fuegoamigo
+                data: JSON.stringify({nombre:_nombre,equipos:_equipos,fuegoamigo:_fuegoamigo,id_jugador:appCookie.getIdJugador(false)}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
             }).done(function (res) {
                 callback(res);
             }).fail(function (jqXHR, textStatus) {

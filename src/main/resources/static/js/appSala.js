@@ -86,8 +86,8 @@ var appSala=(function(){
 		crearSalaForm(){
 			//verificamos los datos primero
 			var nombre=$("#nombre").val();
-			var equipos=$("#equipos").val();
-			var fuegoamigo=$("#fuegoamigo").val();
+			var equipos=$("#equipos").is(':checked');
+			var fuegoamigo=$("#fuegoamigo").is(':checked');
 			if (nombre=="") {
 				MJ_simple("Crear Sala","El nombre no puede ser vacío");
 				return false;
