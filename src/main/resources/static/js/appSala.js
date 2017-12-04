@@ -78,7 +78,7 @@ var appSala=(function(){
 		 */
 		crearSala(){
 			disconnect();
-			$("#antesDeEmpezar").html("<div id='titulo_salas'>Crear Sala Nueva</div><div id='formulario'>Nombre:<input type='text' placeholder='Nombre de Sala' id='nombre'><br>Equipos <input type='checkbox' id='equipos'><br>Fuego Amigo <input type='checkbox' id='fuegoamigo'><br><input type='button' onclick='appSala.crearSalaForm();' value='Crear'>");
+			$("#antesDeEmpezar").html("<div id='titulo_salas'><input type='button' onclick='location.href=\"\";' value='Regresar a las Salas'> - Crear Sala Nueva</div><div id='formulario'>Nombre:<input type='text' placeholder='Nombre de Sala' id='nombre'><br><br><b>Características</b><br><label for='equipos'>Equipos</label> <input type='checkbox' id='equipos'><br><label for='fuegoamigo'>Fuego Amigo</label> <input type='checkbox' id='fuegoamigo'><br><br><input type='button' onclick='appSala.crearSalaForm();' value='Crear'>");
 		},
 		/**
 		 * envia crear sala nueva
