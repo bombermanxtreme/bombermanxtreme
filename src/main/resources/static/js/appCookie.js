@@ -8,6 +8,10 @@ var appCookie=(function(){
 		document.cookie="iduser="+id;
 	};
 
+	/**
+	 * busca una cookie de clave key
+	 * @param {*} key 
+	 */
 	var _findCookie=function(key) {
 		var res=-1;
 		document.cookie.split("; ").map(function(e) {

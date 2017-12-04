@@ -45,19 +45,21 @@ var appSala=(function(){
 
 	var getSalas=function(){
 		$("#antesDeEmpezar").html("<div id='titulo_salas'>Salas De Juego</div><input type='button' onclick='appSala.crearSala();' value='Crear Nueva Sala'><div id='lista_salas'>Cargando Salas..." + imgCargando+"</div>");
-		APIuseful.getSalas(function (data) {
-			var J=eval("("+data+")");
-			console.info("data: ");
-			console.info(J);
-			if(J.length>0){
-				$("#lista_salas").html(" ");
-				for (let i=0; i<J.length;i++){
-					$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'>"+J[i].nombre+" - "+J[i].numJugadores+" jugadores</div>");
-				}
-			}else{
-				$("#lista_salas").html("no se han encontrado salas disponibles");
+		APIuseful.getSalas(callback_getSalas);
+	};
+	
+	var callback_getSalas=function(data){
+		var J=eval("("+data+")");
+		if(J.length>0){
+			$("#lista_salas").html(" ");
+			for (let i=0; i<J.length;i++){
+				if(J[i].casiLista=="true")
+					continue;
+				$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'><span class='codigo_sala'>"+J[i].codigo+"</span> <span class='nombre_sala'>"+J[i].nombre+"</span><br><br> "+J[i].numJugadores+" jugadores "+(J[i].equipos==true?"- Equipos"+(J[i].friendFire==true?" - Friend Fire":""):"")+"<br><div class='creador_sala'>Creador: "+J[i].creador+"</div></div>");
 			}
-		});
+		}else{
+			$("#lista_salas").html("no se han encontrado salas disponibles");
+		}
 	};
 
 	return {
