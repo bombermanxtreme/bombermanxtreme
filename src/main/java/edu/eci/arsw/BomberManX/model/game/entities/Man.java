@@ -128,25 +128,4 @@ public class Man implements Elemento {
         // falta poner el timer de 5s
         return (int) (indice++ % (bombas_man.size() + 1));
     }
-
-    public int getposCol() {
-        return posCol;
-    }
-
-    public void setposCol(int posCol) {
-        this.posCol = posCol;
-    }
-
-    public int getposRow() {
-        return posRow;
-    }
-
-    public void setposRow(int posRow) {
-        this.posRow = posRow;
-    }
-
-    @Override
-    public Object getElemento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

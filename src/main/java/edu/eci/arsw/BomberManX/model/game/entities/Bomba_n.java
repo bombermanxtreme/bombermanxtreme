@@ -97,13 +97,5 @@ public class Bomba_n extends Bomba{
     public boolean getDisponible() {
         return disponible;
     }
-
-    @Override
-    public Object getElemento() {
-        return this;
-    }
-
-   
-
     
 }

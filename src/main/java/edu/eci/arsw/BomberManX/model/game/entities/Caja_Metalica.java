@@ -49,10 +49,5 @@ public class Caja_Metalica implements Elemento{
     public void setKey(String k) {
         this.key = k;
     }
-
-    @Override
-    public Object getElemento() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
     
 }
