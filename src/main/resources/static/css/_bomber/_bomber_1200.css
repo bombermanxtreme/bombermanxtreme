@@ -96,17 +96,17 @@ header .nombre_jugador {
 #lista_salas > div {
   border-bottom: solid;
   cursor: pointer;
-  margin: 7px;
-  padding: 7px; }
+  margin: 3.73333px;
+  padding: 3.73333px; }
 
 #lista_salas > div .creador_sala {
-  font-size: 26px;
+  font-size: 13.86667px;
   text-align: right; }
 
 #lista_salas > div .nombre_sala {
-  font-size: 34px;
+  font-size: 18.13333px;
   font-style: italic; }
 
 #lista_salas > div .codigo_sala {
-  font-size: 20px;
+  font-size: 10.66667px;
   font-weight: bold; }
