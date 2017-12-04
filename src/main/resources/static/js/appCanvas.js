@@ -1,5 +1,5 @@
 //var APIuseful = apimockJugar;
-var APIuseful=apiclientCanvas;
+var APIuseful = apiclientCanvas;
 
 var appCanvas = (function () {
 
@@ -35,11 +35,11 @@ var appCanvas = (function () {
     // Funciones 
     var callback_ponerBomba = function (message) {        
         
-    }
+    };
     
     var callback_moverPersonaje = function (message) {        
         var data = message;
-    }
+    };
 
     var getJuego = function() {
         APIuseful.getJuego(idSala, function(data){
@@ -48,12 +48,46 @@ var appCanvas = (function () {
             //actualizamos el canvas
             actualizar();
         });
+    };
+    
+    var loadBasicControls = function(){
+        console.info('Cargando script!');
+        connectAndSubscribe();
+        canvas = document.getElementById('lienzo');
+        ctx = canvas.getContext('2d');
+
+        window.addEventListener('keydown', function (e) {
+            key = e.keyCode;
+            moverPersonaje(key);
+            console.log(key);
+        });
+        window.addEventListener('keyup', function (e) {
+            key = false;
+        });
+    };
+    
+    function moverPersonaje(key) {
+        if (36 < key && key < 41) {
+            console.log("/// Me estoy moviendo :D");
+            //stompClient.send("/app/mover",{}, JSON.stringify( {x: myposx, y: myposy, k: key}));
+        }
+
+    }
+    
+    function getParameterByName(name, url) {
+        if (!url) url = window.location.href;
+        name = name.replace(/[\[\]]/g, "\\$&");
+        var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+            results = regex.exec(url);
+        if (!results) return null;
+        if (!results[2]) return '';
+        return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
     var actualizar = function(){
         //dibuja el canvas COMPLETO!
         console.log("LLENANDO CANVAS");
-    }
+    };
 
 
     var callback_accionBomba = function (message) {
@@ -65,15 +99,22 @@ var appCanvas = (function () {
          * encargado de realizar la conexión con STOMP
          */
         init() {
+            console.log("***** Iniciando Script!!");
+            console.log("Jugador: " + idJugador);
+            idJugador = 1;
             //verificamos que el usuario haya iniciado
             if (idJugador === "" || isNaN(idJugador) || idJugador < 0) {
-                MJ_simplex("Jugar", "Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>", true);
+                //MJ_simplex("Jugar", "Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>", true);
                 setTimeout(function () {
                     location.href = "login.html";
                 }, 3000);
                 return false;
             }
-            
+            // Cargamos elementos clave para dibujar en Tablero
+            loadBasicControls();
+            // Traer Numero de sala
+            idSala = getParameterByName('Sala');
+            console.log("Este es el numero de Sala en el JS: " + idSala);
             //pedir estado inicial del juego
             getJuego();
             //INICIAMOS CONEXIÓN

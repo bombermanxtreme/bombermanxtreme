@@ -7,9 +7,10 @@
         <script src="/webjars/jquery/jquery.min.js"></script>
         <script src="/webjars/sockjs-client/sockjs.min.js"></script>
         <script src="/webjars/stomp-websocket/stomp.min.js"></script>
-        <script src="/appCanvas.js"></script>
-		<script src="js/appCookie.js"></script>
-		<script src="js/appGame.js"></script>
+        <script src="js/apimockCanvas.js"></script>
+        <script src="js/appCookie.js"></script>
+        <script src="js/appGame.js"></script>
+        <script src="js/appCanvas.js"></script>
         <style>
             body{
                 background:#8ba987 url('media/BackGround_Play.jpg') no-repeat center center;
@@ -17,7 +18,7 @@
             }
         </style>
     </head>
-    <body>
+    <body onload="appCanvas.init();">
         <div id="vertical"></div>
         <div id="contenedor" style="border:1">
             <canvas id="lienzo" width="1000px" height="500px"></canvas>
