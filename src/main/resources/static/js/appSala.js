@@ -92,8 +92,17 @@ var appSala=(function(){
 				MJ_simple("Crear Sala","El nombre no puede ser vacío");
 				return false;
 			}
+			MJ_load(true);
 			//enviamos los datos
-			APIuseful.createSala(nombre,equipos,fuegoamigo);
+			APIuseful.createSala(nombre,equipos,fuegoamigo,function(data) {
+				MJ_load(false);
+				console.log(data);
+				if(isNaN(data)){
+					MJ_simple("Crear Sala","error:<br>"+data);
+					return false;
+				}
+				appSala.entrarASala(data);
+			});
 		},
 		/**
 		 * entra a la sala y empezamos a ejecutar appJugar

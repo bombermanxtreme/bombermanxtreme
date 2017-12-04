@@ -93,8 +93,8 @@ public class BomberManXAPIController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public ResponseEntity<?> newSala(Model model, @RequestBody CrearSalaAttempt csa) {
         try {
-            gc.crearSala(PJ.SeleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
-            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+            int id=gc.crearSala(PJ.SeleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
+            return new ResponseEntity<>(id, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Creando sala", HttpStatus.NOT_FOUND);

@@ -7,6 +7,7 @@ package edu.eci.arsw.BomberManX.model.game.entities;
 
 import edu.eci.arsw.BomberManX.model.game.Juego;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  *
@@ -17,6 +18,7 @@ public class Sala {
     private int id;
     private Jugador creador;
     private String nombre;
+    private String codigo;
     private boolean equipos;
     private boolean friendFire;
     private boolean casiLista;
@@ -26,6 +28,7 @@ public class Sala {
     private static final int MINIMOJUGADORES = 2;
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
+    public static final int LONGITUDCODIGO = 10; //segundos
 
     /**
      * constructor
@@ -41,6 +44,7 @@ public class Sala {
         this.nombre = nombre;
         this.equipos = equipos;
         this.friendFire = friendFire;
+        this.codigo=generarCodigo();
     }
 
     /**
@@ -113,7 +117,7 @@ public class Sala {
     
     @Override
     public String toString() {
-        return "{\"id\":\""+id+"\",\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\"}";
+        return "{\"id\":\""+id+"\",\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\",\"codigo\":\""+codigo+"\",\"equipos\":\""+equipos+"\",\"friendFire\":\""+friendFire+"\",\"creador\":\""+creador.getNombre()+"\"}";
     }
 
     /**
@@ -127,5 +131,17 @@ public class Sala {
             return true;
         }
         return false;
+    }
+    
+    private String generarCodigo() {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder salt = new StringBuilder();
+        Random rnd = new Random();
+        while (salt.length() < LONGITUDCODIGO) { // length of the random string.
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            salt.append(SALTCHARS.charAt(index));
+        }
+        String saltStr = salt.toString();
+        return saltStr;
     }
 }
