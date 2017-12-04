@@ -55,7 +55,8 @@ var appSala=(function(){
 			for (let i=0; i<J.length;i++){
 				if(J[i].casiLista=="true")
 					continue;
-				$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'><span class='codigo_sala'>"+J[i].codigo+"</span> <span class='nombre_sala'>"+J[i].nombre+"</span><br><br> "+J[i].numJugadores+" jugadores "+(J[i].equipos==true?"- Equipos"+(J[i].friendFire==true?" - Friend Fire":""):"")+"<br><div class='creador_sala'>Creador: "+J[i].creador+"</div></div>");
+				var strEquipos=J[i].equipos=="true"?"- Equipos"+(J[i].friendFire=="true"?" - Friend Fire":""):"";
+				$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'><span class='codigo_sala'>"+J[i].codigo+"</span> <span class='nombre_sala'>"+J[i].nombre+"</span><br><br> "+J[i].numJugadores+" jugadores "+strEquipos+"<br><div class='creador_sala'>Creador: "+J[i].creador+"</div></div>");
 			}
 		}else{
 			$("#lista_salas").html("no se han encontrado salas disponibles");
