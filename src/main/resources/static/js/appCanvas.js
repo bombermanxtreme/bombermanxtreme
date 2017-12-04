@@ -5,7 +5,9 @@ var appCanvas = (function () {
 
     var stompClient = null;
     var idJugador = document.cookie.replace("iduser=", "");
-    var idSala = 1;//por ahora una sola sala    
+    var idSala = 1;//por ahora una sola sala
+    var canvas;
+    var ctx;
 
     /**
      * función que realiza la conexión STOMP
@@ -46,7 +48,7 @@ var appCanvas = (function () {
             console.log(data);
             //hacemos el tablero str
             //actualizamos el canvas
-            actualizar();
+            actualizar(data.tablero);
         });
     };
     
@@ -84,8 +86,21 @@ var appCanvas = (function () {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var actualizar = function(){
+    var actualizar = function(tablero){
         //dibuja el canvas COMPLETO!
+        console.log(tablero);
+        for (i = 0; i < tablero.length; i++) {
+            for (j = 0; j < tablero[i].length; j++) {
+                if (tablero[i][j].key === "X") {
+                    var myObstacle = new Caja(50, 50, "green", j * 50, i * 50);
+                    myObstacle.update();
+
+                } else {
+                    var myObstacle = new Caja(50, 50, "blue", j * 50, i * 50);
+                    myObstacle.update();
+                }
+            }
+        }
         console.log("LLENANDO CANVAS");
     };
 
@@ -93,6 +108,34 @@ var appCanvas = (function () {
     var callback_accionBomba = function (message) {
 
     };
+    
+    function Caja(width, height, color, x, y, type) {
+        this.type = type;
+        if (type === "image") {
+            this.image = new Image();
+            this.image.src = color;
+        }
+        this.width = width;
+        this.height = height;
+        this.speedX = 0;
+        this.speedY = 0;
+        this.x = x;
+        this.y = y;
+        
+        this.update = function () {
+            //var canvas = document.getElementById('cnv');
+            //var ctx = canvas.getContext('2d');
+            if (type === "image") {
+                ctx.drawImage(this.image,
+                        this.x,
+                        this.y,
+                        this.width, this.height);
+            } else {
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+    }
     
     return {
         /**
