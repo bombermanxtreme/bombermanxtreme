@@ -5,9 +5,10 @@
  */
 package edu.eci.arsw.BomberManX.Recursos;
 
+
 /**
- *
- * @author forosdelweb.com/f45/como-hacer-temporizador-java-1133653/
+ * Adaptacion de forosdelweb.com/f45/como-hacer-temporizador-java-1133653/
+ * @author sergioxl
  */
 import java.util.Timer;
 import java.util.TimerTask;
@@ -19,14 +20,22 @@ public class Timeout {
     private int second;
     private Timer timer;
     private boolean isTimerRunning;
-    //private Display display;
-
-    public Timeout() {
+     private Timer referencia;
+       
+    /**
+     * Clase para contabilizar el tiempo
+     * @param second 
+     */
+    public Timeout(Timer referencia, int second) {
         timer = new Timer();
-        second = 11;
+        
+        this.referencia=referencia;
+        this.second = second;
         hour = 0;
-        minute = 0;
-        //display = new Display();
+        minute = 0; 
+        
+        
+        start();
     }
 
     TimerTask task = new TimerTask() {
@@ -56,12 +65,19 @@ public class Timeout {
                 //display.printTime(hour, minute, second);
                 System.out.println("---- BOMBA ----- Contador de tiempo: " + Integer.toString(second));
             }
+            
+            // hacer algo
         }
     }; // fin timertask
 
-    public void start(int interval) {
+    /**
+     *  {0}: task: para ejecutarlo
+     *  {1}: delay, 0 para no demorar
+     *  {2}: tiempo entre cada segundo, 1000ms para no demorar
+     */
+    public void start() {
     //public void start(int timeout, int interval) {
-        timer.schedule(task, 0, interval);
+        timer.schedule(task, 0, 1000);
     }
 
 } // fin clase
