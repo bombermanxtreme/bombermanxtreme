@@ -141,8 +141,8 @@ public class Juego {
         if(puede){      
             System.out.println("Pudo moverse >>");
             tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
-            Timeout timeout = new Timeout();
-            timeout.start(5000);
+            //Timeout timeout = new Timeout();
+            //timeout.start(5000);
         }        
         
         return puede;
