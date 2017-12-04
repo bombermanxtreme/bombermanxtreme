@@ -75,7 +75,7 @@ function MJ_load(func){
 		document.getElementById('div_aviso').style.cursor="wait";
 		document.getElementById('div_aviso2').style.cursor="wait";
 		var tmpDomain=document.domain;
- 		document.getElementById('div_aviso2').innerHTML='<table bgcolor="#'+MJcolorFondo+'" rules="none" bordercolor="#'+MJcolorBorde+'" style="'+style+'" border="2" align="center" cellpadding="0" cellspacing="0">  <tr>    <td align="center" bgcolor="#'+MJcolorSup+'" class="MJ_text_mayor_white">Espera por favor</td>  </tr>  <tr>    <td align="center" class="MJ_text_normal"><br><img src="http://'+((tmpDomain=="localhost")?'localhost/konrradf/img':'img.konrradf.com')+'/loadKyf.gif" class="MJ_loadImg"> Cargando ...</td>  </tr>  <tr>    <td align="left" class="MJ_text_mini_red">Espere por favor.</td>  </tr></table>';
+ 		document.getElementById('div_aviso2').innerHTML='<table bgcolor="#'+MJcolorFondo+'" rules="none" bordercolor="#'+MJcolorBorde+'" style="'+style+'" border="2" align="center" cellpadding="0" cellspacing="0">  <tr>    <td align="center" bgcolor="#'+MJcolorSup+'" class="MJ_text_mayor_white">Espera por favor</td>  </tr>  <tr>    <td align="center" class="MJ_text_normal"><br><img src="/media/cargando.gif" class="MJ_loadImg"> Cargando ...</td>  </tr>  <tr>    <td align="left" class="MJ_text_mini_red">Espere por favor.</td>  </tr></table>';
 	}else{
 		MJ_terminar("cargado");
 		document.getElementById('div_aviso').style.cursor="";
