@@ -7,6 +7,7 @@ package edu.eci.arsw.BomberManX.controllers;
 
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
+import edu.eci.arsw.BomberManX.model.game.Attempt.CrearSalaAttempt;
 import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
@@ -18,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -69,12 +71,9 @@ public class BomberManXAPIController {
     public ResponseEntity<?> getSalas(Model model) {
         try {
             if(PS.getSalas().size()==0){
-                int tmp=PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los BOMBERS",false,true);
-                System.out.println("creada sala:"+tmp);
-                tmp=PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los perdidos",false,true);
-                System.out.println("creada sala:"+tmp);
-                tmp=PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los XXX",false,true);
-                System.out.println("creada sala:"+tmp);
+                PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los BOMBERS",false,true);
+                PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los perdidos",false,true);
+                PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los XXX",false,true);
             }
             
             Set<Sala> data = gc.getSalas();
@@ -88,13 +87,14 @@ public class BomberManXAPIController {
     /**
      * crea una sala
      * @param model
+     * @param csa
      * @return 
      */
     @RequestMapping(path = "", method = RequestMethod.POST)
-    public ResponseEntity<?> newSala(Model model) {
+    public ResponseEntity<?> newSala(Model model, @RequestBody CrearSalaAttempt csa) {
         try {
-            gc.getSalas();
-            return new ResponseEntity<>(null, HttpStatus.ACCEPTED);
+            int id=gc.crearSala(PJ.SeleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
+            return new ResponseEntity<>(id, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Creando sala", HttpStatus.NOT_FOUND);

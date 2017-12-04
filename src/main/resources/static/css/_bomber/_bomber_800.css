@@ -1,66 +1,112 @@
 body {
-    padding: 0px;
-    margin: 0px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12.5px;
-    background-image: url(/media/sombra.jpg);
-    margin-top: 66.66667px; }
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12.5px;
+  background-image: url(/media/sombra.jpg);
+  margin-top: 66.66667px; }
+
+input[type=checkbox] {
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2);
+  /* IE */
+  -moz-transform: scale(2);
+  /* FF */
+  -webkit-transform: scale(2);
+  /* Safari and Chrome */
+  -o-transform: scale(2);
+  /* Opera */
+  padding: 4.16667px; }
+
+label {
+  cursor: pointer; }
 
 input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 12.5px; }
+  font-family: 'Roboto', sans-serif;
+  font-size: 12.5px; }
 
 header {
-    position: fixed;
-    z-index: 1000;
-    background-color: white;
-    background-color: rgba(255, 255, 255, 0.6);
-    width: 100%;
-    border-bottom: solid 1px #000;
-    height: 16.66667px;
-    padding: 12.91667px 0px;
-    top: 0px; }
+  position: fixed;
+  z-index: 1000;
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.6);
+  width: 100%;
+  border-bottom: solid 1px #000;
+  height: 16.66667px;
+  padding: 12.91667px 0px;
+  top: 0px; }
 
 a, a:link, a:visited {
-    text-decoration: none;
-    color: #000;
-    font-weight: bold; }
+  text-decoration: none;
+  color: #000;
+  font-weight: bold; }
 
 a:hover {
-    color: red;
-    text-decoration: underline; }
+  color: red;
+  text-decoration: underline; }
 
 header > nav {
-    display: inline;
-    margin: 0px 10.41667px; }
+  display: inline;
+  margin: 0px 10.41667px; }
 
 header .salir {
-    display: inline; }
+  display: inline; }
 
 header .nombre_jugador {
-    display: inline;
-    margin: 0px 10.41667px; }
+  display: inline;
+  margin: 0px 10.41667px; }
 
 .imgCargando {
-    width: 25.0px; }
+  width: 25.0px; }
 
 #contenido {
-    background-color: white;
-    background-color: rgba(255, 255, 255, 0.9);
-    width: 90%;
-    margin-left: auto;
-    margin-right: auto;
-    height: 1000px; }
+  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  height: 416.66667px; }
 
 #listaJugadores > tbody > tr:even {
-    background-color: #ccc; }
+  background-color: #ccc; }
 
 #listaJugadores > tbody > tr:odd {
-    background-color: #fff; }
+  background-color: #fff; }
 
 #listaJugadores > tbody td {
-    text-align: center; }
+  text-align: center; }
 
 #listaJugadores > thead th {
-    color: white;
-    background-color: #000; }
+  color: white;
+  background-color: #000; }
+
+#antesDeEmpezar > #titulo_salas {
+  text-align: center;
+  font-size: 16.66667px;
+  font-weight: bold; }
+
+#antesDeEmpezar > #formulario {
+  text-align: center;
+  margin-top: 10.83333px; }
+
+#lista_salas > div:hover {
+  background-color: #000;
+  color: white; }
+
+#lista_salas > div {
+  border-bottom: solid;
+  cursor: pointer;
+  margin: 7px;
+  padding: 7px; }
+
+#lista_salas > div .creador_sala {
+  font-size: 26px;
+  text-align: right; }
+
+#lista_salas > div .nombre_sala {
+  font-size: 34px;
+  font-style: italic; }
+
+#lista_salas > div .codigo_sala {
+  font-size: 20px;
+  font-weight: bold; }

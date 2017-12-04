@@ -6,6 +6,15 @@ body{
     background-image: url(/media/sombra.jpg);
     margin-top: 160px*$escala;
 }
+input[type=checkbox]{
+  /* Double-sized Checkboxes */
+  -ms-transform: scale(2); /* IE */
+  -moz-transform: scale(2); /* FF */
+  -webkit-transform: scale(2); /* Safari and Chrome */
+  -o-transform: scale(2); /* Opera */
+  padding: 10px*$escala;
+}
+label{cursor: pointer;}
 
 input{
     font-family: 'Roboto', sans-serif;
@@ -58,8 +67,8 @@ header .nombre_jugador{
     background-color: rgba(255,255,255,0.9);
     width: 90%;
     margin-left: auto;
-    margin-right: auto;
-    height: 1000px;
+    margin-right: auto; 
+    height: 1000px*$escala;
 }
 
 #listaJugadores > tbody > tr:even{
@@ -74,4 +83,35 @@ header .nombre_jugador{
 #listaJugadores > thead th{
     color:white;
     background-color: #000;
+}
+#antesDeEmpezar > #titulo_salas{
+	text-align: center;
+	font-size: 40px*$escalaTxt;
+	font-weight: bold;
+}
+#antesDeEmpezar > #formulario{
+	text-align: center;
+    margin-top: 26px*$escala;
+}
+#lista_salas > div:hover{
+	background-color: #000;
+	color: white;
+}
+#lista_salas > div{
+    border-bottom: solid;
+    cursor: pointer;
+    margin: 7px;
+    padding: 7px;
+}
+#lista_salas > div .creador_sala{
+    font-size: 26px;
+    text-align: right;	
+}
+#lista_salas > div .nombre_sala{
+    font-size: 34px;
+    font-style: italic;
+}
+#lista_salas > div .codigo_sala{
+    font-size: 20px;
+    font-weight: bold;
 }

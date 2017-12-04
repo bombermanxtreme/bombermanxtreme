@@ -1,27 +1,3 @@
-//@author hcadavid
-
-apimockSala = (function () {
-    var mockdata = [];
-    mockdata["jugadores"] = [
-        {nombre: "kvnLOCAL", correo: "kvnLOCAL@local.com", clave: "123local", record: "123"},
-        {nombre: "sergioLOCAL", correo: "sergioLOCAL@local.com", clave: "456local", record: "456"},
-        {nombre: "kevinLOCAL", correo: "kevinLOCAL@local.com", clave: "789local", record: "789"},
-        {nombre: "Lina ÁlvarezLOCAL", correo: "laLOCAL@local.com", clave: "321local", record: "789"},
-        {nombre: "Fanny PérezLOCAL", correo: "fpLOCAL@local.com", clave: "654local", record: "789"}
-    ];
-
-    mockdata["salas"] = Array();
-    mockdata["salas"].push(Array(/*jugadores*/));//sala 0
-    mockdata["salas"].push(Array(/*jugadores*/));//sala 1
-
-    return {
-        getSalas: function (idSala, callback) {
-            callback(mockdata["salas"][idSala]);
-        }
-    }
-
-})();
-
 apiclientSala = (function () {
     return {
         getSalas: function (callback) {
@@ -30,6 +6,21 @@ apiclientSala = (function () {
                 type: "GET",
             }).done(function (data) {
                 callback(data);
+            }).fail(function (jqXHR, textStatus) {
+                callback(undefined);
+                if (jqXHR.status != 404)
+                    alert("Error " + jqXHR.status + " peticion GET!");
+            });
+        },
+        createSala: function (_nombre,_equipos,_fuegoamigo,callback) {
+            $.ajax({
+                url: "/sala",
+				type: "POST",
+                data: JSON.stringify({nombre:_nombre,equipos:_equipos,fuegoamigo:_fuegoamigo,id_jugador:appCookie.getIdJugador(false)}),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+            }).done(function (res) {
+                callback(res);
             }).fail(function (jqXHR, textStatus) {
                 callback(undefined);
                 if (jqXHR.status != 404)

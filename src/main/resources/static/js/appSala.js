@@ -45,19 +45,21 @@ var appSala=(function(){
 
 	var getSalas=function(){
 		$("#antesDeEmpezar").html("<div id='titulo_salas'>Salas De Juego</div><input type='button' onclick='appSala.crearSala();' value='Crear Nueva Sala'><div id='lista_salas'>Cargando Salas..." + imgCargando+"</div>");
-		APIuseful.getSalas(function (data) {
-			var J=eval("("+data+")");
-			console.info("data: ");
-			console.info(J);
-			if(J.length>0){
-				$("#lista_salas").html(" ");
-				for (let i=0; i<J.length;i++){
-					$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'>"+J[i].nombre+" - "+J[i].numJugadores+" jugadores</div>");
-				}
-			}else{
-				console.log("no se han encontrado salas disponibles");
+		APIuseful.getSalas(callback_getSalas);
+	};
+	
+	var callback_getSalas=function(data){
+		var J=eval("("+data+")");
+		if(J.length>0){
+			$("#lista_salas").html(" ");
+			for (let i=0; i<J.length;i++){
+				if(J[i].casiLista=="true")
+					continue;
+				$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'><span class='codigo_sala'>"+J[i].codigo+"</span> <span class='nombre_sala'>"+J[i].nombre+"</span><br><br> "+J[i].numJugadores+" jugadores "+(J[i].equipos==true?"- Equipos"+(J[i].friendFire==true?" - Friend Fire":""):"")+"<br><div class='creador_sala'>Creador: "+J[i].creador+"</div></div>");
 			}
-		});
+		}else{
+			$("#lista_salas").html("no se han encontrado salas disponibles");
+		}
 	};
 
 	return {
@@ -74,10 +76,35 @@ var appSala=(function(){
 			getSalas();
 		},
 		/**
-		 * permite crear sala nueva
+		 * muestra formulario para crear sala nueva
 		 */
 		crearSala(){
 			disconnect();
+			$("#antesDeEmpezar").html("<div id='titulo_salas'><input type='button' onclick='location.href=\"\";' value='Regresar a las Salas'> - Crear Sala Nueva</div><div id='formulario'>Nombre:<input type='text' placeholder='Nombre de Sala' id='nombre'><br><br><b>Características</b><br><label for='equipos'>Equipos</label> <input type='checkbox' id='equipos'><br><label for='fuegoamigo'>Fuego Amigo</label> <input type='checkbox' id='fuegoamigo'><br><br><input type='button' onclick='appSala.crearSalaForm();' value='Crear'>");
+		},
+		/**
+		 * envia crear sala nueva
+		 */
+		crearSalaForm(){
+			//verificamos los datos primero
+			var nombre=$("#nombre").val();
+			var equipos=$("#equipos").is(':checked');
+			var fuegoamigo=$("#fuegoamigo").is(':checked');
+			if (nombre=="") {
+				MJ_simple("Crear Sala","El nombre no puede ser vacío");
+				return false;
+			}
+			MJ_load(true);
+			//enviamos los datos
+			APIuseful.createSala(nombre,equipos,fuegoamigo,function(data) {
+				MJ_load(false);
+				console.log(data);
+				if(isNaN(data)){
+					MJ_simple("Crear Sala","error:<br>"+data);
+					return false;
+				}
+				appSala.entrarASala(data);
+			});
 		},
 		/**
 		 * entra a la sala y empezamos a ejecutar appJugar
