@@ -17,6 +17,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -38,6 +39,8 @@ public class BomberManXAPIController {
     PersistenciaJugador PJ = null;
     @Autowired
     PersistenciaSala PS = null;
+    @Autowired
+    SimpMessagingTemplate msgt;
 
     private static final Logger LOG = Logger.getLogger(BomberManXAPIController.class.getName());
     
@@ -94,6 +97,8 @@ public class BomberManXAPIController {
     public ResponseEntity<?> newSala(Model model, @RequestBody CrearSalaAttempt csa) {
         try {
             int id=gc.crearSala(PJ.SeleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
+            Set<Sala> dataTopic = gc.getSalas();
+            msgt.convertAndSend("/topic/Salas", dataTopic);
             return new ResponseEntity<>(id, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
