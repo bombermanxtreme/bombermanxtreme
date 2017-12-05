@@ -98,7 +98,7 @@ public class BomberManXAPIController {
         try {
             int id=gc.crearSala(PJ.SeleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
             Set<Sala> dataTopic = gc.getSalas();
-            msgt.convertAndSend("/topic/Salas", dataTopic);
+            msgt.convertAndSend("/topic/Salas", dataTopic.toString());
             return new ResponseEntity<>(id, HttpStatus.ACCEPTED);
         } catch (Exception ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);

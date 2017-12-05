@@ -29,7 +29,7 @@ var appSala=(function(){
 			
 			//especificamos que estamos atentos de nuevos jugadores que entren
 			stompClient.subscribe("/topic/Salas", function (eventbody) {
-				callback_getSalas(eventbody);
+				callback_getSalas(eventbody.body);
 			});
 			/*
 			//especificamos que estamos atentos de que cumpla el mínimo de jugadores
