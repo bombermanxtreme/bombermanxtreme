@@ -26,12 +26,12 @@ var appSala=(function(){
 		//subscribe to /topic/TOPICXX when connections succeed
 		stompClient.connect({}, function (frame) {
 			console.log("Conectado: " + frame);
-			/*
+			
 			//especificamos que estamos atentos de nuevos jugadores que entren
-			stompClient.subscribe("/topic/JugadoresQuierenJugar." + idSala, function (eventbody) {
-				callback_JugadoresQuierenJugar(eventbody);
+			stompClient.subscribe("/topic/Salas", function (eventbody) {
+				callback_getSalas(eventbody.body);
 			});
-
+			/*
 			//especificamos que estamos atentos de que cumpla el mínimo de jugadores
 			stompClient.subscribe("/topic/ListoMinimoJugadores." + idSala, function (eventbody) {
 				callback_ListoMinimoJugadores(eventbody);
@@ -43,11 +43,18 @@ var appSala=(function(){
 		});
 	};
 
+	/**
+	 * alista todo para iniciar a pedir las salas cuando recién entra
+	 */
 	var getSalas=function(){
 		$("#antesDeEmpezar").html("<div id='titulo_salas'>Salas De Juego</div><input type='button' onclick='appSala.crearSala();' value='Crear Nueva Sala'><div id='lista_salas'>Cargando Salas..." + imgCargando+"</div>");
 		APIuseful.getSalas(callback_getSalas);
 	};
 	
+	/**
+	 * responde ante el listado de salas obtenido mostrando el listado
+	 * @param {*} data 
+	 */
 	var callback_getSalas=function(data){
 		var J=eval("("+data+")");
 		if(J.length>0){
@@ -55,7 +62,8 @@ var appSala=(function(){
 			for (let i=0; i<J.length;i++){
 				if(J[i].casiLista=="true")
 					continue;
-				$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'><span class='codigo_sala'>"+J[i].codigo+"</span> <span class='nombre_sala'>"+J[i].nombre+"</span><br><br> "+J[i].numJugadores+" jugadores "+(J[i].equipos==true?"- Equipos"+(J[i].friendFire==true?" - Friend Fire":""):"")+"<br><div class='creador_sala'>Creador: "+J[i].creador+"</div></div>");
+				var strEquipos=J[i].equipos=="true"?"- Equipos"+(J[i].friendFire=="true"?" - Friend Fire":""):"";
+				$("#lista_salas").append("<div onclick='appSala.entrarASala("+J[i].id+");'><span class='codigo_sala'>"+J[i].codigo+"</span> <span class='nombre_sala'>"+J[i].nombre+"</span><br><br> "+J[i].numJugadores+" jugadores "+strEquipos+"<br><div class='creador_sala'>Creador: "+J[i].creador+"</div></div>");
 			}
 		}else{
 			$("#lista_salas").html("no se han encontrado salas disponibles");
