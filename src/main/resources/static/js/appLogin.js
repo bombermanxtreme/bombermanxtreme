@@ -6,14 +6,27 @@ var appLogin = (function () {
     
     return {
 
+        /**
+         * Carga la vista de la imagen segun el atributo imagen de Jugador
+         * @return {undefined}
+         */
         avatarLoad: function () {
             var correo_login = $("#correo").val();
+            var default_img = "../media/default-avatar.png";
             if (correo_login !== "") {
                 $.get("/users/avatar/" + correo_login+"/view",
                         function (data) {
-                            console.info("carangando imagen url: " + data);
-                            $("#avatar-load").attr("src", data);
-                            $("#avatar-load").attr("alt", correo_login);
+                            if(data === "undefined" || data === ""){
+                                console.info("cargando imagen por default: " + default_img);
+                                $("#avatar-load").attr("src", default_img);
+                                $("#avatar-load").attr("alt", default_img);
+                            }
+                            else{
+                                console.info("cargando imagen url: " + data);
+                                $("#avatar-load").attr("src", data);
+                                $("#avatar-load").attr("alt", correo_login);
+                            }
+                            
                         }
                 ).fail(
                         function (data) {
@@ -24,11 +37,14 @@ var appLogin = (function () {
                 );
             }
         },
-        
+        /**
+         * Muestra la imagen segun la URL que le entre, para poder visualizar en el Regsitrer como se vera la imagen cuando se vaya a iniciar sesión.
+         * @return {undefined}
+         */
         avatarLoad_temp: function () {
             var new_iurl = $("#niurl").val();
             
-            console.info("carangando imagen url: " + new_iurl);
+            console.info("T: cargando imagen url: " + new_iurl);
             $("#avatar-load").attr("src", new_iurl);
             $("#avatar-load").attr("alt", new_iurl);
            
@@ -83,13 +99,13 @@ var appLogin = (function () {
             var clave = $("#nclave").val();
             var nclave = $("#nrclave").val();
 
-            var datosNuevos = {nomre: nombre, apodo: apodo, correo: correo, clave: clave, imagen:iurl};
+            var datosNuevos = {nombre: nombre, apodo: apodo, correo: correo, clave: clave, imagen:iurl};
 
-            console.info("datos de registro para empezar el registro: " + datosNuevos.nomre + " " + datosNuevos.apodo + " " + datosNuevos.correo);
+            console.info("datos de registro para empezar el registro: " + datosNuevos.nombre + " " + datosNuevos.apodo + " " + datosNuevos.correo);
 
 
             if (nombre === "" || apodo === "" || correo === "" || clave === "" || nclave === "") {
-				MJ_simple("Registrarte","Uno o varios campos estan sin llenar !!! , completa el formulario de registro");
+				MJ_simple("Registrarte","Uno o varios campos estan sin llenar! Completa el formulario de registro");
 
 			} else if(clave !== nclave) {
 				MJ_simple("Registrarte","La contraseña no coincide.");
@@ -109,8 +125,8 @@ var appLogin = (function () {
                 $.get("/users/new/" + datosNuevos.nombre + "/" + datosNuevos.correo + "/" + datosNuevos.apodo + "/" + datosNuevos.clave + "/" + datosNuevos.iurl+"/",
                         function (data) {
                             console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
-                            appCookie.setIdJugador(data);
-                            MJ_simple("ingresar","Bienvenido "+datosNuevos.nomre);
+                            //appCookie.setIdJugador(data);
+                            MJ_simple("ingresar","Bienvenido "+datosNuevos.nombre);
                             location.href = "/login.html";
                         }
                 ).fail(
@@ -137,4 +153,4 @@ var appLogin = (function () {
 
 })();
 //si ya inició sesión  lo direcciona al juego
-appCookie.getIdJugador(true);
+//appCookie.getIdJugador(true);
