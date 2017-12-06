@@ -5,6 +5,7 @@
  */
 package edu.eci.arsw.BomberManX.controllers;
 
+import edu.eci.arsw.BomberManX.model.game.Attempt.CrearUsuarioAttempt;
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,19 +61,14 @@ public class BomberManXAPIControllerUser {
     }
 
     /**
-     * Registra un nuevo jugador
-     * 
-     * @param nombre
-     * @param correo
-     * @param apodo
-     * @param clave
-     * @param imagen
-     * @return ResponseEntity status
+     * crear usuario
+     * @param cua
+     * @return 
      */
-    @RequestMapping(path = "/new/{nombre}/{correo}/{apodo}/{clave}/{imagen}/", method = RequestMethod.GET)
-    public ResponseEntity<?> RegistrerJugador(@PathVariable String nombre, @PathVariable String correo, @PathVariable String apodo, @PathVariable String clave, @PathVariable String imagen) {
+    @RequestMapping(path = "", method = RequestMethod.POST)
+    public ResponseEntity<?> RegistrerJugador(@RequestBody CrearUsuarioAttempt cua) {
         HttpStatus status;
-        int id_nuevo = gameServices.registrerJugador(nombre, correo, apodo, clave, imagen);
+        int id_nuevo = gameServices.registrerJugador(cua.getNombre(), cua.getCorreo(), cua.getApodo(), cua.getClave(), cua.getImagen());
 
         if (id_nuevo >= 0) {
             status = HttpStatus.ACCEPTED;
