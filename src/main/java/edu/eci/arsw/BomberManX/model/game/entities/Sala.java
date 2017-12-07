@@ -27,7 +27,7 @@ public class Sala {
     private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     private static final int MINIMOJUGADORES = 2;
-    private static final int MAXIMOJUGADORES = 4;
+    private static final int MAXIMOJUGADORES = 2;
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     public static final int LONGITUDCODIGO = 10; //segundos
@@ -51,10 +51,11 @@ public class Sala {
     }
 
     /**
-     * agrega un jugador a la sala SI NO HA SIDO AGREGADO
-     * @param jugador 
+     * agrega un jugador a la sala SI NO HA SIDO AGREGADO o NO está llena la sala
+     * @param jugador
+     * @return 
      */
-    public void addJugador(Jugador jugador) {
+    public boolean addJugador(Jugador jugador) {
         boolean yaExiste = false;
         //revisamos que aún no esté en la lista
         for (Jugador entry : jugadores) {
@@ -65,9 +66,14 @@ public class Sala {
         }
         //si no está en la lista entonces lo agregamos
         if(!yaExiste){
+            //si la sala está llena no lo deja entrar
+            if(MAXIMOJUGADORES<=jugadores.size())
+                return false;
+            //lo agregamos a la lista
             jugadores.add(jugador);
-            synchronized(lockEquipos){
-                if(equipos){
+            //lo agregamos a un equipo si es necesario
+            if(equipos){
+                synchronized(lockEquipos){
                     if(equipoA.size()>equipoB.size())
                         equipoB.add(jugador);
                     else
@@ -75,6 +81,7 @@ public class Sala {
                 }
             }
         }
+        return true;
     }
 
     /**

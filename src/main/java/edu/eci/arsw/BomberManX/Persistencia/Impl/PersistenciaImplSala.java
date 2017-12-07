@@ -60,8 +60,8 @@ public class PersistenciaImplSala implements PersistenciaSala {
     }
 
     @Override
-    public void addJugador(int id_sala, Jugador j) {
-        salas.get(id_sala).addJugador(j);
+    public boolean addJugador(int id_sala, Jugador j) {
+        return salas.get(id_sala).addJugador(j);
     }
 
     @Override

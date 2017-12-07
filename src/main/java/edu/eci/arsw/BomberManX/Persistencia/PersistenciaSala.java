@@ -69,11 +69,12 @@ public interface PersistenciaSala {
     public boolean estaCasiLista(int id_sala);
 
     /**
-     * agregar un jugador a una sala
+     * agrega un jugador a la sala
      * @param id_sala
-     * @param j 
+     * @param j
+     * @return  true si es posible o false si ya está llena
      */
-    public void addJugador(int id_sala, Jugador j);
+    public boolean addJugador(int id_sala, Jugador j);
 
     /**
      * indicar que un jugador que está en la sala, YA ESTÁ LISTO!
