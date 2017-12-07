@@ -35,24 +35,24 @@ var appCanvas = (function () {
     };
 
     // Funciones 
-    var callback_ponerBomba = function (message) {        
-        
+    var callback_ponerBomba = function (message) {
+
     };
-    
-    var callback_moverPersonaje = function (message) {        
+
+    var callback_moverPersonaje = function (message) {
         var data = message;
     };
 
-    var getJuego = function() {
-        APIuseful.getJuego(idSala, function(data){
+    var getJuego = function () {
+        APIuseful.getJuego(idSala, function (data) {
             console.log(data);
             //hacemos el tablero str
             //actualizamos el canvas
             actualizar(data.tablero);
         });
     };
-    
-    var loadBasicControls = function(){
+
+    var loadBasicControls = function () {
         console.info('Cargando script!');
         connectAndSubscribe();
         canvas = document.getElementById('lienzo');
@@ -67,7 +67,7 @@ var appCanvas = (function () {
             key = false;
         });
     };
-    
+
     function moverPersonaje(key) {
         if (36 < key && key < 41) {
             console.log("/// Me estoy moviendo :D");
@@ -75,18 +75,21 @@ var appCanvas = (function () {
         }
 
     }
-    
+
     function getParameterByName(name, url) {
-        if (!url) url = window.location.href;
+        if (!url)
+            url = window.location.href;
         name = name.replace(/[\[\]]/g, "\\$&");
         var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-            results = regex.exec(url);
-        if (!results) return null;
-        if (!results[2]) return '';
+                results = regex.exec(url);
+        if (!results)
+            return null;
+        if (!results[2])
+            return '';
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var actualizar = function(tablero){
+    var actualizar = function (tablero) {
         //dibuja el canvas COMPLETO!
         console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
@@ -108,7 +111,7 @@ var appCanvas = (function () {
     var callback_accionBomba = function (message) {
 
     };
-    
+
     function Caja(width, height, color, x, y, type) {
         this.type = type;
         if (type === "image") {
@@ -121,7 +124,7 @@ var appCanvas = (function () {
         this.speedY = 0;
         this.x = x;
         this.y = y;
-        
+
         this.update = function () {
             //var canvas = document.getElementById('cnv');
             //var ctx = canvas.getContext('2d');
@@ -134,9 +137,9 @@ var appCanvas = (function () {
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y, this.width, this.height);
             }
-        }
+        };
     }
-    
+
     return {
         /**
          * encargado de realizar la conexión con STOMP

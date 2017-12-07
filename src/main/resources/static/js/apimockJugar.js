@@ -20,7 +20,7 @@ apimockJugar = (function () {
         getJugadoresDeSala: function (idSala, callback) {
             callback(mockdata["salas"][idSala]);
         }
-    }
+    };
 
 })();
 
@@ -34,9 +34,9 @@ apiclientJugar = (function () {
                 callback(data);
             }).fail(function (jqXHR, textStatus) {
                 callback(undefined);
-                if (jqXHR.status != 404)
+                if (jqXHR.status !== 404)
                     alert("Error " + jqXHR.status + " peticion GET!");
             });
         }
-    }
+    };
 })();

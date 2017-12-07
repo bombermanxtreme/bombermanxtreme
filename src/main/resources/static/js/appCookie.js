@@ -16,13 +16,17 @@ var appCookie = (function () {
         var res = -1;
         document.cookie.split("; ").map(function (e) {
             var _cookie = e.split("=");
-            if (_cookie[0] == key)
+            if (_cookie[0] === key)
                 res = _cookie[1];
         });
         return res;
-    }
+    };
 
-
+    /**
+     * Establece el nombre jugador en la cookie
+     * @param nombre
+     * @return nombre jugador
+     */
     var _setNombreJugador = function (nombre) {
         document.cookie = "nombreuser=" + nombre;
     };
@@ -35,7 +39,7 @@ var appCookie = (function () {
         setSala(id) {
             document.cookie = "idsala=" + id;
         },
-        
+
         /**
          * 
          * @return retorna la sala
@@ -57,8 +61,15 @@ var appCookie = (function () {
             _setIdJugador(-1);
             location.href = "login.html";
         },
+
+        /**
+         * Establece id jugador
+         */
         setIdJugador: _setIdJugador,
 
+        /**
+         * Establece nombre jugador
+         */
         setNombreJugador: _setNombreJugador,
         /**
          * retorna el id del jugador si no ha iniciado sesión retorna -1
@@ -83,5 +94,5 @@ var appCookie = (function () {
                 location.href = "jugar.html";
             return idJugador;
         }
-    }
+    };
 })();

@@ -17,17 +17,17 @@ var pantalla = (function () {
          */
         start: function () {
             //sólo se debe ejecutar una vez
-            if (dispositivo_ != "")
+            if (dispositivo_ !== "")
                 return false;
             //agregamos div para poder medir la resolución de pantalla
             $("body").append('<div id="medidaParaMovile" style="height:0px;width: 8cm;"></div>');
             //si no cabe el doble es un dispositivo muy pequeño (celular)
             dispositivo_ = (screen.width > 2 * $("#medidaParaMovile").width()) ? "pc" : "m";
             //agregamos que no se pueda hacer zoom si es mobile
-            document.getElementById("viewport").setAttribute("content", (dispositivo_ != "m") ? "initial-scale=1, minimum-scale=1" : "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1");
+            document.getElementById("viewport").setAttribute("content", (dispositivo_ !== "m") ? "initial-scale=1, minimum-scale=1" : "user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1");
 
             //para el css de pc discriminamos cada pantalla 
-            if (dispositivo_ != "m") {
+            if (dispositivo_ !== "m") {
                 var pantalla = 2000;
                 if (screen.width < 1400)
                     pantalla = 1400;
@@ -43,7 +43,7 @@ var pantalla = (function () {
             //eliminamos el div que se creó para calcular los cm de la pantalla
             $("#medidaParaMovile").remove();
         }
-    }
+    };
 })();
 
 setTimeout(pantalla.start, 100);
