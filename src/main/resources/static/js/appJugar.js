@@ -125,9 +125,9 @@ var appJugar = (function () {
 			//verificamos que el usuario haya iniciado
 			idJugador=appCookie.getIdJugador(false);
 			idSala=appCookie.getSala();
-			if(idJugador==-1)
+			if(idJugador===-1)
 				return false;
-			if(idSala==-1){
+			if(idSala===-1){
 				MJ_simple("Entrar a la sala","No se ha seleccionado la sala");
 				return false;
 			}

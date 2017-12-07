@@ -24,7 +24,7 @@ apiclientSala = (function () {
             }).fail(function (jqXHR, textStatus) {
                 callback(undefined);
                 if (jqXHR.status !== 404)
-                    alert("Error " + jqXHR.status + " peticion GET!");
+                    alert("Error " + jqXHR.status + " peticion POST!");
             });
         }
     };

@@ -31,8 +31,8 @@ public class Juego {
         this.jugadores = jugadores;
         this.tablero = new Elemento[ALTO][ANCHO];
         
-        int x=0;
-        int y=0;
+        int x;
+        int y;
         // creando Manes y agregándolos al tablero
         for(int i=0;i<jugadores.size();i++){
             switch(i){
@@ -52,7 +52,11 @@ public class Juego {
                     y=19;
                     x=0;
                     break;
+                default:
+                    x = 10;
+                    y = 10;
             }
+            
             Man manTMP=new Man("black", jugadores.get(i), "key", x, y);
             tablero[x][y]=manTMP;
             manes.add(manTMP);
