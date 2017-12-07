@@ -6,6 +6,8 @@
 package edu.eci.arsw.BomberManX.controllers;
 
 import edu.eci.arsw.BomberManX.services.BomberManXServices;
+import edu.eci.arsw.BomberManX.services.GameServicesException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,29 +40,37 @@ public class BomberManXAPIControllerUser {
     private static final Logger LOG = Logger.getLogger(BomberManXAPIControllerUser.class.getName());
 
     /**
-     *  Permite validar datos de sesion
-     * 
+     * Permite validar datos de sesion
+     *
      * @param correo
      * @param clave
-     * @return 
+     * @return
      */
     @RequestMapping(path = "/{correo}/{clave}", method = RequestMethod.GET)
     public ResponseEntity<?> loginJugador(@PathVariable String correo, @PathVariable String clave) {
         HttpStatus status;
         int id_login = gameServices.loginJugador(correo, clave);
+        String nombre_jugador = "Sin definir";
+        
+        try {
+            nombre_jugador = gameServices.getNombreJugador(id_login);
+
+        } catch (GameServicesException ex) {
+            Logger.getLogger(BomberManXAPIControllerUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
         if (id_login >= 0) {
             status = HttpStatus.ACCEPTED;
         } else {
             status = HttpStatus.NOT_FOUND;
         }
-        
-        return new ResponseEntity<>(id_login, status);
+
+        return new ResponseEntity<>(Integer.toString(id_login)+"~~||~~"+nombre_jugador, status);
     }
 
     /**
      * Registra un nuevo jugador
-     * 
+     *
      * @param nombre
      * @param correo
      * @param apodo
@@ -76,15 +86,15 @@ public class BomberManXAPIControllerUser {
         if (id_nuevo >= 0) {
             status = HttpStatus.ACCEPTED;
         } else {
-            status = HttpStatus.NOT_FOUND;            
+            status = HttpStatus.NOT_FOUND;
         }
 
         return new ResponseEntity<>(id_nuevo, status);
     }
-    
+
     /**
      * Devuelve la imagen url del personaje
-     * 
+     *
      * @param correo
      * @return ResponseEntity status
      */
@@ -92,11 +102,11 @@ public class BomberManXAPIControllerUser {
     public ResponseEntity<?> loadAvatar(@PathVariable String correo) {
         HttpStatus status;
         String url = gameServices.getUrl(correo);
-        
+
         if (!"no_existe".equals(url)) {
             status = HttpStatus.ACCEPTED;
         } else {
-            status = HttpStatus.NOT_FOUND;            
+            status = HttpStatus.NOT_FOUND;
         }
 
         return new ResponseEntity<>(url, status);
@@ -104,19 +114,19 @@ public class BomberManXAPIControllerUser {
 
     /**
      * Cambia la imagen url del personaje
-     * 
+     *
      * @param correo
-     * @return 
+     * @return
      */
     @RequestMapping(path = "/avatar/{correo}/set", method = RequestMethod.GET)
     public ResponseEntity<?> setAvatar(@PathVariable String correo) {
         HttpStatus status;
         String url = gameServices.getUrl(correo);
-        
+
         if (!"no_existe".equals(url)) {
             status = HttpStatus.ACCEPTED;
         } else {
-            status = HttpStatus.NOT_FOUND;            
+            status = HttpStatus.NOT_FOUND;
         }
 
         return new ResponseEntity<>(url, status);
