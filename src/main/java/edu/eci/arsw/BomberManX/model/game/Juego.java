@@ -1,17 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package edu.eci.arsw.BomberManX.model.game;
 
-import edu.eci.arsw.BomberManX.model.game.entities.Caja;
-import edu.eci.arsw.BomberManX.model.game.entities.Caja_Metalica;
-import edu.eci.arsw.BomberManX.model.game.entities.Espacio;
-import edu.eci.arsw.BomberManX.model.game.entities.Bomba;
-import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
-import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
-import edu.eci.arsw.BomberManX.model.game.entities.Man;
+import edu.eci.arsw.bombermanx.model.game.entities.Caja;
+import edu.eci.arsw.bombermanx.model.game.entities.Caja_Metalica;
+import edu.eci.arsw.bombermanx.model.game.entities.Espacio;
+import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
+import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
+import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
+import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import java.util.ArrayList;
 
 /**
