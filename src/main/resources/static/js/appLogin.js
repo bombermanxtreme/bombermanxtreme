@@ -141,7 +141,7 @@ var appLogin = (function () {
                      if (jqXHR.status != 404)
                      alert("Error " + jqXHR.status + " peticion GET!");*/
                     //console.info("Response text: " + data.responseText);
-                    console.info("JQXX"+jqXHR);
+                    console.info("JQXX"+jqXHR[0]);
                     console.info("text"+textStatus);
                     if (data.responseText === "-2") {
                         console.log("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
