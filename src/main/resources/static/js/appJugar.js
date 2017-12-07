@@ -161,7 +161,7 @@ var appJugar=(function(){
 		salirDeSala(){
 			stompClient.send("/app/Salir/Sala." + idSala, {}, idJugador);
 			_disconnect();
-			MJ_simplex("Sala","Saliendo de sala en 1 segundo..");
+			MJ_simplex("Sala","Saliendo de sala en 1 segundo..",true);
 			setTimeout("location.href='/jugar.html';",1000);
 		}
 	};
