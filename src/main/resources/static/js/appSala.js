@@ -13,13 +13,13 @@ var appSala=(function(){
 			stompClient.disconnect();
 		}
 		//setConnected(false);
-		console.log("Desconectado");
+		console.log("Desconectado de Salas");
 	}
 	/**
 	 * función que realiza la conexión STOMP
 	 */
 	var connectAndSubscribe = function () {
-		console.info("Connecting to WS...");
+		console.info("Connecting to WS...Salas");
 		var socket = new SockJS('/stompendpoint');
 		stompClient = Stomp.over(socket);
 
@@ -31,15 +31,6 @@ var appSala=(function(){
 			stompClient.subscribe("/topic/Salas", function (eventbody) {
 				callback_getSalas(eventbody.body);
 			});
-			/*
-			//especificamos que estamos atentos de que cumpla el mínimo de jugadores
-			stompClient.subscribe("/topic/ListoMinimoJugadores." + idSala, function (eventbody) {
-				callback_ListoMinimoJugadores(eventbody);
-			});
-
-			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/EntrarAJuego." + idSala, {}, idJugador);
-			*/
 		});
 	};
 

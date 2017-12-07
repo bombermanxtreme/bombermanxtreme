@@ -11,10 +11,21 @@ var appJugar=(function(){
 	var idJugador = appCookie.getIdJugador();
 
 	/**
+	 * función que perite desconectar
+	 */
+	var _disconnect=function() {
+		if (stompClient !== null) {
+			stompClient.disconnect();
+		}
+		//setConnected(false);
+		console.log("Desconectado de Jugar");
+	}
+
+	/**
 	 * función que realiza la conexión STOMP
 	 */
 	var connectAndSubscribe = function () {
-		console.info("Connecting to WS...");
+		console.info("Connecting to WS...Jugar");
 		var socket = new SockJS('/stompendpoint');
 		stompClient = Stomp.over(socket);
 
@@ -65,7 +76,7 @@ var appJugar=(function(){
 			jugadorEnSala = true;
 			//salaInfo.equipo
 			//armamos tabla con jugadores actuales y listos
-			$("#antesDeEmpezar").html("<div id='titulo_salas'>Sala "+salaInfo.nombre+" <input type='text' readonly value='"+salaInfo.codigo+"'></div><input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'>"+((salaInfo.equipos==="true")?"<input type='button' value='Cambiar de equipo' onclick='appJugar.cambiarEquipo();'>":"")+"<div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>&nbsp;</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
+			$("#antesDeEmpezar").html("<div id='titulo_salas'><input type='button' value='Salir' onclick='appJugar.salirDeSala();'> - "+salaInfo.nombre+" <input type='text' readonly value='"+salaInfo.codigo+"'></div><br><input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'>"+((salaInfo.equipos==="true")?"<input type='button' value='Cambiar de equipo' onclick='appJugar.cambiarEquipo();'>":"")+"<div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>&nbsp;</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
 		}
 
 		//borramos todos los jugadores
@@ -128,13 +139,7 @@ var appJugar=(function(){
 		/**
 		 * desconecta del STOMP
 		 */
-		disconnect() {
-			if (stompClient !== null) {
-				stompClient.disconnect();
-			}
-			//setConnected(false);
-			console.log("Desconectado");
-		},
+		disconnect:_disconnect,
 		/**
 		 * envia que ya está listo este usuario
 		 */
@@ -149,6 +154,15 @@ var appJugar=(function(){
 		 */
 		cambiarEquipo() {
 			stompClient.send("/app/CambiarGrupo/Sala." + idSala, {}, idJugador);
+		},
+		/**
+		 * permite salir de la sala
+		 */
+		salirDeSala(){
+			stompClient.send("/app/Salir/Sala." + idSala, {}, idJugador);
+			_disconnect();
+			MJ_simplex("Sala","Saliendo de sala en 1 segundo..");
+			setTimeout("location.href='/jugar.html';",1000);
 		}
 	};
 })();

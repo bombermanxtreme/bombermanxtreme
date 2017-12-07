@@ -96,4 +96,11 @@ public interface PersistenciaSala {
      * @return 
      */
     public boolean jugadorEstaListoEnSala(int idSala, Jugador jugador);
+
+    /**
+     * elimina el jugador de la sala
+     * @param idSala
+     * @param j 
+     */
+    public void removeJugador(int idSala, Jugador j);
 }

@@ -78,4 +78,9 @@ public class PersistenciaImplSala implements PersistenciaSala {
     public boolean jugadorEstaListoEnSala(int idSala, Jugador jugador) {
         return salas.get(idSala).jugadorEstaListo(jugador);
     }
+
+    @Override
+    public void removeJugador(int idSala, Jugador j) {
+        salas.get(idSala).eliminarJugador(j);
+    }
 }

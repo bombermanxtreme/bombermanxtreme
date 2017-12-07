@@ -206,4 +206,16 @@ public class Sala {
         }
         return 2;
     }
+
+    public void eliminarJugador(Jugador j) {
+        synchronized (jugadores) {
+            jugadores.remove(j);
+        }
+        if(equipos){
+            synchronized(lockEquipos){
+                equipoA.remove(j);
+                equipoB.remove(j);
+            }
+        }
+    }
 }

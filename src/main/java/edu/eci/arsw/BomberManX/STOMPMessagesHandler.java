@@ -50,6 +50,18 @@ public class STOMPMessagesHandler {
         enviarListadoJugadoresQuierenJugar(idSala, true);
         return true;
     }
+    /**
+     * permite salir de la sala
+     * @param id_jugador
+     * @param idSala
+     * @throws Exception 
+     */
+    @MessageMapping("/Salir/Sala.{idSala}")
+    public void handleSalirDeSala(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        //si la sala está casi lista ya no pueden entrar más jugadores
+        Jugador j = PJ.SeleccionarJugadorPorId(id_jugador);
+        PS.removeJugador(idSala,j);
+    }
 
     /**
      * Permite indicar que un jugador ya está listo
