@@ -5,7 +5,6 @@
  */
 package edu.eci.arsw.BomberManX;
 
-import edu.eci.arsw.BomberManX.model.game.Juego;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaJugador;
 import edu.eci.arsw.BomberManX.Persistencia.PersistenciaSala;
 import edu.eci.arsw.BomberManX.model.game.entities.Elemento;
@@ -13,6 +12,7 @@ import edu.eci.arsw.BomberManX.model.game.entities.Jugador;
 import edu.eci.arsw.BomberManX.model.game.entities.Man;
 import edu.eci.arsw.BomberManX.model.game.entities.Sala;
 import edu.eci.arsw.BomberManX.model.game.entities.TableroTexto;
+import edu.eci.arsw.BomberManX.services.BomberManXServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -30,6 +30,9 @@ public class STOMPMessagesHandler {
 
     @Autowired
     SimpMessagingTemplate msgt;
+    
+    @Autowired
+    BomberManXServices gameServices;
 
     /**
      * Permite agregar a lista de jugadores que quieren jugar
@@ -109,15 +112,8 @@ public class STOMPMessagesHandler {
     
     @MessageMapping("/AccionBomba.{idSala}")
     public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        // para probar sala 100
-        PJ.SeleccionarJugadorPorId(id_jugador);
-        
-        ArrayList<Jugador>  jugadorez = new ArrayList<>();
-        jugadorez.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
-        
-        Juego juego = new Juego(jugadorez);
-        
-        return juego.accionBomba(jugadorez.get(0));
+        Jugador j=PJ.SeleccionarJugadorPorId(id_jugador);
+        return gameServices.accionBomba(idSala,j);
     }
     
     // Author: Kevin S. Sanchez (DOCUEMENTACION)

@@ -128,4 +128,9 @@ public class Man implements Elemento {
         // falta poner el timer de 5s
         return (int) (indice++ % (bombas_man.size() + 1));
     }
+    
+    @Override
+    public String toString(){
+        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\"}";
+    }
 }

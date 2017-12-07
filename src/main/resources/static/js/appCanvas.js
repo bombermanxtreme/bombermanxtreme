@@ -147,19 +147,12 @@ var appCanvas = (function () {
         init() {
             console.log("***** Iniciando Script!!");
             console.log("Jugador: " + idJugador);
-            idJugador = 1;
-            //verificamos que el usuario haya iniciado
-            if (idJugador === "" || isNaN(idJugador) || idJugador < 0) {
-                //MJ_simplex("Jugar", "Inicia sesión por favor, te vamos a redirigir en 3 segundos...<br>", true);
-                setTimeout(function () {
-                    location.href = "login.html";
-                }, 3000);
-                return false;
-            }
+            idJugador = appCookie.getIdJugador(false);
+            
             // Cargamos elementos clave para dibujar en Tablero
             loadBasicControls();
             // Traer Numero de sala
-            idSala = getParameterByName('Sala');
+            idSala = appCookie.getSala();
             console.log("Este es el numero de Sala en el JS: " + idSala);
             //pedir estado inicial del juego
             getJuego();

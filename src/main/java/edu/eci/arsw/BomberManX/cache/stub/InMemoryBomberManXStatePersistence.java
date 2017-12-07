@@ -28,8 +28,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     private final ConcurrentHashMap<Integer, Juego> gamesState;
 
     public InMemoryBomberManXStatePersistence() {
-        gamesState = new ConcurrentHashMap<>();
-        preloadGames();
+        gamesState = new ConcurrentHashMap<>();        
     }
 
     @Override
@@ -37,6 +36,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
+            /*
             try {
                 String[][] tablero = TableroTexto.muestraContenido(id);
                 
@@ -44,6 +44,8 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
             } catch (IOException ex) {
                 Logger.getLogger(InMemoryBomberManXStatePersistence.class.getName()).log(Level.SEVERE, null, ex);
             }
+            */
+            gamesState.put(id, new Juego(jugadores, null));
         }
     }
 
@@ -61,14 +63,4 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
         return gamesState.containsKey(gameid);
     }
     
-    private void preloadGames(){
-        //para probar sala 100
-           
-        ArrayList<Jugador>  jugadores = new ArrayList<>();
-        
-        jugadores.add(new Jugador("Prueba", "pr@server.com", "jugador prueba", "123", ""));
-        
-        Juego juego = new Juego(jugadores);
-       
-    }
 }

@@ -5,7 +5,6 @@
  */
 package edu.eci.arsw.BomberManX.model.game;
 
-import edu.eci.arsw.BomberManX.Recursos.Timeout;
 import edu.eci.arsw.BomberManX.model.game.entities.Caja;
 import edu.eci.arsw.BomberManX.model.game.entities.Caja_Metalica;
 import edu.eci.arsw.BomberManX.model.game.entities.Espacio;
@@ -27,37 +26,49 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
-    private int tiempo;
+    private static final int TIEMPOEXPLOTARBOMBAS=5;
     private ArrayList<Jugador> jugadores;
-    // Kevin S. Sanchez: Cambio de Casilla por Elemento
     private Elemento[][] tablero;
-    private ArrayList<Man> manes;
+    private ArrayList<Man> manes = new ArrayList<>();
     public static final int MAXIMOJUGADORES = 4;
-
-    /**
-     * constructor
-     * @param jugadores 
-     */
-    public Juego(ArrayList<Jugador> jugadores) {
-        this.jugadores = jugadores;
-        iniciar_manes();
-    }
     
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
-        iniciar_manes();
         this.tablero = new Elemento[ALTO][ANCHO];
-        tiempo = 0;
-        // Mapear Tablero
-        mapearTablero(tableroTemporal);
-    }
-    
-    public void iniciar_manes(){
-        manes = new ArrayList<>();
         
-        for(int i=0;i<jugadores.size();i++){ // posicion inicial provisional
-            manes.add(new Man("black", jugadores.get(i), "key", 10, 10));
+        int x=0;
+        int y=0;
+        // creando Manes y agregándolos al tablero
+        for(int i=0;i<jugadores.size();i++){
+            switch(i){
+                case 0:
+                    x=0;
+                    y=0;
+                    break;
+                case 1:
+                    y=19;
+                    x=9;
+                    break;
+                case 2:
+                    y=0;
+                    x=9;
+                    break;
+                case 3:
+                    y=19;
+                    x=0;
+                    break;
+            }
+            Man manTMP=new Man("black", jugadores.get(i), "key", x, y);
+            tablero[x][y]=manTMP;
+            manes.add(manTMP);
         }
+        tablero[2][2]=new Caja("", 2, 2);
+        tablero[2][3]=new Caja("", 2, 3);
+        tablero[2][4]=new Caja("", 2, 4);
+        tablero[2][5]=new Caja("", 2, 5);
+        tablero[2][6]=new Caja("", 2, 6);
+        // Mapear Tablero
+        //mapearTablero(tableroTemporal);
     }
     
     /**
@@ -140,11 +151,23 @@ public class Juego {
         boolean puede = hay_objeto(coor_x,coor_y, man);
         
         if(puede){      
-            System.out.println("Pudo moverse >>");
+            System.out.println("Pudo poner bomba >>");
             tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
             //Timeout timeout = new Timeout();
             //timeout.start(5000);
-        }        
+        }      
+        
+        /*
+        ActionListener b = new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                //lanza ladrillo
+				mover();
+				timer.stop();
+            }
+        };
+        timer = new Timer(100, b);
+        timer.start();
+        */
         
         return puede;
     }
@@ -164,33 +187,26 @@ public class Juego {
         return bomba.get_man().equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
     
-    /**
-     * Retorna los tipos de lo que hay 
-     * @param fila
-     * @param columna
-     * @return 
-     */
-    private Object[] hay_objeto_tipo(int fila, int columna){
-        Object[] lista = new Object[2];
-        return lista;
-    }
-    
+        
     public boolean mover(){
         return false;
     }
     
     @Override
     public String toString() {
-        //return "{\"nombre\":\"" + nombre + "\", \"record\":\"" + record + "\"}";
-        return "{\"cajas\":[\"" + ARRIBA + "\"]}";        
-    }
-
-    public int getTiempo() {
-        return tiempo;
-    }
-
-    public void setTiempo(int tiempo) {
-        this.tiempo = tiempo;
+        ArrayList<String> cajas=new ArrayList<>();
+        ArrayList<String> manes=new ArrayList<>();
+        for (int i = 0; i < tablero.length; i++) {
+            for (int k = 0; k < tablero[0].length; k++) {
+                if(tablero[i][k] instanceof Caja){
+                    cajas.add("{x:"+i+",y:"+k+"}");
+                }
+                if(tablero[i][k] instanceof Man){
+                    manes.add(tablero[i][k].toString());
+                }
+            }
+        }
+        return "{\"cajas\":" + cajas.toString() + ",\"manes\":" + manes.toString() + "}";
     }
 
     public ArrayList<Jugador> getJugadores() {

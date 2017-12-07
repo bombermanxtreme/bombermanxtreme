@@ -195,4 +195,8 @@ public class BomberManXServices {
     public String getNombreJugador(int id_jugador) throws GameServicesException {
         return pj.SeleccionarJugadorPorId(id_jugador).getApodo();
     }
+
+    public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
+        return cache.getGame(id_sala).accionBomba(j);
+    }
 }

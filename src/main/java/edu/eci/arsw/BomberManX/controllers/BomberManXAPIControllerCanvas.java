@@ -60,8 +60,8 @@ public class BomberManXAPIControllerCanvas {
             }
             
             Juego j = gameServices.getGame(id_sala);
-            System.out.println("Voy a enviar esto: "  + j);
-            return new ResponseEntity<>(j, HttpStatus.ACCEPTED);
+            System.out.println("Voy a enviar esto: "  + j.toString());
+            return new ResponseEntity<>(j.toString(), HttpStatus.ACCEPTED);
         } catch (GameServicesException ex) {
             Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);     
         } catch (NumberFormatException ex){
