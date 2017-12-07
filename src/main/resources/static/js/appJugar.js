@@ -143,6 +143,12 @@ var appJugar=(function(){
 			$("#antesDeEmpezar > input[type=button]").remove();
 			//reportamos que este usuario quiere entrar al juego
 			stompClient.send("/app/JugadorListo." + idSala, {}, idJugador);
+		},
+		/**
+		 * avisa que quiere cambiar de equipo
+		 */
+		cambiarEquipo() {
+			stompClient.send("/app/CambiarGrupo/Sala." + idSala, {}, idJugador);
 		}
 	};
 })();
