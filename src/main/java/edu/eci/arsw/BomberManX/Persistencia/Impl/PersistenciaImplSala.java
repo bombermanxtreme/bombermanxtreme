@@ -81,6 +81,11 @@ public class PersistenciaImplSala implements PersistenciaSala {
 
     @Override
     public void removeJugador(int idSala, Jugador j) {
-        salas.get(idSala).eliminarJugador(j);
+		salas.get(idSala).eliminarJugador(j);
+	}
+	
+	@Override
+    public boolean cambiarDeGrupoJugador(int idSala, Jugador jugador) {
+        return salas.get(idSala).cambiarDeGrupoJugador(jugador);
     }
 }

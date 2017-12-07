@@ -85,6 +85,7 @@ public interface PersistenciaSala {
 
     /**
      * cierra una sala y retorna true SOLO LA PRIMERA vez, sala cerra NO permite entrar a nadie más
+     * @param id_sala
      * @return 
      */
     public boolean cerrarSala(int id_sala);
@@ -103,4 +104,12 @@ public interface PersistenciaSala {
      * @param j 
      */
     public void removeJugador(int idSala, Jugador j);
+    
+    /**
+     * El jugador cambia de sala 
+     * @param idSala
+     * @param jugador 
+     * @return  
+     */
+    public boolean cambiarDeGrupoJugador(int idSala, Jugador jugador);
 }
