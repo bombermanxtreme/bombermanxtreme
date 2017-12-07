@@ -90,6 +90,13 @@ public class STOMPMessagesHandler {
         return true;
     }
     
+    @MessageMapping("/CambiarGrupo/Sala.{idSala}")
+    public void handleCambiarGrupo(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        Jugador jugador = PJ.SeleccionarJugadorPorId(id_jugador);
+        PS.cambiarDeGrupoJugador(idSala,jugador);
+        enviarListadoJugadoresQuierenJugar(idSala, true);
+    }
+    
     @MessageMapping("/AccionBomba.{idSala}")
     public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
         // para probar sala 100
