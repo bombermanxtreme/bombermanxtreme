@@ -32,6 +32,7 @@ public class Juego {
     // Kevin S. Sanchez: Cambio de Casilla por Elemento
     private Elemento[][] tablero;
     private ArrayList<Man> manes;
+    public static final int MAXIMOJUGADORES = 4;
 
     /**
      * constructor
