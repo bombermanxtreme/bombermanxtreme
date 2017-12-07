@@ -1,4 +1,4 @@
-package edu.eci.arsw.BomberManX.model.game;
+package edu.eci.arsw.bombermanx.model.game;
 
 import edu.eci.arsw.bombermanx.model.game.entities.Caja;
 import edu.eci.arsw.bombermanx.model.game.entities.Caja_Metalica;

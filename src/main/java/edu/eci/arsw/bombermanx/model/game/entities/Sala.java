@@ -1,6 +1,6 @@
 package edu.eci.arsw.bombermanx.model.game.entities;
 
-import edu.eci.arsw.BomberManX.model.game.Juego;
+import edu.eci.arsw.bombermanx.model.game.Juego;
 import java.util.ArrayList;
 import java.util.Random;
 
