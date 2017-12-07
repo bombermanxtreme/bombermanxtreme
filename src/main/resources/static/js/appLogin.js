@@ -50,7 +50,7 @@ var appLogin = (function () {
                 $.get("/users/" + correo + "/" + clave,
                         function (data) {
                             var temp = data.split("~~||~~");
-                            var id_user = temp[0]
+                            var id_user = temp[0];
                             var nombre_logeado = temp[1];
 
                             console.info("sesion: " + datosInicio.correo + " id user: " + data);

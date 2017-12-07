@@ -256,7 +256,7 @@ var juego = {
 
     }
 
-}
+};
 
 juego.teclado();
 juego.tiempo();
