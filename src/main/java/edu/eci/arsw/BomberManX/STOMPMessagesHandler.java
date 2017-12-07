@@ -63,7 +63,6 @@ public class STOMPMessagesHandler {
     @MessageMapping("/JugadorListo.{idSala}")
     public void handleJugadorListo(int id_jugador, @DestinationVariable int idSala) throws Exception {
         Jugador jugadorListo = PJ.SeleccionarJugadorPorId(id_jugador);
-
         PS.addJugadorListo(idSala,jugadorListo);
         enviarListadoJugadoresQuierenJugar(idSala, true);
     }
@@ -78,36 +77,14 @@ public class STOMPMessagesHandler {
      */
     public boolean enviarListadoJugadoresQuierenJugar(int idSala, boolean salaAbierta) {
         //url de msgt.convertAndSend();
-        String url = "/topic/JugadoresQuierenJugar." + idSala;
+        String url = "/topic/Sala." + idSala;
         if (!salaAbierta) {
             msgt.convertAndSend(url, false);
             return false;
         }
-        ArrayList<String> strJugadores = new ArrayList<>();
-        synchronized (PS.getJugadoresDeSala(idSala)) {
-            int k = 0;
-            while (k < PS.getJugadoresDeSala(idSala).size()) {
-                Jugador jugador = PS.getJugadoresDeSala(idSala).get(k);
-                //revisamos si ya está listo
-                int i = 0;
-                boolean listo = false;
-                ArrayList<Jugador> jugadoresListos = PS.getJugadoresListos(idSala);
-                synchronized (jugadoresListos) {
-                    while (!listo && i < jugadoresListos.size()) {
-                        if (jugadoresListos.get(i).equals(jugador)) {
-                            listo = true;
-                        }
-                        i++;
-                    }
-                }
-
-                String json_ = "{\"nombre\":\"" + jugador.getNombre() + "\",\"record\":" + jugador.getRecord() + ",\"listo\":" + listo + "}";
-                strJugadores.add(json_);
-                k++;
-            }
-        }
-        //enviamos todos los jugadores
-        msgt.convertAndSend(url, strJugadores.toString());
+        
+        //enviamos todas las características de la sala incluido los jugadores
+        msgt.convertAndSend(url, PS.getSala(idSala).toString());
         if(PS.cerrarSala(idSala))
             msgt.convertAndSend("/topic/ListoMinimoJugadores." + idSala, Sala.TIEMPOENSALAPARAEMPEZAR);
         return true;

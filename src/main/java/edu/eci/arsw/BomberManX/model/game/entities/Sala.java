@@ -5,7 +5,6 @@
  */
 package edu.eci.arsw.BomberManX.model.game.entities;
 
-import edu.eci.arsw.BomberManX.model.game.Juego;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -26,6 +25,7 @@ public class Sala {
     private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     private static final int MINIMOJUGADORES = 2;
+    private static final int MAXIMOJUGADORES = 4;
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     public static final int LONGITUDCODIGO = 10; //segundos
@@ -104,20 +104,49 @@ public class Sala {
     public void addJugadorListo(Jugador jugadorListo) {
         boolean yaExiste = false;
         //revisamos que aún no esté en la lista
-        for (Jugador entry : jugadoresListos) {
-            if(entry.equals(jugadorListo)){
-                yaExiste=true;
-                break;
+        synchronized (jugadoresListos) {
+            for (Jugador entry : jugadoresListos) {
+                if(entry.equals(jugadorListo)){
+                    yaExiste=true;
+                    break;
+                }
+            }
+            //si no está en la lista entonces lo agregamos
+            if(!yaExiste)
+                jugadoresListos.add(jugadorListo);
+            System.out.println("xxxxx:)");
+            System.out.println(jugadoresListos);
+        }
+    }
+    
+    public boolean jugadorEstaListo(Jugador j){
+        int i=0;
+        synchronized (jugadoresListos) {
+            while (i < jugadoresListos.size()) {
+                if (jugadoresListos.get(i).equals(j)) {
+                    return true;
+                }
+                i++;
             }
         }
-        //si no está en la lista entonces lo agregamos
-        if(!yaExiste)
-        jugadoresListos.add(jugadorListo);
+        return false;
     }
     
     @Override
     public String toString() {
-        return "{\"id\":\""+id+"\",\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\",\"codigo\":\""+codigo+"\",\"equipos\":\""+equipos+"\",\"friendFire\":\""+friendFire+"\",\"creador\":\""+creador.getNombre()+"\"}";
+        ArrayList<String> strJugadores = new ArrayList<>();
+        synchronized (jugadores) {
+            int k = 0;
+            while (k < jugadores.size()) {
+                Jugador jugador = jugadores.get(k);
+                //revisamos si ya está listo
+                boolean listo = jugadorEstaListo(jugador);
+                String json_ = "{\"nombre\":\"" + jugador.getNombre() + "\",\"record\":" + jugador.getRecord() + ",\"listo\":" + listo + "}";
+                strJugadores.add(json_);
+                k++;
+            }
+        }
+        return "{\"id\":\""+id+"\",\"jugadores\":"+strJugadores.toString()+",\"nombre\":\""+nombre+"\",\"numJugadores\":\""+jugadores.size()+"\",\"casiLista\":\""+casiLista+"\",\"codigo\":\""+codigo+"\",\"equipos\":\""+equipos+"\",\"friendFire\":\""+friendFire+"\",\"creador\":\""+creador.getNombre()+"\"}";
     }
 
     /**

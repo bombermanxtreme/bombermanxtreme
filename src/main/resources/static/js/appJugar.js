@@ -23,7 +23,7 @@ var appJugar=(function(){
 			console.log("Conectado: " + frame);
 
 			//especificamos que estamos atentos de nuevos jugadores que entren
-			stompClient.subscribe("/topic/JugadoresQuierenJugar." + idSala, function (eventbody) {
+			stompClient.subscribe("/topic/Sala." + idSala, function (eventbody) {
 				callback_JugadoresQuierenJugar(eventbody);
 			});
 
@@ -53,7 +53,8 @@ var appJugar=(function(){
 		if (message.body === "false")
 			return false;
 
-		var jugadores = JSON.parse(message.body);
+		var salaInfo = JSON.parse(message.body);
+		var jugadores=salaInfo.jugadores;
 
 		//si el tiempo no ha empezado
 		if (segundosRestantes === null)
@@ -73,7 +74,7 @@ var appJugar=(function(){
 		var numJugadores = 0;
 		jugadores.map(function (jugador) {
 			numJugadores++;
-			var listo = jugador.listo === true ? "LISTO" : "";
+			var listo = jugador.listo === true ? "<img src='/media/listo.png'>" : "";
 			var filasHTML = "<tr><td>" + numJugadores + "</td><td>" + jugador.nombre + "</td><td>" + jugador.record + "</td><td>" + listo + "</td></tr>";
 			$("#listaJugadores > tbody").append(filasHTML);
 		});

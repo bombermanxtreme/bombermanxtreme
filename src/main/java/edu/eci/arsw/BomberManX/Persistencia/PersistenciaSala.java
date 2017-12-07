@@ -87,4 +87,12 @@ public interface PersistenciaSala {
      * @return 
      */
     public boolean cerrarSala(int id_sala);
+
+    /**
+     * revisa si un jugador ya está listo para empezar a jugar en una sala
+     * @param idSala
+     * @param jugador
+     * @return 
+     */
+    public boolean jugadorEstaListoEnSala(int idSala, Jugador jugador);
 }
