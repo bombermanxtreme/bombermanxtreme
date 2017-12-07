@@ -206,7 +206,7 @@ public class Juego {
                 }
             }
         }
-        return "{\"cajas\":" + cajas.toString() + ",\"manes\":" + manes.toString() + "}";
+        return "{\"cajas\":" + cajas.toString() + ",\"manes\":" + manes.toString() + ",\"ancho\":"+ANCHO+",\"alto\":"+ALTO+"}";
     }
 
     public ArrayList<Jugador> getJugadores() {

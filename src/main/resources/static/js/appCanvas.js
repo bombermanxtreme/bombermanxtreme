@@ -8,6 +8,7 @@ var appCanvas = (function () {
     var idSala = 1;//por ahora una sola sala
     var canvas;
     var ctx;
+    var tablero;
 
     /**
      * función que realiza la conexión STOMP
@@ -45,10 +46,23 @@ var appCanvas = (function () {
 
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
-            console.log(data);
+            var datosJuego=eval("("+data+")");
+            tablero=Array();
+            for (var i = 0; i < datosJuego.alto; i++) {
+                tablero[i]=Array();
+                for (var k = 0; k < datosJuego.ancho; k++) {
+                    tablero[i][k]="O";
+                }
+            }
+            for (var i = 0; i < datosJuego.cajas.length; i++) {
+                var x=datosJuego.cajas[i].x;
+                var y=datosJuego.cajas[i].y;
+                tablero[y][x]="X";
+            }
+            //
             //hacemos el tablero str
             //actualizamos el canvas
-            actualizar(data.tablero);
+            actualizar();
         });
     };
 
@@ -89,12 +103,12 @@ var appCanvas = (function () {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-    var actualizar = function (tablero) {
+    var actualizar = function () {
         //dibuja el canvas COMPLETO!
         console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
-                if (tablero[i][j].key === "X") {
+                if (tablero[i][j] === "X") {
                     var myObstacle = new Caja(50, 50, "green", j * 50, i * 50);
                     myObstacle.update();
 
