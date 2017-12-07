@@ -4,7 +4,8 @@ var APIuseful=apiclientSala;
 var appSala=(function(){
 	var stompClient = null;
 	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
-
+        var idJugador = -1;
+        
 	/**
 	 * desconecta del STOMP
 	 */
@@ -14,7 +15,7 @@ var appSala=(function(){
 		}
 		//setConnected(false);
 		console.log("Desconectado");
-	}
+	};
 	/**
 	 * función que realiza la conexión STOMP
 	 */
@@ -77,6 +78,7 @@ var appSala=(function(){
 		init() {
 			//verificamos que el usuario haya iniciado
 			idJugador=appCookie.getIdJugador(false);
+                        $("header .nombre_jugador").text(appCookie.getNombreJugador());
 			if(idJugador==-1)
 				return false;
 			//INICIAMOS CONEXIÓN
