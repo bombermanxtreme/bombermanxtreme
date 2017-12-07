@@ -30,7 +30,9 @@ public class Juego {
     private ArrayList<Jugador> jugadores;
     private Elemento[][] tablero;
     private ArrayList<Man> manes = new ArrayList<>();
-    public static final int MAXIMOJUGADORES = 4;
+	public static final int MAXIMOJUGADORES = 4;
+	private static final int[][] POSJUGADORES={{0,0},{9,19},{0,19},{9,0}};
+	private static final int[][] POSPROTEGIDAS={{0,0},{0,1},{1,0},{9,19},{8,19},{9,18},{0,19},{1,19},{0,18},{9,0},{8,0},{9,1}};
     
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
@@ -38,30 +40,22 @@ public class Juego {
         
         int x=0;
         int y=0;
-        // creando Manes y agregándolos al tablero
+		// creando Manes y agregándolos al tablero
         for(int i=0;i<jugadores.size();i++){
-            switch(i){
-                case 0:
-                    x=0;
-                    y=0;
-                    break;
-                case 1:
-                    y=19;
-                    x=9;
-                    break;
-                case 2:
-                    y=0;
-                    x=9;
-                    break;
-                case 3:
-                    y=19;
-                    x=0;
-                    break;
-            }
-            Man manTMP=new Man("black", jugadores.get(i), "key", x, y);
+			x=POSJUGADORES[i][0];
+			y=POSJUGADORES[i][1];
+            Man manTMP=new Man("black", jugadores.get(i), "", x, y);
             tablero[x][y]=manTMP;
             manes.add(manTMP);
-        }
+		}
+		//String letter;
+		//creando cajas Random
+        for (int row = 0; row < ALTO; row++){
+            //Recorrer Columnas
+            for (int col = 0; col < ANCHO; col++){
+				//fwif()
+			}
+		}
         tablero[2][2]=new Caja("", 2, 2);
         tablero[2][3]=new Caja("", 2, 3);
         tablero[2][4]=new Caja("", 2, 4);

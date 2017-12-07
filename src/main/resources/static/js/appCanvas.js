@@ -6,7 +6,8 @@ var appCanvas = (function () {
     var stompClient = null;
     var idJugador = document.cookie.replace("iduser=", "");
     var idSala = 1;//por ahora una sola sala
-    var canvas;
+	var canvas;
+	var anchoCasilla=50;
     var ctx;
     var tablero;
 
@@ -109,12 +110,12 @@ var appCanvas = (function () {
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (tablero[i][j] === "X") {
-                    var myObstacle = new Caja(50, 50, "green", j * 50, i * 50);
+                    var myObstacle = new Caja("brown",j,i);
                     myObstacle.update();
 
                 } else {
-                    var myObstacle = new Caja(50, 50, "blue", j * 50, i * 50);
-                    myObstacle.update();
+                    //var myObstacle = new Caja(50, 50, "blue", j * 50, i * 50);
+                    //myObstacle.update();
                 }
             }
         }
@@ -126,31 +127,39 @@ var appCanvas = (function () {
 
     };
 
-    function Caja(width, height, color, x, y, type) {
-        this.type = type;
-        if (type === "image") {
+    function Caja(color, x, y) {
+        //this.type = type;
+        /*if (type === "image") {
             this.image = new Image();
             this.image.src = color;
-        }
-        this.width = width;
-        this.height = height;
-        this.speedX = 0;
-        this.speedY = 0;
-        this.x = x;
-        this.y = y;
-
+        }*/
         this.update = function () {
-            //var canvas = document.getElementById('cnv');
-            //var ctx = canvas.getContext('2d');
-            if (type === "image") {
+            /*if (type === "image") {
                 ctx.drawImage(this.image,
                         this.x,
                         this.y,
                         this.width, this.height);
-            } else {
+			} else {*/
+				x*=anchoCasilla;
+				y*=anchoCasilla;
                 ctx.fillStyle = color;
-                ctx.fillRect(this.x, this.y, this.width, this.height);
-            }
+				ctx.fillRect(x, y, anchoCasilla, anchoCasilla);
+				ctx.beginPath();
+				ctx.moveTo(x,y);
+				ctx.lineTo(anchoCasilla+x,y);
+				ctx.lineTo(anchoCasilla+x,anchoCasilla+y);
+				ctx.lineTo(x,anchoCasilla+y);
+				ctx.lineTo(x,y);
+				ctx.stroke();
+				ctx.beginPath();
+				ctx.moveTo(x,y);
+				ctx.lineTo(anchoCasilla+x,anchoCasilla+y);
+				ctx.stroke();
+				ctx.beginPath();
+				ctx.moveTo(anchoCasilla+x,y);
+				ctx.lineTo(x,anchoCasilla+y);
+				ctx.stroke();
+				//}
         };
     }
 
