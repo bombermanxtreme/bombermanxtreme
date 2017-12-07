@@ -22,6 +22,8 @@ public class Sala {
     private boolean friendFire;
     private boolean casiLista;
     private ArrayList<Jugador> jugadores = new ArrayList<Jugador>();
+    private ArrayList<Jugador> equipoA = new ArrayList<Jugador>();
+    private ArrayList<Jugador> equipoB = new ArrayList<Jugador>();
     private ArrayList<Jugador> jugadoresListos = new ArrayList<Jugador>();
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     private static final int MINIMOJUGADORES = 2;
@@ -29,6 +31,7 @@ public class Sala {
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
     public static final int TIEMPOENSALAPARAEMPEZAR = 10; //segundos
     public static final int LONGITUDCODIGO = 10; //segundos
+    private Object lockEquipos=1;
 
     /**
      * constructor
@@ -61,8 +64,17 @@ public class Sala {
             }
         }
         //si no está en la lista entonces lo agregamos
-        if(!yaExiste)
-        jugadores.add(jugador);
+        if(!yaExiste){
+            jugadores.add(jugador);
+            synchronized(lockEquipos){
+                if(equipos){
+                    if(equipoA.size()>equipoB.size())
+                        equipoB.add(jugador);
+                    else
+                        equipoA.add(jugador);
+                }
+            }
+        }
     }
 
     /**
@@ -141,7 +153,8 @@ public class Sala {
                 Jugador jugador = jugadores.get(k);
                 //revisamos si ya está listo
                 boolean listo = jugadorEstaListo(jugador);
-                String json_ = "{\"nombre\":\"" + jugador.getNombre() + "\",\"record\":" + jugador.getRecord() + ",\"listo\":" + listo + "}";
+                int equipo=getGrupoJugador(jugador);
+                String json_ = "{\"nombre\":\"" + jugador.getNombre() + "\",\"img\":\"" + jugador.getImagen()+ "\",\"record\":" + jugador.getRecord() + ",\"listo\":" + listo + ",\"equipo\":" + equipo + "}";
                 strJugadores.add(json_);
                 k++;
             }
@@ -172,5 +185,18 @@ public class Sala {
         }
         String saltStr = salt.toString();
         return saltStr;
+    }
+
+    private int getGrupoJugador(Jugador jugador) {
+        if(!equipos)return -1;
+        synchronized(lockEquipos){
+            int i=0;
+            while(equipoA.size()>i){
+                if(equipoA.get(i).equals(jugador))
+                    return 1;
+                i++;
+            }
+        }
+        return 2;
     }
 }

@@ -67,10 +67,21 @@ header .nombre_jugador {
   margin-right: auto;
   height: 533.33333px; }
 
-#listaJugadores > tbody > tr:even {
+#listaJugadores .IMGperfil {
+  width: 42.66667px; }
+
+#listaJugadores > tbody > tr:nth-child(even) {
   background-color: #ccc; }
 
-#listaJugadores > tbody > tr:odd {
+#listaJugadores > tbody > tr.equipo1 {
+  background-color: #c00 !important;
+  color: white !important; }
+
+#listaJugadores > tbody > tr.equipo2 {
+  background-color: #00c !important;
+  color: white !important; }
+
+#listaJugadores > tbody > tr:nth-child(odd) {
   background-color: #fff; }
 
 #listaJugadores > tbody td {

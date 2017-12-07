@@ -74,7 +74,7 @@ public class BomberManXAPIController {
     public ResponseEntity<?> getSalas(Model model) {
         try {
             if(PS.getSalas().size()==0){
-                PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los BOMBERS",false,true);
+                PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los BOMBERS",true,true);
                 PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los perdidos",false,true);
                 PS.crearSala(PJ.SeleccionarJugadorPorId(0),"Los XXX",false,true);
             }

@@ -63,8 +63,9 @@ var appJugar=(function(){
 		//definimos que el jugador si pudo entrar a la sala
 		if (jugadorEnSala === null) {
 			jugadorEnSala = true;
+			//salaInfo.equipo
 			//armamos tabla con jugadores actuales y listos
-			$("#antesDeEmpezar").html("<input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'><div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
+			$("#antesDeEmpezar").html("<div id='titulo_salas'>Sala "+salaInfo.nombre+" <input type='text' readonly value='"+salaInfo.codigo+"'></div><input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'>"+((salaInfo.equipos==="true")?"<input type='button' value='Cambiar de equipo' onclick='appJugar.cambiarEquipo();'>":"")+"<div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>&nbsp;</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
 		}
 
 		//borramos todos los jugadores
@@ -74,8 +75,9 @@ var appJugar=(function(){
 		var numJugadores = 0;
 		jugadores.map(function (jugador) {
 			numJugadores++;
+			var classEquipo = salaInfo.equipos==="true"?(jugador.equipo==1?"class='equipo1'":"class='equipo2'"):"";
 			var listo = jugador.listo === true ? "<img src='/media/listo.png'>" : "";
-			var filasHTML = "<tr><td>" + numJugadores + "</td><td>" + jugador.nombre + "</td><td>" + jugador.record + "</td><td>" + listo + "</td></tr>";
+			var filasHTML = "<tr "+classEquipo+"><td>" + numJugadores + "</td><td><img class='IMGperfil' src='" + jugador.img + "'></td><td>" + jugador.nombre + "</td><td>" + jugador.record + "</td><td>" + listo + "</td></tr>";
 			$("#listaJugadores > tbody").append(filasHTML);
 		});
 	};
