@@ -41,7 +41,6 @@ public class Juego {
         System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
         this.tablero = new Elemento[ALTO][ANCHO];
         
-<<<<<<< HEAD
         int x=0;
         int y=0;
     // creando Manes y agregándolos al tablero
@@ -74,31 +73,6 @@ public class Juego {
                 }
             }
         }
-=======
-//        int x=0;
-//        int y=0;
-//        // creando Manes y agregándolos al tablero
-//        for(int i=0;i<jugadores.size();i++){
-//            x=POSJUGADORES[i][0];
-//            y=POSJUGADORES[i][1];
-//            Man manTMP=new Man("black", jugadores.get(i), "", x, y);
-//            tablero[x][y]=manTMP;
-//            manes.add(manTMP);
-//        }
-//        //String letter;
-//        //creando cajas Random
-//        Random rand = new Random();
-//        for (int row = 0; row < ALTO; row++){
-//            for (int col = 0; col < ANCHO; col++) {
-//                int[] tmp={row,col};
-//                if(Arrays.asList(POSPROTEGIDAS).contains(tmp))
-//                    continue;
-//                if(rand.nextInt(2) == 0) {
-//                    tablero[row][col] = new Caja("", row, col);
-//                }
-//            }
-//        }
->>>>>>> MovimientoJugadores
         // Mapear Tablero
         mapearTablero(tableroTemporal);
     }
