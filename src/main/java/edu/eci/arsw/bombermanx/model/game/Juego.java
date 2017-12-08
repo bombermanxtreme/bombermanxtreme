@@ -40,6 +40,7 @@ public class Juego {
     
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
+        System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
         this.tablero = new Elemento[ALTO][ANCHO];
         
         int x=0;
@@ -74,7 +75,7 @@ public class Juego {
             }
         }
         // Mapear Tablero
-        //mapearTablero(tableroTemporal);
+        mapearTablero(tableroTemporal);
     }
 
     /**
@@ -101,28 +102,27 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
                 if (isNumeric(letter)) {
-                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter) - 1), letter, row, col);
-                    System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
+                    this.tablero[row][col] = new Man("black", jugadores.get(Integer.parseInt(letter) - 1), letter, row, col);
                 } else {
                     switch (letter) {
                         case "O":
                             this.tablero[row][col] = new Espacio(letter, row, col);
-                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
+                            System.out.println("OOOO POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
 
                         case "C":
                             this.tablero[row][col] = new Caja(letter, row, col);
-                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
+                            System.out.println("CCCC POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
 
                         case "X":
                             this.tablero[row][col] = new Caja_Metalica(letter, row, col);
-                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
+                            System.out.println("XXXX POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
 
                         default:
                             this.tablero[row][col] = new Espacio(letter, row, col);
-                            System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
+                            System.out.println("EEEEE POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
                     }
                 }
@@ -243,17 +243,20 @@ public class Juego {
     @Override
     public String toString() {
         ArrayList<String> cajasS = new ArrayList<>();
+        ArrayList<String> cajasM = new ArrayList<>();
         ArrayList<String> manesS = new ArrayList<>();
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
                 if (tablero[i][k] instanceof Caja) {
-                    cajasS.add("{x:" + k + ",y:" + i + "}");
+                    cajasS.add("{x:" + i + ",y:" + k + "}");
+                }else if(tablero[i][k] instanceof Caja_Metalica) {
+                    cajasM.add("{x:" + i + ",y:" + k + "}");
                 }else if(tablero[i][k] instanceof Man) {
                     manesS.add(tablero[i][k].toString());
                 }
             }
         }
-        return "{\"cajas\":" + cajasS.toString() + ",\"manes\":" + manesS.toString() + ",\"ancho\":" + ANCHO + ",\"alto\":" + ALTO + "}";
+        return "{\"cajas\":" + cajasS.toString() + ",\"cajasFijas\":" + cajasM.toString() + ",\"manes\":" + manesS.toString() + ",\"ancho\":" + ANCHO + ",\"alto\":" + ALTO + "}";
     }
 
     public ArrayList<Jugador> getJugadores() {
