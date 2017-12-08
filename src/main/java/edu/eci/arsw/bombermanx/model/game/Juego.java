@@ -7,6 +7,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
+import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import java.util.ArrayList;
 import java.awt.event.*;
 import javax.swing.Timer;
@@ -180,27 +181,14 @@ public class Juego {
         timer = new Timer(TIEMPOEXPLOTARBOMBAS, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 timer.stop();
-                
-                for(int i=0; i<tablero.length;i++){
-                    for(int k=0; k<tablero[0].length;k++){
-                            
-                        
-                        }                    
-                }
-                
-                
-                
-
+                MessengerTh izquierda = new MessengerTh();
             }//fin actionPerformed
         });
         timer.start();
         System.out.println("empieza");
     }
 
-    private void destrucionDeExplosion(int pCOl, int pRow) {
-        Bomba tmp = (Bomba) tablero[pCOl][pRow];
-        int radio = tmp.getRadio();
-    }
+   
 
     /**
      * Revisa que fila y columna del tablero no este ocuapda, expectuando por el
