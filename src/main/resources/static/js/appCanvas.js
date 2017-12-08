@@ -10,6 +10,8 @@ var appCanvas = (function () {
 	var anchoCasilla=50;
     var ctx;
     var tablero;
+    var _manes;
+    var _id_man;
 
     /**
      * función que realiza la conexión STOMP
@@ -76,6 +78,18 @@ var appCanvas = (function () {
                 var y=datosJuego.cajas[i].y;
 				tablero[y][x]="C";
             }
+
+            _manes=manes;
+            //cargamos los manes
+            for (var i = 0; i < datosJuego.manes.length; i++) {
+                var x=datosJuego.manes[i].x;
+                var y=datosJuego.manes[i].y;
+                var color=datosJuego.manes[i].color;
+                var apodo=datosJuego.manes[i].apodo_jugador;
+                if(appCookie.getNombre()==apodo)
+                    _id_man=i;
+				tablero[y][x]=i;
+            }
             //
             //hacemos el tablero str
             //actualizamos el canvas
@@ -129,17 +143,21 @@ var appCanvas = (function () {
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 switch(tablero[i][j]) {
-					case "C"://caja
-						var myObstacle = new Caja("#a27250",j,i);
-						myObstacle.update();
-						break;
-					case "c"://caja dañada
-						anim_cajaDañada(j,i);
-						break;
-					case "O"://nada
-						ctx.clearRect(j*anchoCasilla,i*anchoCasilla,(j+1)*anchoCasilla,(i+1)*anchoCasilla);
-						break;
-				}
+                    case "C"://caja
+                        var myObstacle = new Caja("#a27250",j,i);
+                        myObstacle.update();
+                        break;
+                    case "c"://caja dañada
+                        anim_cajaDañada(j,i);
+                        break;
+                    case "O"://nada
+                        ctx.clearRect(j*anchoCasilla,i*anchoCasilla,(j+1)*anchoCasilla,(i+1)*anchoCasilla);
+                        break;
+                    default://jugador
+                            var myObstacle = new Caja("red",j,i);
+                            myObstacle.update();
+                            break;
+                    }
             }
         }
         console.log("LLENANDO CANVAS");

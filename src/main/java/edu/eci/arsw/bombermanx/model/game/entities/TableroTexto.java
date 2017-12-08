@@ -20,7 +20,7 @@ public class TableroTexto {
       String[][] tab = new String[10][20];
       int iRow = 0;
       String cadena;
-      FileReader f = new FileReader("C:\\Users\\Kevin\\Documents\\bombermanxtreme\\src\\main\\resources\\static\\media\\escenarios\\Escenario" + Integer.toString(idEscenario) + ".txt");
+      FileReader f = new FileReader("../resources/static/media/escenarios/Escenario0.txt");
       BufferedReader b = new BufferedReader(f);
       while((cadena = b.readLine())!=null) {
             System.out.println("Esta es la linea de texto = " + cadena);
