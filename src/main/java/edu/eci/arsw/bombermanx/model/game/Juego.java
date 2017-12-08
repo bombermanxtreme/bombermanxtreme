@@ -163,6 +163,11 @@ public class Juego {
         return puede;
     }
     
+    public void daniarCaja(int x,int y){
+        tablero[y][x]=null;
+        msgt.convertAndSend("/topic/Sala." + idSala, false);
+    }
+    
     public boolean mover(int id_jugador){
         return false;
     }
