@@ -27,7 +27,7 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
-    private static final int TIEMPOEXPLOTARBOMBAS = 5000;
+    public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private ArrayList<Jugador> jugadores;
     private Elemento[][] tablero;
     private ArrayList<Man> manes = new ArrayList<>();
@@ -57,10 +57,9 @@ public class Juego {
             for (int col = 0; col < ANCHO; col++) {
                 int[] tmp={row,col};
                 boolean encuentra=false;
-                //System.out.println(Arrays.asList(POSPROTEGIDAS).get(row)[0]);
+                //revisamos que  no se encuentre en zonas protegidas
                 for (int i = 0; i < POSPROTEGIDAS.length; i++) {
                     if(Arrays.equals(POSPROTEGIDAS[i], tmp)){
-                        System.out.println("IF iF IF");
                         encuentra=true;
                         break;
                     }
@@ -177,37 +176,28 @@ public class Juego {
      *
      * @param explotara
      */
-    private void explotar(Bomba explotara) {
+    public void explotar(Bomba explotara) {
+               
+        // creando hilos para recorrer tablero
+        MessengerTh izquierda = new MessengerTh();
+        izquierda.iniciar(explotara, tablero, IZQUIERDA);
 
-        timer = new Timer(TIEMPOEXPLOTARBOMBAS, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                timer.stop();
-                
-                // creando hilos para recorrer tablero
-                MessengerTh izquierda = new MessengerTh();
-                izquierda.iniciar(explotara, tablero, 0);
-                
-                MessengerTh derecha = new MessengerTh();
-                derecha.iniciar(explotara, tablero, 1);
-                
-                
-                MessengerTh arriba = new MessengerTh();
-                arriba.iniciar(explotara, tablero, 2);
-                
-                
-                MessengerTh abajo = new MessengerTh();
-                abajo.iniciar(explotara, tablero, 3);
-                
-                // iniciando hilos
-                izquierda.start();
-                derecha.start();
-                arriba.start();
-                abajo.start();
-                
-            }//fin actionPerformed
-        });
-        timer.start();
-        System.out.println("empieza");
+        MessengerTh derecha = new MessengerTh();
+        derecha.iniciar(explotara, tablero, DERECHA);
+
+
+        MessengerTh arriba = new MessengerTh();
+        arriba.iniciar(explotara, tablero, ARRIBA);
+
+
+        MessengerTh abajo = new MessengerTh();
+        abajo.iniciar(explotara, tablero, ABAJO);
+
+        // iniciando hilos
+        izquierda.start();
+        derecha.start();
+        arriba.start();
+        abajo.start();
     }
 
    

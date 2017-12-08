@@ -7,11 +7,14 @@ import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.Timer;
 
 /**
  *
@@ -27,6 +30,7 @@ public class BomberManXServices {
     PersistenciaJugador pj = null;
     @Autowired
     PersistenciaSala ps = null;
+    private Timer timer;
     
     /**
      * crea un juego nuevo
@@ -193,6 +197,18 @@ public class BomberManXServices {
     }
 
     public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
-        return cache.getGame(id_sala).accionBomba(j);
+        boolean res=cache.getGame(id_sala).accionBomba(j);
+        if(res){
+            timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timer.stop();
+                 }//fin actionPerformed
+            });
+            timer.start();
+            System.out.println("empieza");
+
+        }
+
+        return res;
     }
 }
