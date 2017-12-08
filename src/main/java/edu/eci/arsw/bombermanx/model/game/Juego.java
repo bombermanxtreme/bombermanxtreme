@@ -159,7 +159,7 @@ public class Juego {
         int mposRow = man.getPosRow();
         Bomba explotara=null;
 
-        boolean puede = hay_objeto(mposCol, mposRow, man);
+        boolean puede = hay_objeto(mposRow, mposCol, man);
 
         if (puede) {
             System.out.println("Pudo poner bomba >>");
@@ -232,8 +232,8 @@ public class Juego {
      * @return
      */
     private boolean hay_objeto(int fila, int columna, Man man) {
-        Bomba bomba = (Bomba) tablero[fila][columna];
-        return bomba.get_man().equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
+        Man mam = (Man) tablero[fila][columna];
+        return mam.equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
 
     public boolean mover() {
@@ -249,7 +249,6 @@ public class Juego {
                 if (tablero[i][k] instanceof Caja) {
                     cajasS.add("{x:" + k + ",y:" + i + "}");
                 }else if(tablero[i][k] instanceof Man) {
-                    System.out.println("man encontrado ");
                     manesS.add(tablero[i][k].toString());
                 }
             }

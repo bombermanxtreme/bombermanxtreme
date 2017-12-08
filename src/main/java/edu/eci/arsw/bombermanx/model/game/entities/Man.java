@@ -91,17 +91,7 @@ public class Man implements Elemento,Destruible {
             bombas_man.add(new Bomba_n(this, color, radio));
         }
 
-    }
-
-    /**
-     * retorna el sigiente indice en la lista de las bombas
-     *
-     * @return
-     */
-    private int siguiente_bomba_indice() {
-        // falta poner el timer de 5s
-        return (int) (indice++ % (bombas_man.size() + 1));
-    }
+    }    
     
     @Override
     public String toString(){

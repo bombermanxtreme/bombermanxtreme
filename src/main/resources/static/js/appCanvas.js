@@ -4,8 +4,8 @@ var APIuseful = apiclientCanvas;
 var appCanvas = (function () {
 
     var stompClient = null;
-    var idJugador = document.cookie.replace("iduser=", "");
-    var idSala = 1;//por ahora una sola sala
+    var idJugador = appCookie.getIdJugador(false);
+    var idSala = appCookie.getSala();
     var canvas;
     var anchoCasilla = 50;
     var ctx;
@@ -25,7 +25,7 @@ var appCanvas = (function () {
 
             //especificamos que estamos atentos a poner bombas de jugadores
             stompClient.subscribe("/topic/accionBomba." + idSala, function (eventbody) {
-                callback_accionBomba(eventbody);
+                callback_accionBomba(eventbody.body);
             });
 
             //Estamos atentos si se mueve algun jugador dentro de l
@@ -42,9 +42,7 @@ var appCanvas = (function () {
     };
 
     // Funciones 
-    var callback_ponerBomba = function (message) {
-
-    };
+    
     /**
      * daña una caja específica
      * @param {*} message 
@@ -74,8 +72,6 @@ var appCanvas = (function () {
             for (var i = 0; i < datosJuego.cajas.length; i++) {
                 var x = datosJuego.cajas[i].x;
                 var y = datosJuego.cajas[i].y;
-                console.log("x:"+x);
-                console.log("y:"+y);
                 tablero[y][x] = "C";
             }
             //
@@ -87,7 +83,6 @@ var appCanvas = (function () {
 
     var loadBasicControls = function () {
         console.info('Cargando script!');
-        connectAndSubscribe();
         canvas = document.getElementById('lienzo');
         ctx = canvas.getContext('2d');
 
@@ -160,9 +155,14 @@ var appCanvas = (function () {
         setTimeout(function () {
             actualizar();
         }, 100);
-    }
+    };
 
-    var callback_accionBomba = function (message) {
+    var callback_accionBomba = function (data) {
+        var J = eval("(" + data + ")");
+        if(J.length>0){
+            console.log(J);
+        }
+        
 
     };
 
@@ -240,8 +240,9 @@ var appCanvas = (function () {
          * envia que ya está listo este usuario
          */
         accionBomba() {
-            //reportamos que este usuario quiere poner una bomba			
-            stompClient.send("/app/accionBomba." + idSala, {}, idJugador);
+            //reportamos que este usuario quiere poner una bomba	
+            console.log(idJugador);
+            stompClient.send("/app/AccionBomba." + idSala, {}, idJugador);
         }
 
     };
