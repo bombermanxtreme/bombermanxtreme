@@ -9,6 +9,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.recursos.MessengerTh;
+import edu.eci.arsw.bombermanx.services.GameServicesException;
 import java.util.ArrayList;
 import java.awt.event.*;
 import java.util.Arrays;
@@ -60,7 +61,7 @@ public class Juego {
             y=POSJUGADORES[i][1];
             Man manTMP=new Man("black", jugadores.get(i), "", x, y);
             tablero[x][y].reemplazar(manTMP);
-            manes.add(manTMP);
+            manes.add(i,manTMP);
         }
         // Mapear Tablero
         mapearTablero(tableroTemporal);
@@ -140,11 +141,14 @@ public class Juego {
      *
      * @param jugador
      * @return
+     * @throws edu.eci.arsw.bombermanx.services.GameServicesException
      */
-    public Bomba accionBomba(Jugador jugador) {
+    public Bomba accionBomba(Jugador jugador) throws GameServicesException {
         Man man = manes.get(jugadores.indexOf(jugador));
+        if(man==null)throw new GameServicesException("No se definió correctamente la relación entre jugador y man");
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
+        
         Bomba explotara=null;
 
         boolean puede = hay_objeto(mposRow, mposCol, man);

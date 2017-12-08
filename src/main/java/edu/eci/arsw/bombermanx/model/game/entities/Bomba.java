@@ -8,20 +8,39 @@ package edu.eci.arsw.bombermanx.model.game.entities;
 public abstract class Bomba implements Elemento {
 
     private String color, key;
-    private int posCol;
-    private int posRow;
+    int posCol;
+    int posRow;
     private int radio;
     private Man man;
 
-    public abstract Man get_man();
+    public Bomba(Man man, String color, int radio) {
+        this.man = man;
+        this.color = color;
+        this.radio = radio;
+        posRow = man.getPosRow();
+        posCol = man.getPosCol();
+        System.out.println("dentro de bomba"+posCol+"-"+posRow);
+        
+    }
 
-    public abstract String getColor();
+    public int getRadio() {
+        return radio;
+    }
 
-    public abstract void setColor(String color);
+    public Man get_man() {
+        return man;
+    }
+    
 
-    public abstract int getRadio();
+    @Override
+    public void setPosRow(int posRow) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-    public abstract void setRadio(int radio);
+    @Override
+    public void setPosCol(int posCol) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
     @Override
     public String getKey() {
