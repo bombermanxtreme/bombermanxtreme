@@ -8,6 +8,8 @@ import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 /**
  *
@@ -25,47 +27,37 @@ public class Juego {
     private ArrayList<Jugador> jugadores;
     private Elemento[][] tablero;
     private ArrayList<Man> manes = new ArrayList<>();
-    public static final int MAXIMOJUGADORES = 4;
+	public static final int MAXIMOJUGADORES = 4;
+	private static final int[][] POSJUGADORES={{0,0},{ALTO-1,ANCHO-1},{0,ANCHO-1},{ALTO-1,0}};
+	private static final int[][] POSPROTEGIDAS={{0,0},{0,1},{1,0},{ALTO-1,ANCHO-1},{ALTO-2,ANCHO-1},{ALTO-1,ANCHO-2},{0,ANCHO-1},{1,ANCHO-1},{0,ANCHO-2},{ALTO-1,0},{ALTO-2,0},{ALTO-1,1}};
     
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         this.jugadores = jugadores;
         this.tablero = new Elemento[ALTO][ANCHO];
         
-//        int x;
-//        int y;
-//        // creando Manes y agregándolos al tablero
-//        for(int i=0;i<jugadores.size();i++){
-//            switch(i){
-//                case 0:
-//                    x=0;
-//                    y=0;
-//                    break;
-//                case 1:
-//                    y=19;
-//                    x=9;
-//                    break;
-//                case 2:
-//                    y=0;
-//                    x=9;
-//                    break;
-//                case 3:
-//                    y=19;
-//                    x=0;
-//                    break;
-//                default:
-//                    x = 10;
-//                    y = 10;
-//            }
-//            
-//            Man manTMP=new Man("black", jugadores.get(i), "key", x, y);
-//            tablero[x][y]=manTMP;
-//            manes.add(manTMP);
-//        }
-//        tablero[2][2]=new Caja("", 2, 2);
-//        tablero[2][3]=new Caja("", 2, 3);
-//        tablero[2][4]=new Caja("", 2, 4);
-//        tablero[2][5]=new Caja("", 2, 5);
-//        tablero[2][6]=new Caja("", 2, 6);
+        int x=0;
+        int y=0;
+		// creando Manes y agregándolos al tablero
+        for(int i=0;i<jugadores.size();i++){
+			x=POSJUGADORES[i][0];
+			y=POSJUGADORES[i][1];
+            Man manTMP=new Man("black", jugadores.get(i), "", x, y);
+            tablero[x][y]=manTMP;
+            manes.add(manTMP);
+        }
+        //String letter;
+        //creando cajas Random
+        Random rand = new Random();
+        for (int row = 0; row < ALTO; row++){
+            for (int col = 0; col < ANCHO; col++) {
+                int[] tmp={row,col};
+                if(Arrays.asList(POSPROTEGIDAS).contains(tmp))
+                    continue;
+                if(rand.nextInt(2) == 0) {
+                    tablero[row][col] = new Caja("", row, col);
+                }
+            }
+        }
         // Mapear Tablero
         mapearTablero(tableroTemporal);
     }
@@ -198,7 +190,7 @@ public class Juego {
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
                 if(tablero[i][k] instanceof Caja){
-                    cajas.add("{x:"+i+",y:"+k+"}");
+                    cajas.add("{x:"+k+",y:"+i+"}");
                 }
                 if(tablero[i][k] instanceof Man){
                     manes.add(tablero[i][k].toString());

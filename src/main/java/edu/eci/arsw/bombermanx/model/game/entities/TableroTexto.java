@@ -45,6 +45,7 @@ public class TableroTexto {
 ////             * 'O' = Espacio vacio.
 ////             * 'B' = Bomba.
 ////             * 'C' = Caja que se puede destruir.
+////             * 'c' = Caja que se puede destruir Dañada (efecto visual de 0.2 seg).
 ////             * 'X' = Bloque (No se puede destruir).
 ////             * 'R' = Poder de Correr.
 ////             * 'T' = Poder de expansion de explosion de Bomba.
