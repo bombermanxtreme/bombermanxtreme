@@ -20,9 +20,9 @@ public class TableroTexto {
       String[][] tab = new String[10][20];
       int iRow = 0;
       String cadena;
-      FileReader f = new FileReader("../resources/static/media/escenarios/Escenario0.txt");
+      FileReader f = new FileReader("/media/escenarios/Escenario0.txt");
       BufferedReader b = new BufferedReader(f);
-      while((cadena = b.readLine())!=null) {
+      while((cadena = b.readLine()) != null) {
             System.out.println("Esta es la linea de texto = " + cadena);
             String[] row = cadena.split("\t");
 
