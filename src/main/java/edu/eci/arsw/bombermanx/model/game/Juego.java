@@ -170,7 +170,7 @@ public class Juego {
      *
      * @param explotara
      */
-    public ArrayList<Elemento> explotar(Bomba explotara) {
+    public ArrayList<Object> explotar(Bomba explotara) {
         explotara.get_man().agregarBomba();
         // creando hilos para recorrer tablero
         MessengerTh izquierda = new MessengerTh();
@@ -205,7 +205,7 @@ public class Juego {
         //unimos todo los afectados
         
         
-        ArrayList<Elemento> afectados=new ArrayList<>();
+        ArrayList<Object> afectados=new ArrayList<>();
         
         afectados=izquierda.getAfectados();
         afectados.addAll(derecha.getAfectados());
@@ -216,8 +216,8 @@ public class Juego {
     }
 
 	public void daniarCaja(int x,int y){
-		tablero[y][x]=null;
-		msgt.convertAndSend("/topic/Sala." + idSala, false);
+		tablero[y][x].reemplazar(new Espacio("",y,x));
+		//msgt.convertAndSend("/topic/Sala." + idSala, false);
 	}
 
 	public boolean mover(int id_jugador){

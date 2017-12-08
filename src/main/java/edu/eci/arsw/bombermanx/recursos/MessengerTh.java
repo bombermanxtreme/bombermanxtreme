@@ -22,7 +22,7 @@ public class MessengerTh extends Thread {
     public static final int ABAJO = 1;
     public static final int DERECHA = 2;
     public static final int IZQUIERDA = 3;
-    private ArrayList<Elemento> afectados;
+    private ArrayList<Object> afectados;
 
     private int ancho;
     private int alto;
@@ -186,7 +186,7 @@ public class MessengerTh extends Thread {
      * get afectados
      * @return 
      */
-    public ArrayList<Elemento> getAfectados() {
+    public ArrayList<Object> getAfectados() {
         return afectados;
     }
 

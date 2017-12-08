@@ -37,5 +37,9 @@ public class Caja implements Elemento,Destruible{
     public void explotaBomba() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
+	@Override
+	public String toString(){
+		return "{\"x\":"+posCol+",\"y\":"+posRow+"}";
+	}
 }
