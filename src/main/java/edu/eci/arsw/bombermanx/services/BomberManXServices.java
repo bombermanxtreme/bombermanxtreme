@@ -215,8 +215,8 @@ public class BomberManXServices {
                     bomba.estalla();
                     ArrayList<Elemento> afectados=juego.explotar(bomba);
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
-                    System.out.println("avisamos que EXPLOTA LA BOMBA || "+" || ");
-                    System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString()+" || ");
+                    System.out.println("avisamos que EXPLOTA LA BOMBA ||");
+                    System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
                     msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
                  }
             });

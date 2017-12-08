@@ -21,28 +21,7 @@ public class Espacio implements Elemento {
     }
 
     @Override
-    public void setPosRow(int pos) {
-        this.posRow = pos;
-    }
-
-    @Override
     public int getPosCol() {
         return this.posCol;
-    }
-
-    @Override
-    public void setPosCol(int pos) {
-        this.posCol = pos;
-    }
-    
-    @Override
-    public String getKey() {
-        return this.key;
-    }
-
-    @Override
-    public void setKey(String k) {
-        this.key = k;
-    }
-    
+    }    
 }

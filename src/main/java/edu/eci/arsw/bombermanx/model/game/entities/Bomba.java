@@ -7,7 +7,8 @@ package edu.eci.arsw.bombermanx.model.game.entities;
  */
 public abstract class Bomba implements Elemento {
 
-    private String color, key;
+    //private String color;
+    private String color;
     int posCol;
     int posRow;
     boolean estallo=false;
@@ -31,27 +32,6 @@ public abstract class Bomba implements Elemento {
     public Man get_man() {
         return man;
     }
-    
-
-    @Override
-    public void setPosRow(int posRow) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public void setPosCol(int posCol) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public String getKey() {
-        return this.key;
-    }
-
-    @Override
-    public void setKey(String k) {
-        this.key = k;
-    }
 
     @Override
     public int getPosRow() {
@@ -65,7 +45,7 @@ public abstract class Bomba implements Elemento {
     
     @Override
     public String toString(){
-        return "{\"y\":"+posRow+",\"x\":"+posCol+",\"x\":"+estallo+"}";
+        return "{\"x\":"+posRow+",\"y\":"+posCol+",\"estallo\":"+estallo+"}";
     }
 
     public void estalla() {
