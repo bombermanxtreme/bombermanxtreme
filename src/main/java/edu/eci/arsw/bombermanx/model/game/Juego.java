@@ -258,9 +258,6 @@ public class Juego {
 /*
 
 
-package javaapplication3;
-
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class JavaApplication3 {
@@ -269,7 +266,8 @@ public class JavaApplication3 {
     private static int ancho = 6;
     private static String[][] tablero;
 
-       public static void main(String[] args) {
+    
+    public static void main(String[] args) {
 
         tablero = new String[alto][ancho];
 
@@ -279,67 +277,90 @@ public class JavaApplication3 {
             }
         }
 
-        tablero[3][5] = "X";
-        tablero[1][2] = "M";
-        tablero[3][1] = "X";
-        tablero[3][2] = "B"; // bomba
+        //tablero[3][5] = "X";
+        //tablero[1][2] = "M";
+        //tablero[3][1] = "X";
+        int orx = alto-1; 
+        int ory = ancho-1;
+        tablero[orx][ory] = "B"; // bomba
 
         for (int i = 0; i < alto; i++) {
             System.out.println(Arrays.toString(tablero[i]));
         }
 
-        recorrido(alto-1, ancho-1);
+        recorrido(orx, ory);
 
     }
 
     private static void recorrido(int x, int y) {
         int radio = 2;
         int cont = 0;
+        
 
         System.out.println("IZQUIERDA");
         //izquierda
-        if (distancia(x, y, 0, y) >= 1) {
+        int ax=0;
+        int ay=y;
+        int veces=0;
+        
+        if (distancia(x, y, ax, ay) >= 1) {
             cont = y - 1;
-            while (cont < ancho && cont >= 0) {
+            while (cont < ancho && cont >= 0 && veces < radio) {
                 System.out.println(tablero[x][cont]);
 
                 cont -= 1;
+                veces+=1;
 
             }
         }
 
         System.out.println("DERECHA");
         //derecha
-        if (distancia(x, y, x, ancho - 1) >= 1) {
+        ax=x;
+        ay=ancho - 1;
+        veces=0;
+
+        if (distancia(x, y, ax, ay) >= 1) {
             cont = y + 1;
-            while (cont < ancho && cont >= 0) {
+            while (cont < ancho && cont >= 0 && veces < radio) {
                 System.out.println(tablero[x][cont]);
 
                 cont += 1;
+                veces+=1;
 
             }
         }
 
         System.out.println("ARRIBA");
         //arriba
-        if (distancia(x, y, 0, y) >= 1) {
+        ax=0;
+        ay=y;
+        veces=0;
+
+        if (distancia(x, y, ax, ay) >= 1) {
             cont = x - 1;
-            while (cont < alto && cont >= 0) {
+            while (cont < alto && cont >= 0 && veces < radio) {
                 System.out.println(tablero[cont][y]);
 
                 cont -= 1;
+                veces+=1;
 
             }
         }
 
         System.out.println("ABAJO");
         //abajo
-        if (distancia(x, y, x, alto - 1) >= 1) {
+        ax=x;
+        ay=alto - 1;
+        veces=0;
+
+        if (distancia(x, y, ax, ay) >= 1) {
             cont = x + 1;
-            while (cont < alto && cont >= 0) {
+            while (cont < alto && cont >= 0 && veces < radio) {
                 System.out.println(tablero[cont][y]);
 
                 cont += 1;
+                veces+=1;
 
             }
         }
@@ -351,7 +372,5 @@ public class JavaApplication3 {
     }
 
 }
-
-
 
 */
