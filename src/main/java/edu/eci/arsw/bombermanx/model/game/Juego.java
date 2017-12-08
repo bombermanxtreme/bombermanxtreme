@@ -197,10 +197,9 @@ public class Juego {
         System.out.println("empieza");
     }
 
-    private void radioExplosion(int pCOl, int pRow) {
+    private void destrucionDeExplosion(int pCOl, int pRow) {
         Bomba tmp = (Bomba) tablero[pCOl][pRow];
         int radio = tmp.getRadio();
-
     }
 
     /**
@@ -253,3 +252,106 @@ public class Juego {
         this.tablero = tablero;
     }
 }
+
+
+
+/*
+
+
+package javaapplication3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+public class JavaApplication3 {
+
+    private static int alto = 5;
+    private static int ancho = 6;
+    private static String[][] tablero;
+
+       public static void main(String[] args) {
+
+        tablero = new String[alto][ancho];
+
+        for (int i = 0; i < alto; i++) {
+            for (int k = 0; k < ancho; k++) {
+                tablero[i][k] = Integer.toString(i) + Integer.toString(k);
+            }
+        }
+
+        tablero[3][5] = "X";
+        tablero[1][2] = "M";
+        tablero[3][1] = "X";
+        tablero[3][2] = "B"; // bomba
+
+        for (int i = 0; i < alto; i++) {
+            System.out.println(Arrays.toString(tablero[i]));
+        }
+
+        recorrido(alto-1, ancho-1);
+
+    }
+
+    private static void recorrido(int x, int y) {
+        int radio = 2;
+        int cont = 0;
+
+        System.out.println("IZQUIERDA");
+        //izquierda
+        if (distancia(x, y, 0, y) >= 1) {
+            cont = y - 1;
+            while (cont < ancho && cont >= 0) {
+                System.out.println(tablero[x][cont]);
+
+                cont -= 1;
+
+            }
+        }
+
+        System.out.println("DERECHA");
+        //derecha
+        if (distancia(x, y, x, ancho - 1) >= 1) {
+            cont = y + 1;
+            while (cont < ancho && cont >= 0) {
+                System.out.println(tablero[x][cont]);
+
+                cont += 1;
+
+            }
+        }
+
+        System.out.println("ARRIBA");
+        //arriba
+        if (distancia(x, y, 0, y) >= 1) {
+            cont = x - 1;
+            while (cont < alto && cont >= 0) {
+                System.out.println(tablero[cont][y]);
+
+                cont -= 1;
+
+            }
+        }
+
+        System.out.println("ABAJO");
+        //abajo
+        if (distancia(x, y, x, alto - 1) >= 1) {
+            cont = x + 1;
+            while (cont < alto && cont >= 0) {
+                System.out.println(tablero[cont][y]);
+
+                cont += 1;
+
+            }
+        }
+
+    }
+
+    private static int distancia(int x1, int y1, int x2, int y2) {
+        return (int) Math.sqrt((int) Math.pow(x1 - x2, 2) + (int) Math.pow(y1 - y2, 2));
+    }
+
+}
+
+
+
+*/
