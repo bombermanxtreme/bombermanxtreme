@@ -10,6 +10,8 @@ import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import java.util.ArrayList;
 import java.awt.event.*;
+import java.util.Arrays;
+import java.util.Random;
 import javax.swing.Timer;
 
 
@@ -33,20 +35,17 @@ public class Juego {
     private static final int[][] POSJUGADORES={{0,0},{ALTO-1,ANCHO-1},{0,ANCHO-1},{ALTO-1,0}};
     private static final int[][] POSPROTEGIDAS={{0,0},{0,1},{1,0},{ALTO-1,ANCHO-1},{ALTO-2,ANCHO-1},{ALTO-1,ANCHO-2},{0,ANCHO-1},{1,ANCHO-1},{0,ANCHO-2},{ALTO-1,0},{ALTO-2,0},{ALTO-1,1}};
     private Timer timer;
-
-
+    
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
-        manes = new ArrayList<>();
         this.jugadores = jugadores;
         this.tablero = new Elemento[ALTO][ANCHO];
-        /*
         
         int x=0;
         int y=0;
-		// creando Manes y agregándolos al tablero
+    // creando Manes y agregándolos al tablero
         for(int i=0;i<jugadores.size();i++){
-			x=POSJUGADORES[i][0];
-			y=POSJUGADORES[i][1];
+            x=POSJUGADORES[i][0];
+            y=POSJUGADORES[i][1];
             Man manTMP=new Man("black", jugadores.get(i), "", x, y);
             tablero[x][y]=manTMP;
             manes.add(manTMP);
@@ -64,43 +63,6 @@ public class Juego {
                 }
             }
         }
-        */
-
-        int x;
-        int y;
-        // creando Manes y agregándolos al tablero
-        for (int i = 0; i < jugadores.size(); i++) {
-            switch (i) {
-                case 0:
-                    x = 0;
-                    y = 0;
-                    break;
-                case 1:
-                    y = 19;
-                    x = 9;
-                    break;
-                case 2:
-                    y = 0;
-                    x = 9;
-                    break;
-                case 3:
-                    y = 19;
-                    x = 0;
-                    break;
-                default:
-                    x = 10;
-                    y = 10;
-            }
-
-            Man manTMP = new Man("black", jugadores.get(i), "key", x, y);
-            tablero[x][y] = manTMP;
-            manes.add(manTMP);
-        }
-        tablero[2][2] = new Caja("", 2, 2);
-        tablero[2][3] = new Caja("", 2, 3);
-        tablero[2][4] = new Caja("", 2, 4);
-        tablero[2][5] = new Caja("", 2, 5);
-        tablero[2][6] = new Caja("", 2, 6);
         // Mapear Tablero
         mapearTablero(tableroTemporal);
     }
@@ -265,9 +227,9 @@ public class Juego {
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
                 if (tablero[i][k] instanceof Caja) {
-                    cajasS.add("{x:" + i + ",y:" + k + "}");
-                }
-                if (tablero[i][k] instanceof Man) {
+                    cajasS.add("{x:" + k + ",y:" + i + "}");
+                }else if(tablero[i][k] instanceof Man) {
+                    System.out.println("man encontrado ");
                     manesS.add(tablero[i][k].toString());
                 }
             }

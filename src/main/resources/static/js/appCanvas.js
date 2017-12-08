@@ -6,8 +6,8 @@ var appCanvas = (function () {
     var stompClient = null;
     var idJugador = document.cookie.replace("iduser=", "");
     var idSala = 1;//por ahora una sola sala
-	var canvas;
-	var anchoCasilla=50;
+    var canvas;
+    var anchoCasilla = 50;
     var ctx;
     var tablero;
     var _manes;
@@ -33,8 +33,8 @@ var appCanvas = (function () {
             //Estamos atentos si se mueve algun jugador dentro de l
             stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
                 callback_moverPersonaje(eventbody);
-			});
-			
+            });
+
             //Estamos atentos si se daña alguna caja
             stompClient.subscribe("/topic/DaniarCaja." + idSala, function (eventbody) {
                 callback_DaniarCaja(eventbody);
@@ -46,15 +46,15 @@ var appCanvas = (function () {
     // Funciones 
     var callback_ponerBomba = function (message) {
 
-	};
-	/**
-	 * daña una caja específica
-	 * @param {*} message 
-	 */
+    };
+    /**
+     * daña una caja específica
+     * @param {*} message 
+     */
     var callback_DaniarCaja = function (message) {
-		var cajaADaniar = message.body;
-		tablero[cajaADaniar.y][cajaADaniar.x]="c";
-		actualizar();
+        var cajaADaniar = message.body;
+        tablero[cajaADaniar.y][cajaADaniar.x] = "c";
+        actualizar();
     };
 
     var callback_moverPersonaje = function (message) {
@@ -63,20 +63,22 @@ var appCanvas = (function () {
 
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
-            var datosJuego=eval("("+data+")");
-			tablero=Array();
-			//llenamos todo de vacíos
+            var datosJuego = eval("(" + data + ")");
+            tablero = Array();
+            //llenamos todo de vacíos
             for (var i = 0; i < datosJuego.alto; i++) {
                 tablero[i] = Array();
                 for (var k = 0; k < datosJuego.ancho; k++) {
                     tablero[i][k] = "O";
                 }
-			}
-			//cargamos las cajas
+            }
+            //cargamos las cajas
             for (var i = 0; i < datosJuego.cajas.length; i++) {
-                var x=datosJuego.cajas[i].x;
-                var y=datosJuego.cajas[i].y;
-				tablero[y][x]="C";
+                var x = datosJuego.cajas[i].x;
+                var y = datosJuego.cajas[i].y;
+                console.log("x:"+x);
+                console.log("y:"+y);
+                tablero[y][x] = "C";
             }
 
             _manes=manes;
@@ -134,48 +136,45 @@ var appCanvas = (function () {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
-	/**
-	 * encargado de redibujar el canvas
-	 */
+    /**
+     * encargado de redibujar el canvas
+     */
     var actualizar = function () {
         //dibuja el canvas COMPLETO!
         console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
+            
             for (j = 0; j < tablero[i].length; j++) {
-                switch(tablero[i][j]) {
+                switch (tablero[i][j]) {
                     case "C"://caja
-                        var myObstacle = new Caja("#a27250",j,i);
+                        var myObstacle = new Caja("#a27250", j, i);
                         myObstacle.update();
                         break;
                     case "c"://caja dañada
-                        anim_cajaDañada(j,i);
+                        anim_cajaDañada(j, i);
                         break;
                     case "O"://nada
-                        ctx.clearRect(j*anchoCasilla,i*anchoCasilla,(j+1)*anchoCasilla,(i+1)*anchoCasilla);
+                        ctx.clearRect(j * anchoCasilla, i * anchoCasilla, (j + 1) * anchoCasilla, (i + 1) * anchoCasilla);
                         break;
-                    default://jugador
-                            var myObstacle = new Caja("red",j,i);
-                            myObstacle.update();
-                            break;
-                    }
+                }
             }
         }
         console.log("LLENANDO CANVAS");
     };
 
-	/**
-	 * método encargado de animar una caja dañandose 
-	 * @param {*} j 
-	 * @param {*} i 
-	 */
-	var anim_cajaDañada = function(j,i){
-		var myObstacle = new Caja("#222222",j,i);
-		myObstacle.update();
-		tablero[i][j]="O";
-		setTimeout(function(){
-			actualizar();
-		},100);
-	}
+    /**
+     * método encargado de animar una caja dañandose 
+     * @param {*} j 
+     * @param {*} i 
+     */
+    var anim_cajaDañada = function (j, i) {
+        var myObstacle = new Caja("#222222", j, i);
+        myObstacle.update();
+        tablero[i][j] = "O";
+        setTimeout(function () {
+            actualizar();
+        }, 100);
+    }
 
     var callback_accionBomba = function (message) {
 
@@ -184,45 +183,45 @@ var appCanvas = (function () {
     function Caja(color, x, y) {
         //this.type = type;
         /*if (type === "image") {
-            this.image = new Image();
-            this.image.src = color;
-        }*/
+         this.image = new Image();
+         this.image.src = color;
+         }*/
         this.update = function () {
             /*if (type === "image") {
-                ctx.drawImage(this.image,
-                        this.x,
-                        this.y,
-                        this.width, this.height);
-			} else {*/
-				x*=anchoCasilla;
-				y*=anchoCasilla;
-                ctx.fillStyle = color;
-				ctx.fillRect(x, y, anchoCasilla, anchoCasilla);
-				ctx.beginPath();
-				ctx.moveTo(x,y);
-				ctx.lineTo(anchoCasilla+x,y);
-				ctx.lineTo(anchoCasilla+x,anchoCasilla+y);
-				ctx.lineTo(x,anchoCasilla+y);
-				ctx.lineTo(x,y);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.moveTo(x,y);
-				ctx.lineTo(anchoCasilla+x,anchoCasilla+y);
-				ctx.stroke();
-				ctx.beginPath();
-				ctx.moveTo(anchoCasilla+x,y);
-				ctx.lineTo(x,anchoCasilla+y);
-				ctx.stroke();
-				//}
+             ctx.drawImage(this.image,
+             this.x,
+             this.y,
+             this.width, this.height);
+             } else {*/
+            x *= anchoCasilla;
+            y *= anchoCasilla;
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, anchoCasilla, anchoCasilla);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(anchoCasilla + x, y);
+            ctx.lineTo(anchoCasilla + x, anchoCasilla + y);
+            ctx.lineTo(x, anchoCasilla + y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(anchoCasilla + x, anchoCasilla + y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(anchoCasilla + x, y);
+            ctx.lineTo(x, anchoCasilla + y);
+            ctx.stroke();
+            //}
         };
     }
 
     return {
-		//estas funciones publicas son sólo para pruebas
-		_actualizar:actualizar,
-		setTablero(i,k,val){
-			tablero[i][k]=val;
-		},
+        //estas funciones publicas son sólo para pruebas
+        _actualizar: actualizar,
+        setTablero(i, k, val) {
+            tablero[i][k] = val;
+        },
         /**
          * encargado de realizar la conexión con STOMP
          */
@@ -230,7 +229,7 @@ var appCanvas = (function () {
             console.log("***** Iniciando Script!!");
             console.log("Jugador: " + idJugador);
             idJugador = appCookie.getIdJugador(false);
-            
+
             // Cargamos elementos clave para dibujar en Tablero
             loadBasicControls();
             // Traer Numero de sala
