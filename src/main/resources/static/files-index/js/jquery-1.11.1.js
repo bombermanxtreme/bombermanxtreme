@@ -101,7 +101,7 @@
         // Get the Nth element in the matched element set OR
         // Get the whole matched element set as a clean array
         get: function (num) {
-            return num != null ?
+            return num !== null ?
                     // Return just the one element from the set
                             (num < 0 ? this[ num + this.length ] : this[ num ]) :
                             // Return all the elements in a clean array
@@ -194,7 +194,7 @@
 
                 for (; i < length; i++) {
                     // Only deal with non-null/undefined values
-                    if ((options = arguments[ i ]) != null) {
+                    if ((options = arguments[ i ]) !== null) {
                         // Extend the base object
                         for (name in options) {
                             src = target[ name ];
@@ -256,7 +256,7 @@
 
                 isWindow: function (obj) {
                     /* jshint eqeqeq: false */
-                    return obj != null && obj == obj.window;
+                    return obj !== null && obj === obj.window;
                 },
 
                 isNumeric: function (obj) {
@@ -313,7 +313,7 @@
                 },
 
                 type: function (obj) {
-                    if (obj == null) {
+                    if (obj === null) {
                         return obj + "";
                     }
                     return typeof obj === "object" || typeof obj === "function" ?
@@ -397,7 +397,7 @@
 
                 // Support: Android<4.1, IE<9
                 trim: function (text) {
-                    return text == null ?
+                    return text === null ?
                             "" :
                             (text + "").replace(rtrim, "");
                 },
@@ -406,7 +406,7 @@
                 makeArray: function (arr, results) {
                     var ret = results || [];
 
-                    if (arr != null) {
+                    if (arr !== null) {
                         if (isArraylike(Object(arr))) {
                             jQuery.merge(ret,
                                     typeof arr === "string" ?
@@ -496,7 +496,7 @@
                         for (; i < length; i++) {
                             value = callback(elems[ i ], i, arg);
 
-                            if (value != null) {
+                            if (value !== null) {
                                 ret.push(value);
                             }
                         }
@@ -506,7 +506,7 @@
                         for (i in elems) {
                             value = callback(elems[ i ], i, arg);
 
-                            if (value != null) {
+                            if (value !== null) {
                                 ret.push(value);
                             }
                         }
@@ -1637,7 +1637,7 @@
                                                             return function (elem) {
                                                                 var result = Sizzle.attr(elem, name);
 
-                                                                if (result == null) {
+                                                                if (result === null) {
                                                                     return operator === "!=";
                                                                 }
                                                                 if (!operator) {
@@ -1929,7 +1929,7 @@
                                                                                     elem.type === "text" &&
                                                                                     // Support: IE<8
                                                                                             // New HTML5 attribute values (e.g., "search") appear with elem.type === "text"
-                                                                                                    ((attr = elem.getAttribute("type")) == null || attr.toLowerCase() === "text");
+                                                                                                    ((attr === elem.getAttribute("type")) === null || attr.toLowerCase() === "text");
                                                                                         },
 
                                                                                         // Position-in-collection
@@ -2151,7 +2151,7 @@
                                                                                                     newUnmatched = [],
                                                                                                     i = 0,
                                                                                                     len = unmatched.length,
-                                                                                                    mapped = map != null;
+                                                                                                    mapped = map !== null;
 
                                                                                             for (; i < len; i++) {
                                                                                                 if ((elem = unmatched[i])) {
@@ -2322,7 +2322,7 @@
                                                                                                                         // We must always have either seed elements or outermost context
                                                                                                                         elems = seed || byElement && Expr.find["TAG"]("*", outermost),
                                                                                                                         // Use integer dirruns iff this is the outermost matcher
-                                                                                                                        dirrunsUnique = (dirruns += contextBackup == null ? 1 : Math.random() || 0.1),
+                                                                                                                        dirrunsUnique = (dirruns += contextBackup === null ? 1 : Math.random() || 0.1),
                                                                                                                         len = elems.length;
 
                                                                                                                 if (outermost) {
@@ -2333,7 +2333,7 @@
                                                                                                                 // Keep `i` a string if there are no elements so `matchedCount` will be "00" below
                                                                                                                 // Support: IE<9, Safari
                                                                                                                 // Tolerate NodeList properties (IE: "length"; Safari: <number>) matching elements by id
-                                                                                                                for (; i !== len && (elem = elems[i]) != null; i++) {
+                                                                                                                for (; i !== len && (elem = elems[i]) !== null; i++) {
                                                                                                                     if (byElement && elem) {
                                                                                                                         j = 0;
                                                                                                                         while ((matcher = elementMatchers[j++])) {
@@ -2567,7 +2567,7 @@
 // Support: IE<9
 // Use getAttributeNode to fetch booleans when getAttribute lies
                                                                                                 if (!assert(function (div) {
-                                                                                                    return div.getAttribute("disabled") == null;
+                                                                                                    return div.getAttribute("disabled") === null;
                                                                                                 })) {
                                                                                                     addHandle(booleans, function (elem, name, isXML) {
                                                                                                         var val;
@@ -2924,7 +2924,7 @@
                                                                                                 },
 
                                                                                                 addBack: function (selector) {
-                                                                                                    return this.add(selector == null ?
+                                                                                                    return this.add(selector === null ?
                                                                                                             this.prevObject : this.prevObject.filter(selector)
                                                                                                             );
                                                                                                 }
@@ -3250,7 +3250,7 @@
                                                                                                                 // Get a promise for this deferred
                                                                                                                 // If obj is provided, the promise aspect is added to the object
                                                                                                                 promise: function (obj) {
-                                                                                                                    return obj != null ? jQuery.extend(obj, promise) : promise;
+                                                                                                                    return obj !== null ? jQuery.extend(obj, promise) : promise;
                                                                                                                 }
                                                                                                             },
                                                                                                             deferred = {};
@@ -3464,7 +3464,7 @@
                                                                                                         var top = false;
 
                                                                                                         try {
-                                                                                                            top = window.frameElement == null && document.documentElement;
+                                                                                                            top = window.frameElement === null && document.documentElement;
                                                                                                         } catch (e) {
                                                                                                         }
 
@@ -3553,7 +3553,7 @@
                                                                                                 var div = document.createElement("div");
 
                                                                                                 // Execute the test only if not already executed in another module.
-                                                                                                if (support.deleteExpando == null) {
+                                                                                                if (support.deleteExpando === null) {
                                                                                                     // Support: IE<9
                                                                                                     support.deleteExpando = true;
                                                                                                     try {
@@ -3709,7 +3709,7 @@
                                                                                                     ret = thisCache[ name ];
 
                                                                                                     // Test for null|undefined property data
-                                                                                                    if (ret == null) {
+                                                                                                    if (ret === null) {
 
                                                                                                         // Try to find the camelCased property
                                                                                                         ret = thisCache[ jQuery.camelCase(name) ];
@@ -3800,7 +3800,7 @@
 
                                                                                                     // Use delete when supported for expandos or `cache` is not a window per isWindow (#10080)
                                                                                                     /* jshint eqeqeq: false */
-                                                                                                } else if (support.deleteExpando || cache != cache.window) {
+                                                                                                } else if (support.deleteExpando || cache !== cache.window) {
                                                                                                     /* jshint eqeqeq: true */
                                                                                                     delete cache[ id ];
 
@@ -4056,7 +4056,7 @@
                                                                                             var access = jQuery.access = function (elems, fn, key, value, chainable, emptyGet, raw) {
                                                                                                 var i = 0,
                                                                                                         length = elems.length,
-                                                                                                        bulk = key == null;
+                                                                                                        bulk = key === null;
 
                                                                                                 // Sets many values
                                                                                                 if (jQuery.type(key) === "object") {
@@ -4164,7 +4164,7 @@
                                                                                                 }
 
                                                                                                 // Execute the test only if not already executed in another module.
-                                                                                                if (support.deleteExpando == null) {
+                                                                                                if (support.deleteExpando === null) {
                                                                                                     // Support: IE<9
                                                                                                     support.deleteExpando = true;
                                                                                                     try {
@@ -4458,7 +4458,7 @@
                                                                                                     }
 
                                                                                                     // Clone any incoming data and prepend the event, creating the handler arg list
-                                                                                                    data = data == null ?
+                                                                                                    data = data === null ?
                                                                                                             [event] :
                                                                                                             jQuery.makeArray(data, [event]);
 
@@ -4621,7 +4621,7 @@
                                                                                                     if (delegateCount && cur.nodeType && (!event.button || event.type !== "click")) {
 
                                                                                                         /* jshint eqeqeq: false */
-                                                                                                        for (; cur != this; cur = cur.parentNode || this) {
+                                                                                                        for (; cur !== this; cur = cur.parentNode || this) {
                                                                                                             /* jshint eqeqeq: true */
 
                                                                                                             // Don't check non-elements (#13208)
@@ -4714,8 +4714,8 @@
                                                                                                     filter: function (event, original) {
 
                                                                                                         // Add which for key events
-                                                                                                        if (event.which == null) {
-                                                                                                            event.which = original.charCode != null ? original.charCode : original.keyCode;
+                                                                                                        if (event.which === null) {
+                                                                                                            event.which = original.charCode !== null ? original.charCode : original.keyCode;
                                                                                                         }
 
                                                                                                         return event;
@@ -4730,7 +4730,7 @@
                                                                                                                 fromElement = original.fromElement;
 
                                                                                                         // Calculate pageX/Y if missing and clientX/Y available
-                                                                                                        if (event.pageX == null && original.clientX != null) {
+                                                                                                        if (event.pageX === null && original.clientX !== null) {
                                                                                                             eventDoc = event.target.ownerDocument || document;
                                                                                                             doc = eventDoc.documentElement;
                                                                                                             body = eventDoc.body;
@@ -5135,11 +5135,11 @@
                                                                                                         return this;
                                                                                                     }
 
-                                                                                                    if (data == null && fn == null) {
+                                                                                                    if (data === null && fn === null) {
                                                                                                         // ( types, fn )
                                                                                                         fn = selector;
                                                                                                         data = selector = undefined;
-                                                                                                    } else if (fn == null) {
+                                                                                                    } else if (fn === null) {
                                                                                                         if (typeof selector === "string") {
                                                                                                             // ( types, selector, fn )
                                                                                                             fn = data;
@@ -5279,7 +5279,7 @@
                                                                                                         undefined;
 
                                                                                                 if (!found) {
-                                                                                                    for (found = [], elems = context.childNodes || context; (elem = elems[i]) != null; i++) {
+                                                                                                    for (found = [], elems = context.childNodes || context; (elem = elems[i]) !== null; i++) {
                                                                                                         if (!tag || jQuery.nodeName(elem, tag)) {
                                                                                                             found.push(elem);
                                                                                                         } else {
@@ -5329,7 +5329,7 @@
                                                                                             function setGlobalEval(elems, refElements) {
                                                                                                 var elem,
                                                                                                         i = 0;
-                                                                                                for (; (elem = elems[i]) != null; i++) {
+                                                                                                for (; (elem = elems[i]) !== null; i++) {
                                                                                                     jQuery._data(elem, "globalEval", !refElements || jQuery._data(refElements[i], "globalEval"));
                                                                                                 }
                                                                                             }
@@ -5451,7 +5451,7 @@
                                                                                                         srcElements = getAll(elem);
 
                                                                                                         // Fix all IE cloning issues
-                                                                                                        for (i = 0; (node = srcElements[i]) != null; ++i) {
+                                                                                                        for (i = 0; (node = srcElements[i]) !== null; ++i) {
                                                                                                             // Ensure that the destination node is not null; Fixes #9587
                                                                                                             if (destElements[i]) {
                                                                                                                 fixCloneNodeIssues(node, destElements[i]);
@@ -5465,7 +5465,7 @@
                                                                                                             srcElements = srcElements || getAll(elem);
                                                                                                             destElements = destElements || getAll(clone);
 
-                                                                                                            for (i = 0; (node = srcElements[i]) != null; i++) {
+                                                                                                            for (i = 0; (node = srcElements[i]) !== null; i++) {
                                                                                                                 cloneCopyEvent(node, destElements[i]);
                                                                                                             }
                                                                                                         } else {
@@ -5617,7 +5617,7 @@
                                                                                                             deleteExpando = support.deleteExpando,
                                                                                                             special = jQuery.event.special;
 
-                                                                                                    for (; (elem = elems[i]) != null; i++) {
+                                                                                                    for (; (elem = elems[i]) !== null; i++) {
                                                                                                         if (acceptData || jQuery.acceptData(elem)) {
 
                                                                                                             id = elem[ internalKey ];
@@ -5710,7 +5710,7 @@
                                                                                                             elems = selector ? jQuery.filter(selector, this) : this,
                                                                                                             i = 0;
 
-                                                                                                    for (; (elem = elems[i]) != null; i++) {
+                                                                                                    for (; (elem = elems[i]) !== null; i++) {
 
                                                                                                         if (!keepData && elem.nodeType === 1) {
                                                                                                             jQuery.cleanData(getAll(elem));
@@ -5731,7 +5731,7 @@
                                                                                                     var elem,
                                                                                                             i = 0;
 
-                                                                                                    for (; (elem = this[i]) != null; i++) {
+                                                                                                    for (; (elem = this[i]) !== null; i++) {
                                                                                                         // Remove element nodes and prevent memory leaks
                                                                                                         if (elem.nodeType === 1) {
                                                                                                             jQuery.cleanData(getAll(elem, false));
@@ -5753,8 +5753,8 @@
                                                                                                 },
 
                                                                                                 clone: function (dataAndEvents, deepDataAndEvents) {
-                                                                                                    dataAndEvents = dataAndEvents == null ? false : dataAndEvents;
-                                                                                                    deepDataAndEvents = deepDataAndEvents == null ? dataAndEvents : deepDataAndEvents;
+                                                                                                    dataAndEvents = dataAndEvents === null ? false : dataAndEvents;
+                                                                                                    deepDataAndEvents = deepDataAndEvents === null ? dataAndEvents : deepDataAndEvents;
 
                                                                                                     return this.map(function () {
                                                                                                         return jQuery.clone(this, dataAndEvents, deepDataAndEvents);
@@ -6007,7 +6007,7 @@
                                                                                                 var shrinkWrapBlocksVal;
 
                                                                                                 support.shrinkWrapBlocks = function () {
-                                                                                                    if (shrinkWrapBlocksVal != null) {
+                                                                                                    if (shrinkWrapBlocksVal !== null) {
                                                                                                         return shrinkWrapBlocksVal;
                                                                                                     }
 
@@ -6120,7 +6120,7 @@
 
                                                                                                     // Avoid setting ret to empty string here
                                                                                                     // so we don't default to auto
-                                                                                                    if (ret == null && style && style[ name ]) {
+                                                                                                    if (ret === null && style && style[ name ]) {
                                                                                                         ret = style[ name ];
                                                                                                     }
 
@@ -6169,7 +6169,7 @@
                                                                                                     get: function () {
                                                                                                         var condition = conditionFn();
 
-                                                                                                        if (condition == null) {
+                                                                                                        if (condition === null) {
                                                                                                             // The test was not ready at this point; screw the hook this time
                                                                                                             // but check again when needed next time.
                                                                                                             return;
@@ -6228,21 +6228,21 @@
 
                                                                                                 jQuery.extend(support, {
                                                                                                     reliableHiddenOffsets: function () {
-                                                                                                        if (reliableHiddenOffsetsVal == null) {
+                                                                                                        if (reliableHiddenOffsetsVal === null) {
                                                                                                             computeStyleTests();
                                                                                                         }
                                                                                                         return reliableHiddenOffsetsVal;
                                                                                                     },
 
                                                                                                     boxSizingReliable: function () {
-                                                                                                        if (boxSizingReliableVal == null) {
+                                                                                                        if (boxSizingReliableVal === null) {
                                                                                                             computeStyleTests();
                                                                                                         }
                                                                                                         return boxSizingReliableVal;
                                                                                                     },
 
                                                                                                     pixelPosition: function () {
-                                                                                                        if (pixelPositionVal == null) {
+                                                                                                        if (pixelPositionVal === null) {
                                                                                                             computeStyleTests();
                                                                                                         }
                                                                                                         return pixelPositionVal;
@@ -6250,7 +6250,7 @@
 
                                                                                                     // Support: Android 2.3
                                                                                                     reliableMarginRight: function () {
-                                                                                                        if (reliableMarginRightVal == null) {
+                                                                                                        if (reliableMarginRightVal === null) {
                                                                                                             computeStyleTests();
                                                                                                         }
                                                                                                         return reliableMarginRightVal;
@@ -6502,10 +6502,10 @@
                                                                                                 // some non-html elements return undefined for offsetWidth, so check for null/undefined
                                                                                                 // svg - https://bugzilla.mozilla.org/show_bug.cgi?id=649285
                                                                                                 // MathML - https://bugzilla.mozilla.org/show_bug.cgi?id=491668
-                                                                                                if (val <= 0 || val == null) {
+                                                                                                if (val <= 0 || val === null) {
                                                                                                     // Fall back to computed then uncomputed css if necessary
                                                                                                     val = curCSS(elem, name, styles);
-                                                                                                    if (val < 0 || val == null) {
+                                                                                                    if (val < 0 || val === null) {
                                                                                                         val = elem.style[ name ];
                                                                                                     }
 
@@ -6602,7 +6602,7 @@
                                                                                                         }
 
                                                                                                         // Make sure that null and NaN values aren't set. See: #7116
-                                                                                                        if (value == null || value !== value) {
+                                                                                                        if (value === null || value !== value) {
                                                                                                             return;
                                                                                                         }
 
@@ -6886,8 +6886,8 @@
                                                                                                     get: function (tween) {
                                                                                                         var result;
 
-                                                                                                        if (tween.elem[ tween.prop ] != null &&
-                                                                                                                (!tween.elem.style || tween.elem.style[ tween.prop ] == null)) {
+                                                                                                        if (tween.elem[ tween.prop ] !== null &&
+                                                                                                                (!tween.elem.style || tween.elem.style[ tween.prop ] === null)) {
                                                                                                             return tween.elem[ tween.prop ];
                                                                                                         }
 
@@ -6904,7 +6904,7 @@
                                                                                                         // available and use plain properties where available
                                                                                                         if (jQuery.fx.step[ tween.prop ]) {
                                                                                                             jQuery.fx.step[ tween.prop ](tween);
-                                                                                                        } else if (tween.elem.style && (tween.elem.style[ jQuery.cssProps[ tween.prop ] ] != null || jQuery.cssHooks[ tween.prop ])) {
+                                                                                                        } else if (tween.elem.style && (tween.elem.style[ jQuery.cssProps[ tween.prop ] ] !== null || jQuery.cssHooks[ tween.prop ])) {
                                                                                                             jQuery.style(tween.elem, tween.prop, tween.now + tween.unit);
                                                                                                         } else {
                                                                                                             tween.elem[ tween.prop ] = tween.now;
@@ -7052,7 +7052,7 @@
                                                                                                 // handle queue: false promises
                                                                                                 if (!opts.queue) {
                                                                                                     hooks = jQuery._queueHooks(elem, "fx");
-                                                                                                    if (hooks.unqueued == null) {
+                                                                                                    if (hooks.unqueued === null) {
                                                                                                         hooks.unqueued = 0;
                                                                                                         oldfire = hooks.empty.fire;
                                                                                                         hooks.empty.fire = function () {
@@ -7364,7 +7364,7 @@
                                                                                                         opt.duration in jQuery.fx.speeds ? jQuery.fx.speeds[ opt.duration ] : jQuery.fx.speeds._default;
 
                                                                                                 // normalize opt.queue - true/undefined/null -> "fx"
-                                                                                                if (opt.queue == null || opt.queue === true) {
+                                                                                                if (opt.queue === null || opt.queue === true) {
                                                                                                     opt.queue = "fx";
                                                                                                 }
 
@@ -7429,7 +7429,7 @@
 
                                                                                                     return this.each(function () {
                                                                                                         var dequeue = true,
-                                                                                                                index = type != null && type + "queueHooks",
+                                                                                                                index = type !== null && type + "queueHooks",
                                                                                                                 timers = jQuery.timers,
                                                                                                                 data = jQuery._data(this);
 
@@ -7446,7 +7446,7 @@
                                                                                                         }
 
                                                                                                         for (index = timers.length; index--; ) {
-                                                                                                            if (timers[ index ].elem === this && (type == null || timers[ index ].queue === type)) {
+                                                                                                            if (timers[ index ].elem === this && (type === null || timers[ index ].queue === type)) {
                                                                                                                 timers[ index ].anim.stop(gotoEnd);
                                                                                                                 dequeue = false;
                                                                                                                 timers.splice(index, 1);
@@ -7507,7 +7507,7 @@
                                                                                             jQuery.each(["toggle", "show", "hide"], function (i, name) {
                                                                                                 var cssFn = jQuery.fn[ name ];
                                                                                                 jQuery.fn[ name ] = function (speed, easing, callback) {
-                                                                                                    return speed == null || typeof speed === "boolean" ?
+                                                                                                    return speed === null || typeof speed === "boolean" ?
                                                                                                             cssFn.apply(this, arguments) :
                                                                                                             this.animate(genFx(name, true), speed, easing, callback);
                                                                                                 };
@@ -7671,7 +7671,7 @@
                                                                                                                     // handle most common string cases
                                                                                                                     ret.replace(rreturn, "") :
                                                                                                                     // handle cases where value is null/undef or number
-                                                                                                                    ret == null ? "" : ret;
+                                                                                                                    ret === null ? "" : ret;
                                                                                                         }
 
                                                                                                         return;
@@ -7693,13 +7693,13 @@
                                                                                                         }
 
                                                                                                         // Treat null/undefined as ""; convert numbers to string
-                                                                                                        if (val == null) {
+                                                                                                        if (val === null) {
                                                                                                             val = "";
                                                                                                         } else if (typeof val === "number") {
                                                                                                             val += "";
                                                                                                         } else if (jQuery.isArray(val)) {
                                                                                                             val = jQuery.map(val, function (value) {
-                                                                                                                return value == null ? "" : value + "";
+                                                                                                                return value === null ? "" : value + "";
                                                                                                             });
                                                                                                         }
 
@@ -7718,7 +7718,7 @@
                                                                                                     option: {
                                                                                                         get: function (elem) {
                                                                                                             var val = jQuery.find.attr(elem, "value");
-                                                                                                            return val != null ?
+                                                                                                            return val !== null ?
                                                                                                                     val :
                                                                                                                     // Support: IE10-11+
                                                                                                                     // option.text throws exceptions (#14686, #14858)
@@ -7885,7 +7885,7 @@
                                                                                                         ret = jQuery.find.attr(elem, name);
 
                                                                                                         // Non-existent attributes return null, we normalize to undefined
-                                                                                                        return ret == null ?
+                                                                                                        return ret === null ?
                                                                                                                 undefined :
                                                                                                                 ret;
                                                                                                     }
@@ -7971,7 +7971,7 @@
                                                                                                                 // Avoid an infinite loop by temporarily removing this function from the getter
                                                                                                                 handle = attrHandle[ name ];
                                                                                                                 attrHandle[ name ] = ret;
-                                                                                                                ret = getter(elem, name, isXML) != null ?
+                                                                                                                ret = getter(elem, name, isXML) !== null ?
                                                                                                                         name.toLowerCase() :
                                                                                                                         null;
                                                                                                                 attrHandle[ name ] = handle;
@@ -8908,7 +8908,7 @@
                                                                                                                         }
                                                                                                                         match = responseHeaders[ key.toLowerCase() ];
                                                                                                                     }
-                                                                                                                    return match == null ? null : match;
+                                                                                                                    return match === null ? null : match;
                                                                                                                 },
 
                                                                                                                 // Raw string
@@ -8980,7 +8980,7 @@
                                                                                                     s.dataTypes = jQuery.trim(s.dataType || "*").toLowerCase().match(rnotwhite) || [""];
 
                                                                                                     // A cross-domain request is in order when we have a protocol:host:port mismatch
-                                                                                                    if (s.crossDomain == null) {
+                                                                                                    if (s.crossDomain === null) {
                                                                                                         parts = rurl.exec(s.url.toLowerCase());
                                                                                                         s.crossDomain = !!(parts &&
                                                                                                                 (parts[ 1 ] !== ajaxLocParts[ 1 ] || parts[ 2 ] !== ajaxLocParts[ 2 ] ||
@@ -9404,7 +9404,7 @@
                                                                                                         s = [],
                                                                                                         add = function (key, value) {
                                                                                                             // If value is a function, invoke it and return its value
-                                                                                                            value = jQuery.isFunction(value) ? value() : (value == null ? "" : value);
+                                                                                                            value = jQuery.isFunction(value) ? value() : (value === null ? "" : value);
                                                                                                             s[ s.length ] = encodeURIComponent(key) + "=" + encodeURIComponent(value);
                                                                                                         };
 
@@ -9452,7 +9452,7 @@
                                                                                                             .map(function (i, elem) {
                                                                                                                 var val = jQuery(this).val();
 
-                                                                                                                return val == null ?
+                                                                                                                return val === null ?
                                                                                                                         null :
                                                                                                                         jQuery.isArray(val) ?
                                                                                                                         jQuery.map(val, function (val) {
@@ -9980,10 +9980,10 @@
                                                                                                                 options = options.call(elem, i, curOffset);
                                                                                                             }
 
-                                                                                                            if (options.top != null) {
+                                                                                                            if (options.top !== null) {
                                                                                                                 props.top = (options.top - curOffset.top) + curTop;
                                                                                                             }
-                                                                                                            if (options.left != null) {
+                                                                                                            if (options.left !== null) {
                                                                                                                 props.left = (options.left - curOffset.left) + curLeft;
                                                                                                             }
 
