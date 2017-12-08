@@ -32,20 +32,20 @@ public class MessengerTh extends Thread {
     /**
      * Recorreo el tablero; para cajas quema y ellga hasta ahí, para el resto de
      * objetos, los quema y la "llama" sigue su recorrido 0: izquierda, 1:
-     * derecha, 2: arriba, 3: abajo, 4: todos los sentidos.
-     *
-     * @param bomba
-     * @param tablero
-     * @param radio
-     * @param sentido
+     * derecha, 2: arriba, 3: abajo, 4: todos los sentidos.     
      */
-    public Messenger(Bomba bomba, Elemento[][] tablero, int radio, int sentido) {
+    public MessengerTh(){
+    
+    }
+    
+    
+    public void iniciar(Bomba bomba, Elemento[][] tablero, int sentido) {
         this.tablero = tablero;
         alto = tablero.length;
         ancho = tablero[0].length;
 
         this.bomba = bomba;
-        this.radio = radio;
+        this.radio = bomba.getRadio();
         this.sentido = sentido;
 
         posRow = bomba.getPosRow();

@@ -181,7 +181,28 @@ public class Juego {
         timer = new Timer(TIEMPOEXPLOTARBOMBAS, new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 timer.stop();
+                
+                // creando hilos para recorrer tablero
                 MessengerTh izquierda = new MessengerTh();
+                izquierda.iniciar(explotara, tablero, 0);
+                
+                MessengerTh derecha = new MessengerTh();
+                derecha.iniciar(explotara, tablero, 1);
+                
+                
+                MessengerTh arriba = new MessengerTh();
+                arriba.iniciar(explotara, tablero, 2);
+                
+                
+                MessengerTh abajo = new MessengerTh();
+                abajo.iniciar(explotara, tablero, 3);
+                
+                // iniciando hilos
+                izquierda.start();
+                derecha.start();
+                arriba.start();
+                abajo.start();
+                
             }//fin actionPerformed
         });
         timer.start();
