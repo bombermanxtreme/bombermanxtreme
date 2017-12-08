@@ -28,13 +28,13 @@ public class BomberManXServices {
 
     //cache con los datos volatiles del juego
     @Autowired
-    BomberManXCache cache;
+    private BomberManXCache cache;
     @Autowired
-    PersistenciaJugador pj = null;
+    private PersistenciaJugador pj = null;
     @Autowired
-    PersistenciaSala ps = null;
+    private PersistenciaSala ps = null;
     @Autowired
-    SimpMessagingTemplate msgt;
+    private SimpMessagingTemplate msgt;
     
     private Timer timer;
     

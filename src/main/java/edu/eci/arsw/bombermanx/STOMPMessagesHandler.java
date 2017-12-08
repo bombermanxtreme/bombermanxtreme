@@ -24,10 +24,10 @@ public class STOMPMessagesHandler {
     private PersistenciaSala PS;
 
     @Autowired
-    SimpMessagingTemplate msgt;
+    private SimpMessagingTemplate msgt;
     
     @Autowired
-    BomberManXServices gameServices;
+    private BomberManXServices gameServices;
 
     /**
      * Permite agregar a lista de jugadores que quieren jugar

@@ -24,10 +24,10 @@ import org.springframework.web.bind.annotation.RestController;
 public class BomberManXAPIControllerUser {
 
     @Autowired
-    BomberManXServices gameServices;
+    private BomberManXServices gameServices;
 
     @Autowired
-    SimpMessagingTemplate msmt;
+    private SimpMessagingTemplate msmt;
 
     @RequestMapping(method = RequestMethod.GET)
     public String test() {
