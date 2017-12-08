@@ -4,6 +4,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Caja;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
+import java.util.ArrayList;
 
 /**
  * Clase que recibe el bomba, tablero, el radio de explosion y el sentido para
@@ -19,6 +20,7 @@ public class MessengerTh extends Thread {
     public static final int ABAJO = 1;
     public static final int DERECHA = 2;
     public static final int IZQUIERDA = 3;
+    private ArrayList<Elemento> afectados;
 
     private int ancho;
     private int alto;
@@ -53,6 +55,7 @@ public class MessengerTh extends Thread {
         this.radio = bomba.getRadio();
         this.sentido = sentido;
 
+        afectados = new ArrayList<>();
         posRow = bomba.getPosRow();
         posCol = bomba.getPosCol();
         delivery = 0;
@@ -141,13 +144,21 @@ public class MessengerTh extends Thread {
 
     }
 
+    /**
+     * revisa que elemento afecta y retorna true si es un elemento que bloquee la expanción de la bomba
+     * @param e
+     * @return 
+     */
     private boolean revisarCelda(Elemento e) {
         boolean res = false;
-        if (e instanceof Destruible) {
-            ((Destruible) e).explotaBomba();
-        }
-        if (e instanceof Caja) {
-            res = true;
+        synchronized(e){
+            if (e instanceof Destruible) {
+                ((Destruible) e).explotaBomba();
+                afectados.add(e);
+            }
+            if (e instanceof Caja) {
+                res = true;
+            }
         }
         return res;
     }
@@ -163,6 +174,14 @@ public class MessengerTh extends Thread {
      */
     private int distancia(int posRow1, int posCol1, int posRow2, int posCol2) {
         return (int) Math.sqrt((int) Math.pow(posRow1 - posRow2, 2) + (int) Math.pow(posCol1 - posCol2, 2));
+    }
+
+    /**
+     * get afectados
+     * @return 
+     */
+    public ArrayList<Elemento> getAfectados() {
+        return afectados;
     }
 
 }

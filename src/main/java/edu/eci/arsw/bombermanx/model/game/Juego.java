@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.awt.event.*;
 import java.util.Arrays;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.Timer;
 
 
@@ -151,11 +153,11 @@ public class Juego {
      * @param jugador
      * @return
      */
-    public boolean accionBomba(Jugador jugador) {
+    public Bomba accionBomba(Jugador jugador) {
         Man man = manes.get(jugadores.indexOf(jugador));
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
-        Bomba explotara;
+        Bomba explotara=null;
 
         boolean puede = hay_objeto(mposCol, mposRow, man);
 
@@ -163,11 +165,10 @@ public class Juego {
             System.out.println("Pudo poner bomba >>");
 
             explotara = man.accionBomba();
-            tablero[mposCol][mposRow] = (Elemento) explotara;
-            explotar(explotara);
+            tablero[mposCol][mposRow] = explotara;
         }
 
-        return puede;
+        return explotara;
     }
 
     /**
@@ -176,7 +177,7 @@ public class Juego {
      *
      * @param explotara
      */
-    public void explotar(Bomba explotara) {
+    public ArrayList<Elemento> explotar(Bomba explotara) {
                
         // creando hilos para recorrer tablero
         MessengerTh izquierda = new MessengerTh();
@@ -198,6 +199,26 @@ public class Juego {
         derecha.start();
         arriba.start();
         abajo.start();
+        try {
+            //esperamos
+            izquierda.join();
+            derecha.join();
+            arriba.join();
+            abajo.join();
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        //unimos todo los afectados
+        
+        ArrayList<Elemento> afectados=new ArrayList<>();
+        
+        afectados=izquierda.getAfectados();
+        afectados.addAll(derecha.getAfectados());
+        afectados.addAll(arriba.getAfectados());
+        afectados.addAll(abajo.getAfectados());
+        
+        return afectados;
     }
 
    

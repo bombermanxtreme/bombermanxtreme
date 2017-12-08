@@ -43,8 +43,8 @@ public class Man implements Elemento,Destruible {
      * @return
      */
     public Bomba accionBomba() {
-        Bomba bomba = bombas_man.get(siguiente_bomba_indice());
-        System.out.println("accionó Bomba >>");
+        Bomba bomba = new Bomba_n(this, color, radio);
+        System.out.println("puso Bomba >>");
         return bomba;
     }
 

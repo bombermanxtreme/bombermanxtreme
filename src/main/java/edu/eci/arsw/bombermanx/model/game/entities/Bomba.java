@@ -42,4 +42,9 @@ public abstract class Bomba implements Elemento {
     public int getPosCol() {
         return posCol;
     }
+    
+    @Override
+    public String toString(){
+        return "{\"posRow\":\""+posRow+"\",\"posCol\":"+posCol+"\"}";
+    }
 }
