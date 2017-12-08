@@ -8,6 +8,8 @@ import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import java.util.ArrayList;
+import java.awt.event.*;
+import javax.swing.Timer;
 
 /**
  *
@@ -21,11 +23,12 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
-    private static final int TIEMPOEXPLOTARBOMBAS = 5;
+    private static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private ArrayList<Jugador> jugadores;
     private Elemento[][] tablero;
     private ArrayList<Man> manes;
     public static final int MAXIMOJUGADORES = 4;
+    private Timer timer;
 
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
         manes = new ArrayList<>();
@@ -152,34 +155,46 @@ public class Juego {
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
         Bomba explotara;
-        
+
         boolean puede = hay_objeto(mposCol, mposRow, man);
 
         if (puede) {
             System.out.println("Pudo poner bomba >>");
-            
+
             explotara = man.accionBomba();
             tablero[mposCol][mposRow] = (Elemento) explotara;
-            tiempoExplotar(explotara); // explota la bomba cuando termina el tiempo
+            explotar(explotara);
         }
 
         return puede;
     }
 
-    private void tiempoExplotar(Bomba explotara) {
-        /*
-        Timeout timeout = new Timeout();
-        timeout.start(5000);
-        ActionListener b = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //lanza ladrillo
-                mover();
-                timer.stop();
-            }
-        };
-        timer = new Timer(100, b);
-        timer.start(); */
+    /**
+     * Explota la bomba segun el TIEMPOEXPLOTARBOMBAS, y en la trayectoria de la
+     * explosion informa que daños causo
+     *
+     * @param explotara
+     */
+    private void explotar(Bomba explotara) {
 
+        timer = new Timer(TIEMPOEXPLOTARBOMBAS, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();
+                
+                for(int i=0; i<tablero.length;i++){
+                    for(int k=0; k<tablero[0].length;k++){
+                            
+                        
+                        }                    
+                }
+                
+                
+                
+
+            }//fin actionPerformed
+        });
+        timer.start();
+        System.out.println("empieza");
     }
 
     private void radioExplosion(int pCOl, int pRow) {
