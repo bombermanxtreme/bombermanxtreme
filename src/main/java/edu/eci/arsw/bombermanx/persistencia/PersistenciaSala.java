@@ -107,4 +107,11 @@ public interface PersistenciaSala {
      * @return  
      */
     public boolean cambiarDeGrupoJugador(int idSala, Jugador jugador);
+    
+    /**
+     * indica si el juego es de equipos
+     * @param idSala
+     * @return 
+     */
+    public boolean esEquipos(int idSala);
 }

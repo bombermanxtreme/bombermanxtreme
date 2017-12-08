@@ -27,7 +27,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     }
 
     @Override
-    public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException {
+    public void createGame(int id, ArrayList<Jugador> jugadores, boolean esEquipos) throws GameCreationException {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
@@ -35,7 +35,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
             try {
                 tablero = TableroTexto.muestraContenido(id);
                 
-                gamesState.put(id, new Juego(jugadores, tablero));
+                gamesState.put(id, new Juego(jugadores, tablero,esEquipos));
             } catch (IOException ex) {
                 Logger.getLogger(InMemoryBomberManXStatePersistence.class.getName()).log(Level.SEVERE, null, ex);
             }
