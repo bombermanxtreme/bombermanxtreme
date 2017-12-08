@@ -78,16 +78,6 @@ public class Man implements Elemento,Destruible {
     }
     
     @Override
-    public String getKey() {
-        return this.key;
-    }
-
-    @Override
-    public void setKey(String k) {
-        this.key = k;
-    }
-    
-    @Override
     public String toString(){
         return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\"}";
     }
@@ -99,16 +89,6 @@ public class Man implements Elemento,Destruible {
     @Override
     public int getPosCol() {
         return posCol;
-    }
-
-    @Override
-    public void setPosRow(int posRow) {
-        this.posRow = posRow;
-    }
-
-    @Override
-    public void setPosCol(int posCol) {
-        this.posCol = posCol;
     }
 
     @Override

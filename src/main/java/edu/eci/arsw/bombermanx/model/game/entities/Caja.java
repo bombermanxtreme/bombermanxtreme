@@ -32,16 +32,6 @@ public class Caja implements Elemento,Destruible{
     public void setPosCol(int pos) {
         this.posCol = pos;
     }
-    
-    @Override
-    public String getKey() {
-        return this.key;
-    }
-
-    @Override
-    public void setKey(String k) {
-        this.key = k;
-    }
 
     @Override
     public void explotaBomba() {
