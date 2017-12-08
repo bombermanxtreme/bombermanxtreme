@@ -56,8 +56,17 @@ public class Juego {
         for (int row = 0; row < ALTO; row++){
             for (int col = 0; col < ANCHO; col++) {
                 int[] tmp={row,col};
-                if(Arrays.asList(POSPROTEGIDAS).contains(tmp))
-                    continue;
+                boolean encuentra=false;
+                //System.out.println(Arrays.asList(POSPROTEGIDAS).get(row)[0]);
+                for (int i = 0; i < POSPROTEGIDAS.length; i++) {
+                    if(Arrays.equals(POSPROTEGIDAS[i], tmp)){
+                        System.out.println("IF iF IF");
+                        encuentra=true;
+                        break;
+                    }
+                }
+                
+                if(encuentra)continue;
                 if(rand.nextInt(2) == 0) {
                     tablero[row][col] = new Caja("", row, col);
                 }
