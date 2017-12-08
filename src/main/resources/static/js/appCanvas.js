@@ -31,6 +31,11 @@ var appCanvas = (function () {
             //Estamos atentos si se mueve algun jugador dentro de l
             stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
                 callback_moverPersonaje(eventbody);
+			});
+			
+            //Estamos atentos si se daña alguna caja
+            stompClient.subscribe("/topic/DaniarCaja." + idSala, function (eventbody) {
+                callback_DaniarCaja(eventbody);
             });
 
         });
@@ -39,6 +44,15 @@ var appCanvas = (function () {
     // Funciones 
     var callback_ponerBomba = function (message) {
 
+	};
+	/**
+	 * daña una caja específica
+	 * @param {*} message 
+	 */
+    var callback_DaniarCaja = function (message) {
+		var cajaADaniar = message.body;
+		tablero[cajaADaniar.y][cajaADaniar.x]="c";
+		actualizar();
     };
 
     var callback_moverPersonaje = function (message) {
@@ -48,17 +62,19 @@ var appCanvas = (function () {
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var datosJuego=eval("("+data+")");
-            tablero=Array();
+			tablero=Array();
+			//llenamos todo de vacíos
             for (var i = 0; i < datosJuego.alto; i++) {
                 tablero[i]=Array();
                 for (var k = 0; k < datosJuego.ancho; k++) {
                     tablero[i][k]="O";
                 }
-            }
+			}
+			//cargamos las cajas
             for (var i = 0; i < datosJuego.cajas.length; i++) {
                 var x=datosJuego.cajas[i].x;
                 var y=datosJuego.cajas[i].y;
-                tablero[y][x]="X";
+				tablero[y][x]="C";
             }
             //
             //hacemos el tablero str
@@ -104,24 +120,44 @@ var appCanvas = (function () {
         return decodeURIComponent(results[2].replace(/\+/g, " "));
     }
 
+	/**
+	 * encargado de redibujar el canvas
+	 */
     var actualizar = function () {
         //dibuja el canvas COMPLETO!
         console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
-                if (tablero[i][j] === "X") {
-                    var myObstacle = new Caja("brown",j,i);
-                    myObstacle.update();
-
-                } else {
-                    //var myObstacle = new Caja(50, 50, "blue", j * 50, i * 50);
-                    //myObstacle.update();
-                }
+                switch(tablero[i][j]) {
+					case "C"://caja
+						var myObstacle = new Caja("#a27250",j,i);
+						myObstacle.update();
+						break;
+					case "c"://caja dañada
+						anim_cajaDañada(j,i);
+						break;
+					case "O"://nada
+						ctx.clearRect(j*anchoCasilla,i*anchoCasilla,(j+1)*anchoCasilla,(i+1)*anchoCasilla);
+						break;
+				}
             }
         }
         console.log("LLENANDO CANVAS");
     };
 
+	/**
+	 * método encargado de animar una caja dañandose 
+	 * @param {*} j 
+	 * @param {*} i 
+	 */
+	var anim_cajaDañada = function(j,i){
+		var myObstacle = new Caja("#222222",j,i);
+		myObstacle.update();
+		tablero[i][j]="O";
+		setTimeout(function(){
+			actualizar();
+		},100);
+	}
 
     var callback_accionBomba = function (message) {
 
@@ -164,6 +200,11 @@ var appCanvas = (function () {
     }
 
     return {
+		//estas funciones publicas son sólo para pruebas
+		_actualizar:actualizar,
+		setTablero(i,k,val){
+			tablero[i][k]=val;
+		},
         /**
          * encargado de realizar la conexión con STOMP
          */
