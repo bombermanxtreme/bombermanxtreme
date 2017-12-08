@@ -30,17 +30,18 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
+    public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private ArrayList<Jugador> jugadores;
     private Casilla[][] tablero;
     private ArrayList<Man> manes = new ArrayList<>();
     public static final int MAXIMOJUGADORES = 4;
     private static final int[][] POSJUGADORES={{0,0},{ALTO-1,ANCHO-1},{0,ANCHO-1},{ALTO-1,0}};
-    private static final int[][] POSPROTEGIDAS={{0,0},{0,1},{1,0},{ALTO-1,ANCHO-1},{ALTO-2,ANCHO-1},{ALTO-1,ANCHO-2},{0,ANCHO-1},{1,ANCHO-1},{0,ANCHO-2},{ALTO-1,0},{ALTO-2,0},{ALTO-1,1}};
     private Timer timer;
     
-    public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
+    public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal, boolean esEquipos) {
         this.jugadores = jugadores;
+        this.esEquipos = esEquipos;
         System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
         this.tablero = new Casilla[ALTO][ANCHO];
         
@@ -60,27 +61,6 @@ public class Juego {
             Man manTMP=new Man("black", jugadores.get(i), "", x, y);
             tablero[x][y].reemplazar(manTMP);
             manes.add(manTMP);
-        }
-        //String letter;
-        //creando cajas Random
-        Random rand = new Random();
-        for (int row = 0; row < ALTO; row++){
-            for (int col = 0; col < ANCHO; col++) {
-                int[] tmp={row,col};
-                boolean encuentra=false;
-                //revisamos que  no se encuentre en zonas protegidas
-                for (int i = 0; i < POSPROTEGIDAS.length; i++) {
-                    if(Arrays.equals(POSPROTEGIDAS[i], tmp)){
-                        encuentra=true;
-                        break;
-                    }
-                }
-                
-                if(encuentra)continue;
-                if(rand.nextInt(2) == 0) {
-                    tablero[row][col].reemplazar(new Caja("", row, col));
-                }
-            }
         }
         // Mapear Tablero
         mapearTablero(tableroTemporal);
@@ -110,7 +90,7 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
                 if (isNumeric(letter)) {
-                    this.tablero[row][col].reemplazar(new Man("black", jugadores.get(Integer.parseInt(letter) - 1), letter, row, col));
+                    this.tablero[row][col].reemplazar(new Man("black", jugadores.get(Integer.parseInt(letter)), letter, row, col));
                 } else {
                     switch (letter) {
                         case "O":
@@ -256,12 +236,12 @@ public class Juego {
         ArrayList<String> manesS = new ArrayList<>();
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
+                System.out.println("");
                 if (tablero[i][k].tieneTipo(Caja.class)) {
                     cajasS.add("{x:" + k + ",y:" + i + "}");
                 }else if(tablero[i][k].tieneTipo(Caja_Metalica.class)) {
                     cajasM.add("{x:" + k + ",y:" + i + "}");
                 }else if(tablero[i][k].tieneTipo(Man.class)) {
-                    System.out.println((Man) tablero[i][k].getTipo(Man.class));
                     manesS.add(((Man) tablero[i][k].getTipo(Man.class)).toString());
                 }
                 if(tablero[i][k].tieneTipo(Bomba.class)) {

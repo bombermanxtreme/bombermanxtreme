@@ -85,4 +85,9 @@ public class PersistenciaImplSala implements PersistenciaSala {
                
         return salas.get(idSala).cambiarDeGrupoJugador(jugador);
     }
+
+    @Override
+    public boolean esEquipos(int idSala) {
+        return salas.get(idSala).esEquipos();
+    }
 }

@@ -44,7 +44,7 @@ public class BomberManXServices {
      * @throws GameCreationException 
      */
     public void createGame(int id_sala) throws GameCreationException{
-        cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala));
+        cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala),ps.esEquipos(id_sala));
         System.out.println("Juego creado en CreateGame");
     }
     /**

@@ -33,16 +33,16 @@ public class TableroTexto {
         //             * ',' = separador de objetos en una sola casilla.
         //             Por el momento se supone para el caso que solo tenga un objeto en una sola celda
         ArrayList<String[][]> escenarios = new ArrayList<>();
-        String[][] tab = {{"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"},
-                          {"X","1","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","2","X"},
+        String[][] tab = {{"0","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"},
+                          {"O","O","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","O","O"},
                           {"X","O","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","O","X"},
                           {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
                           {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
                           {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
                           {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
                           {"X","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","X"},
-                          {"X","X","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","X","X"},
-                          {"X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X"}};
+                          {"X","X","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","X","O"},
+                          {"O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","1"}};
         escenarios.add(tab);
       
       return escenarios.get(0);
