@@ -2,7 +2,7 @@ package edu.eci.arsw.bombermanx.controllers;
 
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
-import edu.eci.arsw.bombermanx.model.game.Attempt.CrearSalaAttempt;
+import edu.eci.arsw.bombermanx.model.game.attempt.CrearSalaAttempt;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
 import edu.eci.arsw.bombermanx.services.BomberManXServices;

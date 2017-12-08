@@ -2,37 +2,26 @@ package edu.eci.arsw.bombermanx.model.game.entities;
 
 /**
  * Clase abstracta para varios tipos de bombas
+ *
  * @author sergioxl
  */
-public abstract class Bomba implements Elemento{
-    
-    private int id_jugador;
+public abstract class Bomba implements Elemento {
+
     private String color, key;
+    private int posCol;
+    private int posRow;
     private int radio;
-    private int posRow, posCol;
-    
-    //public abstract void explotar();
+    private Man man;
 
+    public abstract Man get_man();
 
-    @Override
-    public int getPosRow() {
-        return this.posRow;
-    }
+    public abstract String getColor();
 
-    @Override
-    public void setPosRow(int pos) {
-        this.posRow = pos;
-    }
+    public abstract void setColor(String color);
 
-    @Override
-    public int getPosCol() {
-        return this.posCol;
-    }
+    public abstract int getRadio();
 
-    @Override
-    public void setPosCol(int pos) {
-        this.posCol = pos;
-    }
+    public abstract void setRadio(int radio);
 
     @Override
     public String getKey() {
@@ -44,17 +33,13 @@ public abstract class Bomba implements Elemento{
         this.key = k;
     }
 
-    public abstract Man get_man();
+    @Override
+    public int getPosRow() {
+        return posRow;
+    }
 
-    public abstract String getColor();
-
-    public abstract void setColor(String color);
-
-    public abstract int getRadio();
-
-    public abstract void setRadio(int radio);
-    
-    public abstract void setDisponible(boolean valor);
-    
-    public abstract boolean getDisponible();
+    @Override
+    public int getPosCol() {
+        return posCol;
+    }
 }
