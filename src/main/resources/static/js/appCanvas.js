@@ -10,6 +10,8 @@ var appCanvas = (function () {
     var anchoCasilla = 50;
     var ctx;
     var tablero;
+    var _manes;
+    var _id_man;
 
     /**
      * función que realiza la conexión STOMP
@@ -70,13 +72,36 @@ var appCanvas = (function () {
                     tablero[i][k] = "O";
                 }
             }
+            
             //cargamos las cajas
             for (var i = 0; i < datosJuego.cajas.length; i++) {
                 var x = datosJuego.cajas[i].x;
                 var y = datosJuego.cajas[i].y;
                 console.log("x:"+x);
                 console.log("y:"+y);
-                tablero[y][x] = "C";
+                tablero[x][y] = "C";
+            }
+            
+            //cargamos las cajasfijas
+            for (var i = 0; i < datosJuego.cajasFijas.length; i++) {
+                var x = datosJuego.cajasFijas[i].x;
+                var y = datosJuego.cajasFijas[i].y;
+                console.log("x:"+x);
+                console.log("y:"+y);
+                tablero[x][y] = "X";
+            }
+
+            _manes=datosJuego.manes;
+            //cargamos los manes
+            for (var i = 0; i < datosJuego.manes.length; i++) {
+                var x=datosJuego.manes[i].x;
+                var y=datosJuego.manes[i].y;
+                var color=datosJuego.manes[i].color;
+                var apodo=datosJuego.manes[i].apodo_jugador;
+                // Verificar
+//                if(appCookie.getNombre()==apodo)
+//                    _id_man=i;
+//                    tablero[x][y]=i;
             }
             //
             //hacemos el tablero str
@@ -129,18 +154,32 @@ var appCanvas = (function () {
         //dibuja el canvas COMPLETO!
         console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
-            
             for (j = 0; j < tablero[i].length; j++) {
-                switch (tablero[i][j]) {
+                switch (tablero[i][j]){
                     case "C"://caja
-                        var myObstacle = new Caja("#a27250", j, i);
+                        //var myObstacle = new Caja("#a27250", j, i);
+                        console.log("** Entre a dibujar Caja");
+                        var myObstacle = new Objeto("wood", j * 50, i * 50, 50, 50, "image");
+                        //var myObstacle = new Objeto("red", j * 50, i * 50, 50, 50, "");
+                        myObstacle.update();
+                        break;
+                    case "X"://Pared
+                        //var myObstacle = new Objeto("green", j * 50, i * 50, 50, 50, "");
+                        console.log("** Entre a dibujar Caja Metalica");
+                        var myObstacle = new Objeto("wall", j * 50, i * 50, 50, 50, "image");
                         myObstacle.update();
                         break;
                     case "c"://caja dañada
+                        console.log("** Entre a dibujar CajaDañada");
                         anim_cajaDañada(j, i);
                         break;
                     case "O"://nada
-                        ctx.clearRect(j * anchoCasilla, i * anchoCasilla, (j + 1) * anchoCasilla, (i + 1) * anchoCasilla);
+                        //ctx.clearRect(j * anchoCasilla, i * anchoCasilla, (j + 1) * anchoCasilla, (i + 1) * anchoCasilla);
+                        console.log("** Entre a dibujar Espacio");
+                        //var myObstacle = new Objeto("https://secure.gravatar.com/avatar/107d8490cb488836a968eb085b870621?s=50&d=retro&r=g", i * 50, j * 50, 50, 50, "image");
+                        //var myObstacle = new Objeto("yellow", j * 50, i * 50, 50, 50, "");
+                        var myObstacle = new Objeto("grass", j * 50, i * 50, 50, 50, "image");
+                        myObstacle.update();
                         break;
                 }
             }
@@ -201,10 +240,43 @@ var appCanvas = (function () {
             //}
         };
     }
+    
+    function Objeto(color, x, y, ancho, alto, type) {
+        this.type = type;
+        if (type === "image") {
+            //this.imagen = new Image();
+            //this.imagen.src = color;
+            //var img = document.getElementById("scream");
+            console.log("**** Es una imagen :D");
+        }
+        this.ancho = ancho;
+        this.alto = alto;
+        this.x = x;
+        this.y = y;
+        
+         
+        this.update = function () {
+            if (type === "image") {
+                console.log("** COLOCANDO IMAGEN");
+                var img = document.getElementById(color);
+                ctx.drawImage(img,
+                        this.x,
+                        this.y,
+                        this.ancho, this.alto);
+            } else {
+                console.log(ctx);
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.ancho, this.alto);
+            }
+        };
+    }
 
     return {
         //estas funciones publicas son sólo para pruebas
         _actualizar: actualizar,
+        _ctx:function(){
+            return ctx;
+        },
         setTablero(i, k, val) {
             tablero[i][k] = val;
         },

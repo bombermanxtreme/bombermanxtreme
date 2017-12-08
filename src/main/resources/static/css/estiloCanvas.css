@@ -32,6 +32,10 @@ body{
     display:none;
 }
 
+#images{
+    display:none;
+}
+
 @media all and (orientation: portrait){
 
     #contenedor{
@@ -47,6 +51,10 @@ body{
         background:url(../media/canvas/vertical.jpg);
         background-size:cover;
         background-position:center;
+    }
+    
+    #images{
+        display:none;
     }
 
 }
