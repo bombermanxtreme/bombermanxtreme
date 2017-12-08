@@ -32,15 +32,15 @@ public class STOMPMessagesHandler {
     /**
      * Permite agregar a lista de jugadores que quieren jugar
      *
-     * @param id_jugador
+     * @param idJugador
      * @param idSala
      * @return 
      * @throws Exception
      */
     @MessageMapping("/EntrarAJuego.{idSala}")
-    public boolean handleEntrarAJuego(int id_jugador, @DestinationVariable int idSala) throws Exception {
+    public boolean handleEntrarAJuego(int idJugador, @DestinationVariable int idSala) throws Exception {
         //si la sala está casi lista ya no pueden entrar más jugadores
-        Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
+        Jugador j = PJ.seleccionarJugadorPorId(idJugador);
         if (PS.estaCasiLista(idSala) || !PS.addJugador(idSala,j)) {
             enviarListadoJugadoresQuierenJugar(idSala, false);
             return false;
@@ -107,9 +107,7 @@ public class STOMPMessagesHandler {
     
     @MessageMapping("/AccionBomba.{idSala}")
     public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        System.out.println("entra a java----- para bomba");
-        System.out.println(id_jugador);
-        Jugador j=PJ.seleccionarJugadorPorId(id_jugador);
+        Jugador j=PJ.seleccionarJugadorPorId(id_jugador);        
         return gameServices.accionBomba(idSala,j);
     }
     
@@ -127,50 +125,56 @@ public class STOMPMessagesHandler {
             // Los jugadores solo tienen identificador numerico
             if (isNumeric(tablero[posRow][posCol])) {
                 // Flecha Abajo
-                if (key == 40) {
-                    if (tablero[posRow + 1][posCol].equals("O")) {
-                        // Definir si colocar el IdJugador
-                        tablero[posRow + 1][posCol] = tablero[posRow][posCol];
-                        tablero[posRow][posCol] = "O";
-                        //Elemento e = new Elemento(posRow + 1, posCol, Integer.toString(id_jugador));
-                        //Elemento e2 = new Elemento(posRow, posCol, "O");
-                        //actualizaciones.add(e);
-                        //actualizaciones.add(e2);
-                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                    }
-                // Flecha Izquierda
-                } else if (key == 37) {
-                    if (!(tablero[posRow][posCol - 1]).equals("O")) {
-                        tablero[posRow][posCol - 1] = tablero[posRow][posCol];
-                        tablero[posRow][posCol] = "O";
-                        //Elemento e = new Elemento(posRow, posCol - 1, Integer.toString(id_jugador));
-                        //Elemento e2 = new Elemento(posRow, posCol, "O");
-                        //actualizaciones.add(e);
-                        //actualizaciones.add(e2);
-                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                    }
-                // Flecha Arriba
-                } else if (key == 38) {
-                    if (!(tablero[posRow - 1][posCol]).equals("O")) {
-                        tablero[posRow - 1][posCol] = tablero[posRow][posCol];
-                        tablero[posRow][posCol] = "O";
-                        //Elemento e = new Elemento(posRow - 1, posCol, Integer.toString(id_jugador));
-                        //Elemento e2 = new Elemento(posRow, posCol, "O");
-                        //actualizaciones.add(e);
-                        //actualizaciones.add(e2);
-                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                    }
-                // Flecha Derecha 
-                } else if (key == 39) {
-                    if (!(tablero[posRow][posCol + 1]).equals("O")) {
-                        tablero[posRow][posCol + 1] = tablero[posRow][posCol];
-                        tablero[posRow][posCol] = "O";
-                        //Elemento e = new Elemento(posRow, posCol + 1, Integer.toString(id_jugador));
-                        //Elemento e2 = new Elemento(posRow, posCol, "O");
-                        //actualizaciones.add(e);
-                        //actualizaciones.add(e2);
-                        //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                    }
+                switch (key) {
+                    case 40:
+                        if (tablero[posRow + 1][posCol].equals("O")) {
+                            // Definir si colocar el IdJugador
+                            tablero[posRow + 1][posCol] = tablero[posRow][posCol];
+                            tablero[posRow][posCol] = "O";
+                            //Elemento e = new Elemento(posRow + 1, posCol, Integer.toString(id_jugador));
+                            //Elemento e2 = new Elemento(posRow, posCol, "O");
+                            //actualizaciones.add(e);
+                            //actualizaciones.add(e2);
+                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                        }
+                        // Flecha Izquierda
+                        break;
+                    case 37:
+                        if (!(tablero[posRow][posCol - 1]).equals("O")) {
+                            tablero[posRow][posCol - 1] = tablero[posRow][posCol];
+                            tablero[posRow][posCol] = "O";
+                            //Elemento e = new Elemento(posRow, posCol - 1, Integer.toString(id_jugador));
+                            //Elemento e2 = new Elemento(posRow, posCol, "O");
+                            //actualizaciones.add(e);
+                            //actualizaciones.add(e2);
+                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                        }
+                        // Flecha Arriba
+                        break;
+                    case 38:
+                        if (!(tablero[posRow - 1][posCol]).equals("O")) {
+                            tablero[posRow - 1][posCol] = tablero[posRow][posCol];
+                            tablero[posRow][posCol] = "O";
+                            //Elemento e = new Elemento(posRow - 1, posCol, Integer.toString(id_jugador));
+                            //Elemento e2 = new Elemento(posRow, posCol, "O");
+                            //actualizaciones.add(e);
+                            //actualizaciones.add(e2);
+                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                        }
+                        // Flecha Derecha 
+                        break;
+                    case 39:
+                        if (!(tablero[posRow][posCol + 1]).equals("O")) {
+                            tablero[posRow][posCol + 1] = tablero[posRow][posCol];
+                            tablero[posRow][posCol] = "O";
+                            //Elemento e = new Elemento(posRow, posCol + 1, Integer.toString(id_jugador));
+                            //Elemento e2 = new Elemento(posRow, posCol, "O");
+                            //actualizaciones.add(e);
+                            //actualizaciones.add(e2);
+                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
+                        }   break;
+                    default:
+                        break;
                 }
             }
         }

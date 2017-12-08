@@ -45,6 +45,6 @@ public abstract class Bomba implements Elemento {
     
     @Override
     public String toString(){
-        return "{\"posRow\":\""+posRow+"\",\"posCol\":"+posCol+"\"}";
+        return "{\"y\":"+posRow+",\"x\":"+posCol+"}";
     }
 }

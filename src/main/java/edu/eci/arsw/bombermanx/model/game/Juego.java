@@ -154,7 +154,7 @@ public class Juego {
 
             explotara = man.accionBomba();
             if(explotara!=null)
-                tablero[mposCol][mposRow].add(explotara);
+                tablero[mposRow][mposCol].add(explotara);
         }
 
         return explotara;
