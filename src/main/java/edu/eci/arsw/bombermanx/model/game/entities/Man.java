@@ -6,7 +6,7 @@ import java.util.ArrayList;
  *
  * @author Kvn CF <ECI>
  */
-public class Man implements Elemento {
+public class Man implements Elemento,Destruible {
 
     public static final String[] colores = {"red", "yellow", "blue"};
     private Jugador jugador;
@@ -125,5 +125,10 @@ public class Man implements Elemento {
     @Override
     public void setPosCol(int posCol) {
         this.posCol = posCol;
+    }
+
+    @Override
+    public void explotaBomba() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
