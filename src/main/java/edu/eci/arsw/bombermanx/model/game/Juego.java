@@ -212,6 +212,15 @@ public class Juego {
         return afectados;
     }
 
+	public void daniarCaja(int x,int y){
+		tablero[y][x].reemplazar(new Espacio("",y,x));
+		//msgt.convertAndSend("/topic/Sala." + idSala, false);
+	}
+
+	public boolean mover(int id_jugador){
+		return false;
+	}
+
     /**
      * Revisa que fila y columna del tablero no este ocuapda, expectuando por el
      * Man

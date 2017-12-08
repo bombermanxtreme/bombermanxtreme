@@ -214,16 +214,16 @@ public class BomberManXServices {
                     timer.stop();
                     bomba.estalla();
                     ArrayList<Object> afectados=juego.explotar(bomba);
-                    
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
                     System.out.println("avisamos que EXPLOTA LA BOMBA ||");
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
-                    
-                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
-                    
-                    System.out.println();
-                    
-                    //msgt.convertAndSend("/topic/RecorridoExplosion." + id_sala, afectados.toString());
+					msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+					for (int i=0; i<afectados.get(0).size(); i++) {
+						Elemento ele=afectados.get(0).get(i);
+						if(ele instanceof Caja){
+							msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
+						}
+					}
                  }
             });
             timer.start();
