@@ -1,6 +1,6 @@
 package edu.eci.arsw.bombermanx.controllers;
 
-import edu.eci.arsw.bombermanx.model.game.Attempt.CrearUsuarioAttempt;
+import edu.eci.arsw.bombermanx.model.game.attempt.CrearUsuarioAttempt;
 import edu.eci.arsw.bombermanx.services.BomberManXServices;
 import edu.eci.arsw.bombermanx.services.GameServicesException;
 import java.util.logging.Level;

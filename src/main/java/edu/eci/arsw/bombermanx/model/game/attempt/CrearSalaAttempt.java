@@ -1,4 +1,4 @@
-package edu.eci.arsw.bombermanx.model.game.Attempt;
+package edu.eci.arsw.bombermanx.model.game.attempt;
 
 /**
  *

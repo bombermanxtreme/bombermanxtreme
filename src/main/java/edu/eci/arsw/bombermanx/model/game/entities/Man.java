@@ -44,7 +44,6 @@ public class Man implements Elemento {
      */
     public Bomba accionBomba() {
         Bomba bomba = bombas_man.get(siguiente_bomba_indice());
-        bomba.setDisponible(false);
         System.out.println("accionó Bomba >>");
         return bomba;
     }
@@ -57,27 +56,7 @@ public class Man implements Elemento {
     public boolean recoger_poder() {
         return false;
 
-    }
-
-    @Override
-    public int getPosRow() {
-        return this.posRow;
-    }
-
-    @Override
-    public void setPosRow(int pos) {
-        this.posRow = pos;
-    }
-
-    @Override
-    public int getPosCol() {
-        return this.posCol;
-    }
-
-    @Override
-    public void setPosCol(int pos) {
-        this.posCol = pos;
-    }
+    }    
 
     public static String[] getColores() {
         return colores;
@@ -108,7 +87,7 @@ public class Man implements Elemento {
     private void inicar_bombas(String color, int radio) {
         bombas_man = new ArrayList<>();
 
-        for (int i = 0; i < bombas_man.size(); i++) {
+        for(int i = 0; i < bombas_man.size(); i++) {
             bombas_man.add(new Bomba_n(this, color, radio));
         }
 
@@ -127,5 +106,24 @@ public class Man implements Elemento {
     @Override
     public String toString(){
         return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\"}";
+    }
+
+    public int getPosRow() {
+        return posRow;
+    }
+
+    @Override
+    public int getPosCol() {
+        return posCol;
+    }
+
+    @Override
+    public void setPosRow(int posRow) {
+        this.posRow = posRow;
+    }
+
+    @Override
+    public void setPosCol(int posCol) {
+        this.posCol = posCol;
     }
 }

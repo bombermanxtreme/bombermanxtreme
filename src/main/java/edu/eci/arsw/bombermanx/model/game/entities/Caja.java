@@ -20,7 +20,6 @@ public class Caja implements Elemento{
         return this.posRow;
     }
 
-    @Override
     public void setPosRow(int pos) {
         this.posRow = pos;
     }
@@ -30,7 +29,6 @@ public class Caja implements Elemento{
         return this.posCol;
     }
 
-    @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
     }
