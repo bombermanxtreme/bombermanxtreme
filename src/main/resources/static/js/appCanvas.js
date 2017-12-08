@@ -42,6 +42,10 @@ var appCanvas = (function () {
 
         });
     };
+    
+    function isNumber(n) {
+        return !isNaN(parseFloat(n)) && isFinite(n);
+    }
 
     // Funciones 
     var callback_ponerBomba = function (message) {
@@ -94,17 +98,22 @@ var appCanvas = (function () {
             _manes=datosJuego.manes;
             //cargamos los manes
             for (var i = 0; i < datosJuego.manes.length; i++) {
-                var x=datosJuego.manes[i].x;
-                var y=datosJuego.manes[i].y;
-                var color=datosJuego.manes[i].color;
-                var apodo=datosJuego.manes[i].apodo_jugador;
-                // Verificar
-//                if(appCookie.getNombre()==apodo)
-//                    _id_man=i;
-//                    tablero[x][y]=i;
+                var x = datosJuego.manes[i].x;
+                var y = datosJuego.manes[i].y;
+                console.log("x:"+x);
+                console.log("y:"+y);
+                tablero[y][x] = "1";
+//                var x=datosJuego.manes[i].x;
+//                var y=datosJuego.manes[i].y;
+//                var color=datosJuego.manes[i].color;
+//                var apodo=datosJuego.manes[i].apodo_jugador;
+//                 Verificar KSSP
+//                // if(appCookie.getNombre()==apodo)
+//                //  _id_man=i;
+//                _id_man = 1;
+//                console.log("++++ Estos son los datos: " + x + ", " + y);
+//                tablero[x][y] = "1";
             }
-            //
-            //hacemos el tablero str
             //actualizamos el canvas
             actualizar();
         });
@@ -155,32 +164,28 @@ var appCanvas = (function () {
         console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
-                switch (tablero[i][j]){
-                    case "C"://caja
-                        //var myObstacle = new Caja("#a27250", j, i);
-                        console.log("** Entre a dibujar Caja");
-                        var myObstacle = new Objeto("wood", j * 50, i * 50, 50, 50, "image");
-                        //var myObstacle = new Objeto("red", j * 50, i * 50, 50, 50, "");
-                        myObstacle.update();
-                        break;
-                    case "X"://Pared
-                        //var myObstacle = new Objeto("green", j * 50, i * 50, 50, 50, "");
-                        console.log("** Entre a dibujar Caja Metalica");
-                        var myObstacle = new Objeto("wall", j * 50, i * 50, 50, 50, "image");
-                        myObstacle.update();
-                        break;
-                    case "c"://caja dañada
-                        console.log("** Entre a dibujar CajaDañada");
-                        anim_cajaDañada(j, i);
-                        break;
-                    case "O"://nada
-                        //ctx.clearRect(j * anchoCasilla, i * anchoCasilla, (j + 1) * anchoCasilla, (i + 1) * anchoCasilla);
-                        console.log("** Entre a dibujar Espacio");
-                        //var myObstacle = new Objeto("https://secure.gravatar.com/avatar/107d8490cb488836a968eb085b870621?s=50&d=retro&r=g", i * 50, j * 50, 50, 50, "image");
-                        //var myObstacle = new Objeto("yellow", j * 50, i * 50, 50, 50, "");
-                        var myObstacle = new Objeto("grass", j * 50, i * 50, 50, 50, "image");
-                        myObstacle.update();
-                        break;
+                if (isNumber(tablero[i][j])){
+                    var myPlayer = new Player(tablero[i][j], j * 50, i * 50, 50, 50, "image");
+                    myPlayer.update();
+                }else{
+                    switch (tablero[i][j]){
+                        case "C"://caja
+                            var myObstacle = new Objeto("wood", j * 50, i * 50, 50, 50, "image");
+                            myObstacle.update();
+                            break;
+                        case "X"://Pared
+                            var myObstacle = new Objeto("wall", j * 50, i * 50, 50, 50, "image");
+                            myObstacle.update();
+                            break;
+                        case "c"://caja dañada
+                            console.log("** Entre a dibujar CajaDañada");
+                            anim_cajaDañada(j, i);
+                            break;
+                        case "O"://nada
+                            var myObstacle = new Objeto("grass", j * 50, i * 50, 50, 50, "image");
+                            myObstacle.update();
+                            break;
+                    }
                 }
             }
         }
@@ -243,12 +248,6 @@ var appCanvas = (function () {
     
     function Objeto(color, x, y, ancho, alto, type) {
         this.type = type;
-        if (type === "image") {
-            //this.imagen = new Image();
-            //this.imagen.src = color;
-            //var img = document.getElementById("scream");
-            console.log("**** Es una imagen :D");
-        }
         this.ancho = ancho;
         this.alto = alto;
         this.x = x;
@@ -260,6 +259,60 @@ var appCanvas = (function () {
                 console.log("** COLOCANDO IMAGEN");
                 var img = document.getElementById(color);
                 ctx.drawImage(img,
+                        this.x,
+                        this.y,
+                        this.ancho, this.alto);
+            } else {
+                console.log(ctx);
+                ctx.fillStyle = color;
+                ctx.fillRect(this.x, this.y, this.ancho, this.alto);
+            }
+        };
+    }
+    
+    function Player(color, x, y, ancho, alto, type) {
+        this.type = type;
+        this.ancho = ancho;
+        this.alto = alto;
+        this.x = x;
+        this.y = y;
+        
+         
+        this.update = function () {
+            if (type === "image") {
+                console.log("++ COLOCANDO IMAGEN de Jugador");
+                var img;
+                var sx, sy, swidth, sheight;
+                sx = 0;
+                sy = 0;
+                swidth = 50;
+                sheight = 50;
+                switch (tablero[i][j]){
+                    case "0"://caja
+                        img = document.getElementById("george");
+                        break;
+                    case "1"://caja
+                        img = document.getElementById("george");
+                        break;
+                    case "2"://Pared
+                        img = document.getElementById("alfredro");
+                        break;
+                    case "3"://caja dañada
+                        img = document.getElementById("alfredro");
+                        break;
+                    case "4"://nada
+                        img = document.getElementById("alfredro");
+                        break;
+                    default :
+                        img = document.getElementById("george");
+                        break;
+                }
+                
+                ctx.drawImage(img,
+                        sx,
+                        sy,
+                        swidth,
+                        sheight,
                         this.x,
                         this.y,
                         this.ancho, this.alto);
@@ -319,22 +372,3 @@ var appCanvas = (function () {
     };
 
 })();
-
-//$(document).ready(
-//    function () {
-//        console.info('Cargando script!');
-//        connect();
-//        canvas = document.getElementById('lienzo');
-//        ctx = canvas.getContext('2d');
-//
-//        window.addEventListener('keydown', function (e) {
-//            key = e.keyCode;
-//            moverPersonaje(key);
-//            console.log(key);
-//        })
-//        window.addEventListener('keyup', function (e) {
-//            key = false;
-//        })
-//
-//    }
-//);
