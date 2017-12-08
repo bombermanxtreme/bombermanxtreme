@@ -10,6 +10,7 @@ public abstract class Bomba implements Elemento {
     private String color, key;
     int posCol;
     int posRow;
+    boolean estallo=false;
     private int radio;
     private Man man;
 
@@ -64,6 +65,10 @@ public abstract class Bomba implements Elemento {
     
     @Override
     public String toString(){
-        return "{\"y\":"+posRow+",\"x\":"+posCol+"}";
+        return "{\"y\":"+posRow+",\"x\":"+posCol+",\"x\":"+estallo+"}";
+    }
+
+    public void estalla() {
+        estallo=true;
     }
 }

@@ -205,17 +205,19 @@ public class BomberManXServices {
     public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
         Juego juego=cache.getGame(id_sala);
         Bomba bomba=juego.accionBomba(j);
+        msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
         boolean res=false;
         if(bomba!=null){
             res=true;
             timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
                     timer.stop();
+                    bomba.estalla();
                     ArrayList<Elemento> afectados=juego.explotar(bomba);
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+" || ");
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString()+" || ");
-                    msgt.convertAndSend("/topic/accionBomba." + id_sala, bomba.toString());
+                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
                  }
             });
             timer.start();

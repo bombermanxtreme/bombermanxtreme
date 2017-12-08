@@ -26,7 +26,7 @@ var appCanvas = (function () {
             console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos a poner bombas de jugadores
-            stompClient.subscribe("/topic/accionBomba." + idSala, function (eventbody) {
+            stompClient.subscribe("/topic/AccionBomba." + idSala, function (eventbody) {
                 callback_accionBomba(eventbody.body);
             });
 
