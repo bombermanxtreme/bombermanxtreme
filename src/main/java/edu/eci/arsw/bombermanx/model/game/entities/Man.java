@@ -77,11 +77,6 @@ public class Man implements Elemento,Destruible {
         return color;
     }
     
-    @Override
-    public String toString(){
-        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\"}";
-    }
-
     public int getPosRow() {
         return posRow;
     }
@@ -102,4 +97,10 @@ public class Man implements Elemento,Destruible {
         }
         
     }
+    
+    @Override
+    public String toString(){
+        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\"}";
+    }
+
 }

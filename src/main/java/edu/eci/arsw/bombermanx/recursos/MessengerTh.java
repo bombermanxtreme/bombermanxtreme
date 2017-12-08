@@ -22,7 +22,9 @@ public class MessengerTh extends Thread {
     public static final int ABAJO = 1;
     public static final int DERECHA = 2;
     public static final int IZQUIERDA = 3;
-    private ArrayList<Elemento> afectados;
+    private ArrayList<Object> afectados;
+    private ArrayList<Elemento> elementos;
+    private ArrayList<int[]> coords;
 
     private int ancho;
     private int alto;
@@ -58,6 +60,8 @@ public class MessengerTh extends Thread {
         this.sentido = sentido;
 
         afectados = new ArrayList<>();
+        elementos = new ArrayList<>();
+        coords = new ArrayList<>();
         posRow = bomba.getPosRow();
         posCol = bomba.getPosCol();
         delivery = 0;
@@ -141,26 +145,46 @@ public class MessengerTh extends Thread {
                 }
             }
         } else {
-            System.err.println("Thread {Messenger.java} Case desconocido...");
+            System.err.println("Thread {Messenger.java} Caso desconocido...");
         }
 
     }
 
     /**
-     * revisa que elemento en la casilla afecta y retorna true si es un elemento que bloquee la expanción de la bomba
+     * revisa que elemento en la casilla afecta y retorna true si es un elemento
+     * que bloquee la expanción de la bomba
+     *
      * @param e
-     * @return 
+     * @return
      */
     private boolean revisarCelda(Casilla e) {
         boolean res = false;
-        synchronized(e){
+        int[] tempCoor = new int[2];
+
+        synchronized (e) {
             if (e.tieneTipo(Destruible.class)) {
-                Destruible d= (Destruible) e.getTipo(Man.class);
-                if(d!=null)d.explotaBomba();
-                afectados.add((Elemento) d);
-                d= (Destruible) e.getTipo(Caja.class);
-                if(d!=null)d.explotaBomba();
-                afectados.add((Elemento) d);
+
+                // PARA TIPO MAN
+                Destruible d = (Destruible) e.getTipo(Man.class);
+
+                if (d != null) {
+                    d.explotaBomba();
+                }
+                elementos.add((Elemento) d);
+                tempCoor[0] = ((Elemento) d).getPosRow();
+                tempCoor[1] = ((Elemento) d).getPosCol();
+                coords.add(tempCoor);
+
+                // PARA TIPO CAJA
+                d = (Destruible) e.getTipo(Caja.class);
+
+                if (d != null) {
+                    d.explotaBomba();
+                }
+                elementos.add((Elemento) d);
+                tempCoor[0] = ((Elemento) d).getPosRow();
+                tempCoor[1] = ((Elemento) d).getPosCol();
+                coords.add(tempCoor);
             }
             if (e.tieneTipo(Caja.class)) {
                 res = true;
@@ -184,9 +208,12 @@ public class MessengerTh extends Thread {
 
     /**
      * get afectados
-     * @return 
+     *
+     * @return
      */
-    public ArrayList<Elemento> getAfectados() {
+    public ArrayList<Object> getAfectados() {
+        afectados.add(elementos);
+        afectados.add(coords);
         return afectados;
     }
 

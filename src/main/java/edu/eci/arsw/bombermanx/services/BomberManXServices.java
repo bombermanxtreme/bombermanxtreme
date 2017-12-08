@@ -36,8 +36,8 @@ public class BomberManXServices {
     @Autowired
     private SimpMessagingTemplate msgt;
     
-    private Timer timer;
-    
+    private Timer timer; // Servicio de conteo 5s para las Bombas
+        
     /**
      * crea un juego nuevo
      * @param id_sala
@@ -213,11 +213,17 @@ public class BomberManXServices {
                 public void actionPerformed(ActionEvent e) {
                     timer.stop();
                     bomba.estalla();
-                    ArrayList<Elemento> afectados=juego.explotar(bomba);
+                    ArrayList<Object> afectados=juego.explotar(bomba);
+                    
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
                     System.out.println("avisamos que EXPLOTA LA BOMBA ||");
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
+                    
                     msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+                    
+                    System.out.println();
+                    
+                    //msgt.convertAndSend("/topic/RecorridoExplosion." + id_sala, afectados.toString());
                  }
             });
             timer.start();

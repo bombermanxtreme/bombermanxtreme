@@ -11,13 +11,9 @@ import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import edu.eci.arsw.bombermanx.services.GameServicesException;
 import java.util.ArrayList;
-import java.awt.event.*;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
-
 
 /**
  *
@@ -35,33 +31,33 @@ public class Juego {
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private ArrayList<Jugador> jugadores;
     private Casilla[][] tablero;
-    private ArrayList<Man> manes = new ArrayList<>();
+    private ArrayList<Man> manes;
     public static final int MAXIMOJUGADORES = 4;
-    private static final int[][] POSJUGADORES={{0,0},{ALTO-1,ANCHO-1},{0,ANCHO-1},{ALTO-1,0}};
+    private static final int[][] POSJUGADORES = {{0, 0}, {ALTO - 1, ANCHO - 1}, {0, ANCHO - 1}, {ALTO - 1, 0}};
     private Timer timer;
-    
+
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal, boolean esEquipos) {
         this.jugadores = jugadores;
         this.esEquipos = esEquipos;
+        manes = new ArrayList<>();
         System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
         this.tablero = new Casilla[ALTO][ANCHO];
-        
-        for(int i=0; i<ALTO;i++){
-            for(int k=0; k<ANCHO; k++){
+
+        for (int i = 0; i < ALTO; i++) {
+            for (int k = 0; k < ANCHO; k++) {
                 tablero[i][k] = new Casilla();
             }
         }
-        
-        
-        int x=0;
-        int y=0;
-    // creando Manes y agregándolos al tablero
-        for(int i=0;i<jugadores.size();i++){
-            x=POSJUGADORES[i][0];
-            y=POSJUGADORES[i][1];
-            Man manTMP=new Man("black", jugadores.get(i), "", x, y);
+
+        int x = 0;
+        int y = 0;
+        // creando Manes y agregándolos al tablero
+        for (int i = 0; i < jugadores.size(); i++) {
+            x = POSJUGADORES[i][0];
+            y = POSJUGADORES[i][1];
+            Man manTMP = new Man("black", jugadores.get(i), "", x, y);
             tablero[x][y].reemplazar(manTMP);
-            manes.add(i,manTMP);
+            manes.add(i, manTMP);
         }
         // Mapear Tablero
         mapearTablero(tableroTemporal);
@@ -89,7 +85,7 @@ public class Juego {
                 // * 'R' = Poder de Correr.
                 // * 'T' = Poder de expansion de explosion de Bomba.
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
-                // * {'@', '-', '/'} = Caracteres especiales para enemigos.
+                // * {'@', '-', '/'} = Caracteres especiales para NPCs.
                 if (isNumeric(letter)) {
                     this.tablero[row][col].reemplazar(new Man("black", jugadores.get(Integer.parseInt(letter)), letter, row, col));
                 } else {
@@ -145,11 +141,13 @@ public class Juego {
      */
     public Bomba accionBomba(Jugador jugador) throws GameServicesException {
         Man man = manes.get(jugadores.indexOf(jugador));
-        if(man==null)throw new GameServicesException("No se definió correctamente la relación entre jugador y man");
+        if (man == null) {
+            throw new GameServicesException("No se definió correctamente la relación entre jugador y man");
+        }
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
-        
-        Bomba explotara=null;
+
+        Bomba explotara = null;
 
         boolean puede = hay_objeto(mposRow, mposCol, man);
 
@@ -157,20 +155,22 @@ public class Juego {
             System.out.println("Pudo poner bomba >>");
 
             explotara = man.accionBomba();
-            if(explotara!=null)
+            if (explotara != null) {
                 tablero[mposRow][mposCol].add(explotara);
+            }
         }
 
         return explotara;
     }
 
     /**
-     * Explota la bomba segun el TIEMPOEXPLOTARBOMBAS, y en la trayectoria de la
+     * Explota la bomba segun el TIEMPOEXPLOTARBOMBAS en 4 hilos, y en la trayectoria de la
      * explosion informa que daños causo
      *
      * @param explotara
+     * @return 
      */
-    public ArrayList<Elemento> explotar(Bomba explotara) {
+    public ArrayList<Object> explotar(Bomba explotara) {
         explotara.get_man().agregarBomba();
         // creando hilos para recorrer tablero
         MessengerTh izquierda = new MessengerTh();
@@ -179,10 +179,8 @@ public class Juego {
         MessengerTh derecha = new MessengerTh();
         derecha.iniciar(explotara, tablero, DERECHA);
 
-
         MessengerTh arriba = new MessengerTh();
         arriba.iniciar(explotara, tablero, ARRIBA);
-
 
         MessengerTh abajo = new MessengerTh();
         abajo.iniciar(explotara, tablero, ABAJO);
@@ -192,6 +190,7 @@ public class Juego {
         derecha.start();
         arriba.start();
         abajo.start();
+        
         try {
             //esperamos
             izquierda.join();
@@ -201,20 +200,17 @@ public class Juego {
         } catch (InterruptedException ex) {
             Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
         //unimos todo los afectados
-        
-        ArrayList<Elemento> afectados=new ArrayList<>();
-        
-        afectados=izquierda.getAfectados();
+        ArrayList<Object> afectados = new ArrayList<>();
+
+        afectados = izquierda.getAfectados();
         afectados.addAll(derecha.getAfectados());
         afectados.addAll(arriba.getAfectados());
         afectados.addAll(abajo.getAfectados());
-        
+
         return afectados;
     }
-
-   
 
     /**
      * Revisa que fila y columna del tablero no este ocuapda, expectuando por el
@@ -243,12 +239,12 @@ public class Juego {
                 System.out.println("");
                 if (tablero[i][k].tieneTipo(Caja.class)) {
                     cajasS.add("{x:" + k + ",y:" + i + "}");
-                }else if(tablero[i][k].tieneTipo(Caja_Metalica.class)) {
+                } else if (tablero[i][k].tieneTipo(Caja_Metalica.class)) {
                     cajasM.add("{x:" + k + ",y:" + i + "}");
-                }else if(tablero[i][k].tieneTipo(Man.class)) {
+                } else if (tablero[i][k].tieneTipo(Man.class)) {
                     manesS.add(((Man) tablero[i][k].getTipo(Man.class)).toString());
                 }
-                if(tablero[i][k].tieneTipo(Bomba.class)) {
+                if (tablero[i][k].tieneTipo(Bomba.class)) {
                     //manesS.add(tablero[i][k].toString());
                 }
             }
