@@ -46,17 +46,18 @@ var appCanvas = (function () {
 
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
-            var datosJuego=eval("("+data+")");
-            tablero=Array();
+            console.log(data);
+            var datosJuego = eval("("+data+")");
+            tablero = Array();
             for (var i = 0; i < datosJuego.alto; i++) {
-                tablero[i]=Array();
+                tablero[i] = Array();
                 for (var k = 0; k < datosJuego.ancho; k++) {
-                    tablero[i][k]="O";
+                    tablero[i][k] = "O";
                 }
             }
             for (var i = 0; i < datosJuego.cajas.length; i++) {
-                var x=datosJuego.cajas[i].x;
-                var y=datosJuego.cajas[i].y;
+                var x = datosJuego.cajas[i].x;
+                var y = datosJuego.cajas[i].y;
                 tablero[y][x]="X";
             }
             //

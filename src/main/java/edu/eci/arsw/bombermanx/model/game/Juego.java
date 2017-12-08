@@ -31,43 +31,43 @@ public class Juego {
         this.jugadores = jugadores;
         this.tablero = new Elemento[ALTO][ANCHO];
         
-        int x;
-        int y;
-        // creando Manes y agregándolos al tablero
-        for(int i=0;i<jugadores.size();i++){
-            switch(i){
-                case 0:
-                    x=0;
-                    y=0;
-                    break;
-                case 1:
-                    y=19;
-                    x=9;
-                    break;
-                case 2:
-                    y=0;
-                    x=9;
-                    break;
-                case 3:
-                    y=19;
-                    x=0;
-                    break;
-                default:
-                    x = 10;
-                    y = 10;
-            }
-            
-            Man manTMP=new Man("black", jugadores.get(i), "key", x, y);
-            tablero[x][y]=manTMP;
-            manes.add(manTMP);
-        }
-        tablero[2][2]=new Caja("", 2, 2);
-        tablero[2][3]=new Caja("", 2, 3);
-        tablero[2][4]=new Caja("", 2, 4);
-        tablero[2][5]=new Caja("", 2, 5);
-        tablero[2][6]=new Caja("", 2, 6);
+//        int x;
+//        int y;
+//        // creando Manes y agregándolos al tablero
+//        for(int i=0;i<jugadores.size();i++){
+//            switch(i){
+//                case 0:
+//                    x=0;
+//                    y=0;
+//                    break;
+//                case 1:
+//                    y=19;
+//                    x=9;
+//                    break;
+//                case 2:
+//                    y=0;
+//                    x=9;
+//                    break;
+//                case 3:
+//                    y=19;
+//                    x=0;
+//                    break;
+//                default:
+//                    x = 10;
+//                    y = 10;
+//            }
+//            
+//            Man manTMP=new Man("black", jugadores.get(i), "key", x, y);
+//            tablero[x][y]=manTMP;
+//            manes.add(manTMP);
+//        }
+//        tablero[2][2]=new Caja("", 2, 2);
+//        tablero[2][3]=new Caja("", 2, 3);
+//        tablero[2][4]=new Caja("", 2, 4);
+//        tablero[2][5]=new Caja("", 2, 5);
+//        tablero[2][6]=new Caja("", 2, 6);
         // Mapear Tablero
-        //mapearTablero(tableroTemporal);
+        mapearTablero(tableroTemporal);
     }
     
     /**
