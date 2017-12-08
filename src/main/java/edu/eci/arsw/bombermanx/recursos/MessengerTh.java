@@ -1,8 +1,12 @@
 package edu.eci.arsw.bombermanx.recursos;
 
 import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
+import edu.eci.arsw.bombermanx.model.game.entities.Caja;
+import edu.eci.arsw.bombermanx.model.game.entities.Casilla;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
-
+import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
+import edu.eci.arsw.bombermanx.model.game.entities.Man;
+import java.util.ArrayList;
 
 /**
  * Clase que recibe el bomba, tablero, el radio de explosion y el sentido para
@@ -14,6 +18,12 @@ import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
  */
 public class MessengerTh extends Thread {
 
+    public static final int ARRIBA = 0;
+    public static final int ABAJO = 1;
+    public static final int DERECHA = 2;
+    public static final int IZQUIERDA = 3;
+    private ArrayList<Elemento> afectados;
+
     private int ancho;
     private int alto;
     private int radio;
@@ -22,7 +32,7 @@ public class MessengerTh extends Thread {
     private int ax;
     private int ay;
 
-    private Elemento[][] tablero;
+    private Casilla[][] tablero;
     private Bomba bomba;
 
     private int delivery; // variable que recorreo el tablero
@@ -30,16 +40,15 @@ public class MessengerTh extends Thread {
     private int posCol;
 
     /**
-     * Recorreo el tablero; para cajas quema y ellga hasta ahí, para el resto de
+     * Recorreo el tablero; para cajas quema y llega hasta ahí, para el resto de
      * objetos, los quema y la "llama" sigue su recorrido 0: izquierda, 1:
-     * derecha, 2: arriba, 3: abajo, 4: todos los sentidos.     
+     * derecha, 2: arriba, 3: abajo, 4: todos los sentidos.
      */
-    public MessengerTh(){
-    
+    public MessengerTh() {
+
     }
-    
-    
-    public void iniciar(Bomba bomba, Elemento[][] tablero, int sentido) {
+
+    public void iniciar(Bomba bomba, Casilla[][] tablero, int sentido) {
         this.tablero = tablero;
         alto = tablero.length;
         ancho = tablero[0].length;
@@ -48,6 +57,7 @@ public class MessengerTh extends Thread {
         this.radio = bomba.getRadio();
         this.sentido = sentido;
 
+        afectados = new ArrayList<>();
         posRow = bomba.getPosRow();
         posCol = bomba.getPosCol();
         delivery = 0;
@@ -57,8 +67,8 @@ public class MessengerTh extends Thread {
     }
 
     public void run() {
-
-        if (sentido == 0 || sentido == 4) {
+        boolean detiene = false;
+        if (sentido == IZQUIERDA || sentido == 4) {
             //izquierda
             ax = 0;
             ay = posCol;
@@ -67,13 +77,16 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posCol - 1;
                 while (delivery < ancho && delivery >= 0 && veces < radio) {
-                    System.out.println(tablero[posRow][delivery]);
+                    detiene = revisarCelda(tablero[posRow][delivery]);
+                    if (detiene) {
+                        break;
+                    }
 
                     delivery -= 1;
                     veces += 1;
                 }
             }
-        } else if (sentido == 1 || sentido == 4) {
+        } else if (sentido == DERECHA || sentido == 4) {
             //derecha
             ax = posRow;
             ay = ancho - 1;
@@ -82,13 +95,16 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posCol + 1;
                 while (delivery < ancho && delivery >= 0 && veces < radio) {
-                    System.out.println(tablero[posRow][delivery]);
+                    detiene = revisarCelda(tablero[posRow][delivery]);
+                    if (detiene) {
+                        break;
+                    }
 
                     delivery += 1;
                     veces += 1;
                 }
             }
-        } else if (sentido == 2 || sentido == 4) {
+        } else if (sentido == ARRIBA || sentido == 4) {
             //abajo
             ax = posRow;
             ay = alto - 1;
@@ -97,13 +113,16 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posRow + 1;
                 while (delivery < alto && delivery >= 0 && veces < radio) {
-                    System.out.println(tablero[delivery][posCol]);
+                    detiene = revisarCelda(tablero[delivery][posCol]);
+                    if (detiene) {
+                        break;
+                    }
 
                     delivery += 1;
                     veces += 1;
                 }
             }
-        } else if (sentido == 3 || sentido == 4) {
+        } else if (sentido == ABAJO || sentido == 4) {
             //arriba
             ax = 0;
             ay = posCol;
@@ -112,7 +131,10 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posRow - 1;
                 while (delivery < alto && delivery >= 0 && veces < radio) {
-                    System.out.println(tablero[delivery][posCol]);
+                    detiene = revisarCelda(tablero[delivery][posCol]);
+                    if (detiene) {
+                        break;
+                    }
 
                     delivery -= 1;
                     veces += 1;
@@ -122,6 +144,29 @@ public class MessengerTh extends Thread {
             System.err.println("Thread {Messenger.java} Case desconocido...");
         }
 
+    }
+
+    /**
+     * revisa que elemento en la casilla afecta y retorna true si es un elemento que bloquee la expanción de la bomba
+     * @param e
+     * @return 
+     */
+    private boolean revisarCelda(Casilla e) {
+        boolean res = false;
+        synchronized(e){
+            if (e.tieneTipo(Destruible.class)) {
+                Destruible d= (Destruible) e.getTipo(Man.class);
+                if(d!=null)d.explotaBomba();
+                afectados.add((Elemento) d);
+                d= (Destruible) e.getTipo(Caja.class);
+                if(d!=null)d.explotaBomba();
+                afectados.add((Elemento) d);
+            }
+            if (e.tieneTipo(Caja.class)) {
+                res = true;
+            }
+        }
+        return res;
     }
 
     /**
@@ -135,6 +180,14 @@ public class MessengerTh extends Thread {
      */
     private int distancia(int posRow1, int posCol1, int posRow2, int posCol2) {
         return (int) Math.sqrt((int) Math.pow(posRow1 - posRow2, 2) + (int) Math.pow(posCol1 - posCol2, 2));
+    }
+
+    /**
+     * get afectados
+     * @return 
+     */
+    public ArrayList<Elemento> getAfectados() {
+        return afectados;
     }
 
 }

@@ -3,15 +3,21 @@ package edu.eci.arsw.bombermanx.services;
 
 import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.model.game.Juego;
+import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
+import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.Timer;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
@@ -27,6 +33,10 @@ public class BomberManXServices {
     PersistenciaJugador pj = null;
     @Autowired
     PersistenciaSala ps = null;
+    @Autowired
+    SimpMessagingTemplate msgt;
+    
+    private Timer timer;
     
     /**
      * crea un juego nuevo
@@ -193,6 +203,24 @@ public class BomberManXServices {
     }
 
     public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
-        return cache.getGame(id_sala).accionBomba(j);
+        Juego juego=cache.getGame(id_sala);
+        Bomba bomba=juego.accionBomba(j);
+        boolean res=false;
+        if(bomba!=null){
+            res=true;
+            timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timer.stop();
+                    ArrayList<Elemento> afectados=juego.explotar(bomba);
+                    System.out.println("avisamos que EXPLOTA LA BOMBA");
+                    msgt.convertAndSend("/topic/accionBomba." + id_sala, bomba.toString());
+                 }
+            });
+            timer.start();
+            System.out.println("empieza");
+
+        }
+
+        return res;
     }
 }

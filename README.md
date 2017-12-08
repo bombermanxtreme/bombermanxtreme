@@ -29,7 +29,7 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 
 | Page | Link |
 | ------ | ------ |
-| Heroku |  https://dashboard.heroku.com/apps/bombermanxtreme|
+| Heroku |  https://bombermanxtreme.herokuapp.com/|
 | Circle.Ci | https://circleci.com/gh/bombermanxtreme/bombermanxtreme |
 | Codacy | https://goo.gl/nkfhup |
 | Propuesta del Proyecto | https://goo.gl/hJdGtA

@@ -107,6 +107,8 @@ public class STOMPMessagesHandler {
     
     @MessageMapping("/AccionBomba.{idSala}")
     public boolean accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
+        System.out.println("entra a java----- para bomba");
+        System.out.println(id_jugador);
         Jugador j=PJ.seleccionarJugadorPorId(id_jugador);
         return gameServices.accionBomba(idSala,j);
     }
