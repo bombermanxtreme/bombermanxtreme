@@ -15,25 +15,7 @@ public class Caja_Metalica implements Elemento{
     }
     
     
-    @Override
-    public int getPosRow() {
-        return this.posRow;
-    }
-
-    @Override
-    public void setPosRow(int pos) {
-        this.posRow = pos;
-    }
-
-    @Override
-    public int getPosCol() {
-        return this.posCol;
-    }
-
-    @Override
-    public void setPosCol(int pos) {
-        this.posCol = pos;
-    }
+    
     
     @Override
     public String getKey() {
@@ -43,6 +25,26 @@ public class Caja_Metalica implements Elemento{
     @Override
     public void setKey(String k) {
         this.key = k;
+    }
+
+    @Override
+    public int getPosRow() {
+        return posRow;
+    }
+
+    @Override
+    public int getPosCol() {
+        return posCol;
+    }
+
+    @Override
+    public void setPosRow(int posRow) {
+        this.posRow = posRow;
+    }
+
+    @Override
+    public void setPosCol(int posCol) {
+        this.posCol=posCol;
     }
     
 }

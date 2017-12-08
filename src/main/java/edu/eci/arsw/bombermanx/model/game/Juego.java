@@ -7,9 +7,11 @@ import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
+import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
+import java.awt.event.*;
+import javax.swing.Timer;
+
 
 /**
  *
@@ -23,17 +25,21 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
-    private static final int TIEMPOEXPLOTARBOMBAS=5;
+    private static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private ArrayList<Jugador> jugadores;
     private Elemento[][] tablero;
     private ArrayList<Man> manes = new ArrayList<>();
-	public static final int MAXIMOJUGADORES = 4;
-	private static final int[][] POSJUGADORES={{0,0},{ALTO-1,ANCHO-1},{0,ANCHO-1},{ALTO-1,0}};
-	private static final int[][] POSPROTEGIDAS={{0,0},{0,1},{1,0},{ALTO-1,ANCHO-1},{ALTO-2,ANCHO-1},{ALTO-1,ANCHO-2},{0,ANCHO-1},{1,ANCHO-1},{0,ANCHO-2},{ALTO-1,0},{ALTO-2,0},{ALTO-1,1}};
-    
+    public static final int MAXIMOJUGADORES = 4;
+    private static final int[][] POSJUGADORES={{0,0},{ALTO-1,ANCHO-1},{0,ANCHO-1},{ALTO-1,0}};
+    private static final int[][] POSPROTEGIDAS={{0,0},{0,1},{1,0},{ALTO-1,ANCHO-1},{ALTO-2,ANCHO-1},{ALTO-1,ANCHO-2},{0,ANCHO-1},{1,ANCHO-1},{0,ANCHO-2},{ALTO-1,0},{ALTO-2,0},{ALTO-1,1}};
+    private Timer timer;
+
+
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal) {
+        manes = new ArrayList<>();
         this.jugadores = jugadores;
         this.tablero = new Elemento[ALTO][ANCHO];
+        /*
         
         int x=0;
         int y=0;
@@ -58,21 +64,58 @@ public class Juego {
                 }
             }
         }
+        */
+
+        int x;
+        int y;
+        // creando Manes y agregándolos al tablero
+        for (int i = 0; i < jugadores.size(); i++) {
+            switch (i) {
+                case 0:
+                    x = 0;
+                    y = 0;
+                    break;
+                case 1:
+                    y = 19;
+                    x = 9;
+                    break;
+                case 2:
+                    y = 0;
+                    x = 9;
+                    break;
+                case 3:
+                    y = 19;
+                    x = 0;
+                    break;
+                default:
+                    x = 10;
+                    y = 10;
+            }
+
+            Man manTMP = new Man("black", jugadores.get(i), "key", x, y);
+            tablero[x][y] = manTMP;
+            manes.add(manTMP);
+        }
+        tablero[2][2] = new Caja("", 2, 2);
+        tablero[2][3] = new Caja("", 2, 3);
+        tablero[2][4] = new Caja("", 2, 4);
+        tablero[2][5] = new Caja("", 2, 5);
+        tablero[2][6] = new Caja("", 2, 6);
         // Mapear Tablero
         //mapearTablero(tableroTemporal);
     }
-    
+
     /**
-     * Mapear tablero de String a Objetos
-     * Author: Kevin S Sanchez
+     * Mapear tablero de String a Objetos Author: Kevin S Sanchez
+     *
      * @param temp Matriz de Strings
      */
-    private void mapearTablero(String[][] temp){
+    private void mapearTablero(String[][] temp) {
         //Recorrer Filas
         String letter;
-        for (int row = 0; row < temp.length; row++){
+        for (int row = 0; row < temp.length; row++) {
             //Recorrer Columnas
-            for (int col = 0; col < temp[row].length; col++){
+            for (int col = 0; col < temp[row].length; col++) {
                 letter = temp[row][col];
                 System.out.println("///////////////////////// Letra: " + letter);
                 // Convenciones para hacer escenarios:
@@ -85,13 +128,13 @@ public class Juego {
                 // * 'T' = Poder de expansion de explosion de Bomba.
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
-                if(isNumeric(letter)){
-                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter)-1), letter, row, col);
+                if (isNumeric(letter)) {
+                    this.tablero[row][col] = new Man("red", jugadores.get(Integer.parseInt(letter) - 1), letter, row, col);
                     System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
-                }else{
+                } else {
                     switch (letter) {
                         case "O":
-                            this.tablero[row][col] = new Espacio(letter, row, col); 
+                            this.tablero[row][col] = new Espacio(letter, row, col);
                             System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
 
@@ -99,14 +142,14 @@ public class Juego {
                             this.tablero[row][col] = new Caja(letter, row, col);
                             System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
-                            
+
                         case "X":
                             this.tablero[row][col] = new Caja_Metalica(letter, row, col);
                             System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
-                        
+
                         default:
-                            this.tablero[row][col] = new Espacio(letter, row, col); 
+                            this.tablero[row][col] = new Espacio(letter, row, col);
                             System.out.println("---- POSX: " + this.tablero[row][col].getPosRow() + " + + + POSY: " + this.tablero[row][col].getPosCol());
                             break;
                     }
@@ -114,90 +157,122 @@ public class Juego {
             }
         }
     }
-    
+
     /**
      * Verificar si String es Numerico
+     *
      * @param str Cadena de texto a verificar
      * @return True: Es numerico, False: NO es numerico
      */
-    private boolean isNumeric(String str){  
-      try{  
-        double d = Double.parseDouble(str);  
-      }  
-      catch(NumberFormatException nfe){  
-        return false;  
-      }  
-      return true;  
+    private boolean isNumeric(String str) {
+        double de;
+        try {
+            de = Double.parseDouble(str);
+        } catch (NumberFormatException nfe) {
+            return false;
+        }
+        return true;
     }
 
     /**
-     * Ejecuta la accion de la bomba de ser posible, la coloca y luego temporiza 5s para explotar
+     * Ejecuta la accion de la bomba de ser posible, la coloca y luego temporiza
+     * 5s para explotar
+     *
      * @param jugador
-     * @return 
+     * @return
      */
-    public boolean accionBomba(Jugador jugador){
+    public boolean accionBomba(Jugador jugador) {
         Man man = manes.get(jugadores.indexOf(jugador));
-        int coor_x = man.getPosCol();
-        int coor_y = man.getPosRow();
-        boolean puede = hay_objeto(coor_x,coor_y, man);
-        
-        if(puede){      
+        int mposCol = man.getPosCol();
+        int mposRow = man.getPosRow();
+        Bomba explotara;
+
+        boolean puede = hay_objeto(mposCol, mposRow, man);
+
+        if (puede) {
             System.out.println("Pudo poner bomba >>");
-            tablero[coor_x][coor_y]= (Elemento) man.accionBomba();
-            //Timeout timeout = new Timeout();
-            //timeout.start(5000);
-        }      
-        
-        /*
-        ActionListener b = new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                //lanza ladrillo
-				mover();
-				timer.stop();
-            }
-        };
-        timer = new Timer(100, b);
-        timer.start();
-        */
-        
+
+            explotara = man.accionBomba();
+            tablero[mposCol][mposRow] = (Elemento) explotara;
+            explotar(explotara);
+        }
+
         return puede;
     }
-    
-    public boolean mover(int id_jugador){
-        return false;
-    }
-        
+
     /**
-     * Revisa que fila y columna del tablero no este ocuapda, expectuando por el Man
+     * Explota la bomba segun el TIEMPOEXPLOTARBOMBAS, y en la trayectoria de la
+     * explosion informa que daños causo
+     *
+     * @param explotara
+     */
+    private void explotar(Bomba explotara) {
+
+        timer = new Timer(TIEMPOEXPLOTARBOMBAS, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                timer.stop();
+                
+                // creando hilos para recorrer tablero
+                MessengerTh izquierda = new MessengerTh();
+                izquierda.iniciar(explotara, tablero, 0);
+                
+                MessengerTh derecha = new MessengerTh();
+                derecha.iniciar(explotara, tablero, 1);
+                
+                
+                MessengerTh arriba = new MessengerTh();
+                arriba.iniciar(explotara, tablero, 2);
+                
+                
+                MessengerTh abajo = new MessengerTh();
+                abajo.iniciar(explotara, tablero, 3);
+                
+                // iniciando hilos
+                izquierda.start();
+                derecha.start();
+                arriba.start();
+                abajo.start();
+                
+            }//fin actionPerformed
+        });
+        timer.start();
+        System.out.println("empieza");
+    }
+
+   
+
+    /**
+     * Revisa que fila y columna del tablero no este ocuapda, expectuando por el
+     * Man
+     *
      * @param fila
      * @param columna
-     * @return 
+     * @return
      */
-    private boolean hay_objeto(int fila, int columna, Man man){        
+    private boolean hay_objeto(int fila, int columna, Man man) {
         Bomba bomba = (Bomba) tablero[fila][columna];
         return bomba.get_man().equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
-    
-        
-    public boolean mover(){
+
+    public boolean mover() {
         return false;
     }
-    
+
     @Override
     public String toString() {
-        ArrayList<String> cajas=new ArrayList<>();
-        ArrayList<String> manes=new ArrayList<>();
+        ArrayList<String> cajasS = new ArrayList<>();
+        ArrayList<String> manesS = new ArrayList<>();
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
-                if(tablero[i][k] instanceof Caja){
-                    cajas.add("{x:"+k+",y:"+i+"}");
+                if (tablero[i][k] instanceof Caja) {
+                    cajasS.add("{x:" + i + ",y:" + k + "}");
                 }
-                if(tablero[i][k] instanceof Man){
-                    manes.add(tablero[i][k].toString());
+                if (tablero[i][k] instanceof Man) {
+                    manesS.add(tablero[i][k].toString());
                 }
             }
         }
-        return "{\"cajas\":" + cajas.toString() + ",\"manes\":" + manes.toString() + ",\"ancho\":"+ANCHO+",\"alto\":"+ALTO+"}";
+        return "{\"cajas\":" + cajasS.toString() + ",\"manes\":" + manesS.toString() + ",\"ancho\":" + ANCHO + ",\"alto\":" + ALTO + "}";
     }
 
     public ArrayList<Jugador> getJugadores() {
@@ -216,3 +291,125 @@ public class Juego {
         this.tablero = tablero;
     }
 }
+
+
+
+/*
+
+
+import java.util.Arrays;
+
+public class JavaApplication3 {
+
+    private static int alto = 5;
+    private static int ancho = 6;
+    private static String[][] tablero;
+
+    
+    public static void main(String[] args) {
+
+        tablero = new String[alto][ancho];
+
+        for (int i = 0; i < alto; i++) {
+            for (int k = 0; k < ancho; k++) {
+                tablero[i][k] = Integer.toString(i) + Integer.toString(k);
+            }
+        }
+
+        //tablero[3][5] = "X";
+        //tablero[1][2] = "M";
+        //tablero[3][1] = "X";
+        int orx = alto-1; 
+        int ory = ancho-1;
+        tablero[orx][ory] = "B"; // bomba
+
+        for (int i = 0; i < alto; i++) {
+            System.out.println(Arrays.toString(tablero[i]));
+        }
+
+        recorrido(orx, ory);
+
+    }
+
+    private static void recorrido(int x, int y) {
+        int radio = 2;
+        int cont = 0;
+        
+
+        System.out.println("IZQUIERDA");
+        //izquierda
+        int ax=0;
+        int ay=y;
+        int veces=0;
+        
+        if (distancia(x, y, ax, ay) >= 1) {
+            cont = y - 1;
+            while (cont < ancho && cont >= 0 && veces < radio) {
+                System.out.println(tablero[x][cont]);
+
+                cont -= 1;
+                veces+=1;
+
+            }
+        }
+
+        System.out.println("DERECHA");
+        //derecha
+        ax=x;
+        ay=ancho - 1;
+        veces=0;
+
+        if (distancia(x, y, ax, ay) >= 1) {
+            cont = y + 1;
+            while (cont < ancho && cont >= 0 && veces < radio) {
+                System.out.println(tablero[x][cont]);
+
+                cont += 1;
+                veces+=1;
+
+            }
+        }
+
+        System.out.println("ARRIBA");
+        //arriba
+        ax=0;
+        ay=y;
+        veces=0;
+
+        if (distancia(x, y, ax, ay) >= 1) {
+            cont = x - 1;
+            while (cont < alto && cont >= 0 && veces < radio) {
+                System.out.println(tablero[cont][y]);
+
+                cont -= 1;
+                veces+=1;
+
+            }
+        }
+
+        System.out.println("ABAJO");
+        //abajo
+        ax=x;
+        ay=alto - 1;
+        veces=0;
+
+        if (distancia(x, y, ax, ay) >= 1) {
+            cont = x + 1;
+            while (cont < alto && cont >= 0 && veces < radio) {
+                System.out.println(tablero[cont][y]);
+
+                cont += 1;
+                veces+=1;
+
+            }
+        }
+
+    }
+
+    private static int distancia(int x1, int y1, int x2, int y2) {
+        return (int) Math.sqrt((int) Math.pow(x1 - x2, 2) + (int) Math.pow(y1 - y2, 2));
+    }
+
+}
+
+*/
