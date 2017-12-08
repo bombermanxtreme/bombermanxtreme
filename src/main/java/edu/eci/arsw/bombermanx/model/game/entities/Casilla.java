@@ -7,7 +7,6 @@ package edu.eci.arsw.bombermanx.model.game.entities;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  *
@@ -51,11 +50,24 @@ public class Casilla {
     public Object getTipo(Class<?> tipo){
         Object res=null;
         for (Iterator<Elemento> e = elementos.iterator(); e.hasNext();) {
-            if(e.next().getClass()==tipo){
-                res=e;
+            Elemento ele=e.next();
+            if(ele.getClass()==tipo){
+                res=ele;
                 break;
             }
         }
         return res;
+    }
+    
+    public Elemento get(){
+        return elementos.get(0);
+    }
+    
+    public int size(){
+        return elementos.size();
+    }
+    
+    public ArrayList<Elemento> getAll(){
+        return elementos;
     }
 }

@@ -61,6 +61,7 @@ var appCanvas = (function () {
 
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
+            console.log("xdfcgvhbjnmk,lñ 111"+data);
             var datosJuego = eval("(" + data + ")");
             tablero = Array();
             //llenamos todo de vacíos
@@ -84,7 +85,7 @@ var appCanvas = (function () {
                 var y = datosJuego.cajasFijas[i].y;
                 console.log("x:"+x);
                 console.log("y:"+y);
-                tablero[x][y] = "X";
+                tablero[y][x] = "X";
             }
 
             _manes=datosJuego.manes;

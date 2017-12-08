@@ -2,8 +2,10 @@ package edu.eci.arsw.bombermanx.recursos;
 
 import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Caja;
+import edu.eci.arsw.bombermanx.model.game.entities.Casilla;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
+import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import java.util.ArrayList;
 
 /**
@@ -30,7 +32,7 @@ public class MessengerTh extends Thread {
     private int ax;
     private int ay;
 
-    private Elemento[][] tablero;
+    private Casilla[][] tablero;
     private Bomba bomba;
 
     private int delivery; // variable que recorreo el tablero
@@ -46,7 +48,7 @@ public class MessengerTh extends Thread {
 
     }
 
-    public void iniciar(Bomba bomba, Elemento[][] tablero, int sentido) {
+    public void iniciar(Bomba bomba, Casilla[][] tablero, int sentido) {
         this.tablero = tablero;
         alto = tablero.length;
         ancho = tablero[0].length;
@@ -145,18 +147,22 @@ public class MessengerTh extends Thread {
     }
 
     /**
-     * revisa que elemento afecta y retorna true si es un elemento que bloquee la expanción de la bomba
+     * revisa que elemento en la casilla afecta y retorna true si es un elemento que bloquee la expanción de la bomba
      * @param e
      * @return 
      */
-    private boolean revisarCelda(Elemento e) {
+    private boolean revisarCelda(Casilla e) {
         boolean res = false;
         synchronized(e){
-            if (e instanceof Destruible) {
-                ((Destruible) e).explotaBomba();
-                afectados.add(e);
+            if (e.tieneTipo(Destruible.class)) {
+                Destruible d= (Destruible) e.getTipo(Man.class);
+                if(d!=null)d.explotaBomba();
+                afectados.add((Elemento) d);
+                d= (Destruible) e.getTipo(Caja.class);
+                if(d!=null)d.explotaBomba();
+                afectados.add((Elemento) d);
             }
-            if (e instanceof Caja) {
+            if (e.tieneTipo(Caja.class)) {
                 res = true;
             }
         }
