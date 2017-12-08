@@ -4,7 +4,7 @@ package edu.eci.arsw.bombermanx.model.game.entities;
  *
  * @author Kevin S. Sanchez
  */
-public class Caja implements Elemento{
+public class Caja implements Elemento,Destruible{
     private String key;
     private int posRow;
     private int posCol;
@@ -20,7 +20,6 @@ public class Caja implements Elemento{
         return this.posRow;
     }
 
-    @Override
     public void setPosRow(int pos) {
         this.posRow = pos;
     }
@@ -30,19 +29,13 @@ public class Caja implements Elemento{
         return this.posCol;
     }
 
-    @Override
     public void setPosCol(int pos) {
         this.posCol = pos;
     }
-    
-    @Override
-    public String getKey() {
-        return this.key;
-    }
 
     @Override
-    public void setKey(String k) {
-        this.key = k;
+    public void explotaBomba() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

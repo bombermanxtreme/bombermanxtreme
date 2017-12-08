@@ -3,15 +3,21 @@ package edu.eci.arsw.bombermanx.services;
 
 import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.model.game.Juego;
+import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
+import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import javax.swing.Timer;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 /**
  *
@@ -22,11 +28,15 @@ public class BomberManXServices {
 
     //cache con los datos volatiles del juego
     @Autowired
-    BomberManXCache cache;
+    private BomberManXCache cache;
     @Autowired
-    PersistenciaJugador pj = null;
+    private PersistenciaJugador pj = null;
     @Autowired
-    PersistenciaSala ps = null;
+    private PersistenciaSala ps = null;
+    @Autowired
+    private SimpMessagingTemplate msgt;
+    
+    private Timer timer;
     
     /**
      * crea un juego nuevo
@@ -34,7 +44,7 @@ public class BomberManXServices {
      * @throws GameCreationException 
      */
     public void createGame(int id_sala) throws GameCreationException{
-        cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala));
+        cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala),ps.esEquipos(id_sala));
         System.out.println("Juego creado en CreateGame");
     }
     /**
@@ -193,6 +203,28 @@ public class BomberManXServices {
     }
 
     public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
-        return cache.getGame(id_sala).accionBomba(j);
+        Juego juego=cache.getGame(id_sala);
+        Bomba bomba=juego.accionBomba(j);
+        msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+        boolean res=false;
+        if(bomba!=null){
+            res=true;
+            timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                    timer.stop();
+                    bomba.estalla();
+                    ArrayList<Elemento> afectados=juego.explotar(bomba);
+                    System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
+                    System.out.println("avisamos que EXPLOTA LA BOMBA ||");
+                    System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
+                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+                 }
+            });
+            timer.start();
+            System.out.println("empieza");
+
+        }
+
+        return res;
     }
 }

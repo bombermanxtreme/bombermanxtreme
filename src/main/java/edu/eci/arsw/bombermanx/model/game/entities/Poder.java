@@ -24,31 +24,11 @@ public class Poder implements Elemento {
     @Override
     public int getPosRow() {
         return this.posRow;
-    }
-
-    @Override
-    public void setPosRow(int pos) {
-        this.posRow = pos;
-    }
+    }   
 
     @Override
     public int getPosCol() {
         return this.posCol;
-    }
-
-    @Override
-    public void setPosCol(int pos) {
-        this.posCol = pos;
-    }
-    
-    @Override
-    public String getKey() {
-        return this.key;
-    }
-
-    @Override
-    public void setKey(String k) {
-        this.key = k;
     }
 
 }

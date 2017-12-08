@@ -2,59 +2,53 @@ package edu.eci.arsw.bombermanx.model.game.entities;
 
 /**
  * Clase abstracta para varios tipos de bombas
+ *
  * @author sergioxl
  */
-public abstract class Bomba implements Elemento{
-    
-    private int id_jugador;
-    private String color, key;
+public abstract class Bomba implements Elemento {
+
+    //private String color;
+    private String color;
+    int posCol;
+    int posRow;
+    boolean estallo=false;
     private int radio;
-    private int posRow, posCol;
-    
-    //public abstract void explotar();
+    private Man man;
 
+    public Bomba(Man man, String color, int radio) {
+        this.man = man;
+        this.color = color;
+        this.radio = radio;
+        posRow = man.getPosRow();
+        posCol = man.getPosCol();
+        System.out.println("dentro de bomba"+posCol+"-"+posRow);
+        
+    }
 
-    @Override
-    public int getPosRow() {
-        return this.posRow;
+    public int getRadio() {
+        return radio;
+    }
+
+    public Man get_man() {
+        return man;
     }
 
     @Override
-    public void setPosRow(int pos) {
-        this.posRow = pos;
+    public int getPosRow() {
+        return posRow;
     }
 
     @Override
     public int getPosCol() {
-        return this.posCol;
+        return posCol;
     }
-
-    @Override
-    public void setPosCol(int pos) {
-        this.posCol = pos;
-    }
-
-    @Override
-    public String getKey() {
-        return this.key;
-    }
-
-    @Override
-    public void setKey(String k) {
-        this.key = k;
-    }
-
-    public abstract Man get_man();
-
-    public abstract String getColor();
-
-    public abstract void setColor(String color);
-
-    public abstract int getRadio();
-
-    public abstract void setRadio(int radio);
     
-    public abstract void setDisponible(boolean valor);
-    
-    public abstract boolean getDisponible();
+    @Override
+    public String toString(){
+        return "{\"x\":"+posRow+",\"y\":"+posCol+",\"estallo\":"+estallo+"}";
+    }
+
+    public void estalla() {
+        estallo=true;
+    }
 }

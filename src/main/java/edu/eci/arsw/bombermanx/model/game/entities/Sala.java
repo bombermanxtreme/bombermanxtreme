@@ -266,4 +266,8 @@ public class Sala {
 
         return cambio;
     }
+
+    public boolean esEquipos() {
+        return equipos;
+    }
 }

@@ -3,10 +3,14 @@ package edu.eci.arsw.bombermanx.cache.stub;
 import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.model.game.Juego;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
+import edu.eci.arsw.bombermanx.model.game.entities.TableroTexto;
 import edu.eci.arsw.bombermanx.services.GameCreationException;
 import edu.eci.arsw.bombermanx.services.GameServicesException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.springframework.stereotype.Service;
 
 /**
@@ -23,20 +27,20 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
     }
 
     @Override
-    public void createGame(int id, ArrayList<Jugador> jugadores) throws GameCreationException {
+    public void createGame(int id, ArrayList<Jugador> jugadores, boolean esEquipos) throws GameCreationException {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
-            /*
+            String[][] tablero = null;
             try {
-                String[][] tablero = TableroTexto.muestraContenido(id);
+                tablero = TableroTexto.muestraContenido(id);
                 
-                gamesState.put(id, new Juego(jugadores, tablero));
+                gamesState.put(id, new Juego(jugadores, tablero,esEquipos));
             } catch (IOException ex) {
                 Logger.getLogger(InMemoryBomberManXStatePersistence.class.getName()).log(Level.SEVERE, null, ex);
             }
-            */
-            gamesState.put(id, new Juego(jugadores, null));
+            
+            //gamesState.put(id, new Juego(jugadores, tablero));
         }
     }
 
