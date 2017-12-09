@@ -12,9 +12,6 @@ var appCanvas = (function () {
     var tablero;
     var _manes;
     var _id_man;
-    var myplayer = null;
-    var myposx = null;
-    var myposy = null;
     var keyPress = null;
 
     /**
@@ -32,11 +29,6 @@ var appCanvas = (function () {
             //especificamos que estamos atentos a poner bombas de jugadores
             stompClient.subscribe("/topic/AccionBomba." + idSala, function (eventbody) {
                 callback_accionBomba(eventbody.body);
-            });
-
-            //Estamos atentos si se mueve algun jugador dentro de l
-            stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
-                callback_moverPersonaje(eventbody);
             });
 
             //Estamos atentos si se daña alguna caja
@@ -78,8 +70,8 @@ var appCanvas = (function () {
     };
     
     var callback_DaniarCaja = function (message) {
-		var cajaADaniar = eval("("+message.body+")");
-		console.log(cajaADaniar);
+        var cajaADaniar = eval("("+message.body+")");
+        console.log(cajaADaniar);
         tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c";
         actualizar();
     };
@@ -90,16 +82,13 @@ var appCanvas = (function () {
         if (parts.length == 2) return parts.pop().split(";").shift();
     };
 
-    var callback_moverPersonaje = function (message) {
-        var data = message;
-    };
-
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var nameCookie = getCookie("nombreuser");
             console.log("xdfcgvhbjnmk,lñ 111"+data);
             var datosJuego = eval("(" + data + ")");
             tablero = Array();
+            
             //llenamos todo de vacíos
             for (var i = 0; i < datosJuego.alto; i++) {
                 tablero[i] = Array();
@@ -136,24 +125,6 @@ var appCanvas = (function () {
                 //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
                 if(nameCookie === apodo){
                     _id_man = parseInt(getCookie("iduser"));
-//                    switch (_id_man){
-//                        case 0://Jugador1
-//                            myposx = 0;
-//                            myposy = 0;
-//                            break;
-//                        case 1://Jugador2
-//                            myposx = 19;
-//                            myposy = 9;
-//                            break;
-//                        case 2://Jugador3
-//                            myposx = 19;
-//                            myposy = 0;
-//                            break;
-//                        case 3://Jugador4
-//                            myposx = 0;
-//                            myposy = 9;
-//                            break;
-//                    }
                 }
             }
             //actualizamos el canvas
@@ -168,7 +139,7 @@ var appCanvas = (function () {
 
         window.addEventListener('keydown', function (e) {
             key = e.keyCode;
-            if(key==32)colocarBomba();
+            if(key == 32) colocarBomba();
             else moverPersonaje(key);
             console.log(key);
         });
@@ -200,17 +171,15 @@ var appCanvas = (function () {
     }
 
     /**
-     * encargado de redibujar el canvas
+     * Encargado de redibujar el canvas
      */
     var actualizar = function () {
-        //dibuja el canvas COMPLETO!
         //console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (isNumber(tablero[i][j])){
                     var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
-                    
                 }else{
                     switch (tablero[i][j]){
                         case "C"://caja
@@ -222,7 +191,6 @@ var appCanvas = (function () {
                             myObstacle.update();
                             break;
                         case "c"://caja dañada
-                            //console.log("** Entre a dibujar CajaDañada");
                             anim_cajaDañada(j, i);
                             break;
                         case "O"://nada
@@ -273,18 +241,8 @@ var appCanvas = (function () {
     };
 
     function Caja(color, x, y) {
-        //this.type = type;
-        /*if (type === "image") {
-         this.image = new Image();
-         this.image.src = color;
-         }*/
+        
         this.update = function () {
-            /*if (type === "image") {
-             ctx.drawImage(this.image,
-             this.x,
-             this.y,
-             this.width, this.height);
-             } else {*/
             x *= anchoCasilla;
             y *= anchoCasilla;
             ctx.fillStyle = color;
@@ -304,7 +262,6 @@ var appCanvas = (function () {
             ctx.moveTo(anchoCasilla + x, y);
             ctx.lineTo(x, anchoCasilla + y);
             ctx.stroke();
-            //}
         };
     }
     
@@ -314,7 +271,6 @@ var appCanvas = (function () {
         this.alto = alto;
         this.x = x;
         this.y = y;
-        
          
         this.update = function () {
             if (type === "image") {
@@ -344,35 +300,7 @@ var appCanvas = (function () {
                 //console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
-//                if (tablero[i][j] == _id_man){
-//                    console.log("KEYPRESS: " + keyPress);
-//                    switch (keyPress){
-//                        // Abajo
-//                        case 40:
-//                            sx = 50;
-//                            sy = 0;
-//                            break;
-//                        // Izquierda
-//                        case 37:
-//                            sx = 0;
-//                            sy = 100;
-//                            break;
-//                        // Arriba
-//                        case 38:
-//                            sx = 0;
-//                            sy = 150;
-//                            break;
-//                        // Derecha
-//                        case 39:
-//                            sx = 0;
-//                            sy = 200;
-//                            break;
-//                    }
-//                }else{
-//                    sx = 0;
-//                    sy = 0;
-//                }
-//                
+
                 sx = 0;
                 sy = 0;
                 swidth = 50;
@@ -435,7 +363,6 @@ var appCanvas = (function () {
             //console.log("***** Iniciando Script!!");
             console.log("Jugador: " + idJugador);
             idJugador = appCookie.getIdJugador(false);
-
             // Cargamos elementos clave para dibujar en Tablero
             loadBasicControls();
             // Traer Numero de sala

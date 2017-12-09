@@ -5,9 +5,7 @@
  */
 package edu.eci.arsw.bombermanx.recursos;
 
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -50,6 +48,18 @@ public class TableroTexto {
                           {"X","X","O","C","C","C","C","C","C","C","C","1","C","C","C","C","C","O","X","O"},
                           {"O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"}};
         escenarios.add(tab);
+        
+        String[][] tabNewVersion = {{"0","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"},
+                          {"O","O","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","O","O"},
+                          {"X","O","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","O","X"},
+                          {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
+                          {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
+                          {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
+                          {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
+                          {"X","O","C","C","C","C","C","C","C","C","C","O","C","C","C","C","C","C","O","X"},
+                          {"X","X","O","C","C","C","C","C","C","C","C","1","C","C","C","C","C","O","X","O"},
+                          {"O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"}};
+        escenarios.add(tabNewVersion);
       
       return escenarios.get(0);
     }

@@ -374,7 +374,13 @@ public class Juego {
             }
             tablero[y][x].reemplazar(p);
         }
+
         ((Destruible) ele).explotaBomba();
+
+//        if(ele instanceof Man){
+//            if(!ele.sigueVivo())
+//                p=new PSuper(y,x);
+//        }
         
         //si nada cambia dejar null
         return p;
