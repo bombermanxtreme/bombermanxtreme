@@ -88,8 +88,6 @@ var appCanvas = (function () {
             for (var i = 0; i < datosJuego.cajasFijas.length; i++) {
                 var x = datosJuego.cajasFijas[i].x;
                 var y = datosJuego.cajasFijas[i].y;
-                console.log("x:"+x);
-                console.log("y:"+y);
                 tablero[y][x] = "X";
             }
 

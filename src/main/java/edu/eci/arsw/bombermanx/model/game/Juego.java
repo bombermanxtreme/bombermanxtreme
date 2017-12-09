@@ -281,6 +281,10 @@ public class Juego {
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
+    
+    public int getIdJugador(Jugador j) {
+        return jugadores.indexOf(j);
+    }
 
     public void setJugadores(ArrayList<Jugador> jugadores) {
         this.jugadores = jugadores;
