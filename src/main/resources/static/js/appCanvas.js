@@ -71,7 +71,8 @@ var appCanvas = (function () {
             x = tempotab[i].x;
             k = tempotab[i].key;
             tablero[y][x] = k;
-            console.log("+++++ Esto es lo que voy a modificar: " + y + ", " + x + ", " + k);
+            console.log("----- Tablero antes de Modificar: " + tablero);
+            console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
         }
         actualizar();
     };

@@ -315,7 +315,7 @@ public class Juego {
         if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
             man.setPosRow(filFutura);
             man.setPosCol(colFutura);
-            man.setKey("0");
+            System.out.println("------ KEY del man: " + man.getKey());
             e1 = man;
             e2 = new Espacio("O", posRow, posCol);
             this.tablero[filFutura][colFutura].reemplazar(e1);

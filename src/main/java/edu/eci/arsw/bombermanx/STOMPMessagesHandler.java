@@ -116,7 +116,7 @@ public class STOMPMessagesHandler {
     // Author: Kevin S. Sanchez (DOCUEMENTACION)
     @MessageMapping("/mover.{idSala}.{key}")
     public boolean moverPersonaje(@DestinationVariable int idSala, @DestinationVariable int key, int id_jugador) throws Exception {
-        System.out.println("///// edu.eci.arsw.bombermanx.STOMPMessagesHandler.moverPersonaje(): " + idSala + " - " + id_jugador + " - " + key);
+        System.out.println("///// edu.eci.arsw.bombermanx.STOMPMessagesHandler.moverPersonaje(): Sala: " + idSala + " - Jugador: " + id_jugador + " - Tecla: " + key);
         synchronized (msgt) {
             Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
             return gameServices.accionMover(idSala, j, key);

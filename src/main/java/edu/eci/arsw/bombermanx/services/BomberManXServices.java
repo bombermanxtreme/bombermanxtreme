@@ -231,9 +231,9 @@ public class BomberManXServices {
         if (juego != null){
             res = true;
             ArrayList<Elemento> changes = juego.moverPersonaje(j, key);
-            System.out.println("tamaño cambios"+changes.size());
+            System.out.println("///// Tamaño cambios: " + changes.size());
             if(changes.size()>0){
-                System.out.println("++++ Me pude mover :D");
+                System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
                 msgt.convertAndSend("/topic/actualizar." + id_sala, changes.toString());
             }
         }

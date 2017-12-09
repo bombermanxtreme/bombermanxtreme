@@ -47,6 +47,6 @@ public class Espacio implements Elemento,DejaMover {
     
     @Override
     public String toString() {
-        return "{\"x\":\"" + posRow + "\", \"y\":\"" + posCol + "\", \"key\":\"" + key + "\"}";        
+        return "{\"x\":\"" + posCol + "\", \"y\":\"" + posRow + "\", \"key\":\"" + key + "\"}";        
     }
 }
