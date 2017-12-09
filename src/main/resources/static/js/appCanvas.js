@@ -54,7 +54,9 @@ var appCanvas = (function () {
      * @param {*} message 
      */
     var callback_DaniarCaja = function (message) {
-        var cajaADaniar = message.body;
+        var cajaADaniar = eval("("+message.body+")");
+        console.log(cajaADaniar.y);
+        console.log(cajaADaniar.x);
         tablero[cajaADaniar.y][cajaADaniar.x] = "c";
         actualizar();
     };

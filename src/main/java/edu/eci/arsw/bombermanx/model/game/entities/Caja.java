@@ -28,7 +28,7 @@ public class Caja implements Elemento, Destruible {
 
     @Override
     public void explotaBomba() {
-        System.out.println(" Explota la Bomba!");
+        System.out.println(" Explota la Bomba en caja!");
     }
 
     @Override
