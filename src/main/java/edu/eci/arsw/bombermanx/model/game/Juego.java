@@ -354,6 +354,12 @@ public class Juego {
                 e2 = new Espacio("O", posRow, posCol);
                 this.tablero[posRow][posCol].reemplazar(e2);
                 changes.add(e2);
+            }else{
+                //Casilla cas = tablero[posRow][posCol].get()
+                //e2 = new Bomba
+                e2 = tablero[posRow][posCol].getAll().get(tablero[posRow][posCol].getAll().size() - 1);
+                System.out.println("*************** BOMBA: " + e2.toString());
+                changes.add(e2);
             }
         }
         

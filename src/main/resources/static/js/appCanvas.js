@@ -216,7 +216,13 @@ var appCanvas = (function () {
                             myObstacle.update();
                             break;
                         case "B"://nada
+                            console.log("******************** Dibujando Bomba: J:" + j + ", I: " + i);
                             var myObstacle = new Objeto("bomba", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            myObstacle.update();
+                            break;
+                        default :
+                            // Para el caso que no se tenga un caracter claro en el tablero
+                            var myObstacle = new Objeto("grass", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                             myObstacle.update();
                             break;
                     }

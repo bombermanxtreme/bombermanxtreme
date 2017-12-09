@@ -14,6 +14,7 @@ public abstract class Bomba implements Elemento {
     boolean estallo=false;
     private int radio;
     private Man man;
+    private String key = "B";
 
     public Bomba(Man man, String color, int radio) {
         this.man = man;
@@ -45,7 +46,7 @@ public abstract class Bomba implements Elemento {
     
     @Override
     public String toString(){
-        return "{\"y\":"+posRow+",\"x\":"+posCol+",\"estallo\":"+estallo+"}";
+        return "{\"y\":"+posRow+",\"x\":"+posCol+",\"estallo\":"+estallo+ ",\"key\":\"" + key + "\"}";
     }
 
     public void estalla() {
