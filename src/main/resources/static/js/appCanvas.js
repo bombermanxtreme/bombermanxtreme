@@ -80,7 +80,7 @@ var appCanvas = (function () {
     var callback_DaniarCaja = function (message) {
 		var cajaADaniar = eval("("+message.body+")");
 		console.log(cajaADaniar);
-        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c";
+        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c."+cajaADaniar.queda.key;
         actualizar();
     };
     
@@ -97,7 +97,6 @@ var appCanvas = (function () {
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var nameCookie = getCookie("nombreuser");
-            console.log("xdfcgvhbjnmk,lñ 111"+data);
             var datosJuego = eval("(" + data + ")");
             tablero = Array();
             //llenamos todo de vacíos
@@ -136,24 +135,6 @@ var appCanvas = (function () {
                 //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
                 if(nameCookie === apodo){
                     _id_man = parseInt(getCookie("iduser"));
-//                    switch (_id_man){
-//                        case 0://Jugador1
-//                            myposx = 0;
-//                            myposy = 0;
-//                            break;
-//                        case 1://Jugador2
-//                            myposx = 19;
-//                            myposy = 9;
-//                            break;
-//                        case 2://Jugador3
-//                            myposx = 19;
-//                            myposy = 0;
-//                            break;
-//                        case 3://Jugador4
-//                            myposx = 0;
-//                            myposy = 9;
-//                            break;
-//                    }
                 }
             }
             //actualizamos el canvas
@@ -212,25 +193,48 @@ var appCanvas = (function () {
                     myPlayer.update();
                     
                 }else{
-                    switch (tablero[i][j]){
+                    switch (tablero[i][j][0]){// si tiene algo como-> A.B verifica-> A
                         case "C"://caja
-                            var myObstacle = new Objeto("wood", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            var myObstacle = new Objeto("wood",j,i);
                             myObstacle.update();
                             break;
                         case "X"://Pared
-                            var myObstacle = new Objeto("wall", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            var myObstacle = new Objeto("wall",j,i);
                             myObstacle.update();
                             break;
                         case "c"://caja dañada
-                            //console.log("** Entre a dibujar CajaDañada");
                             anim_cajaDañada(j, i);
                             break;
                         case "O"://nada
-                            var myObstacle = new Objeto("grass", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            var myObstacle = new Objeto("grass",j,i);
                             myObstacle.update();
                             break;
-                        case "B"://nada
-                            var myObstacle = new Objeto("bomba", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                        case "B"://Bomba
+                            var myObstacle = new Objeto("bomba",j,i);
+                            myObstacle.update();
+                            break;
+                        case "R"://PODER mas rapido
+                            var myObstacle = new Objeto("PTurbo",j,i);
+                            myObstacle.update();
+                            break;
+                        case "r"://PODER mas lento
+                            var myObstacle = new Objeto("PTortuga",j,i);
+                            myObstacle.update();
+                            break;
+                        case "T"://PODER mas radio
+                            var myObstacle = new Objeto("PRedbull",j,i);
+                            myObstacle.update();
+                            break;
+                        case "t"://PODER menos radio
+                            var myObstacle = new Objeto("PTinto",j,i);
+                            myObstacle.update();
+                            break;
+                        case "N"://PODER mas bomba
+                            var myObstacle = new Objeto("PAddBomba",j,i);
+                            myObstacle.update();
+                            break;
+                        case "n"://PODER menos boba
+                            var myObstacle = new Objeto("PLessBomba",j,i);
                             myObstacle.update();
                             break;
                     }
@@ -248,7 +252,7 @@ var appCanvas = (function () {
     var anim_cajaDañada = function (j, i) {
         var myObstacle = new Caja("#222222", j, i);
         myObstacle.update();
-        tablero[i][j] = "O";
+        tablero[i][j]=tablero[i][j][2];// si tiene A.B queda con B
         setTimeout(function () {
             actualizar();
         }, 100);
@@ -273,49 +277,21 @@ var appCanvas = (function () {
     };
 
     function Caja(color, x, y) {
-        //this.type = type;
-        /*if (type === "image") {
-         this.image = new Image();
-         this.image.src = color;
-         }*/
         this.update = function () {
-            /*if (type === "image") {
-             ctx.drawImage(this.image,
-             this.x,
-             this.y,
-             this.width, this.height);
-             } else {*/
             x *= anchoCasilla;
             y *= anchoCasilla;
             ctx.fillStyle = color;
             ctx.fillRect(x, y, anchoCasilla, anchoCasilla);
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(anchoCasilla + x, y);
-            ctx.lineTo(anchoCasilla + x, anchoCasilla + y);
-            ctx.lineTo(x, anchoCasilla + y);
-            ctx.lineTo(x, y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(x, y);
-            ctx.lineTo(anchoCasilla + x, anchoCasilla + y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(anchoCasilla + x, y);
-            ctx.lineTo(x, anchoCasilla + y);
-            ctx.stroke();
-            //}
         };
     }
     
-    function Objeto(color, x, y, ancho, alto, type) {
-        this.type = type;
-        this.ancho = ancho;
-        this.alto = alto;
-        this.x = x;
-        this.y = y;
-        
-         
+    function Objeto(color, x, y) {
+        type ="image";
+        this.ancho = anchoCasilla;
+        this.alto = anchoCasilla;
+        this.x = x*anchoCasilla;
+		this.y = y*anchoCasilla;
+		
         this.update = function () {
             if (type === "image") {
                 var img = document.getElementById(color);
