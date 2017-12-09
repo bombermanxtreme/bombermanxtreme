@@ -283,46 +283,57 @@ public class Juego {
     public int getIdJugador(Jugador j) {
         return jugadores.indexOf(j);
     }
-
+    
+    /**
+     * Me permite conocer si el elemento de Fila-Columna permite mover al personaje
+     * @param fila Posicion de fila dentro del tablero
+     * @param columna Posicion de columna dentro del tablero
+     * @return True: Se puede mover el Jugador - False: No se puede mover el jugador
+     */
     private boolean puedo_moverme(int fila, int columna) {
-        ArrayList<Elemento> e=tablero[fila][columna].getAll();
-        boolean puede=false;
+        ArrayList<Elemento> e = tablero[fila][columna].getAll();
+        boolean puede = false;
         for (int i = 0; i < e.size(); i++) {
-            puede=e.get(i) instanceof DejaMover;
-            if(puede==true)break;
+            puede = e.get(i) instanceof DejaMover;
+            if(puede == true)break;
         }
         return puede    ;
     }
-
+    
+    /**
+     * Segun la tecla que presiona el usuario revisa si se puede mover en ese sentido
+     * @param j : Jugador
+     * @param key : Numero de Tecla de presiono el usuario
+     * @return Lista de elementos que fueron afectados
+     */
     public ArrayList<Elemento> moverPersonaje(Jugador j, int key) {
         Elemento e1, e2;
         Man man = manes.get(jugadores.indexOf(j));
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
-        boolean puede = false;
         
         ArrayList<Elemento> changes = new ArrayList<>();
         
-        int filFutura=0;
-        int colFutura=0;
+        int filFutura = 0;
+        int colFutura = 0;
         
         // Flecha Abajo
         switch (key) {
             case 40:
-                filFutura=posRow+1;
-                colFutura=posCol;
+                filFutura = posRow+1;
+                colFutura = posCol;
                 break;
             case 37:
-                filFutura=posRow;
-                colFutura=posCol-1;
+                filFutura = posRow;
+                colFutura = posCol-1;
                 break;
             case 38:
-                filFutura=posRow-1;
-                colFutura=posCol;
+                filFutura = posRow-1;
+                colFutura = posCol;
                 break;
             case 39:
-                filFutura=posRow;
-                colFutura=posCol+1;
+                filFutura = posRow;
+                colFutura = posCol+1;
                 break;
             default:
                 break;
@@ -337,7 +348,6 @@ public class Juego {
             e2 = new Espacio("O", posRow, posCol);
             this.tablero[filFutura][colFutura].reemplazar(e1);
             this.tablero[posRow][posCol].reemplazar(e2);
-            puede = true;
             changes.add(e1);
             changes.add(e2);
         }
@@ -346,7 +356,7 @@ public class Juego {
     }
     
     public Elemento explotarElemento(Elemento ele) {
-        Elemento p=null;
+        Elemento p = null;
         if(ele instanceof Caja){//borramos la caja a menos que sea un poder ahora
             Random rand = new Random();
             int y=ele.getPosRow();
