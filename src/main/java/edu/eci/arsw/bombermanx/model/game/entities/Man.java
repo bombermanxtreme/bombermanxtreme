@@ -77,6 +77,23 @@ public class Man implements Elemento,Destruible {
         return color;
     }
     
+    public String getKey() {
+        return this.key;
+    }
+
+    public void setPosCol(int posCol) {
+        this.posCol = posCol;
+    }
+
+    public void setPosRow(int posRow) {
+        this.posRow = posRow;
+    }
+    
+    @Override
+    public String toString(){
+        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\",\"key\":\"" + key + "\"}";
+    }
+
     public int getPosRow() {
         return posRow;
     }
@@ -97,10 +114,4 @@ public class Man implements Elemento,Destruible {
         }
         
     }
-    
-    @Override
-    public String toString(){
-        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\"}";
-    }
-
 }

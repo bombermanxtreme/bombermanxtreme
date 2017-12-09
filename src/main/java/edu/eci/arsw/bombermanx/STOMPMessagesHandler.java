@@ -112,71 +112,12 @@ public class STOMPMessagesHandler {
     }
     
     // Author: Kevin S. Sanchez (DOCUEMENTACION)
-    @MessageMapping("/moverPersonaje.{idSala}")
-    public void moverPersonaje(int id_jugador, Man player, @DestinationVariable int idSala) throws Exception {
-        String[][] tablero = TableroTexto.muestraContenido(1);
+    @MessageMapping("/mover.{idSala}.{key}")
+    public boolean moverPersonaje(@DestinationVariable int idSala, @DestinationVariable int key, int id_jugador) throws Exception {
+        System.out.println("///// edu.eci.arsw.bombermanx.STOMPMessagesHandler.moverPersonaje(): Sala: " + idSala + " - Jugador: " + id_jugador + " - Tecla: " + key);
         synchronized (msgt) {
-            // Variables (pendiente definir si el man tendra posiciones en X y Y
-            int posRow = 0;
-            int posCol = 1;
-            int key = 40;
-            // Pendientes estas variables
-            ArrayList<Elemento> cambios = new ArrayList();
-            // Los jugadores solo tienen identificador numerico
-            if (isNumeric(tablero[posRow][posCol])) {
-                // Flecha Abajo
-                switch (key) {
-                    case 40:
-                        if (tablero[posRow + 1][posCol].equals("O")) {
-                            // Definir si colocar el IdJugador
-                            tablero[posRow + 1][posCol] = tablero[posRow][posCol];
-                            tablero[posRow][posCol] = "O";
-                            //Elemento e = new Elemento(posRow + 1, posCol, Integer.toString(id_jugador));
-                            //Elemento e2 = new Elemento(posRow, posCol, "O");
-                            //actualizaciones.add(e);
-                            //actualizaciones.add(e2);
-                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                        }
-                        // Flecha Izquierda
-                        break;
-                    case 37:
-                        if (!(tablero[posRow][posCol - 1]).equals("O")) {
-                            tablero[posRow][posCol - 1] = tablero[posRow][posCol];
-                            tablero[posRow][posCol] = "O";
-                            //Elemento e = new Elemento(posRow, posCol - 1, Integer.toString(id_jugador));
-                            //Elemento e2 = new Elemento(posRow, posCol, "O");
-                            //actualizaciones.add(e);
-                            //actualizaciones.add(e2);
-                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                        }
-                        // Flecha Arriba
-                        break;
-                    case 38:
-                        if (!(tablero[posRow - 1][posCol]).equals("O")) {
-                            tablero[posRow - 1][posCol] = tablero[posRow][posCol];
-                            tablero[posRow][posCol] = "O";
-                            //Elemento e = new Elemento(posRow - 1, posCol, Integer.toString(id_jugador));
-                            //Elemento e2 = new Elemento(posRow, posCol, "O");
-                            //actualizaciones.add(e);
-                            //actualizaciones.add(e2);
-                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                        }
-                        // Flecha Derecha 
-                        break;
-                    case 39:
-                        if (!(tablero[posRow][posCol + 1]).equals("O")) {
-                            tablero[posRow][posCol + 1] = tablero[posRow][posCol];
-                            tablero[posRow][posCol] = "O";
-                            //Elemento e = new Elemento(posRow, posCol + 1, Integer.toString(id_jugador));
-                            //Elemento e2 = new Elemento(posRow, posCol, "O");
-                            //actualizaciones.add(e);
-                            //actualizaciones.add(e2);
-                            //msgt.convertAndSend("/topic/actualizarTablero", cambios);
-                        }   break;
-                    default:
-                        break;
-                }
-            }
+            Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
+            return gameServices.accionMover(idSala, j, key);
         }
     }
     

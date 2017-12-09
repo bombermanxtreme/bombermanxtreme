@@ -7,6 +7,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Caja;
 import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
+import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
@@ -261,6 +262,21 @@ public class BomberManXServices {
             timer.start();
         }
 
+        return res;
+    }
+    
+    public boolean accionMover(int id_sala, Jugador j, int key) throws GameServicesException {
+        Juego juego = cache.getGame(id_sala);
+        boolean res = false;
+        if (juego != null){
+            res = true;
+            ArrayList<Elemento> changes = juego.moverPersonaje(j, key);
+            System.out.println("///// Tamaño cambios: " + changes.size());
+            if(changes.size()>0){
+                System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
+                msgt.convertAndSend("/topic/actualizar." + id_sala, changes.toString());
+            }
+        }
         return res;
     }
 }
