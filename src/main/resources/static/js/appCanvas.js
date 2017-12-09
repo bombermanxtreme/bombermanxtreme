@@ -43,7 +43,7 @@ var appCanvas = (function () {
             stompClient.subscribe("/topic/DaniarCaja." + idSala, function (eventbody) {
                 callback_DaniarCaja(eventbody);
             });
-            
+
             //Estamos atentos si se daña alguna caja
             stompClient.subscribe("/topic/actualizar." + idSala, function (eventbody) {
                 callback_actualizar(eventbody);
@@ -51,20 +51,20 @@ var appCanvas = (function () {
 
         });
     };
-    
+
     function isNumber(n) {
         return !isNaN(parseFloat(n)) && isFinite(n);
     }
 
     // Funciones 
-    
+
     /**
      * daña una caja específica
      * @param {*} message 
      */
     var callback_actualizar = function (data) {
         var tempotab = JSON.parse(data.body);
-        console.log(data)
+        console.log(data);
         var y, x, k;
         for (i = 0; i < tempotab.length; i++) {
             y = tempotab[i].y;
@@ -76,19 +76,21 @@ var appCanvas = (function () {
         }
         actualizar();
     };
-    
+
     var callback_DaniarCaja = function (message) {
 		var cajaADaniar = eval("("+message.body+")");
 		console.log(cajaADaniar);
         tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c."+cajaADaniar.queda.key;
         actualizar();
     };
-    
+
     function getCookie(name) {
         var value = "; " + document.cookie;
         var parts = value.split("; " + name + "=");
-        if (parts.length == 2) return parts.pop().split(";").shift();
-    };
+        if (parts.length === 2)
+            return parts.pop().split(";").shift();
+    }
+    ;
 
     var callback_moverPersonaje = function (message) {
         var data = message;
@@ -106,14 +108,14 @@ var appCanvas = (function () {
                     tablero[i][k] = "O";
                 }
             }
-            
+
             //cargamos las cajas
             for (var i = 0; i < datosJuego.cajas.length; i++) {
                 var x = datosJuego.cajas[i].x;
                 var y = datosJuego.cajas[i].y;
                 tablero[y][x] = "C";
             }
-            
+
             //cargamos las cajasfijas
             for (var i = 0; i < datosJuego.cajasFijas.length; i++) {
                 var x = datosJuego.cajasFijas[i].x;
@@ -126,14 +128,14 @@ var appCanvas = (function () {
             for (var i = 0; i < datosJuego.manes.length; i++) {
                 var x = datosJuego.manes[i].x;
                 var y = datosJuego.manes[i].y;
-                
+
                 var color = datosJuego.manes[i].color;
                 var apodo = datosJuego.manes[i].apodo_jugador;
                 tablero[y][x] = datosJuego.manes[i].key;
-                
+
                 //Verificar KSSP
                 //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
-                if(nameCookie === apodo){
+                if (nameCookie === apodo) {
                     _id_man = parseInt(getCookie("iduser"));
                 }
             }
@@ -149,8 +151,10 @@ var appCanvas = (function () {
 
         window.addEventListener('keydown', function (e) {
             key = e.keyCode;
-            if(key==32)colocarBomba();
-            else moverPersonaje(key);
+            if (key === 32)
+                colocarBomba();
+            else
+                moverPersonaje(key);
             console.log(key);
         });
         window.addEventListener('keyup', function (e) {
@@ -188,7 +192,7 @@ var appCanvas = (function () {
         //console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
-                if (isNumber(tablero[i][j])){
+                if (isNumber(tablero[i][j])) {
                     var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
                     
@@ -237,6 +241,10 @@ var appCanvas = (function () {
                             var myObstacle = new Objeto("PLessBomba",j,i);
                             myObstacle.update();
                             break;
+                        case "b"://coloca bomba de fuego (rastro)
+                            var myObstacle = new Objeto("fuego", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            myObstacle.update();
+                            break;
                     }
                 }
             }
@@ -258,22 +266,41 @@ var appCanvas = (function () {
         }, 100);
     };
 
+    /**
+     * Donde pintó llamas , actualiza el canvas con espacios vacios luego de 3s tras la explosión
+     * @param {type} coords
+     * @return {undefined}
+     */
+    var callback_quitarFuego = function (data) {
+        for (var i = 0; i < data.length; i++) {
+            tablero[data[i].y][data[i].x] = "O";
+        }
+        actualizar();
+    };
+
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
         console.log(J);
         //bomba
-        var bomba=J.bomba;
+        var bomba = J.bomba;
         //fuego
-        if(bomba.estallo==true){
-            var coords=J.coords;
+        var coords = null;
+
+        if (bomba.estallo === true) {
+            coords = J.coords;
             for (var i = 0; i < coords.length; i++) {
-                tablero[coords[i].y][coords[i].x]="b";
+                tablero[coords[i].y][coords[i].x] = "b";
             }
-        }else{
-            tablero[bomba.y][bomba.x]="B";
+            actualizar();
+            setTimeout(function () {
+                console.log(coords);
+                callback_quitarFuego(coords);
+            }, 500);
+
+        } else {
+            tablero[bomba.y][bomba.x] = "B";
+            actualizar();
         }
-        
-        actualizar();
     };
 
     function Caja(color, x, y) {
@@ -306,15 +333,15 @@ var appCanvas = (function () {
             }
         };
     }
-    
+
     function Player(color, x, y, ancho, alto, type) {
         this.type = type;
         this.ancho = ancho;
         this.alto = alto;
         this.x = x;
         this.y = y;
-        
-         
+
+
         this.update = function () {
             if (type === "image") {
                 //console.log("++ COLOCANDO IMAGEN de Jugador");
@@ -353,8 +380,8 @@ var appCanvas = (function () {
                 sy = 0;
                 swidth = 50;
                 sheight = 50;
-                
-                switch (tablero[i][j]){
+
+                switch (tablero[i][j]) {
                     case "0"://caja
                         img = document.getElementById("george");
                         break;
@@ -371,7 +398,7 @@ var appCanvas = (function () {
                         img = document.getElementById("betty2");
                         break;
                 }
-                
+
                 ctx.drawImage(img,
                         sx,
                         sy,
@@ -391,14 +418,14 @@ var appCanvas = (function () {
     /**
      * coloca una bomba luego de presionar espacio
      */
-    var colocarBomba =function () {
+    var colocarBomba = function () {
         stompClient.send("/app/AccionBomba." + idSala, {}, idJugador);
     };
 
     return {
         //estas funciones publicas son sólo para pruebas
         _actualizar: actualizar,
-        _ctx:function(){
+        _ctx: function () {
             return ctx;
         },
         setTablero(i, k, val) {

@@ -2,18 +2,14 @@ package edu.eci.arsw.bombermanx;
 
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
-import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
-import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
-import edu.eci.arsw.bombermanx.recursos.TableroTexto;
 import edu.eci.arsw.bombermanx.services.BomberManXServices;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
-import java.util.ArrayList;
 
 @Controller
 public class STOMPMessagesHandler {
