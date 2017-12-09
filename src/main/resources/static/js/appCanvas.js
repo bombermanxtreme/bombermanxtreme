@@ -241,8 +241,12 @@ var appCanvas = (function () {
                             var myObstacle = new Objeto("PLessBomba",j,i);
                             myObstacle.update();
                             break;
-                        case "b"://coloca bomba de fuego (rastro)
-                            var myObstacle = new Objeto("fuego", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                        case "S"://PODER super
+                            var myObstacle = new Objeto("PSuper",j,i);
+                            myObstacle.update();
+                            break;
+                        case "b"://fuego
+                            var myObstacle = new Objeto("fuego",j,i);
                             myObstacle.update();
                             break;
                     }
@@ -266,18 +270,14 @@ var appCanvas = (function () {
         }, 100);
     };
 
-    /**
-     * Donde pintó llamas , actualiza el canvas con espacios vacios luego de 3s tras la explosión
-     * @param {type} coords
-     * @return {undefined}
-     */
-    var callback_quitarFuego = function (data) {
-        for (var i = 0; i < data.length; i++) {
-            tablero[data[i].y][data[i].x] = "O";
-        }
-        actualizar();
-    };
 
+	var callback_fuego = function(coords){
+		for (var i = 0; i < coords.length; i++) {
+			tablero[coords[i].y][coords[i].x]="O";
+		}
+		actualizar();
+		return false;
+	}
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
         console.log(J);
@@ -289,17 +289,15 @@ var appCanvas = (function () {
         if (bomba.estallo === true) {
             coords = J.coords;
             for (var i = 0; i < coords.length; i++) {
-                tablero[coords[i].y][coords[i].x] = "b";
-            }
-            actualizar();
-            setTimeout(function () {
-                console.log(coords);
-                callback_quitarFuego(coords);
-            }, 250);
-
-        } else {
-            tablero[bomba.y][bomba.x] = "B";
-            actualizar();
+                tablero[coords[i].y][coords[i].x]="b";
+			}
+			actualizar();
+			setTimeout(function(params) {
+				callback_fuego(coords);
+			},100);
+        }else{
+            tablero[bomba.y][bomba.x]="B";
+			actualizar();
         }
     };
 
@@ -313,6 +311,7 @@ var appCanvas = (function () {
     }
     
     function Objeto(color, x, y) {
+		console.log(color);
         type ="image";
         this.ancho = anchoCasilla;
         this.alto = anchoCasilla;
