@@ -301,6 +301,7 @@ var appCanvas = (function () {
         this.update = function () {
             if (type === "image") {
                 var img = document.getElementById(color);
+                ctx.clearRect(this.x, this.y, this.ancho, this.alto);
                 ctx.drawImage(img,
                         this.x,
                         this.y,
@@ -349,7 +350,7 @@ var appCanvas = (function () {
                         img = document.getElementById("betty2");
                         break;
                 }
-                
+                ctx.clearRect(this.x, this.y, this.ancho, this.alto);
                 ctx.drawImage(img,
                         sx,
                         sy,
