@@ -99,6 +99,7 @@ var juego = {
             case 8:
                 // Barra espaciadora - quiere ponder Bomba
                 appCanvas.accionBomba();
+                console.log(" Barra Esapaciadora ");
                 break;
         }
     },

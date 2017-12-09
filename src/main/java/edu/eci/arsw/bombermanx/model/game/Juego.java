@@ -166,6 +166,13 @@ public class Juego {
      * @return 
      */
     public ArrayList<Object> explotar(Bomba explotara) {
+        
+        // Quita la bomba y el elemento en la casilla
+        Casilla c=tablero[explotara.getPosRow()][explotara.getPosCol()];
+        ArrayList<Elemento> t= c.getAll();
+        t.remove(explotara);
+        if(t.size()==1)c.reemplazar(t.get(0));
+        
         explotara.get_man().agregarBomba();
         // creando hilos para recorrer tablero
         MessengerTh izquierda = new MessengerTh();

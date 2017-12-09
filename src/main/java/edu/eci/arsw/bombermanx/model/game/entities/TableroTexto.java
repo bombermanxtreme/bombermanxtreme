@@ -22,6 +22,7 @@ public class TableroTexto {
         //             * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
         //             * 'O' = Espacio vacio.
         //             * 'B' = Bomba.
+        //             * 'b' = Bomba fuego.
         //             * 'C' = Caja que se puede destruir.
         //             * 'c' = Caja que se puede destruir Dañada (efecto visual de 0.2 seg).
         //             * 'X' = Bloque (No se puede destruir).
