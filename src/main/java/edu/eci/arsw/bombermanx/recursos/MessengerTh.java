@@ -81,6 +81,8 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posCol - 1;
                 while (delivery < ancho && delivery >= 0 && veces < radio) {
+                    int[] tmpCoords={posRow,delivery};
+                    coords.add(tmpCoords);
                     detiene = revisarCelda(tablero[posRow][delivery]);
                     if (detiene) {
                         break;
@@ -99,6 +101,8 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posCol + 1;
                 while (delivery < ancho && delivery >= 0 && veces < radio) {
+                    int[] tmpCoords={posRow,delivery};
+                    coords.add(tmpCoords);
                     detiene = revisarCelda(tablero[posRow][delivery]);
                     if (detiene) {
                         break;
@@ -117,6 +121,8 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posRow + 1;
                 while (delivery < alto && delivery >= 0 && veces < radio) {
+                    int[] tmpCoords={delivery,posCol};
+                    coords.add(tmpCoords);
                     detiene = revisarCelda(tablero[delivery][posCol]);
                     if (detiene) {
                         break;
@@ -135,6 +141,8 @@ public class MessengerTh extends Thread {
             if (distancia(posRow, posCol, ax, ay) >= 1) {
                 delivery = posRow - 1;
                 while (delivery < alto && delivery >= 0 && veces < radio) {
+                    int[] tmpCoords={delivery,posCol};
+                    coords.add(tmpCoords);
                     detiene = revisarCelda(tablero[delivery][posCol]);
                     if (detiene) {
                         break;
@@ -159,8 +167,6 @@ public class MessengerTh extends Thread {
      */
     private boolean revisarCelda(Casilla e) {
         boolean res = false;
-        int[] tempCoor = new int[2];
-
         synchronized (e) {
             if (e.tieneTipo(Destruible.class)) {
 
@@ -171,9 +177,6 @@ public class MessengerTh extends Thread {
                     d.explotaBomba();
                 }
                 elementos.add((Elemento) d);
-                tempCoor[0] = ((Elemento) d).getPosRow();
-                tempCoor[1] = ((Elemento) d).getPosCol();
-                coords.add(tempCoor);
 
                 // PARA TIPO CAJA
                 d = (Destruible) e.getTipo(Caja.class);
@@ -182,9 +185,6 @@ public class MessengerTh extends Thread {
                     d.explotaBomba();
                 }
                 elementos.add((Elemento) d);
-                tempCoor[0] = ((Elemento) d).getPosRow();
-                tempCoor[1] = ((Elemento) d).getPosCol();
-                coords.add(tempCoor);
             }
             if (e.tieneTipo(Caja.class)) {
                 res = true;

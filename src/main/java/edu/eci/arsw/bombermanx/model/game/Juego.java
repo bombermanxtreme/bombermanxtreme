@@ -202,12 +202,18 @@ public class Juego {
         }
 
         //unimos todo los afectados
-        ArrayList<Object> afectados = new ArrayList<>();
-
+        ArrayList<Object> afectados = new ArrayList<>();// 0-> elementos , 1 -> coordenadas
         afectados = izquierda.getAfectados();
-        afectados.addAll(derecha.getAfectados());
-        afectados.addAll(arriba.getAfectados());
-        afectados.addAll(abajo.getAfectados());
+
+        ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
+        tmp_eleme.addAll((ArrayList<Elemento>) derecha.getAfectados().get(0));
+        tmp_eleme.addAll((ArrayList<Elemento>) arriba.getAfectados().get(0));
+        tmp_eleme.addAll((ArrayList<Elemento>) abajo.getAfectados().get(0));
+        
+        ArrayList<int[]> tmp_coords= (ArrayList<int[]>) afectados.get(1);
+        tmp_coords.addAll((ArrayList<int[]>) derecha.getAfectados().get(1));
+        tmp_coords.addAll((ArrayList<int[]>) arriba.getAfectados().get(1));
+        tmp_coords.addAll((ArrayList<int[]>) abajo.getAfectados().get(1));
 
         return afectados;
     }

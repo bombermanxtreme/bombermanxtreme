@@ -26,7 +26,7 @@ public class Man implements Elemento,Destruible {
         this.key = key;
         this.posRow = posRow;
         this.posCol = posCol;
-        radio = 3;
+        radio = 2;
         indice = 0;
     }
 

@@ -4,6 +4,7 @@ package edu.eci.arsw.bombermanx.services;
 import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.model.game.Juego;
 import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
+import edu.eci.arsw.bombermanx.model.game.entities.Caja;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Sala;
@@ -14,6 +15,7 @@ import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.Timer;
@@ -217,13 +219,23 @@ public class BomberManXServices {
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
                     System.out.println("avisamos que EXPLOTA LA BOMBA ||");
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
-					msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
-					for (int i=0; i<afectados.get(0).size(); i++) {
-						Elemento ele=afectados.get(0).get(i);
-						if(ele instanceof Caja){
-							msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
-						}
-					}
+                    System.out.println("AFECTADO----------------");
+                    
+                    for(int i=0; i< ((ArrayList<int[]>) afectados.get(1)).size();i++){
+                        System.out.println(Arrays.toString(((ArrayList<int[]>) afectados.get(1)).get(i)));              
+//                        int x=
+//                        strCoords+="{\"y\":"+y+",\"y\""+x+"},";
+                    }
+                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
+                    
+                    
+                    ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
+                    for (int i=0; i<tmp_eleme.size(); i++) {
+                            Elemento ele=tmp_eleme.get(i);
+                            if(ele instanceof Caja){
+                                msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
+                            }
+                    }
                  }
             });
             timer.start();
