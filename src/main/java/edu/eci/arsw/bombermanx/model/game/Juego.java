@@ -29,6 +29,7 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
+    public static final int VIDAPIERDEXBOMBA = 20;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private ArrayList<Jugador> jugadores;

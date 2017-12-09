@@ -256,6 +256,9 @@ public class BomberManXServices {
                         if (ele instanceof Caja) {
                             msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
                         }
+                        if (ele instanceof Man) {
+                            msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
+                        }
                     }
                 }
             });
