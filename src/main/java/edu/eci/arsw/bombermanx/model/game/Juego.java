@@ -5,6 +5,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Caja_Metalica;
 import edu.eci.arsw.bombermanx.model.game.entities.Espacio;
 import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Casilla;
+import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
@@ -291,5 +292,10 @@ public class Juego {
 
     public void setTablero(Casilla[][] tablero) {
         this.tablero = tablero;
+    }
+
+    public void explotarElemento(Elemento ele) {
+        tablero[ele.getPosRow()][ele.getPosCol()].reemplazar(new Espacio("O", ele.getPosRow(),ele.getPosCol()));
+        ((Destruible) ele).explotaBomba();
     }
 }
