@@ -216,7 +216,7 @@ public class BomberManXServices {
         boolean res = false;
 
         if (bomba != null) {
-            msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+            msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+"}");
 
             res = true;
             timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {

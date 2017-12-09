@@ -124,7 +124,8 @@ var appCanvas = (function () {
 
         window.addEventListener('keydown', function (e) {
             key = e.keyCode;
-            moverPersonaje(key);
+            if(key==32)colocarBomba();
+            else moverPersonaje(key);
             console.log(key);
         });
         window.addEventListener('keyup', function (e) {
@@ -209,14 +210,19 @@ var appCanvas = (function () {
 
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
+        console.log(J);
         //bomba
         var bomba=J.bomba;
-        tablero[bomba.y][bomba.x]="B";
         //fuego
-        var coords=J.coords;
-        for (var i = 0; i < coords.length; i++) {
-            tablero[coords[i].y][coords[i].x]="b";
+        if(bomba.estallo==true){
+            var coords=J.coords;
+            for (var i = 0; i < coords.length; i++) {
+                tablero[coords[i].y][coords[i].x]="b";
+            }
+        }else{
+            tablero[bomba.y][bomba.x]="B";
         }
+        
         actualizar();
     };
 
@@ -333,6 +339,13 @@ var appCanvas = (function () {
         };
     }
 
+    /**
+     * coloca una bomba luego de presionar espacio
+     */
+    var colocarBomba =function () {
+        stompClient.send("/app/AccionBomba." + idSala, {}, idJugador);
+    };
+
     return {
         //estas funciones publicas son sólo para pruebas
         _actualizar: actualizar,
@@ -369,16 +382,7 @@ var appCanvas = (function () {
             }
             //setConnected(false);
             console.log("Desconectado");
-        },
-        /**
-         * envia que ya está listo este usuario
-         */
-        accionBomba() {
-            //reportamos que este usuario quiere poner una bomba	
-            console.log(idJugador);
-            stompClient.send("/app/AccionBomba." + idSala, {}, idJugador);
         }
-
     };
 
 })();

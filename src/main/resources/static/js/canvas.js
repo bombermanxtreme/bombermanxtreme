@@ -32,7 +32,7 @@ var jugador = {
     x2: null,
     y1: null,
     y2: null
-}
+};
 
 /*++++++++++++++++
  Obstaculos
@@ -96,10 +96,9 @@ var juego = {
             case 40:
                 datos.abajo = true;
                 break;
-            case 8:
+            case 32:
                 // Barra espaciadora - quiere ponder Bomba
-                appCanvas.accionBomba();
-                console.log(" Barra Esapaciadora ");
+                console.log("espaciadroa");
                 break;
         }
     },
@@ -122,8 +121,8 @@ var juego = {
             case 40:
                 datos.abajo = false;
                 break;
-            case 8:
-                appCanvas.accionBomba();
+            case 32:
+                console.log("espaciadroa");
                 break;
         }
     },
@@ -159,8 +158,9 @@ var juego = {
         // Movimiento abajo
         if (datos.abajo) {
             jugador.movimiento_y = jugador.velocidad;
-            jugador.movimiento_x = 0
-        }
+            jugador.movimiento_x = 0;
+		}
+
         // No realizar movimiento cuando no esta presionada la tecla
         if (!datos.arriba && !datos.abajo) {
             jugador.movimiento_y = 0;
