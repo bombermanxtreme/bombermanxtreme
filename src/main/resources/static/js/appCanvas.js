@@ -12,6 +12,10 @@ var appCanvas = (function () {
     var tablero;
     var _manes;
     var _id_man;
+    var myplayer = null;
+    var myposx = null;
+    var myposy = null;
+    var keyPress = null;
 
     /**
      * función que realiza la conexión STOMP
@@ -39,6 +43,11 @@ var appCanvas = (function () {
             stompClient.subscribe("/topic/DaniarCaja." + idSala, function (eventbody) {
                 callback_DaniarCaja(eventbody);
             });
+            
+            //Estamos atentos si se daña alguna caja
+            stompClient.subscribe("/topic/actualizar." + idSala, function (eventbody) {
+                callback_actualizar(eventbody);
+            });
 
         });
     };
@@ -53,6 +62,21 @@ var appCanvas = (function () {
      * daña una caja específica
      * @param {*} message 
      */
+    var callback_actualizar = function (data) {
+        var tempotab = JSON.parse(data.body);
+        console.log(data)
+        var y, x, k;
+        for (i = 0; i < tempotab.length; i++) {
+            y = tempotab[i].y;
+            x = tempotab[i].x;
+            k = tempotab[i].key;
+            tablero[y][x] = k;
+            console.log("----- Tablero antes de Modificar: " + tablero);
+            console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
+        }
+        actualizar();
+    };
+    
     var callback_DaniarCaja = function (message) {
         var cajaADaniar = eval("("+message.body+")");
         console.log(cajaADaniar.y);
@@ -60,13 +84,21 @@ var appCanvas = (function () {
         tablero[cajaADaniar.y][cajaADaniar.x] = "c";
         actualizar();
     };
+    
+    function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    };
 
     var callback_moverPersonaje = function (message) {
         var data = message;
     };
 
     var getJuego = function () {
-        APIuseful.getJuego(idSala, function (data) {            
+        APIuseful.getJuego(idSala, function (data) {
+            var nameCookie = getCookie("nombreuser");
+            console.log("xdfcgvhbjnmk,lñ 111"+data);
             var datosJuego = eval("(" + data + ")");
             tablero = Array();
             //llenamos todo de vacíos
@@ -91,24 +123,39 @@ var appCanvas = (function () {
                 tablero[y][x] = "X";
             }
 
-            _manes=datosJuego.manes;
+            _manes = datosJuego.manes;
             //cargamos los manes
             for (var i = 0; i < datosJuego.manes.length; i++) {
                 var x = datosJuego.manes[i].x;
                 var y = datosJuego.manes[i].y;
-                console.log("x:"+x);
-                console.log("y:"+y);
-                tablero[y][x] = "1";
-//                var x=datosJuego.manes[i].x;
-//                var y=datosJuego.manes[i].y;
-//                var color=datosJuego.manes[i].color;
-//                var apodo=datosJuego.manes[i].apodo_jugador;
-//                 Verificar KSSP
-//                // if(appCookie.getNombre()==apodo)
-//                //  _id_man=i;
-//                _id_man = 1;
-//                console.log("++++ Estos son los datos: " + x + ", " + y);
-//                tablero[x][y] = "1";
+                
+                var color = datosJuego.manes[i].color;
+                var apodo = datosJuego.manes[i].apodo_jugador;
+                tablero[y][x] = datosJuego.manes[i].key;
+                
+                //Verificar KSSP
+                //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
+                if(nameCookie === apodo){
+                    _id_man = parseInt(getCookie("iduser"));
+//                    switch (_id_man){
+//                        case 0://Jugador1
+//                            myposx = 0;
+//                            myposy = 0;
+//                            break;
+//                        case 1://Jugador2
+//                            myposx = 19;
+//                            myposy = 9;
+//                            break;
+//                        case 2://Jugador3
+//                            myposx = 19;
+//                            myposy = 0;
+//                            break;
+//                        case 3://Jugador4
+//                            myposx = 0;
+//                            myposy = 9;
+//                            break;
+//                    }
+                }
             }
             //actualizamos el canvas
             actualizar();
@@ -116,7 +163,7 @@ var appCanvas = (function () {
     };
 
     var loadBasicControls = function () {
-        console.info('Cargando script!');
+        //console.info('Cargando script!');
         canvas = document.getElementById('lienzo');
         ctx = canvas.getContext('2d');
 
@@ -133,8 +180,9 @@ var appCanvas = (function () {
 
     function moverPersonaje(key) {
         if (36 < key && key < 41) {
-            console.log("/// Me estoy moviendo :D");
-            //stompClient.send("/app/mover",{}, JSON.stringify( {x: myposx, y: myposy, k: key}));
+            //console.log("/// Me estoy moviendo :D");
+            keyPress = key;
+            stompClient.send("/app/mover." + idSala + "." + key, {}, idJugador);
         }
 
     }
@@ -157,12 +205,13 @@ var appCanvas = (function () {
      */
     var actualizar = function () {
         //dibuja el canvas COMPLETO!
-        console.log(tablero);
+        //console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (isNumber(tablero[i][j])){
                     var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
+                    
                 }else{
                     switch (tablero[i][j]){
                         case "C"://caja
@@ -174,7 +223,7 @@ var appCanvas = (function () {
                             myObstacle.update();
                             break;
                         case "c"://caja dañada
-                            console.log("** Entre a dibujar CajaDañada");
+                            //console.log("** Entre a dibujar CajaDañada");
                             anim_cajaDañada(j, i);
                             break;
                         case "O"://nada
@@ -276,7 +325,7 @@ var appCanvas = (function () {
                         this.y,
                         this.ancho, this.alto);
             } else {
-                console.log(ctx);
+                //console.log(ctx);
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y, this.ancho, this.alto);
             }
@@ -293,31 +342,58 @@ var appCanvas = (function () {
          
         this.update = function () {
             if (type === "image") {
-                console.log("++ COLOCANDO IMAGEN de Jugador");
+                //console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
+//                if (tablero[i][j] == _id_man){
+//                    console.log("KEYPRESS: " + keyPress);
+//                    switch (keyPress){
+//                        // Abajo
+//                        case 40:
+//                            sx = 50;
+//                            sy = 0;
+//                            break;
+//                        // Izquierda
+//                        case 37:
+//                            sx = 0;
+//                            sy = 100;
+//                            break;
+//                        // Arriba
+//                        case 38:
+//                            sx = 0;
+//                            sy = 150;
+//                            break;
+//                        // Derecha
+//                        case 39:
+//                            sx = 0;
+//                            sy = 200;
+//                            break;
+//                    }
+//                }else{
+//                    sx = 0;
+//                    sy = 0;
+//                }
+//                
                 sx = 0;
                 sy = 0;
                 swidth = 50;
                 sheight = 50;
+                
                 switch (tablero[i][j]){
                     case "0"://caja
                         img = document.getElementById("george");
                         break;
                     case "1"://caja
-                        img = document.getElementById("george");
+                        img = document.getElementById("alfredo");
                         break;
                     case "2"://Pared
-                        img = document.getElementById("alfredro");
+                        img = document.getElementById("pirata");
                         break;
                     case "3"://caja dañada
-                        img = document.getElementById("alfredro");
-                        break;
-                    case "4"://nada
-                        img = document.getElementById("alfredro");
+                        img = document.getElementById("sergio");
                         break;
                     default :
-                        img = document.getElementById("george");
+                        img = document.getElementById("betty2");
                         break;
                 }
                 
@@ -330,7 +406,7 @@ var appCanvas = (function () {
                         this.y,
                         this.ancho, this.alto);
             } else {
-                console.log(ctx);
+                //console.log(ctx);
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y, this.ancho, this.alto);
             }
@@ -357,7 +433,7 @@ var appCanvas = (function () {
          * encargado de realizar la conexión con STOMP
          */
         init() {
-            console.log("***** Iniciando Script!!");
+            //console.log("***** Iniciando Script!!");
             console.log("Jugador: " + idJugador);
             idJugador = appCookie.getIdJugador(false);
 

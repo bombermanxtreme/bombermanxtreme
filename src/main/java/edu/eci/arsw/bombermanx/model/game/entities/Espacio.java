@@ -4,7 +4,7 @@ package edu.eci.arsw.bombermanx.model.game.entities;
  *
  * @author Kevin S. Sanchez
  */
-public class Espacio implements Elemento {
+public class Espacio implements Elemento,DejaMover {
     private String key;
     private int posRow;
     private int posCol;
@@ -23,5 +23,10 @@ public class Espacio implements Elemento {
     @Override
     public int getPosCol() {
         return this.posCol;
-    }    
+    }
+    
+    @Override
+    public String toString() {
+        return "{\"x\":\"" + posCol + "\", \"y\":\"" + posRow + "\", \"key\":\"" + key + "\"}";        
+    }
 }
