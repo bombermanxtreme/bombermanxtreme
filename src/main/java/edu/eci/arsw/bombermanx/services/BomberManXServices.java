@@ -207,26 +207,41 @@ public class BomberManXServices {
     public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
         Juego juego=cache.getGame(id_sala);
         Bomba bomba=juego.accionBomba(j);
-        msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
         boolean res=false;
+        
+        msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+        
+        
         if(bomba!=null){
             res=true;
             timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
+                
                 public void actionPerformed(ActionEvent e) {
                     timer.stop();
                     bomba.estalla();
+                    String strCoords = new String();
+                    
                     ArrayList<Object> afectados=juego.explotar(bomba);
+                    
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
                     System.out.println("avisamos que EXPLOTA LA BOMBA ||");
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
                     System.out.println("AFECTADO----------------");
                     
-                    for(int i=0; i< ((ArrayList<int[]>) afectados.get(1)).size();i++){
-                        System.out.println(Arrays.toString(((ArrayList<int[]>) afectados.get(1)).get(i)));              
-//                        int x=
-//                        strCoords+="{\"y\":"+y+",\"y\""+x+"},";
+                    ArrayList<int[]> listaTemp = ((ArrayList<int[]>) afectados.get(1));
+                    int x;
+                    int y;
+                    
+                    for(int i=0; i< listaTemp.size();i++){
+                        System.out.println(Arrays.toString(listaTemp.get(i)));              
+                        x=listaTemp.get(i)[0];
+                        y=listaTemp.get(i)[1];
+                        
+                       strCoords+="{\"x\":"+x+",\"y\""+y+"},";
                     }
-                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
+                    
+                    System.out.println(strCoords);
+                    //msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
                     
                     
                     ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
@@ -246,3 +261,7 @@ public class BomberManXServices {
         return res;
     }
 }
+
+
+
+
