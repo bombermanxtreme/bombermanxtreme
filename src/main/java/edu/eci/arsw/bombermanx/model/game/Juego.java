@@ -10,9 +10,16 @@ import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.DejaMover;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
+import edu.eci.arsw.bombermanx.model.game.entities.PAddBomba;
+import edu.eci.arsw.bombermanx.model.game.entities.PLessBomba;
+import edu.eci.arsw.bombermanx.model.game.entities.PRedbull;
+import edu.eci.arsw.bombermanx.model.game.entities.PTinto;
+import edu.eci.arsw.bombermanx.model.game.entities.PTortuga;
+import edu.eci.arsw.bombermanx.model.game.entities.PTurbo;
 import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import edu.eci.arsw.bombermanx.services.GameServicesException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
@@ -29,8 +36,10 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
+    public static final int VIDAPIERDEXBOMBA = 20;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
+    private static final int NUMPODERES = 6;
     private ArrayList<Jugador> jugadores;
     private Casilla[][] tablero;
     private ArrayList<Man> manes;
@@ -226,15 +235,6 @@ public class Juego {
         return afectados;
     }
 
-	public void daniarCaja(int x,int y){
-		tablero[y][x].reemplazar(new Espacio("",y,x));
-		//msgt.convertAndSend("/topic/Sala." + idSala, false);
-	}
-
-	public boolean mover(int id_jugador){
-		return false;
-	}
-
     /**
      * Revisa que fila y columna del tablero no este ocuapda, expectuando por el
      * Man
@@ -279,28 +279,11 @@ public class Juego {
         }
         return "{\"cajas\":" + cajasS.toString() + ",\"cajasFijas\":" + cajasM.toString() + ",\"manes\":" + manesS.toString() + ",\"ancho\":" + ANCHO + ",\"alto\":" + ALTO + "}";
     }
-
-    public ArrayList<Jugador> getJugadores() {
-        return jugadores;
-    }
     
     public int getIdJugador(Jugador j) {
         return jugadores.indexOf(j);
     }
 
-    public void setJugadores(ArrayList<Jugador> jugadores) {
-        this.jugadores = jugadores;
-    }
-
-    public Casilla[][] getTablero() {
-        return tablero;
-    }
-
-    public void setTablero(Casilla[][] tablero) {
-        this.tablero = tablero;
-    }
-    
-    
     private boolean puedo_moverme(int fila, int columna) {
         ArrayList<Elemento> e=tablero[fila][columna].getAll();
         boolean puede=false;
@@ -362,8 +345,38 @@ public class Juego {
         return changes;
     }
     
-    public void explotarElemento(Elemento ele) {
-        tablero[ele.getPosRow()][ele.getPosCol()].reemplazar(new Espacio("O", ele.getPosRow(),ele.getPosCol()));
+    public Elemento explotarElemento(Elemento ele) {
+        Elemento p=null;
+        if(ele instanceof Caja){//borramos la caja a menos que sea un poder ahora
+            Random rand = new Random();
+            int y=ele.getPosRow();
+            int x=ele.getPosCol();
+            p=new Espacio("O", y,x);
+            switch(rand.nextInt(NUMPODERES+2)){
+                case 0:
+                    p=new PRedbull(y,x);
+                    break;
+                case 1:
+                    p=new PTortuga(y,x);
+                    break;
+                case 2:
+                    p=new PTurbo(y,x);
+                    break;
+                case 3:
+                    p=new PTinto(y,x);
+                    break;
+                case 4:
+                    p=new PAddBomba(y,x);
+                    break;
+                case 5:
+                    p=new PLessBomba(y,x);
+                    break;
+            }
+            tablero[y][x].reemplazar(p);
+        }
         ((Destruible) ele).explotaBomba();
+        
+        //si nada cambia dejar null
+        return p;
     }
 }

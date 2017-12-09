@@ -252,8 +252,11 @@ public class BomberManXServices {
                     ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
                     for (int i = 0; i < tmp_eleme.size(); i++) {
                         Elemento ele = tmp_eleme.get(i);
-                        juego.explotarElemento(ele);
+                        Elemento quedaPoder=juego.explotarElemento(ele);
                         if (ele instanceof Caja) {
+                            msgt.convertAndSend("/topic/DaniarCaja." + id_sala, "{\"caja\":"+ele.toString()+",\"queda\":"+quedaPoder.toString()+"}");
+                        }
+                        if (ele instanceof Man) {
                             msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
                         }
                     }

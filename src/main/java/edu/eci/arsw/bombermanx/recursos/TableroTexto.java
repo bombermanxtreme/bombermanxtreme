@@ -25,7 +25,12 @@ public class TableroTexto {
         //             * 'c' = Caja que se puede destruir Dañada (efecto visual de 0.2 seg).
         //             * 'X' = Bloque (No se puede destruir).
         //             * 'R' = Poder de Correr.
+        //             * 'r' = Poder de Correr menos.
         //             * 'T' = Poder de expansion de explosion de Bomba.
+        //             * 't' = Poder de reduccion de explosion de Bomba.
+        //             * 'N' = mas numero Bomba.
+        //             * 'n' = menos numero Bomba.
+        //             * 'S' = Poder super, mejora todo
         //             * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
         //             * {'@', '-', '/'} = Caracteres especiales para enemigos.
         //             * /t = (Tabulador) para separar columnas dentro del archivo.

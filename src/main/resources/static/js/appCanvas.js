@@ -78,10 +78,12 @@ var appCanvas = (function () {
     };
 
     var callback_DaniarCaja = function (message) {
+
+
         var cajaADaniar = eval("(" + message.body + ")");
-        console.log(cajaADaniar.y);
-        console.log(cajaADaniar.x);
-        tablero[cajaADaniar.y][cajaADaniar.x] = "c";
+        console.log(cajaADaniar);
+        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c";
+
         actualizar();
     };
 
@@ -262,15 +264,15 @@ var appCanvas = (function () {
             actualizar();
         }, 100);
     };
-    
+
     /**
      * Donde pintó llamas , actualiza el canvas con espacios vacios luego de 3s tras la explosión
      * @param {type} coords
      * @return {undefined}
      */
-    var callback_quitarFuego = function (data){
+    var callback_quitarFuego = function (data) {
         for (var i = 0; i < data.length; i++) {
-            tablero[data[i].y][data[i].x] = "O";            
+            tablero[data[i].y][data[i].x] = "O";
         }
         actualizar();
     };
@@ -282,14 +284,14 @@ var appCanvas = (function () {
         var bomba = J.bomba;
         //fuego
         var coords = null;
-        
-        if (bomba.estallo === true) {  
+
+        if (bomba.estallo === true) {
             coords = J.coords;
             for (var i = 0; i < coords.length; i++) {
                 tablero[coords[i].y][coords[i].x] = "b";
             }
             actualizar();
-            setTimeout(function(){
+            setTimeout(function () {
                 console.log(coords);
                 callback_quitarFuego(coords);
             }, 500);
