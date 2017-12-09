@@ -36,7 +36,7 @@ var appCanvas = (function () {
                 callback_DaniarCaja(eventbody);
             });
             
-            //Estamos atentos si se daña alguna caja
+            //Estamos atentos si se mueve el Jugador
             stompClient.subscribe("/topic/actualizar." + idSala, function (eventbody) {
                 callback_actualizar(eventbody);
             });
@@ -51,8 +51,9 @@ var appCanvas = (function () {
     // Funciones 
     
     /**
-     * daña una caja específica
-     * @param {*} message 
+     * Modificar posiciones despues de Movimiento de Jugador
+     * @param {type} data
+     * @returns {undefined}
      */
     var callback_actualizar = function (data) {
         var tempotab = JSON.parse(data.body);
@@ -69,6 +70,10 @@ var appCanvas = (function () {
         actualizar();
     };
     
+    /**
+     * daña una caja específica
+     * @param {*} message 
+     */
     var callback_DaniarCaja = function (message) {
         var cajaADaniar = eval("("+message.body+")");
         console.log(cajaADaniar);
@@ -81,7 +86,11 @@ var appCanvas = (function () {
         var parts = value.split("; " + name + "=");
         if (parts.length == 2) return parts.pop().split(";").shift();
     };
-
+    
+    /**
+     * Obtener JTablero de Juego teniendo en cuenta el IdSala
+     * @returns {undefined}
+     */
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var nameCookie = getCookie("nombreuser");
@@ -131,7 +140,11 @@ var appCanvas = (function () {
             actualizar();
         });
     };
-
+    
+    /**
+     * Carga los controles basicos para el funcionamiento del juego
+     * @returns {undefined}
+     */
     var loadBasicControls = function () {
         //console.info('Cargando script!');
         canvas = document.getElementById('lienzo');
@@ -147,7 +160,12 @@ var appCanvas = (function () {
             key = false;
         });
     };
-
+    
+    /**
+     * Funcion para mover personaje
+     * @param {type} key
+     * @returns {undefined}
+     */
     function moverPersonaje(key) {
         if (36 < key && key < 41) {
             //console.log("/// Me estoy moviendo :D");
@@ -239,7 +257,8 @@ var appCanvas = (function () {
         
         actualizar();
     };
-
+    
+    // Objeto Caja
     function Caja(color, x, y) {
         
         this.update = function () {
@@ -265,6 +284,7 @@ var appCanvas = (function () {
         };
     }
     
+    // Objeto relacionado a los Elementos del Tablero
     function Objeto(color, x, y, ancho, alto, type) {
         this.type = type;
         this.ancho = ancho;
@@ -287,6 +307,7 @@ var appCanvas = (function () {
         };
     }
     
+    // Objeto Jugador
     function Player(color, x, y, ancho, alto, type) {
         this.type = type;
         this.ancho = ancho;
@@ -307,16 +328,16 @@ var appCanvas = (function () {
                 sheight = 50;
                 
                 switch (tablero[i][j]){
-                    case "0"://caja
+                    case "0"://Jugador0
                         img = document.getElementById("george");
                         break;
-                    case "1"://caja
+                    case "1"://Jugador1
                         img = document.getElementById("alfredo");
                         break;
-                    case "2"://Pared
+                    case "2"://Jugador2
                         img = document.getElementById("pirata");
                         break;
-                    case "3"://caja dañada
+                    case "3"://Jugador3
                         img = document.getElementById("sergio");
                         break;
                     default :
@@ -343,7 +364,7 @@ var appCanvas = (function () {
     /**
      * coloca una bomba luego de presionar espacio
      */
-    var colocarBomba =function () {
+    var colocarBomba = function () {
         stompClient.send("/app/AccionBomba." + idSala, {}, idJugador);
     };
 
@@ -361,8 +382,8 @@ var appCanvas = (function () {
          */
         init() {
             //console.log("***** Iniciando Script!!");
-            console.log("Jugador: " + idJugador);
             idJugador = appCookie.getIdJugador(false);
+            console.log("Jugador: " + idJugador);
             // Cargamos elementos clave para dibujar en Tablero
             loadBasicControls();
             // Traer Numero de sala
