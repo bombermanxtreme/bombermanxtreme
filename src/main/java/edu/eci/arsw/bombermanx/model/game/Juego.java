@@ -13,6 +13,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.model.game.entities.PAddBomba;
 import edu.eci.arsw.bombermanx.model.game.entities.PLessBomba;
 import edu.eci.arsw.bombermanx.model.game.entities.PRedbull;
+import edu.eci.arsw.bombermanx.model.game.entities.PSuper;
 import edu.eci.arsw.bombermanx.model.game.entities.PTinto;
 import edu.eci.arsw.bombermanx.model.game.entities.PTortuga;
 import edu.eci.arsw.bombermanx.model.game.entities.PTurbo;
@@ -400,11 +401,13 @@ public class Juego {
 
         ((Destruible) ele).explotaBomba();
 
-//        if(ele instanceof Man){
-//            if(!ele.sigueVivo())
-//                p=new PSuper(y,x);
-//        }
-        
+        if(ele instanceof Man){
+            if(!((Man) ele).estaVivo()){
+                p = new PSuper(ele.getPosRow(), ele.getPosCol());
+            }else{
+                p = null;
+            }  
+        }
         //si nada cambia dejar null
         return p;
     }

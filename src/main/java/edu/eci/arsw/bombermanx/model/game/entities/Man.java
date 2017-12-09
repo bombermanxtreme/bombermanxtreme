@@ -9,7 +9,10 @@ import java.util.ArrayList;
 public class Man implements Elemento,Destruible {
 
     public static final String[] colores = {"red", "yellow", "blue"};
+    public static final int danio = -5;
     private Jugador jugador;
+    private int vida;
+    private int score;
     private Poder poder;
     private int posCol; // posicion en x
     private int posRow; // posicion en y
@@ -22,6 +25,8 @@ public class Man implements Elemento,Destruible {
     public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
         this.color = color;
         this.jugador = jugador;
+        this.vida = 10;
+        this.score = 0;
         bombas = 3;
         this.key = key;
         this.posRow = posRow;
@@ -91,7 +96,7 @@ public class Man implements Elemento,Destruible {
     
     @Override
     public String toString(){
-        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\",\"key\":\"" + key + "\"}";
+        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"vida\":" + vida + ",\"score\":" + score + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\",\"key\":\"" + key + "\"}";
     }
 
     public int getPosRow() {
@@ -105,7 +110,11 @@ public class Man implements Elemento,Destruible {
 
     @Override
     public void explotaBomba() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.vida = this.vida + danio;
+    }
+    
+    public boolean estaVivo(){
+        return (this.vida > 0);
     }
 
     public void agregarBomba() {
