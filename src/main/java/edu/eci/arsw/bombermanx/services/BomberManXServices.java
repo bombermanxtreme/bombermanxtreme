@@ -252,7 +252,7 @@ public class BomberManXServices {
                     ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
                     for (int i = 0; i < tmp_eleme.size(); i++) {
                         Elemento ele = tmp_eleme.get(i);
-                        Elemento quedaPoder=juego.explotarElemento(ele);
+                        Elemento quedaPoder = juego.explotarElemento(ele);
                         if (ele instanceof Caja) {
                             msgt.convertAndSend("/topic/DaniarCaja." + id_sala, "{\"caja\":"+ele.toString()+",\"queda\":"+quedaPoder.toString()+"}");
                         }
@@ -276,7 +276,7 @@ public class BomberManXServices {
             ArrayList<Elemento> changes = juego.moverPersonaje(j, key);
             System.out.println("///// Tamaño cambios: " + changes.size());
             if(changes.size()>0){
-                System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
+                //System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
                 msgt.convertAndSend("/topic/actualizar." + id_sala, changes.toString());
             }
         }

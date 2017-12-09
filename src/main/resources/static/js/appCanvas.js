@@ -244,12 +244,12 @@ var appCanvas = (function () {
         var J = eval("(" + data + ")");
         console.log(J);
         //bomba
-        var bomba=J.bomba;
+        var bomba = J.bomba;
         //fuego
-        if(bomba.estallo==true){
-            var coords=J.coords;
+        if(bomba.estallo == true){
+            var coords = J.coords;
             for (var i = 0; i < coords.length; i++) {
-                tablero[coords[i].y][coords[i].x]="b";
+                tablero[coords[i].y][coords[i].x] = "b";
             }
         }else{
             tablero[bomba.y][bomba.x]="B";
@@ -315,7 +315,6 @@ var appCanvas = (function () {
         this.x = x;
         this.y = y;
         
-         
         this.update = function () {
             if (type === "image") {
                 //console.log("++ COLOCANDO IMAGEN de Jugador");

@@ -341,16 +341,23 @@ public class Juego {
 
         
         if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
+            System.out.println("++++++++++++++++-...... Entre para poderme mover");
             man.setPosRow(filFutura);
             man.setPosCol(colFutura);
             System.out.println("------ KEY del man: " + man.getKey());
             e1 = man;
-            e2 = new Espacio("O", posRow, posCol);
             this.tablero[filFutura][colFutura].reemplazar(e1);
-            this.tablero[posRow][posCol].reemplazar(e2);
             changes.add(e1);
-            changes.add(e2);
+            // Validacion para caso de Espacio pero que colocan una bomba
+            System.out.println("+++++++++ Verificar si hay bomba en esa posicion:  False:SI: " + hay_objeto(posRow, posCol, man));
+            if (hay_objeto(posRow, posCol, man)){
+                e2 = new Espacio("O", posRow, posCol);
+                this.tablero[posRow][posCol].reemplazar(e2);
+                changes.add(e2);
+            }
         }
+        
+        System.out.println("+++++++ Numero de Cambios: " + changes.size());
         
         return changes;
     }
