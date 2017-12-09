@@ -15,7 +15,6 @@ import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 import javax.swing.Timer;
@@ -58,16 +57,6 @@ public class BomberManXServices {
      */
     public boolean existeGame(int id_sala) throws GameCreationException, GameServicesException{
         return cache.existeGame(id_sala);
-    }
-    
-    /**
-     * setter
-     * @param bpp
-     * @param ps 
-     */
-    public void setBpp(PersistenciaJugador bpp, PersistenciaSala ps) {
-        this.pj = bpp;
-        this.ps = ps;
     }
 
     /**
@@ -186,6 +175,7 @@ public class BomberManXServices {
         return ps.crearSala(creador, nombre, equipos, friendFire);
     }
 
+    
     public Object getTablero(int i) {
         return null;
     }
@@ -203,13 +193,12 @@ public class BomberManXServices {
     public String getNombreJugador(int id_jugador) throws GameServicesException {
         return pj.seleccionarJugadorPorId(id_jugador).getApodo();
     }
-
-    public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
+    
+        public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
+        
         Juego juego=cache.getGame(id_sala);
         Bomba bomba=juego.accionBomba(j);
-        boolean res=false;
-        
-        
+        boolean res=false;       
         
         if(bomba!=null){
             msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
@@ -225,7 +214,6 @@ public class BomberManXServices {
                     ArrayList<Object> afectados=juego.explotar(bomba);
                     
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+j.getApodo());
-                    System.out.println("avisamos que EXPLOTA LA BOMBA ||");
                     System.out.println("avisamos que EXPLOTA LA BOMBA || "+bomba.toString());
                     System.out.println("AFECTADO----------------");
                     
@@ -242,6 +230,8 @@ public class BomberManXServices {
 
                     msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
                     
+                    System.out.println("|||||- cords str -||||||||");
+                    System.out.println(strCoords);
                     
                     ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
                     for (int i=0; i<tmp_eleme.size(); i++) {

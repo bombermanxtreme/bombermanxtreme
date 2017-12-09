@@ -139,7 +139,7 @@ public class Juego {
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
         
-        System.out.println("pos interno"+mposCol+" "+mposRow);
+        System.out.println("pos interno: "+mposCol+" "+mposRow);
 
         Bomba explotara = null;
 
@@ -231,8 +231,16 @@ public class Juego {
      */
     private boolean hay_objeto(int fila, int columna, Man man) {
         System.out.println("--------------------------"+fila+"++++"+columna);
-        Man mam = (Man) tablero[fila][columna].getTipo(Man.class);
-        return !mam.equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
+        ArrayList<Elemento> e= tablero[fila][columna].getAll();
+        boolean puede=true;
+        for (int i = 0; i < e.size(); i++) {
+            if(e.get(i) instanceof Bomba){
+                puede=false;
+                break;
+            }
+        }
+        
+        return puede;
     }
 
     public boolean mover() {
