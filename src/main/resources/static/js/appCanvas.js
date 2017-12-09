@@ -202,7 +202,6 @@ var appCanvas = (function () {
     };
 
     var callback_accionBomba = function (data) {
-        console.log(data);
         var J = eval("(" + data + ")");
         if(J.length>0){
             console.log(J);

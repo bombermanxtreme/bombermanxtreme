@@ -225,7 +225,7 @@ public class BomberManXServices {
                         x=listaTemp.get(i)[0];
                         y=listaTemp.get(i)[1];
                         
-                       strCoords+="{\"x\":"+x+",\"y\""+y+"},";
+                       strCoords+="{\"x\":"+x+",\"y\":"+y+"},";
                     }
 
                     msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");

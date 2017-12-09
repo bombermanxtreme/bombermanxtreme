@@ -35,7 +35,7 @@ public class Caja implements Elemento,Destruible{
 
     @Override
     public void explotaBomba() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        System.out.println(" Explota la Bomba!");
     }
 
 	@Override
