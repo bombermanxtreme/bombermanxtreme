@@ -7,6 +7,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Casilla;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
+import edu.eci.arsw.bombermanx.model.game.entities.DejaMover;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import java.util.ArrayList;
@@ -60,7 +61,7 @@ public class Juego {
             y=POSJUGADORES[i][1];
             Man manTMP=new Man("black", jugadores.get(i), "", x, y);
             tablero[x][y].reemplazar(manTMP);
-            manes.add(manTMP);
+            manes.add(i,manTMP);
         }
         // Mapear Tablero
         mapearTablero(tableroTemporal);
@@ -90,7 +91,10 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
                 if (isNumeric(letter)) {
-                    this.tablero[row][col].reemplazar(new Man("black", jugadores.get(Integer.parseInt(letter)), letter, row, col));
+                    int idJ=Integer.parseInt(letter);
+                    Man manTMP=new Man("black", jugadores.get(idJ), letter, row, col);
+                    this.tablero[row][col].reemplazar(manTMP);
+                    manes.add(idJ,manTMP);
                 } else {
                     switch (letter) {
                         case "O":
@@ -210,8 +214,6 @@ public class Juego {
         return afectados;
     }
 
-   
-
     /**
      * Revisa que fila y columna del tablero no este ocuapda, expectuando por el
      * Man
@@ -223,10 +225,6 @@ public class Juego {
     private boolean hay_objeto(int fila, int columna, Man man) {
         Man mam = (Man) tablero[fila][columna].getTipo(Man.class);
         return !mam.equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
-    }
-
-    public boolean mover() {
-        return false;
     }
 
     @Override
@@ -267,8 +265,69 @@ public class Juego {
     public void setTablero(Casilla[][] tablero) {
         this.tablero = tablero;
     }
-}
+    
+    
+    private boolean puedo_moverme(int fila, int columna) {
+        ArrayList<Elemento> e=tablero[fila][columna].getAll();
+        boolean puede=false;
+        for (int i = 0; i < e.size(); i++) {
+            puede=e.get(i) instanceof DejaMover;
+            if(puede==true)break;
+        }
+        return puede    ;
+    }
 
+    public ArrayList<Elemento> moverPersonaje(Jugador j, int key) {
+        Elemento e1, e2;
+        Man man = manes.get(jugadores.indexOf(j));
+        int posCol = man.getPosCol();
+        int posRow = man.getPosRow();
+        boolean puede = false;
+        
+        ArrayList<Elemento> changes = new ArrayList<>();
+        
+        int filFutura=0;
+        int colFutura=0;
+        
+        // Flecha Abajo
+        switch (key) {
+            case 40:
+                filFutura=posRow+1;
+                colFutura=posCol;
+                break;
+            case 37:
+                filFutura=posRow;
+                colFutura=posCol-1;
+                break;
+            case 38:
+                filFutura=posRow-1;
+                colFutura=posCol;
+                break;
+            case 39:
+                filFutura=posRow;
+                colFutura=posCol+1;
+                break;
+            default:
+                break;
+        }
+
+        
+        if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
+            man.setPosRow(filFutura);
+            man.setPosCol(colFutura);
+            man.setKey("0");
+            e1 = man;
+            e2 = new Espacio("O", posRow, posCol);
+            this.tablero[filFutura][colFutura].reemplazar(e1);
+            this.tablero[posRow][posCol].reemplazar(e2);
+            puede = true;
+            changes.add(e1);
+            changes.add(e2);
+        }
+        
+        return changes;
+    }
+}
 
 
 /*

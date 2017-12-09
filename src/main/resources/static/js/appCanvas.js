@@ -12,6 +12,10 @@ var appCanvas = (function () {
     var tablero;
     var _manes;
     var _id_man;
+    var myplayer = null;
+    var myposx = null;
+    var myposy = null;
+    var keyPress = null;
 
     /**
      * función que realiza la conexión STOMP
@@ -39,6 +43,11 @@ var appCanvas = (function () {
             stompClient.subscribe("/topic/DaniarCaja." + idSala, function (eventbody) {
                 callback_DaniarCaja(eventbody);
             });
+            
+            //Estamos atentos si se daña alguna caja
+            stompClient.subscribe("/topic/actualizar." + idSala, function (eventbody) {
+                callback_actualizar(eventbody);
+            });
 
         });
     };
@@ -53,6 +62,20 @@ var appCanvas = (function () {
      * daña una caja específica
      * @param {*} message 
      */
+    var callback_actualizar = function (data) {
+        var tempotab = JSON.parse(data.body);
+        console.log(data)
+        var y, x, k;
+        for (i = 0; i < tempotab.length; i++) {
+            y = tempotab[i].y;
+            x = tempotab[i].x;
+            k = tempotab[i].key;
+            tablero[y][x] = k;
+            console.log("+++++ Esto es lo que voy a modificar: " + y + ", " + x + ", " + k);
+        }
+        actualizar();
+    };
+    
     var callback_DaniarCaja = function (message) {
         var cajaADaniar = message.body;
         tablero[cajaADaniar.y][cajaADaniar.x] = "c";
@@ -87,8 +110,6 @@ var appCanvas = (function () {
             for (var i = 0; i < datosJuego.cajasFijas.length; i++) {
                 var x = datosJuego.cajasFijas[i].x;
                 var y = datosJuego.cajasFijas[i].y;
-                console.log("x:"+x);
-                console.log("y:"+y);
                 tablero[y][x] = "X";
             }
 
@@ -97,19 +118,35 @@ var appCanvas = (function () {
             for (var i = 0; i < datosJuego.manes.length; i++) {
                 var x = datosJuego.manes[i].x;
                 var y = datosJuego.manes[i].y;
-                console.log("x:"+x);
-                console.log("y:"+y);
-                tablero[y][x] = "1";
-//                var x=datosJuego.manes[i].x;
-//                var y=datosJuego.manes[i].y;
-//                var color=datosJuego.manes[i].color;
-//                var apodo=datosJuego.manes[i].apodo_jugador;
-//                 Verificar KSSP
-//                // if(appCookie.getNombre()==apodo)
+                
+                var color=datosJuego.manes[i].color;
+                var apodo=datosJuego.manes[i].apodo_jugador;
+                tablero[y][x] = i;
+                _id_man = i;
+//              Verificar KSSP
+                //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
+                if("Quevin" === apodo){
+                    switch (i){
+                        case 0://Jugador1
+                            myposx = 0;
+                            myposy = 0;
+                            break;
+                        case 1://Jugador2
+                            myposx = 19;
+                            myposy = 9;
+                            break;
+                        case 2://Jugador3
+                            myposx = 19;
+                            myposy = 0;
+                            break;
+                        case 3://Jugador4
+                            myposx = 0;
+                            myposy = 9;
+                            break;
+                    }
+                }
 //                //  _id_man=i;
 //                _id_man = 1;
-//                console.log("++++ Estos son los datos: " + x + ", " + y);
-//                tablero[x][y] = "1";
             }
             //actualizamos el canvas
             actualizar();
@@ -117,7 +154,7 @@ var appCanvas = (function () {
     };
 
     var loadBasicControls = function () {
-        console.info('Cargando script!');
+        //console.info('Cargando script!');
         canvas = document.getElementById('lienzo');
         ctx = canvas.getContext('2d');
 
@@ -133,8 +170,9 @@ var appCanvas = (function () {
 
     function moverPersonaje(key) {
         if (36 < key && key < 41) {
-            console.log("/// Me estoy moviendo :D");
-            //stompClient.send("/app/mover",{}, JSON.stringify( {x: myposx, y: myposy, k: key}));
+            //console.log("/// Me estoy moviendo :D");
+            keyPress = key;
+            stompClient.send("/app/mover." + idSala + "." + key, {}, idJugador);
         }
 
     }
@@ -157,7 +195,7 @@ var appCanvas = (function () {
      */
     var actualizar = function () {
         //dibuja el canvas COMPLETO!
-        console.log(tablero);
+        //console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (isNumber(tablero[i][j])){
@@ -174,7 +212,7 @@ var appCanvas = (function () {
                             myObstacle.update();
                             break;
                         case "c"://caja dañada
-                            console.log("** Entre a dibujar CajaDañada");
+                            //console.log("** Entre a dibujar CajaDañada");
                             anim_cajaDañada(j, i);
                             break;
                         case "O"://nada
@@ -257,14 +295,14 @@ var appCanvas = (function () {
          
         this.update = function () {
             if (type === "image") {
-                console.log("** COLOCANDO IMAGEN");
+                //console.log("** COLOCANDO IMAGEN");
                 var img = document.getElementById(color);
                 ctx.drawImage(img,
                         this.x,
                         this.y,
                         this.ancho, this.alto);
             } else {
-                console.log(ctx);
+                //console.log(ctx);
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y, this.ancho, this.alto);
             }
@@ -281,7 +319,7 @@ var appCanvas = (function () {
          
         this.update = function () {
             if (type === "image") {
-                console.log("++ COLOCANDO IMAGEN de Jugador");
+                //console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
                 sx = 0;
@@ -318,7 +356,7 @@ var appCanvas = (function () {
                         this.y,
                         this.ancho, this.alto);
             } else {
-                console.log(ctx);
+                //console.log(ctx);
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y, this.ancho, this.alto);
             }
@@ -338,7 +376,7 @@ var appCanvas = (function () {
          * encargado de realizar la conexión con STOMP
          */
         init() {
-            console.log("***** Iniciando Script!!");
+            //console.log("***** Iniciando Script!!");
             console.log("Jugador: " + idJugador);
             idJugador = appCookie.getIdJugador(false);
 
