@@ -232,8 +232,7 @@ public class BomberManXServices {
                     int x;
                     int y;
                     
-                    for(int i=0; i< listaTemp.size();i++){
-                        System.out.println(Arrays.toString(listaTemp.get(i)));              
+                    for(int i=0; i< listaTemp.size();i++){                        
                         x=listaTemp.get(i)[0];
                         y=listaTemp.get(i)[1];
                         
@@ -241,7 +240,7 @@ public class BomberManXServices {
                     }
                     
                     System.out.println(strCoords);
-                    //msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
+                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
                     
                     
                     ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
