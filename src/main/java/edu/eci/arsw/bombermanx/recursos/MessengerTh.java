@@ -207,6 +207,8 @@ public class MessengerTh extends Thread {
             }
             if (e.tieneTipo(Caja_Metalica.class))
                 res = -1;
+            if (e.tieneTipo(Caja.class))
+                res = -1;
         }
         return res;
     }

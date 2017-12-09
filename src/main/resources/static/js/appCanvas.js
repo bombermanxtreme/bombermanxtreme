@@ -237,6 +237,14 @@ var appCanvas = (function () {
                             var myObstacle = new Objeto("PLessBomba",j,i);
                             myObstacle.update();
                             break;
+                        case "S"://PODER super
+                            var myObstacle = new Objeto("PSuper",j,i);
+                            myObstacle.update();
+                            break;
+                        case "b"://fuego
+                            var myObstacle = new Objeto("fuego",j,i);
+                            myObstacle.update();
+                            break;
                     }
                 }
             }
@@ -258,6 +266,14 @@ var appCanvas = (function () {
         }, 100);
     };
 
+
+	var callback_fuego = function(coords){
+		for (var i = 0; i < coords.length; i++) {
+			tablero[coords[i].y][coords[i].x]="O";
+		}
+		actualizar();
+		return false;
+	}
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
         console.log(J);
@@ -268,12 +284,15 @@ var appCanvas = (function () {
             var coords=J.coords;
             for (var i = 0; i < coords.length; i++) {
                 tablero[coords[i].y][coords[i].x]="b";
-            }
+			}
+			actualizar();
+			setTimeout(function(params) {
+				callback_fuego(coords);
+			},100);
         }else{
             tablero[bomba.y][bomba.x]="B";
+			actualizar();
         }
-        
-        actualizar();
     };
 
     function Caja(color, x, y) {
@@ -286,6 +305,7 @@ var appCanvas = (function () {
     }
     
     function Objeto(color, x, y) {
+		console.log(color);
         type ="image";
         this.ancho = anchoCasilla;
         this.alto = anchoCasilla;
@@ -420,7 +440,7 @@ var appCanvas = (function () {
             //pedir estado inicial del juego
             getJuego();
             //INICIAMOS CONEXIÓN
-            connectAndSubscribe();
+            connectAndbscribe();
         },
         /**
          * desconecta del STOMP
