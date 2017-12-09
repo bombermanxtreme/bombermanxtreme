@@ -212,6 +212,8 @@ public class MessengerTh extends Thread {
      * @return
      */
     public ArrayList<Object> getAfectados() {
+		System.out.println("tamaño elementos!!");
+		System.out.println(elementos.size());
         afectados.add(elementos);
         afectados.add(coords);
         return afectados;
