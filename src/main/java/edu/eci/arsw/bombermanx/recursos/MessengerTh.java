@@ -165,6 +165,8 @@ public class MessengerTh extends Thread {
                     delivery += 1;
                     veces += 1;
                 }
+                System.out.println("Pasa por aca ABAJO");
+                System.out.println("Pasa por aca");
             }
         } else {
             System.err.println("Thread {Messenger.java} Caso desconocido...");

@@ -294,7 +294,7 @@ var appCanvas = (function () {
             setTimeout(function () {
                 console.log(coords);
                 callback_quitarFuego(coords);
-            }, 500);
+            }, 250);
 
         } else {
             tablero[bomba.y][bomba.x] = "B";
