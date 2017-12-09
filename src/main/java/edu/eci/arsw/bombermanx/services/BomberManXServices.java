@@ -209,10 +209,11 @@ public class BomberManXServices {
         Bomba bomba=juego.accionBomba(j);
         boolean res=false;
         
-        msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
         
         
         if(bomba!=null){
+            msgt.convertAndSend("/topic/AccionBomba." + id_sala, bomba.toString());
+            
             res=true;
             timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
                 
@@ -244,10 +245,10 @@ public class BomberManXServices {
                     
                     ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
                     for (int i=0; i<tmp_eleme.size(); i++) {
-						Elemento ele=tmp_eleme.get(i);
-						if(ele instanceof Caja){
-							msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
-						}
+                        Elemento ele=tmp_eleme.get(i);
+                        if(ele instanceof Caja){
+                                msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
+                        }
                     }
                  }
             });

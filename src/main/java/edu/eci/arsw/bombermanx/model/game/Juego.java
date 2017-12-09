@@ -48,17 +48,6 @@ public class Juego {
                 tablero[i][k] = new Casilla();
             }
         }
-
-        int x = 0;
-        int y = 0;
-        // creando Manes y agregándolos al tablero
-        for (int i = 0; i < jugadores.size(); i++) {
-            x = POSJUGADORES[i][0];
-            y = POSJUGADORES[i][1];
-            Man manTMP = new Man("black", jugadores.get(i), "", x, y);
-            tablero[x][y].reemplazar(manTMP);
-            manes.add(i, manTMP);
-        }
         // Mapear Tablero
         mapearTablero(tableroTemporal);
     }
@@ -87,7 +76,10 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para NPCs.
                 if (isNumeric(letter)) {
-                    this.tablero[row][col].reemplazar(new Man("black", jugadores.get(Integer.parseInt(letter)), letter, row, col));
+                    int idJ=Integer.parseInt(letter);
+                    Man manTMP=new Man("black", jugadores.get(idJ), letter, row, col);
+                    this.tablero[row][col].reemplazar(manTMP);
+                    manes.add(idJ, manTMP);
                 } else {
                     switch (letter) {
                         case "O":
@@ -146,6 +138,8 @@ public class Juego {
         }
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
+        
+        System.out.println("pos interno"+mposCol+" "+mposRow);
 
         Bomba explotara = null;
 
@@ -236,6 +230,7 @@ public class Juego {
      * @return
      */
     private boolean hay_objeto(int fila, int columna, Man man) {
+        System.out.println("--------------------------"+fila+"++++"+columna);
         Man mam = (Man) tablero[fila][columna].getTipo(Man.class);
         return !mam.equals(man);         // provisional solo mirando Man mientras se implementa para revisar si hay otra cosa
     }
@@ -283,125 +278,3 @@ public class Juego {
         this.tablero = tablero;
     }
 }
-
-
-
-/*
-
-
-import java.util.Arrays;
-
-public class JavaApplication3 {
-
-    private static int alto = 5;
-    private static int ancho = 6;
-    private static String[][] tablero;
-
-    
-    public static void main(String[] args) {
-
-        tablero = new String[alto][ancho];
-
-        for (int i = 0; i < alto; i++) {
-            for (int k = 0; k < ancho; k++) {
-                tablero[i][k] = Integer.toString(i) + Integer.toString(k);
-            }
-        }
-
-        //tablero[3][5] = "X";
-        //tablero[1][2] = "M";
-        //tablero[3][1] = "X";
-        int orx = alto-1; 
-        int ory = ancho-1;
-        tablero[orx][ory] = "B"; // bomba
-
-        for (int i = 0; i < alto; i++) {
-            System.out.println(Arrays.toString(tablero[i]));
-        }
-
-        recorrido(orx, ory);
-
-    }
-
-    private static void recorrido(int x, int y) {
-        int radio = 2;
-        int cont = 0;
-        
-
-        System.out.println("IZQUIERDA");
-        //izquierda
-        int ax=0;
-        int ay=y;
-        int veces=0;
-        
-        if (distancia(x, y, ax, ay) >= 1) {
-            cont = y - 1;
-            while (cont < ancho && cont >= 0 && veces < radio) {
-                System.out.println(tablero[x][cont]);
-
-                cont -= 1;
-                veces+=1;
-
-            }
-        }
-
-        System.out.println("DERECHA");
-        //derecha
-        ax=x;
-        ay=ancho - 1;
-        veces=0;
-
-        if (distancia(x, y, ax, ay) >= 1) {
-            cont = y + 1;
-            while (cont < ancho && cont >= 0 && veces < radio) {
-                System.out.println(tablero[x][cont]);
-
-                cont += 1;
-                veces+=1;
-
-            }
-        }
-
-        System.out.println("ARRIBA");
-        //arriba
-        ax=0;
-        ay=y;
-        veces=0;
-
-        if (distancia(x, y, ax, ay) >= 1) {
-            cont = x - 1;
-            while (cont < alto && cont >= 0 && veces < radio) {
-                System.out.println(tablero[cont][y]);
-
-                cont -= 1;
-                veces+=1;
-
-            }
-        }
-
-        System.out.println("ABAJO");
-        //abajo
-        ax=x;
-        ay=alto - 1;
-        veces=0;
-
-        if (distancia(x, y, ax, ay) >= 1) {
-            cont = x + 1;
-            while (cont < alto && cont >= 0 && veces < radio) {
-                System.out.println(tablero[cont][y]);
-
-                cont += 1;
-                veces+=1;
-
-            }
-        }
-
-    }
-
-    private static int distancia(int x1, int y1, int x2, int y2) {
-        return (int) Math.sqrt((int) Math.pow(x1 - x2, 2) + (int) Math.pow(y1 - y2, 2));
-    }
-
-}
-
-*/
