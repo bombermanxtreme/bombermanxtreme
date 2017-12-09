@@ -3,7 +3,7 @@ package edu.eci.arsw.bombermanx.cache.stub;
 import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.model.game.Juego;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
-import edu.eci.arsw.bombermanx.model.game.entities.TableroTexto;
+import edu.eci.arsw.bombermanx.recursos.TableroTexto;
 import edu.eci.arsw.bombermanx.services.GameCreationException;
 import edu.eci.arsw.bombermanx.services.GameServicesException;
 import java.io.IOException;

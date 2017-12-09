@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.eci.arsw.bombermanx.model.game.entities;
+package edu.eci.arsw.bombermanx.recursos;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
