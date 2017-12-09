@@ -226,15 +226,15 @@ public class BomberManXServices {
 //                        int x=
 //                        strCoords+="{\"y\":"+y+",\"y\""+x+"},";
                     }
-                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
+                    //msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+",\"coords\":["+strCoords+"]}");
                     
                     
                     ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
                     for (int i=0; i<tmp_eleme.size(); i++) {
-                            Elemento ele=tmp_eleme.get(i);
-                            if(ele instanceof Caja){
-                                msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
-                            }
+						Elemento ele=tmp_eleme.get(i);
+						if(ele instanceof Caja){
+							msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
+						}
                     }
                  }
             });
