@@ -120,28 +120,7 @@ public class MessengerTh extends Thread {
                 }
             }
         } else if (sentido == ARRIBA || sentido == 4) {
-            //abajo
-            ax = posRow;
-            ay = alto - 1;
-            veces = 0;
-
-            if (distancia(posRow, posCol, ax, ay) >= 1) {
-                delivery = posRow + 1;
-                while (delivery < alto && delivery >= 0 && veces < radio) {
-                    detiene = revisarCelda(tablero[delivery][posCol]);
-                    if (detiene == 0 || detiene == 1) {
-                        int[] tmpCoords = {delivery, posCol};
-                        coords.add(tmpCoords);
-                    }
-                    if (detiene != 1) {
-                        break;
-                    }
-
-                    delivery += 1;
-                    veces += 1;
-                }
-            }
-        } else if (sentido == ABAJO || sentido == 4) {
+            
             //arriba
             ax = 0;
             ay = posCol;
@@ -160,6 +139,30 @@ public class MessengerTh extends Thread {
                     }
 
                     delivery -= 1;
+                    veces += 1;
+                }
+            }
+           
+            
+        } else if (sentido == ABAJO || sentido == 4) {
+             //abajo             
+            ax = posRow;
+            ay = alto - 1;
+            veces = 0;
+
+            if (distancia(posRow, posCol, ax, ay) >= 1) {
+                delivery = posRow + 1;
+                while (delivery < alto && delivery >= 0 && veces < radio) {
+                    detiene = revisarCelda(tablero[delivery][posCol]);
+                    if (detiene == 0 || detiene == 1) {
+                        int[] tmpCoords = {delivery, posCol};
+                        coords.add(tmpCoords);
+                    }
+                    if (detiene != 1) {
+                        break;
+                    }
+
+                    delivery += 1;
                     veces += 1;
                 }
             }
