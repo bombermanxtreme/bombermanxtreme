@@ -162,16 +162,16 @@ var appCanvas = (function () {
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (isNumber(tablero[i][j])){
-                    var myPlayer = new Player(tablero[i][j], j * 50, i * 50, 50, 50, "image");
+                    var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
                 }else{
                     switch (tablero[i][j]){
                         case "C"://caja
-                            var myObstacle = new Objeto("wood", j * 50, i * 50, 50, 50, "image");
+                            var myObstacle = new Objeto("wood", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                             myObstacle.update();
                             break;
                         case "X"://Pared
-                            var myObstacle = new Objeto("wall", j * 50, i * 50, 50, 50, "image");
+                            var myObstacle = new Objeto("wall", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                             myObstacle.update();
                             break;
                         case "c"://caja dañada
@@ -179,7 +179,11 @@ var appCanvas = (function () {
                             anim_cajaDañada(j, i);
                             break;
                         case "O"://nada
-                            var myObstacle = new Objeto("grass", j * 50, i * 50, 50, 50, "image");
+                            var myObstacle = new Objeto("grass", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            myObstacle.update();
+                            break;
+                        case "B"://nada
+                            var myObstacle = new Objeto("bomba", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                             myObstacle.update();
                             break;
                     }
@@ -205,11 +209,15 @@ var appCanvas = (function () {
 
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
-        if(J.length>0){
-            console.log(J);
+        //bomba
+        var bomba=J.bomba;
+        tablero[bomba.y][bomba.x]="B";
+        //fuego
+        var coords=J.coords;
+        for (var i = 0; i < coords.length; i++) {
+            tablero[coords[i].y][coords[i].x]="b";
         }
-        
-
+        actualizar();
     };
 
     function Caja(color, x, y) {
@@ -258,7 +266,6 @@ var appCanvas = (function () {
          
         this.update = function () {
             if (type === "image") {
-                console.log("** COLOCANDO IMAGEN");
                 var img = document.getElementById(color);
                 ctx.drawImage(img,
                         this.x,

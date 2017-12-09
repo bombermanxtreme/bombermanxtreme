@@ -237,8 +237,8 @@ public class BomberManXServices {
                     int y;
 
                     for (int i = 0; i < listaTemp.size(); i++) {
-                        x = listaTemp.get(i)[0];
-                        y = listaTemp.get(i)[1];
+                        y = listaTemp.get(i)[0];
+                        x = listaTemp.get(i)[1];
 
                         strCoords += "{\"x\":" + x + ",\"y\":" + y + "},";
                     }
