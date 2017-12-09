@@ -78,10 +78,9 @@ var appCanvas = (function () {
     };
     
     var callback_DaniarCaja = function (message) {
-        var cajaADaniar = eval("("+message.body+")");
-        console.log(cajaADaniar.y);
-        console.log(cajaADaniar.x);
-        tablero[cajaADaniar.y][cajaADaniar.x] = "c";
+		var cajaADaniar = eval("("+message.body+")");
+		console.log(cajaADaniar);
+        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c";
         actualizar();
     };
     
