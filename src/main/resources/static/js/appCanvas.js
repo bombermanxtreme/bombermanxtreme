@@ -82,6 +82,12 @@ var appCanvas = (function () {
         tablero[cajaADaniar.y][cajaADaniar.x] = "c";
         actualizar();
     };
+    
+    function getCookie(name) {
+        var value = "; " + document.cookie;
+        var parts = value.split("; " + name + "=");
+        if (parts.length == 2) return parts.pop().split(";").shift();
+    };
 
     var callback_moverPersonaje = function (message) {
         var data = message;
@@ -89,6 +95,7 @@ var appCanvas = (function () {
 
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
+            var nameCookie = getCookie("nombreuser");
             console.log("xdfcgvhbjnmk,lñ 111"+data);
             var datosJuego = eval("(" + data + ")");
             tablero = Array();
@@ -114,40 +121,39 @@ var appCanvas = (function () {
                 tablero[y][x] = "X";
             }
 
-            _manes=datosJuego.manes;
+            _manes = datosJuego.manes;
             //cargamos los manes
             for (var i = 0; i < datosJuego.manes.length; i++) {
                 var x = datosJuego.manes[i].x;
                 var y = datosJuego.manes[i].y;
                 
-                var color=datosJuego.manes[i].color;
-                var apodo=datosJuego.manes[i].apodo_jugador;
-                tablero[y][x] = i;
-                _id_man = i;
-//              Verificar KSSP
+                var color = datosJuego.manes[i].color;
+                var apodo = datosJuego.manes[i].apodo_jugador;
+                tablero[y][x] = datosJuego.manes[i].key;
+                
+                //Verificar KSSP
                 //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
-                if("Quevin" === apodo){
-                    switch (i){
-                        case 0://Jugador1
-                            myposx = 0;
-                            myposy = 0;
-                            break;
-                        case 1://Jugador2
-                            myposx = 19;
-                            myposy = 9;
-                            break;
-                        case 2://Jugador3
-                            myposx = 19;
-                            myposy = 0;
-                            break;
-                        case 3://Jugador4
-                            myposx = 0;
-                            myposy = 9;
-                            break;
-                    }
+                if(nameCookie === apodo){
+                    _id_man = parseInt(getCookie("iduser"));
+//                    switch (_id_man){
+//                        case 0://Jugador1
+//                            myposx = 0;
+//                            myposy = 0;
+//                            break;
+//                        case 1://Jugador2
+//                            myposx = 19;
+//                            myposy = 9;
+//                            break;
+//                        case 2://Jugador3
+//                            myposx = 19;
+//                            myposy = 0;
+//                            break;
+//                        case 3://Jugador4
+//                            myposx = 0;
+//                            myposy = 9;
+//                            break;
+//                    }
                 }
-//                //  _id_man=i;
-//                _id_man = 1;
             }
             //actualizamos el canvas
             actualizar();
@@ -202,6 +208,7 @@ var appCanvas = (function () {
                 if (isNumber(tablero[i][j])){
                     var myPlayer = new Player(tablero[i][j], j * 50, i * 50, 50, 50, "image");
                     myPlayer.update();
+                    
                 }else{
                     switch (tablero[i][j]){
                         case "C"://caja
@@ -323,28 +330,55 @@ var appCanvas = (function () {
                 //console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
+//                if (tablero[i][j] == _id_man){
+//                    console.log("KEYPRESS: " + keyPress);
+//                    switch (keyPress){
+//                        // Abajo
+//                        case 40:
+//                            sx = 50;
+//                            sy = 0;
+//                            break;
+//                        // Izquierda
+//                        case 37:
+//                            sx = 0;
+//                            sy = 100;
+//                            break;
+//                        // Arriba
+//                        case 38:
+//                            sx = 0;
+//                            sy = 150;
+//                            break;
+//                        // Derecha
+//                        case 39:
+//                            sx = 0;
+//                            sy = 200;
+//                            break;
+//                    }
+//                }else{
+//                    sx = 0;
+//                    sy = 0;
+//                }
+//                
                 sx = 0;
                 sy = 0;
                 swidth = 50;
                 sheight = 50;
+                
                 switch (tablero[i][j]){
                     case "0"://caja
                         img = document.getElementById("george");
                         break;
                     case "1"://caja
-                        img = document.getElementById("george");
+                        img = document.getElementById("alfredo");
                         break;
                     case "2"://Pared
-                        img = document.getElementById("alfredro");
+                        img = document.getElementById("pirata");
                         break;
                     case "3"://caja dañada
-                        img = document.getElementById("alfredro");
-                        break;
-                    case "4"://nada
-                        img = document.getElementById("alfredro");
+                        img = document.getElementById("sergio");
                         break;
                     default :
-                        img = document.getElementById("george");
+                        img = document.getElementById("betty2");
                         break;
                 }
                 

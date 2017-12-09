@@ -11,9 +11,6 @@ import edu.eci.arsw.bombermanx.model.game.entities.DejaMover;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.recursos.MessengerTh;
 import java.util.ArrayList;
-import java.awt.event.*;
-import java.util.Arrays;
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.Timer;
@@ -91,10 +88,15 @@ public class Juego {
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para enemigos.
                 if (isNumeric(letter)) {
-                    int idJ=Integer.parseInt(letter);
-                    Man manTMP=new Man("black", jugadores.get(idJ), letter, row, col);
-                    this.tablero[row][col].reemplazar(manTMP);
-                    manes.add(idJ,manTMP);
+                    int idJ = Integer.parseInt(letter);
+                    System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): IdJugador" + idJ);
+                    if (idJ < jugadores.size() ){
+                        System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
+                        Man manTMP=new Man("black", jugadores.get(idJ), letter, row, col);
+                        this.tablero[row][col].reemplazar(manTMP);
+                        manes.add(idJ,manTMP);
+                    }
+                    
                 } else {
                     switch (letter) {
                         case "O":
