@@ -13,6 +13,7 @@ var appCanvas = (function () {
     var _manes;
     var _id_man;
     var keyPress = null;
+    var clear;
 
     /**
      * función que realiza la conexión STOMP
@@ -67,6 +68,7 @@ var appCanvas = (function () {
             console.log("----- Tablero antes de Modificar: " + tablero);
             console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
         }
+        clear = true;
         actualizar();
     };
     
@@ -259,6 +261,7 @@ var appCanvas = (function () {
             }
         }else{
             tablero[bomba.y][bomba.x]="B";
+            clear = false;
         }
         
         actualizar();
@@ -301,7 +304,10 @@ var appCanvas = (function () {
         this.update = function () {
             if (type === "image") {
                 var img = document.getElementById(color);
-                ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+                if(clear){
+                    ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+                }
+                
                 ctx.drawImage(img,
                         this.x,
                         this.y,
@@ -350,7 +356,9 @@ var appCanvas = (function () {
                         img = document.getElementById("betty2");
                         break;
                 }
-                ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+                if(clear){
+                    ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+                }
                 ctx.drawImage(img,
                         sx,
                         sy,
