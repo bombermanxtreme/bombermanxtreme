@@ -329,7 +329,6 @@ public class Juego {
         Man man = manes.get(jugadores.indexOf(j));
         if(man.isBloqueado())
             return changes;
-        System.out.println("camina");
         man.bloquear(Math.max(5-man.getVelocidad(),0)*50);
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
