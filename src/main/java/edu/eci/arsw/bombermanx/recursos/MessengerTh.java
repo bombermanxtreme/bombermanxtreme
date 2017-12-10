@@ -173,9 +173,6 @@ public class MessengerTh extends Thread {
         } else if (sentido == CENTRO || sentido == TODO) {
              //centro
             detiene = revisarCelda(tablero[posRow][posCol]);
-            System.out.println("detiene");
-            
-            System.out.println(detiene);
             if (detiene == 0 || detiene == 1) {
                 int[] tmpCoords = {delivery, posCol};
                 coords.add(tmpCoords);

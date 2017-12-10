@@ -171,7 +171,6 @@ public class Juego {
                 tablero[mposRow][mposCol].add(explotara);
             }
         }
-        System.out.println(tablero[explotara.getPosRow()][explotara.getPosCol()].getAll().toString());
 
         return explotara;
     }
@@ -184,7 +183,6 @@ public class Juego {
      * @return 
      */
     public ArrayList<Object> explotar(Bomba explotara) {
-        System.out.println(tablero[explotara.getPosRow()][explotara.getPosCol()].getAll().toString());
         // Quita la bomba y el elemento en la casilla
         Casilla c=tablero[explotara.getPosRow()][explotara.getPosCol()];
         ArrayList<Elemento> t= c.getAll();
@@ -302,12 +300,12 @@ public class Juego {
      */
     private boolean puedo_moverme(int fila, int columna) {
         ArrayList<Elemento> e = tablero[fila][columna].getAll();
-        boolean puede = false;
+        boolean puede = e.isEmpty();
         for (int i = 0; i < e.size(); i++) {
             puede = e.get(i) instanceof DejaMover;
             if(puede == true)break;
         }
-        return puede    ;
+        return puede;
     }
     
     /**
@@ -349,7 +347,6 @@ public class Juego {
                 break;
         }
 
-        
         if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
             //System.out.println("++++++++++++++++-...... Entre para poderme mover");
             man.setPosRow(filFutura);
