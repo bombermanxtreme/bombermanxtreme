@@ -125,3 +125,17 @@ header .nombre_jugador{
     font-size: 20px*$escalaTxt;
     font-weight: bold;
 }
+#estadisticas{
+	
+}
+#estadisticas img{
+	width:50px;
+}
+#estadisticas > table td{
+	width:33%;
+}
+#estadisticas > table{
+	margin-left: auto;
+	margin-right: auto;
+	width:50%;
+}

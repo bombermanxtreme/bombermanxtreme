@@ -32,6 +32,11 @@ var appCanvas = (function () {
 				callback_accionBomba(eventbody.body);
 			});
 
+			//especificamos que estamos atentos a las estadisticas
+			stompClient.subscribe("/topic/Estadisticas." + idSala, function (eventbody) {
+				callback_estadisticas(eventbody.body);
+			});
+
 			//Estamos atentos si se daña alguna caja
 			stompClient.subscribe("/topic/DaniarCaja." + idSala, function (eventbody) {
 				callback_DaniarCaja(eventbody);
@@ -75,6 +80,44 @@ var appCanvas = (function () {
 		}
 		clear = true;
 		actualizar();
+	};
+
+	var callback_estadisticas=function(esta){
+		var vida;
+		var bombas;
+		var apodo;
+		var energia;
+		var equipo=esta.equipo;
+		var velocidad;
+		var j=Array();
+		for (let i = 0; i < esta.manes.length; i++) {
+			var man=esta.manes[i];
+			if(man.id==_id_man){
+				vida= man.vida;
+				apodo= man.apodo;
+				bombas= man.bombas;
+				energia= man.energia;
+				velocidad= man.velocidad;
+			}
+			j[i]={
+				 id_man:man.id,
+				 vida:man.vida,
+				 apodo:man.apodo,
+				 img:man.img
+			};
+		}
+		var html="<table><tr><td>"+estaManes(j,equipo,false)+"</td><td><div class='apodo'>"+apodo+"</div><br>Vida:"+vida+"<br>Bombas:"+bombas+"<br>Energia:"+energia+"<br>Velocidad:"+velocidad+"<br></td><td>"+estaManes(j,equipo,true)+"</td></tr></table>";
+		$("#estadisticas").html(html);
+	}
+
+	var estaManes=function(j,esEquipo,equipoB){
+		var s="";
+		var orden=Array();
+		
+		for (let i = 0; i < j.length; i++) if(esEquipo && j.equipoB==equipoB){
+			s+="<tr><td><img src='"+j.img+"'></td><td>"+j.vida+"</td><td><img src='"+$("#"+_manes[i].color).attr("src")+"'></td></tr>";
+		}
+		return "<table>"+s+"</table>";
 	};
 
 	var callback_DaniarCaja = function (message) {
