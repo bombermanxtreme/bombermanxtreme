@@ -1,5 +1,5 @@
 # BOMBERMAN XTREME 💣
-![](src/main/resources/static/media/black.jpg)
+![](src/main/resources/static/media/fondo_md.jpg)
 - ## Estudiantes
     - Kevin Julian Alvarado Pérez
     - Manuel Sergio Pérez Espitia
