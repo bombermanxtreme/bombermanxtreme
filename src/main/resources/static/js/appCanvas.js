@@ -11,6 +11,7 @@ var appCanvas = (function () {
 	var ctx;
 	var tablero;
 	var _manes;
+	var terminado=false;
 	var _id_man;
 	var _apodo;
 	var keyPress = null;
@@ -49,6 +50,11 @@ var appCanvas = (function () {
 			});
 
 			//Estamos atentos si se daña alguna caja
+			stompClient.subscribe("/topic/terminado." + idSala, function (eventbody) {
+				callback_terminado(eventbody);
+			});
+
+			//Estamos atentos si se daña alguna caja
 			stompClient.subscribe("/topic/ManQuemado." + idSala, function (eventbody) {
 				callback_Quemado(eventbody);
 			});
@@ -81,6 +87,12 @@ var appCanvas = (function () {
 		}
 		clear = true;
 		actualizar();
+	};
+
+	var callback_terminado = function (data) {
+		terminado=true;
+		alert("juego terminado, felicidades al ganador");
+		location.href="jugar.html";
 	};
 
 	var callback_estadisticas=function(esta_){
@@ -272,6 +284,7 @@ var appCanvas = (function () {
 	 * Encargado de redibujar el canvas
 	 */
 	var actualizar = function () {
+		if(terminado)return false;
 		for (i = 0; i < tablero.length; i++) {
 			for (j = 0; j < tablero[i].length; j++) {
 				if (isNumber(tablero[i][j]) || tablero[i][j] == "Q") {

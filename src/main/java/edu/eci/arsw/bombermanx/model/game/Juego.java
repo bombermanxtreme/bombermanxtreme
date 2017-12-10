@@ -43,6 +43,7 @@ public class Juego {
     public static final int TIEMPOXDANIO = 1000;
     public static final int DANIO = 5;
     public boolean esEquipos;
+    public boolean terminado;
     public static final int TIEMPOEXPLOTARBOMBAS = 2000;
     private static final int NUMPODERES = 6;
     private ArrayList<Jugador> jugadores;
@@ -57,25 +58,15 @@ public class Juego {
         ArrayList<Jugador> B = null;
         if(esEquipos)
             B=jugadoresEquipos.get(1);
-        
         this.jugadores =new ArrayList<>();
         this.jugadores.addAll(A);
-        System.out.println("cero");
-        System.out.println(jugadoresEquipos);
-        System.out.println(jugadoresEquipos.size());
         if(esEquipos)
             this.jugadores.addAll(B);
         this.jugadoresEquipos=new ArrayList<>();
         this.jugadoresEquipos.add(A);
-        System.out.println("segundo");
-        System.out.println(jugadoresEquipos);
-        System.out.println(jugadoresEquipos.size());
         if(esEquipos)
             this.jugadoresEquipos.add(B);
-        System.out.println("tercero");
-        System.out.println(jugadoresEquipos);
-        System.out.println(jugadoresEquipos.size());
-        
+        terminado=false;
         this.esEquipos = esEquipos;
         manes = new ArrayList<>();
         this.tablero = new Casilla[ALTO][ANCHO];
@@ -465,6 +456,7 @@ public class Juego {
                 p = null;
             }
         }
+        juegoTermina();
         //si nada cambia dejar null
         return p;
     }
@@ -482,4 +474,31 @@ public class Juego {
         return estadisticas;
     }
 
+    private void juegoTermina() {
+        if(esEquipos){
+            int vivosA=0;
+            int vivosB=0;
+            for (int i = 0; i < manes.size(); i++)
+                if(manes.get(i).estaVivo()){
+                    if(manes.get(i).equipoB())
+                        vivosB++;
+                    else
+                        vivosA++;
+                    if(vivosA>0 && vivosB>0)break;
+                }
+            if(vivosA==0 || vivosB==0)terminado=true;
+        }else{
+            int vivos=0;
+            for (int i = 0; i < manes.size(); i++)
+                if(manes.get(i).estaVivo()){
+                    vivos++;
+                    if(vivos>1)break;
+                }
+            if(vivos<2)terminado=true;
+        }
+    }
+
+    public boolean terminado(){
+        return terminado;
+    }
 }

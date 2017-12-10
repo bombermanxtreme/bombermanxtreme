@@ -259,6 +259,8 @@ public class BomberManXServices {
                         }
                     }
                 }
+                if(juego.terminado())
+                    msgt.convertAndSend("/topic/terminado." + idSala,"{\"terminado\":true}");
                 
             });
             t.start();

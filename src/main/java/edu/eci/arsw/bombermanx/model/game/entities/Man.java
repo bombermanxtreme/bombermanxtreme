@@ -48,12 +48,14 @@ public class Man implements Elemento,Destruible {
      */
     public Bomba accionBomba() {
         Bomba bomba=null;
-        synchronized(bombas){
-            if(bombas>0){
-                bombas--;
-                bomba = new Bomba_n(this, color, radio);
-                //System.out.println("puso Bomba >>");
-            }else System.err.println("no tiene mas bombas");
+        if(estaVivo()){
+            synchronized(bombas){
+                if(bombas>0){
+                    bombas--;
+                    bomba = new Bomba_n(this, color, radio);
+                    //System.out.println("puso Bomba >>");
+                }else System.err.println("no tiene mas bombas");
+            }
         }
         return bomba;
     }
@@ -105,7 +107,7 @@ public class Man implements Elemento,Destruible {
         bloqueado=true;
         timer = new Timer(tiempo, (ActionEvent e) -> {
             timer.stop();
-            bloqueado=false;
+            if(estaVivo())bloqueado=false;
         });
         timer.start();
     }
@@ -121,8 +123,12 @@ public class Man implements Elemento,Destruible {
 
     @Override
     public void explotaBomba() {
-        this.vida = this.vida - Juego.DANIO;
-        bloquear(Juego.TIEMPOXDANIO);
+        if(estaVivo()){
+            this.vida = this.vida - Juego.DANIO;
+            if(estaVivo()){
+                bloquear(Juego.TIEMPOXDANIO);
+            }else bloqueado=true;
+        }
     }
     
     public boolean estaVivo(){
@@ -159,5 +165,9 @@ public class Man implements Elemento,Destruible {
     
     public int getVelocidad() {
         return velocidad;
+    }
+
+    public boolean equipoB() {
+        return equipoB;
     }
 }
