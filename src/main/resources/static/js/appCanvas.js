@@ -252,7 +252,7 @@ var appCanvas = (function () {
                             break;
                         default :
                             // Para el caso que no se tenga un caracter claro en el tablero
-                            var myObstacle = new Objeto("grass", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            var myObstacle = new Objeto("grass", j, i);
                             myObstacle.update();
                             break;
                     }
@@ -334,29 +334,22 @@ var appCanvas = (function () {
     }
     
     // Objeto relacionado a los Elementos del Tablero
-    function Objeto(color, x, y, ancho, alto, type) {
-        this.type = type;
-        this.ancho = ancho;
-        this.alto = alto;
-        this.x = x;
-        this.y = y;
+    function Objeto(color, x, y) {
+        this.ancho = anchoCasilla;
+        this.alto = anchoCasilla;
+        this.x = x * anchoCasilla;
+        this.y = y * anchoCasilla;
          
         this.update = function () {
-            if (type === "image") {
-                var img = document.getElementById(color);
-                if(clear){
-                    ctx.clearRect(this.x, this.y, this.ancho, this.alto);
-                }
-                
-                ctx.drawImage(img,
-                        this.x,
-                        this.y,
-                        this.ancho, this.alto);
-            } else {
-                //console.log(ctx);
-                ctx.fillStyle = color;
-                ctx.fillRect(this.x, this.y, this.ancho, this.alto);
+            var img = document.getElementById(color);
+            if(clear){
+                ctx.clearRect(this.x, this.y, this.ancho, this.alto);
             }
+
+            ctx.drawImage(img,
+                    this.x,
+                    this.y,
+                    this.ancho, this.alto);
         };
     }
     
@@ -369,7 +362,7 @@ var appCanvas = (function () {
         this.y = y;
         
         this.update = function () {
-            if (type === "image") {
+            if (this.type === "image") {
                 //console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
@@ -381,7 +374,7 @@ var appCanvas = (function () {
                 
                 switch (tablero[i][j]){
                     case "0"://Jugador0
-                        img = document.getElementById("george");
+                        img = document.getElementById("sergio");
                         break;
                     case "1"://Jugador1
                         img = document.getElementById("alfredo");
