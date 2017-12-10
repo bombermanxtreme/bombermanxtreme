@@ -13,6 +13,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Man;
 import edu.eci.arsw.bombermanx.model.game.entities.PAddBomba;
 import edu.eci.arsw.bombermanx.model.game.entities.PLessBomba;
 import edu.eci.arsw.bombermanx.model.game.entities.PRedbull;
+import edu.eci.arsw.bombermanx.model.game.entities.PSuper;
 import edu.eci.arsw.bombermanx.model.game.entities.PTinto;
 import edu.eci.arsw.bombermanx.model.game.entities.PTortuga;
 import edu.eci.arsw.bombermanx.model.game.entities.PTurbo;
@@ -283,46 +284,57 @@ public class Juego {
     public int getIdJugador(Jugador j) {
         return jugadores.indexOf(j);
     }
-
+    
+    /**
+     * Me permite conocer si el elemento de Fila-Columna permite mover al personaje
+     * @param fila Posicion de fila dentro del tablero
+     * @param columna Posicion de columna dentro del tablero
+     * @return True: Se puede mover el Jugador - False: No se puede mover el jugador
+     */
     private boolean puedo_moverme(int fila, int columna) {
-        ArrayList<Elemento> e=tablero[fila][columna].getAll();
-        boolean puede=false;
+        ArrayList<Elemento> e = tablero[fila][columna].getAll();
+        boolean puede = false;
         for (int i = 0; i < e.size(); i++) {
-            puede=e.get(i) instanceof DejaMover;
-            if(puede==true)break;
+            puede = e.get(i) instanceof DejaMover;
+            if(puede == true)break;
         }
         return puede    ;
     }
-
+    
+    /**
+     * Segun la tecla que presiona el usuario revisa si se puede mover en ese sentido
+     * @param j : Jugador
+     * @param key : Numero de Tecla de presiono el usuario
+     * @return Lista de elementos que fueron afectados
+     */
     public ArrayList<Elemento> moverPersonaje(Jugador j, int key) {
         Elemento e1, e2;
         Man man = manes.get(jugadores.indexOf(j));
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
-        boolean puede = false;
         
         ArrayList<Elemento> changes = new ArrayList<>();
         
-        int filFutura=0;
-        int colFutura=0;
+        int filFutura = 0;
+        int colFutura = 0;
         
         // Flecha Abajo
         switch (key) {
             case 40:
-                filFutura=posRow+1;
-                colFutura=posCol;
+                filFutura = posRow+1;
+                colFutura = posCol;
                 break;
             case 37:
-                filFutura=posRow;
-                colFutura=posCol-1;
+                filFutura = posRow;
+                colFutura = posCol-1;
                 break;
             case 38:
-                filFutura=posRow-1;
-                colFutura=posCol;
+                filFutura = posRow-1;
+                colFutura = posCol;
                 break;
             case 39:
-                filFutura=posRow;
-                colFutura=posCol+1;
+                filFutura = posRow;
+                colFutura = posCol+1;
                 break;
             default:
                 break;
@@ -330,23 +342,35 @@ public class Juego {
 
         
         if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
+            System.out.println("++++++++++++++++-...... Entre para poderme mover");
             man.setPosRow(filFutura);
             man.setPosCol(colFutura);
             System.out.println("------ KEY del man: " + man.getKey());
             e1 = man;
-            e2 = new Espacio("O", posRow, posCol);
             this.tablero[filFutura][colFutura].reemplazar(e1);
-            this.tablero[posRow][posCol].reemplazar(e2);
-            puede = true;
             changes.add(e1);
-            changes.add(e2);
+            // Validacion para caso de Espacio pero que colocan una bomba
+            System.out.println("+++++++++ Verificar si hay bomba en esa posicion:  False:SI: " + hay_objeto(posRow, posCol, man));
+            if (hay_objeto(posRow, posCol, man)){
+                e2 = new Espacio("O", posRow, posCol);
+                this.tablero[posRow][posCol].reemplazar(e2);
+                changes.add(e2);
+            }else{
+                //Casilla cas = tablero[posRow][posCol].get()
+                //e2 = new Bomba
+                e2 = tablero[posRow][posCol].getAll().get(tablero[posRow][posCol].getAll().size() - 1);
+                System.out.println("*************** BOMBA: " + e2.toString());
+                changes.add(e2);
+            }
         }
+        
+        System.out.println("+++++++ Numero de Cambios: " + changes.size());
         
         return changes;
     }
     
     public Elemento explotarElemento(Elemento ele) {
-        Elemento p=null;
+        Elemento p = null;
         if(ele instanceof Caja){//borramos la caja a menos que sea un poder ahora
             Random rand = new Random();
             int y=ele.getPosRow();
@@ -374,8 +398,16 @@ public class Juego {
             }
             tablero[y][x].reemplazar(p);
         }
+
         ((Destruible) ele).explotaBomba();
-        
+
+        if(ele instanceof Man){
+            if(!((Man) ele).estaVivo()){
+                p = new PSuper(ele.getPosRow(), ele.getPosCol());
+            }else{
+                p = null;
+            }  
+        }
         //si nada cambia dejar null
         return p;
     }

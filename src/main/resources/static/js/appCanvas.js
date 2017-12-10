@@ -12,10 +12,8 @@ var appCanvas = (function () {
     var tablero;
     var _manes;
     var _id_man;
-    var myplayer = null;
-    var myposx = null;
-    var myposy = null;
     var keyPress = null;
+    var clear;
 
     /**
      * función que realiza la conexión STOMP
@@ -32,11 +30,6 @@ var appCanvas = (function () {
             //especificamos que estamos atentos a poner bombas de jugadores
             stompClient.subscribe("/topic/AccionBomba." + idSala, function (eventbody) {
                 callback_accionBomba(eventbody.body);
-            });
-
-            //Estamos atentos si se mueve algun jugador dentro de l
-            stompClient.subscribe("/topic/moverPersonaje." + idSala, function (eventbody) {
-                callback_moverPersonaje(eventbody);
             });
 
             //Estamos atentos si se daña alguna caja
@@ -59,8 +52,9 @@ var appCanvas = (function () {
     // Funciones 
 
     /**
-     * daña una caja específica
-     * @param {*} message 
+     * Modificar posiciones despues de Movimiento de Jugador
+     * @param {type} data
+     * @returns {undefined}
      */
     var callback_actualizar = function (data) {
         var tempotab = JSON.parse(data.body);
@@ -74,6 +68,7 @@ var appCanvas = (function () {
             console.log("----- Tablero antes de Modificar: " + tablero);
             console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
         }
+        clear = true;
         actualizar();
     };
 
@@ -87,20 +82,19 @@ var appCanvas = (function () {
     function getCookie(name) {
         var value = "; " + document.cookie;
         var parts = value.split("; " + name + "=");
-        if (parts.length === 2)
-            return parts.pop().split(";").shift();
-    }
-    ;
-
-    var callback_moverPersonaje = function (message) {
-        var data = message;
+        if (parts.length == 2) return parts.pop().split(";").shift();
     };
-
+    
+    /**
+     * Obtener JTablero de Juego teniendo en cuenta el IdSala
+     * @returns {undefined}
+     */
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var nameCookie = getCookie("nombreuser");
             var datosJuego = eval("(" + data + ")");
             tablero = Array();
+            
             //llenamos todo de vacíos
             for (var i = 0; i < datosJuego.alto; i++) {
                 tablero[i] = Array();
@@ -143,7 +137,11 @@ var appCanvas = (function () {
             actualizar();
         });
     };
-
+    
+    /**
+     * Carga los controles basicos para el funcionamiento del juego
+     * @returns {undefined}
+     */
     var loadBasicControls = function () {
         //console.info('Cargando script!');
         canvas = document.getElementById('lienzo');
@@ -161,7 +159,12 @@ var appCanvas = (function () {
             key = false;
         });
     };
-
+    
+    /**
+     * Funcion para mover personaje
+     * @param {type} key
+     * @returns {undefined}
+     */
     function moverPersonaje(key) {
         if (36 < key && key < 41) {
             //console.log("/// Me estoy moviendo :D");
@@ -185,17 +188,15 @@ var appCanvas = (function () {
     }
 
     /**
-     * encargado de redibujar el canvas
+     * Encargado de redibujar el canvas
      */
     var actualizar = function () {
-        //dibuja el canvas COMPLETO!
         //console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (isNumber(tablero[i][j])) {
                     var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
-                    
                 }else{
                     switch (tablero[i][j][0]){// si tiene algo como-> A.B verifica-> A
                         case "C"://caja
@@ -249,6 +250,11 @@ var appCanvas = (function () {
                             var myObstacle = new Objeto("fuego",j,i);
                             myObstacle.update();
                             break;
+                        default :
+                            // Para el caso que no se tenga un caracter claro en el tablero
+                            var myObstacle = new Objeto("grass", j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
+                            myObstacle.update();
+                            break;
                     }
                 }
             }
@@ -300,27 +306,48 @@ var appCanvas = (function () {
 			actualizar();
         }
     };
-
+    
+    // Objeto Caja
     function Caja(color, x, y) {
+        
         this.update = function () {
             x *= anchoCasilla;
             y *= anchoCasilla;
             ctx.fillStyle = color;
             ctx.fillRect(x, y, anchoCasilla, anchoCasilla);
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(anchoCasilla + x, y);
+            ctx.lineTo(anchoCasilla + x, anchoCasilla + y);
+            ctx.lineTo(x, anchoCasilla + y);
+            ctx.lineTo(x, y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(anchoCasilla + x, anchoCasilla + y);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(anchoCasilla + x, y);
+            ctx.lineTo(x, anchoCasilla + y);
+            ctx.stroke();
         };
     }
     
-    function Objeto(color, x, y) {
-		console.log(color);
-        type ="image";
-        this.ancho = anchoCasilla;
-        this.alto = anchoCasilla;
-        this.x = x*anchoCasilla;
-		this.y = y*anchoCasilla;
-		
+    // Objeto relacionado a los Elementos del Tablero
+    function Objeto(color, x, y, ancho, alto, type) {
+        this.type = type;
+        this.ancho = ancho;
+        this.alto = alto;
+        this.x = x;
+        this.y = y;
+         
         this.update = function () {
             if (type === "image") {
                 var img = document.getElementById(color);
+                if(clear){
+                    ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+                }
+                
                 ctx.drawImage(img,
                         this.x,
                         this.y,
@@ -332,72 +359,46 @@ var appCanvas = (function () {
             }
         };
     }
-
+    
+    // Objeto Jugador
     function Player(color, x, y, ancho, alto, type) {
         this.type = type;
         this.ancho = ancho;
         this.alto = alto;
         this.x = x;
         this.y = y;
-
-
+        
         this.update = function () {
             if (type === "image") {
                 //console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
-//                if (tablero[i][j] == _id_man){
-//                    console.log("KEYPRESS: " + keyPress);
-//                    switch (keyPress){
-//                        // Abajo
-//                        case 40:
-//                            sx = 50;
-//                            sy = 0;
-//                            break;
-//                        // Izquierda
-//                        case 37:
-//                            sx = 0;
-//                            sy = 100;
-//                            break;
-//                        // Arriba
-//                        case 38:
-//                            sx = 0;
-//                            sy = 150;
-//                            break;
-//                        // Derecha
-//                        case 39:
-//                            sx = 0;
-//                            sy = 200;
-//                            break;
-//                    }
-//                }else{
-//                    sx = 0;
-//                    sy = 0;
-//                }
-//                
+
                 sx = 0;
                 sy = 0;
                 swidth = 50;
                 sheight = 50;
-
-                switch (tablero[i][j]) {
-                    case "0"://caja
+                
+                switch (tablero[i][j]){
+                    case "0"://Jugador0
                         img = document.getElementById("george");
                         break;
-                    case "1"://caja
+                    case "1"://Jugador1
                         img = document.getElementById("alfredo");
                         break;
-                    case "2"://Pared
+                    case "2"://Jugador2
                         img = document.getElementById("pirata");
                         break;
-                    case "3"://caja dañada
+                    case "3"://Jugador3
                         img = document.getElementById("sergio");
                         break;
                     default :
                         img = document.getElementById("betty2");
                         break;
                 }
-
+                if(clear){
+                    ctx.clearRect(this.x, this.y, this.ancho, this.alto);
+                }
                 ctx.drawImage(img,
                         sx,
                         sy,
@@ -435,9 +436,8 @@ var appCanvas = (function () {
          */
         init() {
             //console.log("***** Iniciando Script!!");
-            console.log("Jugador: " + idJugador);
             idJugador = appCookie.getIdJugador(false);
-
+            console.log("Jugador: " + idJugador);
             // Cargamos elementos clave para dibujar en Tablero
             loadBasicControls();
             // Traer Numero de sala

@@ -103,27 +103,32 @@ public class STOMPMessagesHandler {
     
     @MessageMapping("/AccionBomba.{idSala}")
     public void accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        Jugador j=PJ.seleccionarJugadorPorId(id_jugador);        
+        Jugador j = PJ.seleccionarJugadorPorId(id_jugador);        
         gameServices.accionBomba(idSala,j);
     }
     
-    // Author: Kevin S. Sanchez (DOCUEMENTACION)
+    // Author: Kevin S. Sanchez (DOCUMENTACION)
     @MessageMapping("/mover.{idSala}.{key}")
     public boolean moverPersonaje(@DestinationVariable int idSala, @DestinationVariable int key, int id_jugador) throws Exception {
         System.out.println("///// edu.eci.arsw.bombermanx.STOMPMessagesHandler.moverPersonaje(): Sala: " + idSala + " - Jugador: " + id_jugador + " - Tecla: " + key);
-        synchronized (msgt) {
-            Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
+        Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
+        synchronized (msgt) {  
             return gameServices.accionMover(idSala, j, key);
         }
     }
     
+    /**
+     * Verificar si la cadena de texto que recibe es un numero
+     * @param str Texto
+     * @return True: Es numero, False: No es numero
+     */
     public static boolean isNumeric(String str){  
-      try{  
-        double d = Double.parseDouble(str);  
-      }  
-      catch(NumberFormatException nfe){  
-        return false;  
-      }  
-      return true;  
+        try{  
+            double d = Double.parseDouble(str);  
+        }  
+        catch(NumberFormatException nfe){  
+            return false;  
+        }  
+        return true;  
     }
 }
