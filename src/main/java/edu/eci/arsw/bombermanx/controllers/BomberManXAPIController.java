@@ -72,7 +72,7 @@ public class BomberManXAPIController {
             if(PS.getSalas().isEmpty()){
                 PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los BOMBERS",true,true);
                 PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los perdidos",false,true);
-                PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los XXX",false,true);
+                PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los Devs",false,true);
             }
             
             Set<Sala> data = gc.getSalas();

@@ -173,7 +173,7 @@ public class MessengerTh extends Thread {
             //centro
             detiene = revisarCelda(tablero[posRow][posCol]);
             if (detiene == 0 || detiene == 1) {
-                int[] tmpCoords = {delivery, posCol};
+                int[] tmpCoords = {posRow, posCol};
                 coords.add(tmpCoords);
             }
         } else {
@@ -215,7 +215,7 @@ public class MessengerTh extends Thread {
 
                 if (d != null) {
                     elementos.add((Elemento) d);
-                    res = 0;
+                    res = -1;
                 }
 
             }

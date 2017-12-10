@@ -69,7 +69,7 @@ var appCanvas = (function () {
 			y = tempotab[i].y;
 			x = tempotab[i].x;
 			k = tempotab[i].key;
-			tablero[y][x] = k;
+			setElemento(y,x,k);
 			//console.log("----- Tablero antes de Modificar: " + tablero);
 			//console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
 		}
@@ -79,25 +79,27 @@ var appCanvas = (function () {
 
 	var callback_DaniarCaja = function (message) {
 		var cajaADaniar = eval("(" + message.body + ")");
-		console.log(cajaADaniar);
-		tablero[cajaADaniar.queda.y][cajaADaniar.queda.x] = "c." + cajaADaniar.queda.key;
+		setElemento(cajaADaniar.queda.y,cajaADaniar.queda.x,"c." + cajaADaniar.queda.key);
 		actualizar();
 	};
 
+	var setElemento=function(y,x,key){
+		if(tablero[y][x]!="X")
+			tablero[y][x]=key;
+	}
+
 	var callback_Quemado = function (data) {
 		var dataMan = eval("(" + data.body + ")");
-		console.log("***************** POSQCOL : " + dataMan.y + ", POSQROW: " + dataMan.x);
 		var vida = dataMan.vida;
 		clear = true;
-		tablero[dataMan.y][dataMan.x] = "Q";
+		setElemento(dataMan.y,dataMan.x,"Q");
 		actualizar();
 		if (vida > 0) {
 			setTimeout(function () {
-				tablero[dataMan.y][dataMan.x] = dataMan.key;
+				setElemento(dataMan.y,dataMan.x,dataMan.key);
 				actualizar();
 			}, dataMan.tiempo);
 		}
-		console.log("TABLERO ANTES DE MODIFICAR: " + tablero);
 		actualizar();
 	};
 
@@ -219,7 +221,6 @@ var appCanvas = (function () {
 	 * Encargado de redibujar el canvas
 	 */
 	var actualizar = function () {
-		////console.log(tablero);
 		for (i = 0; i < tablero.length; i++) {
 			for (j = 0; j < tablero[i].length; j++) {
 				if (isNumber(tablero[i][j]) || tablero[i][j] == "Q") {
@@ -298,7 +299,7 @@ var appCanvas = (function () {
 	var anim_cajaDañada = function (j, i) {
 		var myObstacle = new Caja("#222222", j, i);
 		myObstacle.update();
-		tablero[i][j] = tablero[i][j][2]; // si tiene A.B queda con B
+		setElemento(i,j,tablero[i][j][2]); // si tiene A.B queda con B
 		setTimeout(function () {
 			actualizar();
 		}, 100);
@@ -307,7 +308,7 @@ var appCanvas = (function () {
 
 	var callback_fuego = function (coords) {
 		for (var i = 0; i < coords.length; i++) {
-			tablero[coords[i].y][coords[i].x] = "O";
+			setElemento(coords[i].y,coords[i].x,"O");
 		}
 		actualizar();
 		return false;
@@ -323,14 +324,14 @@ var appCanvas = (function () {
 		if (bomba.estallo === true) {
 			coords = J.coords;
 			for (var i = 0; i < coords.length; i++) {
-				tablero[coords[i].y][coords[i].x] = "b";
+				setElemento(coords[i].y,coords[i].x,"b");
 			}
 			actualizar();
 			setTimeout(function () {
 				callback_fuego(coords);
 			}, 100);
 		} else {
-			tablero[bomba.y][bomba.x] = "B";
+			setElemento(bomba.y,bomba.x,"B");
 			clear = false;
 			actualizar();
 		}
@@ -449,14 +450,6 @@ var appCanvas = (function () {
 	};
 
 	return {
-		//estas funciones publicas son sólo para pruebas
-		_actualizar: actualizar,
-		_ctx: function () {
-			return ctx;
-		},
-		setTablero(i, k, val) {
-			tablero[i][k] = val;
-		},
 		/**
 		 * encargado de realizar la conexión con STOMP
 		 */
