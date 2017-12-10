@@ -29,7 +29,7 @@ apiclientJugar = (function () {
         getJugadoresDeSala: function (idSala, callback) {
             $.ajax({
                 url: "/sala/" + idSala + "/Jugadores",
-                type: "GET",
+                type: "GET"
             }).done(function (data) {
                 callback(data);
             }).fail(function (jqXHR, textStatus) {

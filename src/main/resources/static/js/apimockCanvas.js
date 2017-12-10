@@ -26,8 +26,8 @@ apiclientCanvas = (function () {
     return {
         getJuego: function (idSala, callback) {
             $.ajax({
-                url: "/canvas/tablero/"+idSala,
-                type: "GET",
+                url: "/canvas/tablero/" + idSala,
+                type: "GET"
             }).done(function (data) {
                 callback(data);
             }).fail(function (jqXHR, textStatus) {

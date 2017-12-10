@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.MessagingException;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -68,7 +69,7 @@ public class BomberManXAPIController {
     @RequestMapping(path = "", method = RequestMethod.GET)
     public ResponseEntity<?> getSalas(Model model) {
         try {
-            if(PS.getSalas().size()==0){
+            if(PS.getSalas().isEmpty()){
                 PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los BOMBERS",true,true);
                 PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los perdidos",false,true);
                 PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los XXX",false,true);
@@ -95,7 +96,7 @@ public class BomberManXAPIController {
             Set<Sala> dataTopic = gc.getSalas();
             msgt.convertAndSend("/topic/Salas", dataTopic.toString());
             return new ResponseEntity<>(id, HttpStatus.ACCEPTED);
-        } catch (Exception ex) {
+        } catch (MessagingException ex) {
             Logger.getLogger(BomberManXAPIController.class.getName()).log(Level.SEVERE, null, ex);
             return new ResponseEntity<>("Creando sala", HttpStatus.NOT_FOUND);
         }

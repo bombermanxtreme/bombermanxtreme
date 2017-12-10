@@ -122,7 +122,7 @@ public class MessengerTh extends Thread {
                 }
             }
         } else if (sentido == ARRIBA || sentido == TODO) {
-            
+
             //arriba
             ax = 0;
             ay = posCol;
@@ -136,7 +136,7 @@ public class MessengerTh extends Thread {
                         int[] tmpCoords = {delivery, posCol};
                         coords.add(tmpCoords);
                     }
-                    if (detiene != 1 && detiene!= 2) {
+                    if (detiene != 1 && detiene != 2) {
                         break;
                     }
 
@@ -144,10 +144,9 @@ public class MessengerTh extends Thread {
                     veces += 1;
                 }
             }
-           
-            
+
         } else if (sentido == ABAJO || sentido == TODO) {
-             //abajo             
+            //abajo             
             ax = posRow;
             ay = alto - 1;
             veces = 0;
@@ -171,7 +170,7 @@ public class MessengerTh extends Thread {
                 //System.out.println("Pasa por aca");
             }
         } else if (sentido == CENTRO || sentido == TODO) {
-             //centro
+            //centro
             detiene = revisarCelda(tablero[posRow][posCol]);
             if (detiene == 0 || detiene == 1) {
                 int[] tmpCoords = {delivery, posCol};
@@ -188,7 +187,8 @@ public class MessengerTh extends Thread {
      * que bloquee la expanción de la bomba
      *
      * @param e
-     * @return 1-> continuar, 0-> parar y guarde ,  2-> continua y NO guarda , -1 -> para y no guarde
+     * @return 1-> continuar, 0-> parar y guarde , 2-> continua y NO guarda , -1
+     * -> para y no guarde
      */
     private int revisarCelda(Casilla e) {
         int res = 1;
@@ -217,12 +217,14 @@ public class MessengerTh extends Thread {
                     elementos.add((Elemento) d);
                     res = 0;
                 }
-                
+
             }
-            if (e.tieneTipo(Caja_Metalica.class))
+            if (e.tieneTipo(Caja_Metalica.class)) {
                 res = -1;
-            if (e.tieneTipo(Caja.class))
+            }
+            if (e.tieneTipo(Caja.class)) {
                 res = -1;
+            }
         }
         return res;
     }

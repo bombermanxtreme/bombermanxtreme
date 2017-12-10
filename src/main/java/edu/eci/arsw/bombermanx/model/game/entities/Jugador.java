@@ -14,12 +14,12 @@ public class Jugador {
     private int record;
 
     /**
-     * 
+     *
      * @param nombre
      * @param correo
      * @param apodo
      * @param clave
-     * @param imagen 
+     * @param imagen
      */
     public Jugador(String nombre, String correo, String apodo, String clave, String imagen) {
         this.nombre = nombre;
@@ -27,9 +27,9 @@ public class Jugador {
         this.apodo = apodo;
         this.clave = clave;
         this.imagen = imagen;
-        this.record = record <= 0 ? 0 : record;     
+        this.record = record <= 0 ? 0 : record;
     }
-    
+
     public String getNombre() {
         return nombre;
     }
@@ -46,14 +46,13 @@ public class Jugador {
         return record;
     }
 
-   
     public String getApodo() {
         return apodo;
     }
 
     public String getImagen() {
         return imagen;
-    }   
+    }
 
     public void setNombre(String nombre) {
         this.nombre = nombre;
@@ -78,9 +77,9 @@ public class Jugador {
     public void setRecord(int record) {
         this.record = record;
     }
-    
+
     @Override
     public String toString() {
-        return "{\"Nombre\":\"" + nombre + "\", \"Record\":\"" + record + "\", Correo\":\"" + correo + "\", url\":\"" + imagen + "\", Apodo\":\"" + apodo + "\"}";        
+        return "{\"Nombre\":\"" + nombre + "\", \"Record\":\"" + record + "\", Correo\":\"" + correo + "\", url\":\"" + imagen + "\", Apodo\":\"" + apodo + "\"}";
     }
 }

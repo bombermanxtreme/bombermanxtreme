@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Timer;
 
 /**
  *
@@ -38,6 +37,7 @@ public class Juego {
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
     public static final int CENTRO = -1;
+    public static final int TODO = 100;
     public static final int VIDAPIERDEXBOMBA = 20;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
@@ -47,13 +47,11 @@ public class Juego {
     private ArrayList<Man> manes;
     public static final int MAXIMOJUGADORES = 4;
     private static final int[][] POSJUGADORES = {{0, 0}, {ALTO - 1, ANCHO - 1}, {0, ANCHO - 1}, {ALTO - 1, 0}};
-    private Timer timer;
 
     public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal, boolean esEquipos) {
         this.jugadores = jugadores;
         this.esEquipos = esEquipos;
         manes = new ArrayList<>();
-        //System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
         this.tablero = new Casilla[ALTO][ANCHO];
 
         for (int i = 0; i < ALTO; i++) {
@@ -91,13 +89,13 @@ public class Juego {
                 if (isNumeric(letter)) {
                     int idJ = Integer.parseInt(letter);
                     //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): IdJugador" + idJ);
-                    if (idJ < jugadores.size() ){
+                    if (idJ < jugadores.size()) {
                         //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
-                        Man manTMP=new Man("black", jugadores.get(idJ), letter, row, col);
+                        Man manTMP = new Man("black", jugadores.get(idJ), letter, row, col);
                         this.tablero[row][col].reemplazar(manTMP);
-                        manes.add(idJ,manTMP);
+                        manes.add(idJ, manTMP);
                     }
-                    
+
                 } else {
                     switch (letter) {
                         case "O":
@@ -156,9 +154,8 @@ public class Juego {
         }
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
-        
-        //System.out.println("pos interno: "+mposCol+" "+mposRow);
 
+        //System.out.println("pos interno: "+mposCol+" "+mposRow);
         Bomba explotara = null;
 
         boolean puede = hay_objeto(mposRow, mposCol, man);
@@ -176,19 +173,21 @@ public class Juego {
     }
 
     /**
-     * Explota la bomba segun el TIEMPOEXPLOTARBOMBAS en 4 hilos, y en la trayectoria de la
-     * explosion informa que daños causo
+     * Explota la bomba segun el TIEMPOEXPLOTARBOMBAS en 4 hilos, y en la
+     * trayectoria de la explosion informa que daños causo
      *
      * @param explotara
-     * @return 
+     * @return
      */
     public ArrayList<Object> explotar(Bomba explotara) {
         // Quita la bomba y el elemento en la casilla
-        Casilla c=tablero[explotara.getPosRow()][explotara.getPosCol()];
-        ArrayList<Elemento> t= c.getAll();
+        Casilla c = tablero[explotara.getPosRow()][explotara.getPosCol()];
+        ArrayList<Elemento> t = c.getAll();
         t.remove(explotara);
-        if(t.size()==1)c.reemplazar(t.get(0));
-        
+        if (t.size() == 1) {
+            c.reemplazar(t.get(0));
+        }
+
         explotara.get_man().agregarBomba();
         // creando hilos para recorrer tablero
         MessengerTh izquierda = new MessengerTh();
@@ -202,7 +201,7 @@ public class Juego {
 
         MessengerTh abajo = new MessengerTh();
         abajo.iniciar(explotara, tablero, ABAJO);
-        
+
         MessengerTh centro = new MessengerTh();
         centro.iniciar(explotara, tablero, CENTRO);
 
@@ -212,7 +211,7 @@ public class Juego {
         arriba.start();
         abajo.start();
         centro.start();
-        
+
         try {
             //esperamos
             izquierda.join();
@@ -224,17 +223,17 @@ public class Juego {
             Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        //unimos todo los afectados
-        ArrayList<Object> afectados = new ArrayList<>();// 0-> elementos , 1 -> coordenadas
+        //unimos todo los afectados -- // 0-> elementos , 1 -> coordenadas
+        ArrayList<Object> afectados;// = new ArrayList<>();
         afectados = izquierda.getAfectados();
 
-        ArrayList<Elemento> tmp_eleme= (ArrayList<Elemento>) afectados.get(0);
+        ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
         tmp_eleme.addAll((ArrayList<Elemento>) derecha.getAfectados().get(0));
         tmp_eleme.addAll((ArrayList<Elemento>) arriba.getAfectados().get(0));
         tmp_eleme.addAll((ArrayList<Elemento>) abajo.getAfectados().get(0));
         tmp_eleme.addAll((ArrayList<Elemento>) centro.getAfectados().get(0));
-        
-        ArrayList<int[]> tmp_coords= (ArrayList<int[]>) afectados.get(1);
+
+        ArrayList<int[]> tmp_coords = (ArrayList<int[]>) afectados.get(1);
         tmp_coords.addAll((ArrayList<int[]>) derecha.getAfectados().get(1));
         tmp_coords.addAll((ArrayList<int[]>) arriba.getAfectados().get(1));
         tmp_coords.addAll((ArrayList<int[]>) abajo.getAfectados().get(1));
@@ -253,15 +252,15 @@ public class Juego {
      */
     private boolean hay_objeto(int fila, int columna, Man man) {
         //System.out.println("--------------------------"+fila+"++++"+columna);
-        ArrayList<Elemento> e= tablero[fila][columna].getAll();
-        boolean puede=true;
+        ArrayList<Elemento> e = tablero[fila][columna].getAll();
+        boolean puede = true;
         for (int i = 0; i < e.size(); i++) {
-            if(e.get(i) instanceof Bomba){
-                puede=false;
+            if (e.get(i) instanceof Bomba) {
+                puede = false;
                 break;
             }
         }
-        
+
         return puede;
     }
 
@@ -287,29 +286,36 @@ public class Juego {
         }
         return "{\"cajas\":" + cajasS.toString() + ",\"cajasFijas\":" + cajasM.toString() + ",\"manes\":" + manesS.toString() + ",\"ancho\":" + ANCHO + ",\"alto\":" + ALTO + "}";
     }
-    
+
     public int getIdJugador(Jugador j) {
         return jugadores.indexOf(j);
     }
-    
+
     /**
-     * Me permite conocer si el elemento de Fila-Columna permite mover al personaje
+     * Me permite conocer si el elemento de Fila-Columna permite mover al
+     * personaje
+     *
      * @param fila Posicion de fila dentro del tablero
      * @param columna Posicion de columna dentro del tablero
-     * @return True: Se puede mover el Jugador - False: No se puede mover el jugador
+     * @return True: Se puede mover el Jugador - False: No se puede mover el
+     * jugador
      */
     private boolean puedo_moverme(int fila, int columna) {
         ArrayList<Elemento> e = tablero[fila][columna].getAll();
         boolean puede = e.isEmpty();
         for (int i = 0; i < e.size(); i++) {
             puede = e.get(i) instanceof DejaMover;
-            if(puede == true)break;
+            if (puede == true) {
+                break;
+            }
         }
         return puede;
     }
-    
+
     /**
-     * Segun la tecla que presiona el usuario revisa si se puede mover en ese sentido
+     * Segun la tecla que presiona el usuario revisa si se puede mover en ese
+     * sentido
+     *
      * @param j : Jugador
      * @param key : Numero de Tecla de presiono el usuario
      * @return Lista de elementos que fueron afectados
@@ -319,35 +325,35 @@ public class Juego {
         Man man = manes.get(jugadores.indexOf(j));
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
-        
+
         ArrayList<Elemento> changes = new ArrayList<>();
-        
+
         int filFutura = 0;
         int colFutura = 0;
-        
+
         // Flecha Abajo
         switch (key) {
             case 40:
-                filFutura = posRow+1;
+                filFutura = posRow + 1;
                 colFutura = posCol;
                 break;
             case 37:
                 filFutura = posRow;
-                colFutura = posCol-1;
+                colFutura = posCol - 1;
                 break;
             case 38:
-                filFutura = posRow-1;
+                filFutura = posRow - 1;
                 colFutura = posCol;
                 break;
             case 39:
                 filFutura = posRow;
-                colFutura = posCol+1;
+                colFutura = posCol + 1;
                 break;
             default:
                 break;
         }
 
-        if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
+        if (filFutura >= 0 && colFutura >= 0 && colFutura < ANCHO && filFutura < ALTO && puedo_moverme(filFutura, colFutura)) {
             //System.out.println("++++++++++++++++-...... Entre para poderme mover");
             man.setPosRow(filFutura);
             man.setPosCol(colFutura);
@@ -357,11 +363,11 @@ public class Juego {
             changes.add(e1);
             // Validacion para caso de Espacio pero que colocan una bomba
             //System.out.println("+++++++++ Verificar si hay bomba en esa posicion:  False:SI: " + hay_objeto(posRow, posCol, man));
-            if (hay_objeto(posRow, posCol, man)){
+            if (hay_objeto(posRow, posCol, man)) {
                 e2 = new Espacio("O", posRow, posCol);
                 this.tablero[posRow][posCol].reemplazar(e2);
                 changes.add(e2);
-            }else{
+            } else {
                 //Casilla cas = tablero[posRow][posCol].get()
                 //e2 = new Bomba
                 e2 = tablero[posRow][posCol].getAll().get(tablero[posRow][posCol].getAll().size() - 1);
@@ -370,37 +376,36 @@ public class Juego {
                 changes.add(e2);
             }
         }
-        
+
         //System.out.println("+++++++ Numero de Cambios: " + changes.size());
-        
         return changes;
     }
-    
+
     public Elemento explotarElemento(Elemento ele) {
         Elemento p = null;
-        if(ele instanceof Caja){//borramos la caja a menos que sea un poder ahora
+        if (ele instanceof Caja) {//borramos la caja a menos que sea un poder ahora
             Random rand = new Random();
-            int y=ele.getPosRow();
-            int x=ele.getPosCol();
-            p=new Espacio("O", y,x);
-            switch(rand.nextInt(NUMPODERES+2)){
+            int y = ele.getPosRow();
+            int x = ele.getPosCol();
+            p = new Espacio("O", y, x);
+            switch (rand.nextInt(NUMPODERES + 2)) {
                 case 0:
-                    p=new PRedbull(y,x);
+                    p = new PRedbull(y, x);
                     break;
                 case 1:
-                    p=new PTortuga(y,x);
+                    p = new PTortuga(y, x);
                     break;
                 case 2:
-                    p=new PTurbo(y,x);
+                    p = new PTurbo(y, x);
                     break;
                 case 3:
-                    p=new PTinto(y,x);
+                    p = new PTinto(y, x);
                     break;
                 case 4:
-                    p=new PAddBomba(y,x);
+                    p = new PAddBomba(y, x);
                     break;
                 case 5:
-                    p=new PLessBomba(y,x);
+                    p = new PLessBomba(y, x);
                     break;
             }
             tablero[y][x].reemplazar(p);
@@ -408,12 +413,12 @@ public class Juego {
 
         ((Destruible) ele).explotaBomba();
 
-        if(ele instanceof Man){
-            if(!((Man) ele).estaVivo()){
+        if (ele instanceof Man) {
+            if (!((Man) ele).estaVivo()) {
                 p = new PSuper(ele.getPosRow(), ele.getPosCol());
-            }else{
+            } else {
                 p = null;
-            }  
+            }
         }
         //si nada cambia dejar null
         return p;

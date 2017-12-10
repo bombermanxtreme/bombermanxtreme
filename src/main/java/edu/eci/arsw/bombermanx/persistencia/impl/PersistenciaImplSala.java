@@ -21,8 +21,8 @@ public class PersistenciaImplSala implements PersistenciaSala {
 
     @Override
     public int crearSala(Jugador creador, String nombre, boolean equipos, boolean friendFire) {
-        salas.add(new Sala(salas.size(),creador, nombre, equipos, friendFire));
-        return salas.size()-1;
+        salas.add(new Sala(salas.size(), creador, nombre, equipos, friendFire));
+        return salas.size() - 1;
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PersistenciaImplSala implements PersistenciaSala {
 
     @Override
     public Sala getSala(int id) {
-        Sala s=(salas.size()>id)?salas.get(id):null;
+        Sala s = (salas.size() > id) ? salas.get(id) : null;
         return s;
     }
 
@@ -78,12 +78,12 @@ public class PersistenciaImplSala implements PersistenciaSala {
 
     @Override
     public void removeJugador(int idSala, Jugador j) {
-		salas.get(idSala).eliminarJugador(j);
-	}
-	
-	@Override
+        salas.get(idSala).eliminarJugador(j);
+    }
+
+    @Override
     public boolean cambiarDeGrupoJugador(int idSala, Jugador jugador) {
-               
+
         return salas.get(idSala).cambiarDeGrupoJugador(jugador);
     }
 

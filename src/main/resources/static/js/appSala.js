@@ -1,40 +1,40 @@
 //var APIuseful = apimockJugar;
 var APIuseful = apiclientSala;
 
-var appSala=(function(){
-	var stompClient = null;
-	var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
-        var idJugador = -1;
-        
-	/**
-	 * desconecta del STOMP
-	 */
-	var disconnect=function() {
-		if (stompClient!==null) {
-			stompClient.disconnect();
-		}
-		//setConnected(false);
-		//console.log("Desconectado de Salas");
-	};
-	
-	/**
-	 * función que realiza la conexión STOMP
-	 */
-	var connectAndSubscribe = function () {
-		console.info("Connecting to WS...Salas");
-		var socket = new SockJS('/stompendpoint');
-		stompClient = Stomp.over(socket);
+var appSala = (function () {
+    var stompClient = null;
+    var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
+    var idJugador = -1;
 
-		//subscribe to /topic/TOPICXX when connections succeed
-		stompClient.connect({}, function (frame) {
-			//console.log("Conectado: " + frame);
-			
-			//especificamos que estamos atentos de nuevos jugadores que entren
-			stompClient.subscribe("/topic/Salas", function (eventbody) {
-				callback_getSalas(eventbody.body);
-			});
-		});
-	};
+    /**
+     * desconecta del STOMP
+     */
+    var disconnect = function () {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+        }
+        //setConnected(false);
+        //console.log("Desconectado de Salas");
+    };
+
+    /**
+     * función que realiza la conexión STOMP
+     */
+    var connectAndSubscribe = function () {
+        console.info("Connecting to WS...Salas");
+        var socket = new SockJS('/stompendpoint');
+        stompClient = Stomp.over(socket);
+
+        //subscribe to /topic/TOPICXX when connections succeed
+        stompClient.connect({}, function (frame) {
+            //console.log("Conectado: " + frame);
+
+            //especificamos que estamos atentos de nuevos jugadores que entren
+            stompClient.subscribe("/topic/Salas", function (eventbody) {
+                callback_getSalas(eventbody.body);
+            });
+        });
+    };
 
     /**
      * alista todo para iniciar a pedir las salas cuando recién entra

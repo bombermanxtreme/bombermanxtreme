@@ -27,7 +27,8 @@ public class Caja implements Elemento, Destruible {
     }
 
     @Override
-    public void explotaBomba() {}
+    public void explotaBomba() {
+    }
 
     @Override
     public String toString() {

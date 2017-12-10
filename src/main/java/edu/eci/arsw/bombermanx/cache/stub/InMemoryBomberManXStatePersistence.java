@@ -31,7 +31,7 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
         if (gamesState.containsKey(id)) {
             throw new GameCreationException("el juego " + id + " ya existe.");
         } else {
-            String[][] tablero = null;
+            String[][] tablero; //= null;
             try {
                 tablero = TableroTexto.muestraContenido(id);
                 

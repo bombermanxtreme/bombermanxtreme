@@ -14,10 +14,10 @@ public abstract class Bomba implements Elemento {
     int posCol;
     Timer timer;
     int posRow;
-    boolean estallo=false;
+    boolean estallo;
     private int radio;
     private Man man;
-    private String key = "B";
+    private String key;
 
     public Bomba(Man man, String color, int radio) {
         this.man = man;
@@ -25,8 +25,8 @@ public abstract class Bomba implements Elemento {
         this.radio = radio;
         posRow = man.getPosRow();
         posCol = man.getPosCol();
-        //System.out.println("dentro de bomba"+posCol+"-"+posRow);
-        
+        key = "B";
+        estallo = false;
     }
 
     public Timer getTimer() {
@@ -37,8 +37,6 @@ public abstract class Bomba implements Elemento {
         this.timer = timer;
     }
 
-    
-    
     public int getRadio() {
         return radio;
     }
@@ -56,13 +54,13 @@ public abstract class Bomba implements Elemento {
     public int getPosCol() {
         return posCol;
     }
-    
+
     @Override
-    public String toString(){
-        return "{\"y\":"+posRow+",\"x\":"+posCol+",\"estallo\":"+estallo+ ",\"key\":\"" + key + "\"}";
+    public String toString() {
+        return "{\"y\":" + posRow + ",\"x\":" + posCol + ",\"estallo\":" + estallo + ",\"key\":\"" + key + "\"}";
     }
 
     public void estalla() {
-        estallo=true;
+        estallo = true;
     }
 }

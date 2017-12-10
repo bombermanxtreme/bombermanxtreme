@@ -73,18 +73,20 @@ var appCanvas = (function () {
     };
 
     var callback_DaniarCaja = function (message) {
-        var cajaADaniar = eval("("+message.body+")");
+        var cajaADaniar = eval("(" + message.body + ")");
         //console.log(cajaADaniar);
-        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c."+cajaADaniar.queda.key;
+        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c." + cajaADaniar.queda.key;
         actualizar();
     };
 
     function getCookie(name) {
         var value = "; " + document.cookie;
         var parts = value.split("; " + name + "=");
-        if (parts.length == 2) return parts.pop().split(";").shift();
-    };
-    
+        if (parts.length === 2)
+            return parts.pop().split(";").shift();
+    }
+    ;
+
     /**
      * Obtener JTablero de Juego teniendo en cuenta el IdSala
      * @returns {undefined}
@@ -92,14 +94,14 @@ var appCanvas = (function () {
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var nameCookie = getCookie("nombreuser");
-            if(data=="" || data==null){
-                location.href="jugar.html";
+            if (data === "" || data === null) {
+                location.href = "jugar.html";
                 return false;
             }
             var datosJuego = eval("(" + data + ")");
 
             tablero = Array();
-            
+
             //llenamos todo de vacíos
             for (var i = 0; i < datosJuego.alto; i++) {
                 tablero[i] = Array();
@@ -142,7 +144,7 @@ var appCanvas = (function () {
             actualizar();
         });
     };
-    
+
     /**
      * Carga los controles basicos para el funcionamiento del juego
      * @returns {undefined}
@@ -164,7 +166,7 @@ var appCanvas = (function () {
             key = false;
         });
     };
-    
+
     /**
      * Funcion para mover personaje
      * @param {type} key
@@ -202,57 +204,57 @@ var appCanvas = (function () {
                 if (isNumber(tablero[i][j])) {
                     var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
-                }else{
-                    switch (tablero[i][j][0]){// si tiene algo como-> A.B verifica-> A
+                } else {
+                    switch (tablero[i][j][0]) {// si tiene algo como-> A.B verifica-> A
                         case "C"://caja
-                            var myObstacle = new Objeto("wood",j,i);
+                            var myObstacle = new Objeto("wood", j, i);
                             myObstacle.update();
                             break;
                         case "X"://Pared
-                            var myObstacle = new Objeto("wall",j,i);
+                            var myObstacle = new Objeto("wall", j, i);
                             myObstacle.update();
                             break;
                         case "c"://caja dañada
                             anim_cajaDañada(j, i);
                             break;
                         case "O"://nada
-                            var myObstacle = new Objeto("grass",j,i);
+                            var myObstacle = new Objeto("grass", j, i);
                             myObstacle.update();
                             break;
                         case "B"://Bomba
-                            var myObstacle = new Objeto("bomba",j,i);
+                            var myObstacle = new Objeto("bomba", j, i);
                             myObstacle.update();
                             break;
                         case "R"://PODER mas rapido
-                            var myObstacle = new Objeto("PTurbo",j,i);
+                            var myObstacle = new Objeto("PTurbo", j, i);
                             myObstacle.update();
                             break;
                         case "r"://PODER mas lento
-                            var myObstacle = new Objeto("PTortuga",j,i);
+                            var myObstacle = new Objeto("PTortuga", j, i);
                             myObstacle.update();
                             break;
                         case "T"://PODER mas radio
-                            var myObstacle = new Objeto("PRedbull",j,i);
+                            var myObstacle = new Objeto("PRedbull", j, i);
                             myObstacle.update();
                             break;
                         case "t"://PODER menos radio
-                            var myObstacle = new Objeto("PTinto",j,i);
+                            var myObstacle = new Objeto("PTinto", j, i);
                             myObstacle.update();
                             break;
                         case "N"://PODER mas bomba
-                            var myObstacle = new Objeto("PAddBomba",j,i);
+                            var myObstacle = new Objeto("PAddBomba", j, i);
                             myObstacle.update();
                             break;
                         case "n"://PODER menos boba
-                            var myObstacle = new Objeto("PLessBomba",j,i);
+                            var myObstacle = new Objeto("PLessBomba", j, i);
                             myObstacle.update();
                             break;
                         case "S"://PODER super
-                            var myObstacle = new Objeto("PSuper",j,i);
+                            var myObstacle = new Objeto("PSuper", j, i);
                             myObstacle.update();
                             break;
                         case "b"://fuego
-                            var myObstacle = new Objeto("fuego",j,i);
+                            var myObstacle = new Objeto("fuego", j, i);
                             myObstacle.update();
                             break;
                         default :
@@ -275,20 +277,21 @@ var appCanvas = (function () {
     var anim_cajaDañada = function (j, i) {
         var myObstacle = new Caja("#222222", j, i);
         myObstacle.update();
-        tablero[i][j]=tablero[i][j][2];// si tiene A.B queda con B
+        tablero[i][j] = tablero[i][j][2];// si tiene A.B queda con B
         setTimeout(function () {
             actualizar();
         }, 100);
     };
 
 
-	var callback_fuego = function(coords){
-		for (var i = 0; i < coords.length; i++) {
-			tablero[coords[i].y][coords[i].x]="O";
-		}
-		actualizar();
-		return false;
-	}
+    var callback_fuego = function (coords) {
+        for (var i = 0; i < coords.length; i++) {
+            tablero[coords[i].y][coords[i].x] = "O";
+        }
+        actualizar();
+        return false;
+    };
+    
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
         //bomba
@@ -299,21 +302,21 @@ var appCanvas = (function () {
         if (bomba.estallo === true) {
             coords = J.coords;
             for (var i = 0; i < coords.length; i++) {
-                tablero[coords[i].y][coords[i].x]="b";
+                tablero[coords[i].y][coords[i].x] = "b";
             }
             actualizar();
-            setTimeout(function(params) {
-                    callback_fuego(coords);
-            },100);
-        }else{
-            tablero[bomba.y][bomba.x]="B";
-			actualizar();
+            setTimeout(function (params) {
+                callback_fuego(coords);
+            }, 100);
+        } else {
+            tablero[bomba.y][bomba.x] = "B";
+            actualizar();
         }
     };
-    
+
     // Objeto Caja
     function Caja(color, x, y) {
-        
+
         this.update = function () {
             x *= anchoCasilla;
             y *= anchoCasilla;
@@ -336,17 +339,17 @@ var appCanvas = (function () {
             ctx.stroke();
         };
     }
-    
+
     // Objeto relacionado a los Elementos del Tablero
     function Objeto(color, x, y) {
         this.ancho = anchoCasilla;
         this.alto = anchoCasilla;
         this.x = x * anchoCasilla;
         this.y = y * anchoCasilla;
-         
+
         this.update = function () {
             var img = document.getElementById(color);
-            if(clear){
+            if (clear) {
                 ctx.clearRect(this.x, this.y, this.ancho, this.alto);
             }
 
@@ -356,7 +359,7 @@ var appCanvas = (function () {
                     this.ancho, this.alto);
         };
     }
-    
+
     // Objeto Jugador
     function Player(color, x, y, ancho, alto, type) {
         this.type = type;
@@ -364,7 +367,7 @@ var appCanvas = (function () {
         this.alto = alto;
         this.x = x;
         this.y = y;
-        
+
         this.update = function () {
             if (this.type === "image") {
                 ////console.log("++ COLOCANDO IMAGEN de Jugador");
@@ -375,8 +378,8 @@ var appCanvas = (function () {
                 sy = 0;
                 swidth = 50;
                 sheight = 50;
-                
-                switch (tablero[i][j]){
+
+                switch (tablero[i][j]) {
                     case "0"://Jugador0
                         img = document.getElementById("sergio");
                         break;
@@ -393,7 +396,7 @@ var appCanvas = (function () {
                         img = document.getElementById("betty2");
                         break;
                 }
-                if(clear){
+                if (clear) {
                     ctx.clearRect(this.x, this.y, this.ancho, this.alto);
                 }
                 ctx.drawImage(img,

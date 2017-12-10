@@ -11,7 +11,6 @@ import edu.eci.arsw.bombermanx.model.game.entities.Sala;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaJugador;
 import edu.eci.arsw.bombermanx.persistencia.PersistenciaSala;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
@@ -31,13 +30,12 @@ public class BomberManXServices {
     @Autowired
     private BomberManXCache cache;
     @Autowired
-    private PersistenciaJugador pj = null;
+    private PersistenciaJugador pj;// = null;
     @Autowired
-    private PersistenciaSala ps = null;
+    private PersistenciaSala ps;// = null;
     @Autowired
     private SimpMessagingTemplate msgt;
 
-    
     /**
      * crea un juego nuevo
      *
@@ -45,9 +43,11 @@ public class BomberManXServices {
      * @throws GameCreationException
      */
     public void createGame(int id_sala) throws GameCreationException {
-        if(ps.getSala(id_sala)!=null)
+        if (ps.getSala(id_sala) != null) {
             cache.createGame(id_sala, ps.getJugadoresListos(id_sala), ps.esEquipos(id_sala));
-        else throw new GameCreationException("Sala de juego ya no existe");
+        } else {
+            throw new GameCreationException("Sala de juego ya no existe");
+        }
         //System.out.println("Juego creado en CreateGame");
     }
 
@@ -144,7 +144,7 @@ public class BomberManXServices {
 
             //jugadores diponibles
             //System.out.println("----- jugadores disponibles ---");
-            for(int i = 0; i < jugadores.size(); i++) {
+            for (int i = 0; i < jugadores.size(); i++) {
                 //System.out.println(jugadores.get(i));
             }
 
@@ -212,43 +212,41 @@ public class BomberManXServices {
         boolean res = false;
 
         if (bomba != null) {
-            msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+"}");
+            msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":" + bomba.toString() + "}");
 
             res = true;
-            Timer t= new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
-                    bomba.getTimer().stop();
-                    bomba.estalla();
-                    String strCoords = new String();
+            Timer t = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, (ActionEvent e) -> {
+                bomba.getTimer().stop();
+                bomba.estalla();
+                
+                String strCoords = new String();
+                
+                ArrayList<Object> afectados = juego.explotar(bomba);
+                
+                ArrayList<int[]> listaTemp = ((ArrayList<int[]>) afectados.get(1));
+                int x;
+                int y;
+                
+                for (int i = 0; i < listaTemp.size(); i++) {
+                    y = listaTemp.get(i)[0];
+                    x = listaTemp.get(i)[1];
                     
-                    ArrayList<Object> afectados = juego.explotar(bomba);
-
-                    ArrayList<int[]> listaTemp = ((ArrayList<int[]>) afectados.get(1));
-                    int x;
-                    int y;
-
-                    for (int i = 0; i < listaTemp.size(); i++) {
-                        y = listaTemp.get(i)[0];
-                        x = listaTemp.get(i)[1];
-
-                        strCoords += "{\"x\":" + x + ",\"y\":" + y + "},";
+                    strCoords += "{\"x\":" + x + ",\"y\":" + y + "},";
+                }
+                
+                msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":" + bomba.toString() + ",\"coords\":[" + strCoords + "]}");
+                
+                //System.out.println("|||||- cords str -||||||||");
+                //System.out.println(strCoords);
+                ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
+                for (int i = 0; i < tmp_eleme.size(); i++) {
+                    Elemento ele = tmp_eleme.get(i);
+                    Elemento quedaPoder = juego.explotarElemento(ele);
+                    if (ele instanceof Caja) {
+                        msgt.convertAndSend("/topic/DaniarCaja." + id_sala, "{\"caja\":" + ele.toString() + ",\"queda\":" + quedaPoder.toString() + "}");
                     }
-
-                    msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":" + bomba.toString() + ",\"coords\":[" + strCoords + "]}");
-
-                    //System.out.println("|||||- cords str -||||||||");
-                    //System.out.println(strCoords);
-
-                    ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
-                    for (int i = 0; i < tmp_eleme.size(); i++) {
-                        Elemento ele = tmp_eleme.get(i);
-                        Elemento quedaPoder = juego.explotarElemento(ele);
-                        if (ele instanceof Caja) {
-                            msgt.convertAndSend("/topic/DaniarCaja." + id_sala, "{\"caja\":"+ele.toString()+",\"queda\":"+quedaPoder.toString()+"}");
-                        }
-                        if (ele instanceof Man) {
-                            msgt.convertAndSend("/topic/ManQuemado." + id_sala, ele.toString());
-                        }
+                    if (ele instanceof Man) {
+                        msgt.convertAndSend("/topic/ManQuemado." + id_sala, ele.toString());
                     }
                 }
             });
@@ -258,15 +256,15 @@ public class BomberManXServices {
 
         return res;
     }
-    
+
     public boolean accionMover(int id_sala, Jugador j, int key) throws GameServicesException {
         Juego juego = cache.getGame(id_sala);
         boolean res = false;
-        if (juego != null){
+        if (juego != null) {
             res = true;
             ArrayList<Elemento> changes = juego.moverPersonaje(j, key);
             //System.out.println("///// Tamaño cambios: " + changes.size());
-            if(changes.size()>0){
+            if (changes.size() > 0) {
                 ////System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
                 msgt.convertAndSend("/topic/actualizar." + id_sala, changes.toString());
             }

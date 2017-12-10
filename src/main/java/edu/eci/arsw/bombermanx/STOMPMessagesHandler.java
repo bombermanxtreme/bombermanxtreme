@@ -127,7 +127,8 @@ public class STOMPMessagesHandler {
         try{  
             double d = Double.parseDouble(str);  
         }  
-        catch(NumberFormatException nfe){  
+        catch(NumberFormatException e){  
+            System.err.println(e);
             return false;  
         }  
         return true;  

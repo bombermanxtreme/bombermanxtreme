@@ -17,12 +17,12 @@ public class Sala {
     private boolean equipos;
     private boolean friendFire;
     private boolean casiLista;
-    
+
     private ArrayList<Jugador> jugadores;
     private ArrayList<Jugador> equipoA;
     private ArrayList<Jugador> equipoB;
     private ArrayList<Jugador> jugadoresListos;
-    
+
     //minimo de jugadores "listos" que se necesitan en la sala para jugar
     private static final int MINIMOJUGADORES = 2;
     //tiempo en segundos, máximo que tienen los jugadores que no están listos en la sala para entrar al juego
@@ -40,14 +40,13 @@ public class Sala {
      * @param friendFire
      */
     public Sala(int id, Jugador creador, String nombre, boolean equipos, boolean friendFire) {
-        
+
         jugadores = new ArrayList<>();
         equipoA = new ArrayList<>();
         equipoB = new ArrayList<>();
-        jugadoresListos = new ArrayList<>();  
+        jugadoresListos = new ArrayList<>();
         lockEquipos = 1;
-        
-        
+
         this.id = id;
         this.creador = creador;
         this.nombre = nombre;
@@ -57,9 +56,11 @@ public class Sala {
     }
 
     /**
-     * agrega un jugador a la sala SI NO HA SIDO AGREGADO o NO está llena la sala
+     * agrega un jugador a la sala SI NO HA SIDO AGREGADO o NO está llena la
+     * sala
+     *
      * @param jugador
-     * @return 
+     * @return
      */
     public boolean addJugador(Jugador jugador) {
         boolean yaExiste = false;
@@ -71,16 +72,17 @@ public class Sala {
             }
         }
         //si no está en la lista entonces lo agregamos
-        if(!yaExiste){
+        if (!yaExiste) {
             //si la sala está llena no lo deja entrar
-            if(Juego.MAXIMOJUGADORES<=jugadores.size())
+            if (Juego.MAXIMOJUGADORES <= jugadores.size()) {
                 return false;
+            }
             //lo agregamos a la lista
             jugadores.add(jugador);
             //lo agregamos a un equipo si es necesario
-            if(equipos){
-                synchronized(lockEquipos){
-                    if(equipoA.size()>equipoB.size()){
+            if (equipos) {
+                synchronized (lockEquipos) {
+                    if (equipoA.size() > equipoB.size()) {
                         equipoB.add(jugador);
                     } else {
                         equipoA.add(jugador);
@@ -229,20 +231,20 @@ public class Sala {
         synchronized (jugadores) {
             jugadores.remove(j);
         }
-        if(equipos){
-            synchronized(lockEquipos){
+        if (equipos) {
+            synchronized (lockEquipos) {
                 equipoA.remove(j);
                 equipoB.remove(j);
             }
-		}
-	}
-	
+        }
+    }
+
     public boolean cambiarDeGrupoJugador(Jugador jugador) {
         boolean cambio = false;
         synchronized (lockEquipos) {
             int idA = equipoA.indexOf(jugador);
             int idB = equipoB.indexOf(jugador);
-                                  
+
             if (idA != -1) {
                 if (equipoA.size() > 1) {
                     equipoA.remove(jugador);

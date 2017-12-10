@@ -10,24 +10,24 @@ var appJugar = (function () {
     var imgCargando = "<img src='/media/cargando.gif' class='imgCargando'>";
     var idJugador = appCookie.getIdJugador();
 
-	/**
-	 * función que perite desconectar
-	 */
-	var _disconnect=function() {
-		if (stompClient !== null) {
-			stompClient.disconnect();
-		}
-		//setConnected(false);
-		//console.log("Desconectado de Jugar");
-	}
+    /**
+     * función que perite desconectar
+     */
+    var _disconnect = function () {
+        if (stompClient !== null) {
+            stompClient.disconnect();
+        }
+        //setConnected(false);
+        //console.log("Desconectado de Jugar");
+    };
 
-	/**
-	 * función que realiza la conexión STOMP
-	 */
-	var connectAndSubscribe = function () {
-		console.info("Connecting to WS...Jugar");
-		var socket = new SockJS('/stompendpoint');
-		stompClient = Stomp.over(socket);
+    /**
+     * función que realiza la conexión STOMP
+     */
+    var connectAndSubscribe = function () {
+        console.info("Connecting to WS...Jugar");
+        var socket = new SockJS('/stompendpoint');
+        stompClient = Stomp.over(socket);
 
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
@@ -71,13 +71,13 @@ var appJugar = (function () {
         if (segundosRestantes === null)
             $("#tiempo").html(jugadorListo ? "Esperando mínimo de jugadores " + imgCargando : "");
 
-		//definimos que el jugador si pudo entrar a la sala
-		if (jugadorEnSala === null) {
-			jugadorEnSala = true;
-			//salaInfo.equipo
-			//armamos tabla con jugadores actuales y listos
-			$("#antesDeEmpezar").html("<div id='titulo_salas'><input type='button' value='Salir' onclick='appJugar.salirDeSala();'> - "+salaInfo.nombre+" <input type='text' readonly value='"+salaInfo.codigo+"'></div><br><input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'>"+((salaInfo.equipos==="true")?"<input type='button' value='Cambiar de equipo' onclick='appJugar.cambiarEquipo();'>":"")+"<div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>&nbsp;</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
-		}
+        //definimos que el jugador si pudo entrar a la sala
+        if (jugadorEnSala === null) {
+            jugadorEnSala = true;
+            //salaInfo.equipo
+            //armamos tabla con jugadores actuales y listos
+            $("#antesDeEmpezar").html("<div id='titulo_salas'><input type='button' value='Salir' onclick='appJugar.salirDeSala();'> - " + salaInfo.nombre + " <input type='text' readonly value='" + salaInfo.codigo + "'></div><br><input type='button' value='Ya estoy listo!' onclick='appJugar.estoyListo();'>" + ((salaInfo.equipos === "true") ? "<input type='button' value='Cambiar de equipo' onclick='appJugar.cambiarEquipo();'>" : "") + "<div id='tiempo'></div><br><br><table id='listaJugadores'><thead><th>#</th><th>&nbsp;</th><th>Nombre</th><th>Record</th><th>&nbsp;</th></thead><tbody></tbody></table>");
+        }
 
         //borramos todos los jugadores
         $("#listaJugadores > tbody > tr").remove();
@@ -86,14 +86,14 @@ var appJugar = (function () {
         var numJugadores = 0;
         jugadores.map(function (jugador) {
             numJugadores++;
-            var classEquipo = salaInfo.equipos === "true" ? (jugador.equipo == 1 ? "class='equipo1'" : "class='equipo2'") : "";
+            var classEquipo = salaInfo.equipos === "true" ? (jugador.equipo === 1 ? "class='equipo1'" : "class='equipo2'") : "";
             var listo = jugador.listo === true ? "<img src='/media/listo.png'>" : "";
             var filasHTML = "<tr " + classEquipo + "><td>" + numJugadores + "</td><td><img class='IMGperfil' src='" + jugador.img + "'></td><td>" + jugador.nombre + "</td><td>" + jugador.record + "</td><td>" + listo + "</td></tr>";
             $("#listaJugadores > tbody").append(filasHTML);
         });
     };
 
-	/**
+    /**
      * cuando los jugadores están listos empieza el reloj
      * @param {*} message 
      */
@@ -101,67 +101,68 @@ var appJugar = (function () {
         segundosRestantes = message.body;
         var mjTiempo = jugadorListo ? "Esperando algunos jugadores" : "Mínimos jugadores requeridos listos apúrate te quedan";
         $("#tiempo").html(mjTiempo + ": <span id='segundos'>" + segundosRestantes + "</span> segundos.");
-		//disminuir tiempo cada segundo
-		var restarSegundos = function () {
-			if (segundosRestantes === 0) {
-				if (jugadorListo){
-					appCookie.setSala(idSala);
-					location.href = "/indexPlay.html?Sala=" + idSala;
-				}else
-					MJ_simple("Jugar","no entraste al juego intenta en otra sala");
-				return false;
-			}
-			$("#segundos").text(segundosRestantes--);
-			setTimeout(restarSegundos, 100);
-		};
-		setTimeout(restarSegundos, 1000);
-		
-	}
-	return {
-		/**
-		 * encargado de realizar la conexión con STOMP
-		 */
-		init() {
-			//verificamos que el usuario haya iniciado
-			idJugador=appCookie.getIdJugador(false);
-			idSala=appCookie.getSala();
-			if(idJugador===-1)
-				return false;
-			if(idSala===-1){
-				MJ_simple("Entrar a la sala","No se ha seleccionado la sala");
-				return false;
-			}
-			$("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
-			//INICIAMOS CONEXIÓN
-			connectAndSubscribe();
-		},
-		/**
-		 * desconecta del STOMP
-		 */
-		disconnect:_disconnect,
-		/**
-		 * envia que ya está listo este usuario
-		 */
-		estoyListo() {
-			jugadorListo = true;
-			$("#antesDeEmpezar > input[type=button]").remove();
-			//reportamos que este usuario quiere entrar al juego
-			stompClient.send("/app/JugadorListo." + idSala, {}, idJugador);
-		},
-		/**
-		 * avisa que quiere cambiar de equipo
-		 */
-		cambiarEquipo() {
-			stompClient.send("/app/CambiarGrupo/Sala." + idSala, {}, idJugador);
-		},
-		/**
-		 * permite salir de la sala
-		 */
-		salirDeSala(){
-			stompClient.send("/app/Salir/Sala." + idSala, {}, idJugador);
-			_disconnect();
-			MJ_simplex("Sala","Saliendo de sala en 1 segundo..",true);
-			setTimeout("location.href='/jugar.html';",1000);
-		}
-	};
+        //disminuir tiempo cada segundo
+        var restarSegundos = function () {
+            if (segundosRestantes === 0) {
+                if (jugadorListo) {
+                    appCookie.setSala(idSala);
+                    location.href = "/indexPlay.html?Sala=" + idSala;
+                } else
+                    MJ_simple("Jugar", "no entraste al juego intenta en otra sala");
+                return false;
+            }
+            $("#segundos").text(segundosRestantes--);
+            setTimeout(restarSegundos, 100);
+        };
+        setTimeout(restarSegundos, 1000);
+
+    };
+
+    return {
+        /**
+         * encargado de realizar la conexión con STOMP
+         */
+        init() {
+            //verificamos que el usuario haya iniciado
+            idJugador = appCookie.getIdJugador(false);
+            idSala = appCookie.getSala();
+            if (idJugador === -1)
+                return false;
+            if (idSala === -1) {
+                MJ_simple("Entrar a la sala", "No se ha seleccionado la sala");
+                return false;
+            }
+            $("#antesDeEmpezar").html("Cargando Jugadores... " + imgCargando);
+            //INICIAMOS CONEXIÓN
+            connectAndSubscribe();
+        },
+        /**
+         * desconecta del STOMP
+         */
+        disconnect: _disconnect,
+        /**
+         * envia que ya está listo este usuario
+         */
+        estoyListo() {
+            jugadorListo = true;
+            $("#antesDeEmpezar > input[type=button]").remove();
+            //reportamos que este usuario quiere entrar al juego
+            stompClient.send("/app/JugadorListo." + idSala, {}, idJugador);
+        },
+        /**
+         * avisa que quiere cambiar de equipo
+         */
+        cambiarEquipo() {
+            stompClient.send("/app/CambiarGrupo/Sala." + idSala, {}, idJugador);
+        },
+        /**
+         * permite salir de la sala
+         */
+        salirDeSala() {
+            stompClient.send("/app/Salir/Sala." + idSala, {}, idJugador);
+            _disconnect();
+            MJ_simplex("Sala", "Saliendo de sala en 1 segundo..", true);
+            setTimeout("location.href='/jugar.html';", 1000);
+        }
+    };
 })();

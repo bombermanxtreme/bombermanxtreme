@@ -58,7 +58,7 @@ function MJ_sino(titulo, mensaje, funcionSI, funcionNO) {
     MJ_iniciar();
     var style = "";
     if (funcionNO === "") {
-        funcionNO = "MJ_terminar(\'\')"
+        funcionNO = "MJ_terminar(\'\')";
     }
     document.getElementById('div_aviso2').innerHTML = '<table bgcolor="#' + MJcolorFondo + '" rules="none" bordercolor="#' + MJcolorBorde + '" style="' + style + '" border="2" align="center" cellpadding="0" cellspacing="0">  <tr>    <td align="center" bgcolor="#' + MJcolorSup + '" class="MJ_text_mayor_white">' + titulo + '</td>  </tr>  <tr>    <td align="center" class="MJ_text_normal"><br>' + mensaje + '<br><br><br></td>  </tr>  <tr>    <td align="left" class="MJ_text_mini_red">presione ENTER para SI o TAB luego ENTER para NO</td>  </tr>  <tr>    <td align="center"><input type="button" onClick="' + funcionSI + 'MJ_terminar(\'\');" class="MJ_input_gris" id="aceptar_aviso"  value="SI"/> <input type="button" onClick="' + funcionNO + '" class="MJ_input_gris" value="NO"/></td>  </tr></table>';
     if (val("dispositivo") !== "m")
@@ -70,7 +70,7 @@ function MJ_aceptar_cancelar(titulo, mensaje, funcionA, funcionC) {
     var style = "";
     var funcionNO = funcionC;
     if (funcionC === "") {
-        funcionNO = "MJ_terminar(\'\')"
+        funcionNO = "MJ_terminar(\'\')";
     }
     document.getElementById('div_aviso2').innerHTML = '<table bgcolor="#' + MJcolorFondo + '" rules="none" bordercolor="#' + MJcolorBorde + '" style="' + style + '" border="2" align="center" cellpadding="0" cellspacing="0">  <tr>    <td align="center" bgcolor="#' + MJcolorSup + '" class="MJ_text_mayor_white">' + titulo + '</td>  </tr>  <tr>    <td align="center" class="MJ_text_normal"><br>' + mensaje + '<br><br><br></td>  </tr>  <tr>    <td align="left" class="MJ_text_mini_red">presione ENTER para Aceptar o TAB luego ENTER para Cancelar </td>  </tr>  <tr>    <td align="center"><input type="button" onClick="' + funcionA + '" class="MJ_input_gris" id="aceptar_aviso"  value="Aceptar"/> <input type="button" onClick="' + funcionNO + '" class="MJ_input_gris" value="Cancelar"/></td>  </tr></table>';
     if (val("dispositivo") !== "m")
