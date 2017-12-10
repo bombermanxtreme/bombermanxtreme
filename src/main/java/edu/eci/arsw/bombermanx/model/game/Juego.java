@@ -43,16 +43,39 @@ public class Juego {
     public static final int TIEMPOXDANIO = 1000;
     public static final int DANIO = 5;
     public boolean esEquipos;
-    public static final int TIEMPOEXPLOTARBOMBAS = 5000;
+    public static final int TIEMPOEXPLOTARBOMBAS = 2000;
     private static final int NUMPODERES = 6;
     private ArrayList<Jugador> jugadores;
+    private ArrayList<ArrayList<Jugador>> jugadoresEquipos;
     private Casilla[][] tablero;
     private ArrayList<Man> manes;
     public static final int MAXIMOJUGADORES = 4;
     private static final int[][] POSJUGADORES = {{0, 0}, {ALTO - 1, ANCHO - 1}, {0, ANCHO - 1}, {ALTO - 1, 0}};
 
-    public Juego(ArrayList<Jugador> jugadores, String[][] tableroTemporal, boolean esEquipos) {
-        this.jugadores = jugadores;
+    public Juego(ArrayList<ArrayList<Jugador>> jugadoresEquipos, String[][] tableroTemporal, boolean esEquipos) {
+        ArrayList<Jugador> A=jugadoresEquipos.get(0);
+        ArrayList<Jugador> B = null;
+        if(esEquipos)
+            B=jugadoresEquipos.get(1);
+        
+        this.jugadores =new ArrayList<>();
+        this.jugadores.addAll(A);
+        System.out.println("cero");
+        System.out.println(jugadoresEquipos);
+        System.out.println(jugadoresEquipos.size());
+        if(esEquipos)
+            this.jugadores.addAll(B);
+        this.jugadoresEquipos=new ArrayList<>();
+        this.jugadoresEquipos.add(A);
+        System.out.println("segundo");
+        System.out.println(jugadoresEquipos);
+        System.out.println(jugadoresEquipos.size());
+        if(esEquipos)
+            this.jugadoresEquipos.add(B);
+        System.out.println("tercero");
+        System.out.println(jugadoresEquipos);
+        System.out.println(jugadoresEquipos.size());
+        
         this.esEquipos = esEquipos;
         manes = new ArrayList<>();
         this.tablero = new Casilla[ALTO][ANCHO];
@@ -94,8 +117,18 @@ public class Juego {
                 if (isNumeric(letter)) {
 
                     if (idJ < jugadores.size()) {
-                        //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
-                        Man manTMP = new Man("black", jugadores.get(idJ), letter, row, col);
+                        Jugador j;
+                        boolean equipoB;
+                        System.out.println("tanaoo");
+                        System.out.println(jugadoresEquipos);
+                        if(idJ>=jugadoresEquipos.get(0).size()){
+                            j=jugadoresEquipos.get(1).get(idJ-jugadoresEquipos.get(0).size());
+                            equipoB=true;
+                        }else{
+                            j=jugadoresEquipos.get(0).get(idJ);
+                            equipoB=false;
+                        }
+                        Man manTMP = new Man("black", jugadores.get(idJ), letter, row, col,equipoB);
                         this.tablero[row][col].reemplazar(manTMP);
                         manes.add(idJ, manTMP);
                     } else {

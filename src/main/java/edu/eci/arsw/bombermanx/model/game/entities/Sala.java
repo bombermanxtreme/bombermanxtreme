@@ -272,4 +272,11 @@ public class Sala {
     public boolean esEquipos() {
         return equipos;
     }
+    
+    public ArrayList<ArrayList<Jugador>> getJugadoresXequipos(){
+        ArrayList<ArrayList<Jugador>> res= new ArrayList<>();
+        res.add(equipoA);
+        res.add(equipoB);
+        return res;
+    }
 }

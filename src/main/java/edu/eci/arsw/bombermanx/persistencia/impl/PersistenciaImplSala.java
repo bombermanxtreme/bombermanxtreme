@@ -91,4 +91,9 @@ public class PersistenciaImplSala implements PersistenciaSala {
     public boolean esEquipos(int idSala) {
         return salas.get(idSala).esEquipos();
     }
+
+    @Override
+    public ArrayList<ArrayList<Jugador>> getJugadoresXequipos(int idSala) {
+        return salas.get(idSala).getJugadoresXequipos();
+    }
 }

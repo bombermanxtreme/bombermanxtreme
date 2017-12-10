@@ -44,7 +44,12 @@ public class BomberManXServices {
      */
     public void createGame(int idSala) throws GameCreationException {
         if (ps.getSala(idSala) != null) {
-            cache.createGame(idSala, ps.getJugadoresListos(idSala), ps.esEquipos(idSala));
+            ArrayList<ArrayList<Jugador>> jug=new ArrayList<>();
+            if(ps.esEquipos(idSala))
+                jug=ps.getJugadoresXequipos(idSala);
+            else
+                jug.add(ps.getJugadoresListos(idSala));
+            cache.createGame(idSala, jug, ps.esEquipos(idSala));
         } else {
             throw new GameCreationException("Sala de juego ya no existe");
         }

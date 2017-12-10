@@ -21,10 +21,12 @@ public class Man implements Elemento,Destruible {
     private int indice;
     private Timer timer;
     private boolean bloqueado;
+    private boolean equipoB;
 
-    public Man(String color, Jugador jugador, String key, int posRow, int posCol) {
+    public Man(String color, Jugador jugador, String key, int posRow, int posCol, boolean equipoB) {
         this.color = color;
         this.jugador = jugador;
+        this.equipoB = equipoB;
         this.vida = 15;
         bombas = 1;
         this.key = key;
@@ -84,6 +86,8 @@ public class Man implements Elemento,Destruible {
                 Juego.TIEMPOXDANIO+
                 ",\"bombas\":"+ 
                 bombas+
+                ",\"equipoB\":"+ 
+                equipoB+
                 ",\"energia\":"+ 
                 radio + 
                 ",\"velocidad\":"+ 

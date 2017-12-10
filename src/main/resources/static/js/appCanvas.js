@@ -106,7 +106,8 @@ var appCanvas = (function () {
 				 id_man:man.i,
 				 vida:man.vida,
 				 apodo:man.apodo_jugador,
-				 img:man.img
+				 img:man.img,
+				 equipoB:man.equipoB
 			};
 		}
 		var html="<table><tr><td>"+estaManes(j,equipo,false)+"</td><td><div class='apodo'>"+apodo+"</div><br>Vida:"+vida+"<br>Bombas:"+bombas+"<br>Energia:"+energia+"<br>Velocidad:"+velocidad+"<br></td><td>"+estaManes(j,equipo,true)+"</td></tr></table>";
@@ -117,11 +118,12 @@ var appCanvas = (function () {
 	var estaManes=function(j,esEquipo,equipoB){
 		var s="";
 		var orden=Array();
-		
-		for (let i = 0; i < j.length; i++) if(esEquipo && j.equipoB==equipoB || !esEquipo && equipoB==false){
+		console.log(esEquipo);
+		console.log(equipoB);
+		for (let i = 0; i < j.length; i++){console.log("j.equipoB");console.log(j[i].equipoB); if(esEquipo && j[i].equipoB===equipoB || !esEquipo && equipoB==false){
 			console.log(_manes[i]);
-			s+="<tr><td><img src='"+j[i].img+"'></td><td>"+j[i].apodo+"</td><td> Vida: "+j[i].vida+"</td><td><img src='"+$("#"+_manes[i].color).attr("src")+"'></td></tr>";
-		}
+			s+="<tr><td><img src='"+j[i].img+"'></td><td>"+j[i].apodo+"</td><td>"+j[i].vida+"</td></tr>";
+		}}
 		return "<table>"+s+"</table>";
 	};
 

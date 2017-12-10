@@ -59,6 +59,13 @@ public interface PersistenciaSala {
      * @return
      */
     public ArrayList<Jugador> getJugadoresListos(int idSala);
+    
+    /**
+     * retorna una lista de lista de jugadores donde cada lista es cada equipo
+     * @param idSala
+     * @return 
+     */
+    public ArrayList<ArrayList<Jugador>> getJugadoresXequipos(int idSala);
 
     /**
      * retorna true si ya están el mínimo número de jugadores LISTOS

@@ -21,7 +21,7 @@ public interface BomberManXCache {
      * @param esEquipos
      * @throws GameCreationException
      */
-    public void createGame(int id, ArrayList<Jugador> jugadores, boolean esEquipos) throws GameCreationException;
+    public void createGame(int id, ArrayList<ArrayList<Jugador>> jugadores, boolean esEquipos) throws GameCreationException;
 
     /**
      * retorna el juego número gameid
