@@ -295,15 +295,16 @@ var appCanvas = (function () {
         if (bomba.estallo === true) {
             coords = J.coords;
             for (var i = 0; i < coords.length; i++) {
-                tablero[coords[i].y][coords[i].x]="b";
-			}
-			actualizar();
-			setTimeout(function(params) {
-				callback_fuego(coords);
-			},100);
+                tablero[coords[i].y][coords[i].x] = "b";
+            }
+            actualizar();
+            setTimeout(function(params) {
+                callback_fuego(coords);
+            },100);
         }else{
             tablero[bomba.y][bomba.x]="B";
-			actualizar();
+            clear = false;
+            actualizar();
         }
     };
     
