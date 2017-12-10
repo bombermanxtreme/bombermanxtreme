@@ -39,7 +39,7 @@ public class Juego {
     public static final int CENTRO = -1;
     public static final int TODO = 100;
     public static final int VIDAPIERDEXBOMBA = 20;
-    public static final int TIEMPOXDANIO=1000;
+    public static final int TIEMPOXDANIO = 1000;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private static final int NUMPODERES = 6;
@@ -72,6 +72,7 @@ public class Juego {
     private void mapearTablero(String[][] temp) {
         //Recorrer Filas
         String letter;
+        int idJ = 0;
         for (int row = 0; row < temp.length; row++) {
             //Recorrer Columnas
             for (int col = 0; col < temp[row].length; col++) {
@@ -87,15 +88,18 @@ public class Juego {
                 // * 'T' = Poder de expansion de explosion de Bomba.
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para NPCs.
+                
                 if (isNumeric(letter)) {
-                    int idJ = Integer.parseInt(letter);
-                    //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): IdJugador" + idJ);
+                    
                     if (idJ < jugadores.size()) {
                         //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
                         Man manTMP = new Man("black", jugadores.get(idJ), letter, row, col);
                         this.tablero[row][col].reemplazar(manTMP);
                         manes.add(idJ, manTMP);
+                    } else {
+                        this.tablero[row][col].reemplazar(new Espacio("O", row, col));
                     }
+                    idJ++;
 
                 } else {
                     switch (letter) {
@@ -272,16 +276,12 @@ public class Juego {
         ArrayList<String> manesS = new ArrayList<>();
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
-                //System.out.println("");
                 if (tablero[i][k].tieneTipo(Caja.class)) {
                     cajasS.add("{x:" + k + ",y:" + i + "}");
                 } else if (tablero[i][k].tieneTipo(Caja_Metalica.class)) {
                     cajasM.add("{x:" + k + ",y:" + i + "}");
                 } else if (tablero[i][k].tieneTipo(Man.class)) {
                     manesS.add(((Man) tablero[i][k].getTipo(Man.class)).toString());
-                }
-                if (tablero[i][k].tieneTipo(Bomba.class)) {
-                    //manesS.add(tablero[i][k].toString());
                 }
             }
         }
@@ -326,7 +326,6 @@ public class Juego {
         Man man = manes.get(jugadores.indexOf(j));
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
-
         ArrayList<Elemento> changes = new ArrayList<>();
 
         int filFutura = 0;
