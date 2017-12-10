@@ -39,6 +39,7 @@ public class Juego {
     public static final int ALTO = 10;
     public static final int CENTRO = -1;
     public static final int VIDAPIERDEXBOMBA = 20;
+    public static final int TIEMPOXDANIO=1000;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private static final int NUMPODERES = 6;

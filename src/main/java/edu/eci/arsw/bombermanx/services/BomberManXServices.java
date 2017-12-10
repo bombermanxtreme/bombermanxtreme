@@ -248,6 +248,8 @@ public class BomberManXServices {
                         }
                         if (ele instanceof Man) {
                             msgt.convertAndSend("/topic/ManQuemado." + id_sala, ele.toString());
+                            if(quedaPoder!=null)
+                                msgt.convertAndSend("/topic/DaniarCaja." + id_sala, "{\"caja\":false,\"queda\":"+quedaPoder.toString()+"}");
                         }
                     }
                 }
