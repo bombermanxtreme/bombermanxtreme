@@ -121,3 +121,14 @@ header .nombre_jugador {
 #lista_salas > div .codigo_sala {
   font-size: 20px;
   font-weight: bold; }
+
+#estadisticas img {
+  width: 50px; }
+
+#estadisticas > table td {
+  width: 33%; }
+
+#estadisticas > table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%; }

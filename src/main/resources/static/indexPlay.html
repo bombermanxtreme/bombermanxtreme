@@ -11,6 +11,9 @@
         <script src="js/appCookie.js"></script>
         <script src="js/appGame.js"></script>
         <script src="js/appCanvas.js"></script>
+		<link class="procesarCSS" rel="stylesheet" type="text/css" data-url="css/_bomber/_bomber" href=""/>
+		<link rel="stylesheet" href="css/MJ.css">	
+		<script src="/js/MJ.js"></script>   
         <style>
             body{
                 background:#8ba987 url('media/BackGround_Play.jpg') no-repeat center center;
@@ -19,6 +22,8 @@
         </style>
     </head>
     <body onload="appCanvas.init();">
+		<div style="display:none;" id="div_aviso"><input type="hidden" value="" id="MJ_hidden"/></div>
+		<div style="display:none;" id="div_aviso2"></div>
         <div id="vertical"></div>
         
         <div id="images">
@@ -48,8 +53,9 @@
             <img id="betty" width="50" height="50" src="media/elementos/betty.png" alt="The Scream">
         </div>
         
-        <div id="contenedor" style="border:1">
-            <canvas id="lienzo" width="1000" height="500"></canvas>
+        <div id="contenedor" style="border:1px">
+			<canvas id="lienzo" width="1000" height="500"></canvas>
+			<div id="estadisticas"></div>
         </div>  
     </body>
 </html>
