@@ -84,7 +84,7 @@ var appCanvas = (function () {
 	};
 
 	var callback_estadisticas=function(esta_){
-                var esta=eval("("+esta_.body+")");
+		var esta=eval("("+esta_.body+")");
 		var vida;
 		var bombas;
 		var apodo;
@@ -119,7 +119,8 @@ var appCanvas = (function () {
 		var orden=Array();
 		
 		for (let i = 0; i < j.length; i++) if(esEquipo && j.equipoB==equipoB || !esEquipo && equipoB==false){
-			s+="<tr><td><img src='"+j[i]._img+"'></td><td>"+j[i].apodo+"</td><td> Vida: "+j[i].vida+"</td><td><img src='"+$("#"+_manes[i].color).attr("src")+"'></td></tr>";
+			console.log(_manes[i]);
+			s+="<tr><td><img src='"+j[i].img+"'></td><td>"+j[i].apodo+"</td><td> Vida: "+j[i].vida+"</td><td><img src='"+$("#"+_manes[i].color).attr("src")+"'></td></tr>";
 		}
 		return "<table>"+s+"</table>";
 	};
