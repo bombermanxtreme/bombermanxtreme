@@ -9,7 +9,7 @@ import java.util.ArrayList;
  * @author Kevin S. Sanchez
  */
 public class TableroTexto {
-    
+
     public static String[][] muestraContenido(int idEscenario) throws FileNotFoundException, IOException {
         //             Convenciones para hacer escenarios:
         //             * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
@@ -32,31 +32,32 @@ public class TableroTexto {
         //             * ',' = separador de objetos en una sola casilla.
         //             Por el momento se supone para el caso que solo tenga un objeto en una sola celda
         ArrayList<String[][]> escenarios = new ArrayList<>();
-        String[][] tab = {{"0","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"},
-                          {"O","O","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","O","O"},
-                          {"X","O","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","O","X"},
-                          {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
-                          {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
-                          {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
-                          {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
-                          {"X","O","C","C","C","C","C","C","C","C","C","1","C","C","C","C","C","C","O","X"},
-                          {"X","X","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","X","O"},
-                          {"O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"}};
+		String[][] tab = 
+	   {{"0", "O", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "O", "2"},
+        {"O", "C", "X", "C", "C", "C", "X", "X", "C", "C", "C", "X", "C", "C", "X", "C", "C", "C", "X", "O"},
+        {"C", "X", "C", "X", "C", "X", "C", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C"},
+        {"C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "X", "C", "C", "C", "C", "C", "C", "C", "C", "C"},
+        {"C", "X", "C", "X", "C", "X", "C", "C", "X", "C", "C", "X", "C", "C", "X", "C", "X", "C", "X", "C"},
+        {"C", "C", "X", "C", "C", "C", "X", "X", "C", "C", "C", "C", "X", "C", "C", "C", "C", "C", "C", "C"},
+        {"C", "X", "C", "X", "C", "X", "X", "C", "C", "C", "C", "C", "C", "C", "X", "C", "X", "C", "X", "C"},
+        {"C", "C", "C", "C", "C", "C", "C", "X", "C", "C", "C", "C", "X", "C", "C", "C", "C", "C", "C", "C"},
+        {"O", "X", "C", "X", "C", "X", "C", "C", "X", "C", "X", "X", "C", "C", "C", "X", "C", "X", "C", "O"},
+        {"1", "O", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "O", "3"}};
         escenarios.add(tab);
-        
-        String[][] tabNewVersion = {{"0","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"},
-                          {"O","O","O","C","C","C","C","C","C","C","C","C","C","C","C","C","C","O","O","O"},
-                          {"X","O","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","O","X"},
-                          {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
-                          {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
-                          {"X","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","C","X"},
-                          {"X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","X","C","C","X"},
-                          {"X","O","C","C","C","C","C","C","C","C","C","O","C","C","C","C","C","C","O","X"},
-                          {"X","X","O","C","C","C","C","C","C","C","C","1","C","C","C","C","C","O","X","O"},
-                          {"O","O","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","X","O","O"}};
-        escenarios.add(tabNewVersion);
-      
-      return escenarios.get(0);
+
+        String[][] tabNewVersion = {{"0", "O", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "O", "O"},
+        {"O", "O", "O", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "O", "O", "O"},
+        {"X", "O", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "O", "X"},
+        {"X", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "X"},
+        {"X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "C", "X"},
+        {"X", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "C", "X"},
+        {"X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "X", "C", "C", "X"},
+        {"X", "O", "C", "C", "C", "C", "C", "C", "C", "C", "C", "O", "C", "C", "C", "C", "C", "C", "O", "X"},
+        {"X", "X", "O", "C", "C", "C", "C", "C", "C", "C", "C", "1", "C", "C", "C", "C", "C", "O", "X", "O"},
+        {"O", "O", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "X", "O", "O"}};
+        //escenarios.add(tabNewVersion);
+
+        return escenarios.get(0);
     }
-    
+
 }
