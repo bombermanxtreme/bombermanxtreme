@@ -97,7 +97,7 @@ public class Sala {
      * @return
      */
     public ArrayList<Jugador> getJugadores() {
-        System.out.println("++++++++++++++++++++++++ Numero de jugadores: " + jugadores.size());
+        //System.out.println("++++++++++++++++++++++++ Numero de jugadores: " + jugadores.size());
         return jugadores;
     }
 
@@ -147,8 +147,8 @@ public class Sala {
             if (!yaExiste) {
                 jugadoresListos.add(jugadorListo);
             }
-            System.out.println("xxxxx:)");
-            System.out.println(jugadoresListos);
+            //System.out.println("xxxxx:)");
+            //System.out.println(jugadoresListos);
         }
     }
 

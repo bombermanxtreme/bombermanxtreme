@@ -48,7 +48,7 @@ public class BomberManXServices {
      */
     public void createGame(int id_sala) throws GameCreationException {
         cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala), ps.esEquipos(id_sala));
-        System.out.println("Juego creado en CreateGame");
+        //System.out.println("Juego creado en CreateGame");
     }
 
     /**
@@ -143,9 +143,9 @@ public class BomberManXServices {
             id_registro = pj.getIDPorCorreo(correo);
 
             //jugadores diponibles
-            System.out.println("----- jugadores disponibles ---");
+            //System.out.println("----- jugadores disponibles ---");
             for (int i = 0; i < jugadores.size(); i++) {
-                System.out.println(jugadores.get(i));
+                //System.out.println(jugadores.get(i));
             }
 
         }
@@ -229,9 +229,9 @@ public class BomberManXServices {
 
                     ArrayList<Object> afectados = juego.explotar(bomba);
 
-                    System.out.println("avisamos que EXPLOTA LA BOMBA || " + j.getApodo());
-                    System.out.println("avisamos que EXPLOTA LA BOMBA || " + bomba.toString());
-                    System.out.println("AFECTADO----------------");
+                    //System.out.println("avisamos que EXPLOTA LA BOMBA || " + j.getApodo());
+                    //System.out.println("avisamos que EXPLOTA LA BOMBA || " + bomba.toString());
+                    //System.out.println("AFECTADO----------------");
 
                     ArrayList<int[]> listaTemp = ((ArrayList<int[]>) afectados.get(1));
                     int x;
@@ -246,8 +246,8 @@ public class BomberManXServices {
 
                     msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":" + bomba.toString() + ",\"coords\":[" + strCoords + "]}");
 
-                    System.out.println("|||||- cords str -||||||||");
-                    System.out.println(strCoords);
+                    //System.out.println("|||||- cords str -||||||||");
+                    //System.out.println(strCoords);
 
                     ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
                     for (int i = 0; i < tmp_eleme.size(); i++) {
@@ -257,7 +257,7 @@ public class BomberManXServices {
                             msgt.convertAndSend("/topic/DaniarCaja." + id_sala, "{\"caja\":"+ele.toString()+",\"queda\":"+quedaPoder.toString()+"}");
                         }
                         if (ele instanceof Man) {
-                            msgt.convertAndSend("/topic/DaniarCaja." + id_sala, ele.toString());
+                            msgt.convertAndSend("/topic/ManQuemado." + id_sala, ele.toString());
                         }
                     }
                 }
@@ -274,9 +274,9 @@ public class BomberManXServices {
         if (juego != null){
             res = true;
             ArrayList<Elemento> changes = juego.moverPersonaje(j, key);
-            System.out.println("///// Tamaño cambios: " + changes.size());
+            //System.out.println("///// Tamaño cambios: " + changes.size());
             if(changes.size()>0){
-                //System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
+                ////System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
                 msgt.convertAndSend("/topic/actualizar." + id_sala, changes.toString());
             }
         }

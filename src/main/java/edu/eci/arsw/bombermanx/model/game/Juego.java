@@ -52,7 +52,7 @@ public class Juego {
         this.jugadores = jugadores;
         this.esEquipos = esEquipos;
         manes = new ArrayList<>();
-        System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
+        //System.out.println("////////////////////// Numero de Jugadores: " + this.jugadores.size());
         this.tablero = new Casilla[ALTO][ANCHO];
 
         for (int i = 0; i < ALTO; i++) {
@@ -76,7 +76,7 @@ public class Juego {
             //Recorrer Columnas
             for (int col = 0; col < temp[row].length; col++) {
                 letter = temp[row][col];
-                System.out.println("///////////////////////// Letra: " + letter);
+                //System.out.println("///////////////////////// Letra: " + letter);
                 // Convenciones para hacer escenarios:
                 // * {1,2,3,4,5,6.....} =  Numeros para representar jugadores.
                 // * 'O' = Espacio vacio.
@@ -89,9 +89,9 @@ public class Juego {
                 // * {'@', '-', '/'} = Caracteres especiales para NPCs.
                 if (isNumeric(letter)) {
                     int idJ = Integer.parseInt(letter);
-                    System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): IdJugador" + idJ);
+                    //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): IdJugador" + idJ);
                     if (idJ < jugadores.size() ){
-                        System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
+                        //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
                         Man manTMP=new Man("black", jugadores.get(idJ), letter, row, col);
                         this.tablero[row][col].reemplazar(manTMP);
                         manes.add(idJ,manTMP);
@@ -101,22 +101,22 @@ public class Juego {
                     switch (letter) {
                         case "O":
                             this.tablero[row][col].reemplazar(new Espacio(letter, row, col));
-                            System.out.println("OOOO POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
+                            //System.out.println("OOOO POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
                             break;
 
                         case "C":
                             this.tablero[row][col].reemplazar(new Caja(letter, row, col));
-                            System.out.println("CCCC POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
+                            //System.out.println("CCCC POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
                             break;
 
                         case "X":
                             this.tablero[row][col].reemplazar(new Caja_Metalica(letter, row, col));
-                            System.out.println("XXXX POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
+                            //System.out.println("XXXX POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
                             break;
 
                         default:
                             this.tablero[row][col].reemplazar(new Espacio(letter, row, col));
-                            System.out.println("EEEEE POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
+                            //System.out.println("EEEEE POSX: " + this.tablero[row][col].get().getPosRow() + " + + + POSY: " + this.tablero[row][col].get().getPosCol());
                             break;
                     }
                 }
@@ -156,14 +156,14 @@ public class Juego {
         int mposCol = man.getPosCol();
         int mposRow = man.getPosRow();
         
-        System.out.println("pos interno: "+mposCol+" "+mposRow);
+        //System.out.println("pos interno: "+mposCol+" "+mposRow);
 
         Bomba explotara = null;
 
         boolean puede = hay_objeto(mposRow, mposCol, man);
 
         if (puede) {
-            System.out.println("Pudo poner bomba >>");
+            //System.out.println("Pudo poner bomba >>");
 
             explotara = man.accionBomba();
             if (explotara != null) {
@@ -245,7 +245,7 @@ public class Juego {
      * @return
      */
     private boolean hay_objeto(int fila, int columna, Man man) {
-        System.out.println("--------------------------"+fila+"++++"+columna);
+        //System.out.println("--------------------------"+fila+"++++"+columna);
         ArrayList<Elemento> e= tablero[fila][columna].getAll();
         boolean puede=true;
         for (int i = 0; i < e.size(); i++) {
@@ -265,7 +265,7 @@ public class Juego {
         ArrayList<String> manesS = new ArrayList<>();
         for (int i = 0; i < tablero.length; i++) {
             for (int k = 0; k < tablero[0].length; k++) {
-                System.out.println("");
+                //System.out.println("");
                 if (tablero[i][k].tieneTipo(Caja.class)) {
                     cajasS.add("{x:" + k + ",y:" + i + "}");
                 } else if (tablero[i][k].tieneTipo(Caja_Metalica.class)) {
@@ -342,15 +342,15 @@ public class Juego {
 
         
         if (filFutura>=0 && colFutura>=0 && colFutura<ANCHO && filFutura<ALTO && puedo_moverme(filFutura, colFutura)) {
-            System.out.println("++++++++++++++++-...... Entre para poderme mover");
+            //System.out.println("++++++++++++++++-...... Entre para poderme mover");
             man.setPosRow(filFutura);
             man.setPosCol(colFutura);
-            System.out.println("------ KEY del man: " + man.getKey());
+            //System.out.println("------ KEY del man: " + man.getKey());
             e1 = man;
             this.tablero[filFutura][colFutura].reemplazar(e1);
             changes.add(e1);
             // Validacion para caso de Espacio pero que colocan una bomba
-            System.out.println("+++++++++ Verificar si hay bomba en esa posicion:  False:SI: " + hay_objeto(posRow, posCol, man));
+            //System.out.println("+++++++++ Verificar si hay bomba en esa posicion:  False:SI: " + hay_objeto(posRow, posCol, man));
             if (hay_objeto(posRow, posCol, man)){
                 e2 = new Espacio("O", posRow, posCol);
                 this.tablero[posRow][posCol].reemplazar(e2);
@@ -359,12 +359,12 @@ public class Juego {
                 //Casilla cas = tablero[posRow][posCol].get()
                 //e2 = new Bomba
                 e2 = tablero[posRow][posCol].getAll().get(tablero[posRow][posCol].getAll().size() - 1);
-                System.out.println("*************** BOMBA: " + e2.toString());
+                //System.out.println("*************** BOMBA: " + e2.toString());
                 changes.add(e2);
             }
         }
         
-        System.out.println("+++++++ Numero de Cambios: " + changes.size());
+        //System.out.println("+++++++ Numero de Cambios: " + changes.size());
         
         return changes;
     }

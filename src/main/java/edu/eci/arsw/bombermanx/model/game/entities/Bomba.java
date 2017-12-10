@@ -22,7 +22,7 @@ public abstract class Bomba implements Elemento {
         this.radio = radio;
         posRow = man.getPosRow();
         posCol = man.getPosCol();
-        System.out.println("dentro de bomba"+posCol+"-"+posRow);
+        //System.out.println("dentro de bomba"+posCol+"-"+posRow);
         
     }
 

@@ -50,8 +50,8 @@ public class Man implements Elemento,Destruible {
             if(bombas>0){
                 bombas--;
                 bomba = new Bomba_n(this, color, radio);
-                System.out.println("puso Bomba >>");
-            }else System.out.println("no tiene mas bombas");
+                //System.out.println("puso Bomba >>");
+            }else System.err.println("no tiene mas bombas");
         }
         return bomba;
     }

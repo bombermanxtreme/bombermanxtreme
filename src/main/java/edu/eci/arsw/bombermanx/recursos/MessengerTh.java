@@ -165,8 +165,8 @@ public class MessengerTh extends Thread {
                     delivery += 1;
                     veces += 1;
                 }
-                System.out.println("Pasa por aca ABAJO");
-                System.out.println("Pasa por aca");
+                //System.out.println("Pasa por aca ABAJO");
+                //System.out.println("Pasa por aca");
             }
         } else {
             System.err.println("Thread {Messenger.java} Caso desconocido...");
@@ -237,8 +237,8 @@ public class MessengerTh extends Thread {
      * @return
      */
     public ArrayList<Object> getAfectados() {
-        System.out.println("tamaño elementos!!");
-        System.out.println(elementos.size());
+        //System.out.println("tamaño elementos!!");
+        //System.out.println(elementos.size());
         afectados.add(elementos);
         afectados.add(coords);
         return afectados;
