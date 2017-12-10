@@ -1,5 +1,6 @@
 package edu.eci.arsw.bombermanx.model.game.entities;
 
+import edu.eci.arsw.bombermanx.model.game.Juego;
 import java.util.ArrayList;
 
 /**
@@ -96,7 +97,7 @@ public class Man implements Elemento,Destruible {
     
     @Override
     public String toString(){
-        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"vida\":" + vida + ",\"score\":" + score + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\",\"key\":\"" + key + "\"}";
+        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"vida\":" + vida + ",\"score\":" + score + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\",\"key\":\"" + key + "\",\"tiempo\":"+ Juego.TIEMPOXDANIO+"}";
     }
 
     public int getPosRow() {

@@ -41,6 +41,11 @@ var appCanvas = (function () {
             stompClient.subscribe("/topic/actualizar." + idSala, function (eventbody) {
                 callback_actualizar(eventbody);
             });
+            
+            //Estamos atentos si se daña alguna caja
+            stompClient.subscribe("/topic/ManQuemado." + idSala, function (eventbody) {
+                callback_Quemado(eventbody);
+            });
 
         });
     };
@@ -75,8 +80,25 @@ var appCanvas = (function () {
     var callback_DaniarCaja = function (message) {
         var cajaADaniar = eval("("+message.body+")");
         console.log(cajaADaniar);
-        tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c."+cajaADaniar.queda.key;
+        tablero[cajaADaniar.queda.y][cajaADaniar.queda.x] = "c."+cajaADaniar.queda.key;
         actualizar();
+    };
+    
+    var callback_Quemado = function (data) {
+        var dataMan = eval("("+data.body+")");
+        console.log("***************** POSQCOL : " + dataMan.y + ", POSQROW: " + dataMan.x);
+        var vida = dataMan.vida;
+        clear = true;
+        tablero[dataMan.y][dataMan.x] = "Q";
+        actualizar();
+        if (vida > 0){
+            setTimeout(function () {
+                tablero[dataMan.y][dataMan.x] = dataMan.key;
+                actualizar();
+            }, dataMan.tiempo);
+        }
+        console.log("TABLERO ANTES DE MODIFICAR: " + tablero);
+        actualizar();  
     };
 
     function getCookie(name) {
@@ -194,7 +216,7 @@ var appCanvas = (function () {
         //console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
-                if (isNumber(tablero[i][j])) {
+                if (isNumber(tablero[i][j]) || tablero[i][j] == "Q") {
                     var myPlayer = new Player(tablero[i][j], j * anchoCasilla, i * anchoCasilla, anchoCasilla, anchoCasilla, "image");
                     myPlayer.update();
                 }else{
@@ -277,13 +299,14 @@ var appCanvas = (function () {
     };
 
 
-	var callback_fuego = function(coords){
-		for (var i = 0; i < coords.length; i++) {
-			tablero[coords[i].y][coords[i].x]="O";
-		}
-		actualizar();
-		return false;
-	}
+    var callback_fuego = function(coords){
+        for (var i = 0; i < coords.length; i++) {
+            tablero[coords[i].y][coords[i].x]="O";
+        }
+        actualizar();
+        return false;
+    }
+    
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
         console.log(J);
@@ -373,7 +396,7 @@ var appCanvas = (function () {
                 swidth = 50;
                 sheight = 50;
                 
-                switch (tablero[i][j]){
+                switch (color){
                     case "0"://Jugador0
                         img = document.getElementById("sergio");
                         break;
@@ -385,6 +408,11 @@ var appCanvas = (function () {
                         break;
                     case "3"://Jugador3
                         img = document.getElementById("sergio");
+                        break;
+                    case "Q"://Jugador_Quemado
+                        img = document.getElementById("calavera");
+                        swidth = 50;
+                        sheight = 50;
                         break;
                     default :
                         img = document.getElementById("betty2");
