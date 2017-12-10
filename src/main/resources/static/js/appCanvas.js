@@ -291,7 +291,6 @@ var appCanvas = (function () {
 	}
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
-        //console.log(J);
         //bomba
         var bomba = J.bomba;
         //fuego

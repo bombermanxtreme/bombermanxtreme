@@ -24,6 +24,8 @@ public class MessengerTh extends Thread {
     public static final int ABAJO = 1;
     public static final int DERECHA = 2;
     public static final int IZQUIERDA = 3;
+    public static final int CENTRO = -1;
+    public static final int TODO = 100;
     private ArrayList<Object> afectados;
     private ArrayList<Elemento> elementos;
     private ArrayList<int[]> coords;
@@ -75,7 +77,7 @@ public class MessengerTh extends Thread {
     public void run() {
         int detiene = 1;
 
-        if (sentido == IZQUIERDA || sentido == 4) {
+        if (sentido == IZQUIERDA || sentido == TODO) {
             //izquierda
             ax = 0;
             ay = posCol;
@@ -97,7 +99,7 @@ public class MessengerTh extends Thread {
                     veces += 1;
                 }
             }
-        } else if (sentido == DERECHA || sentido == 4) {
+        } else if (sentido == DERECHA || sentido == TODO) {
             //derecha
             ax = posRow;
             ay = ancho - 1;
@@ -119,7 +121,7 @@ public class MessengerTh extends Thread {
                     veces += 1;
                 }
             }
-        } else if (sentido == ARRIBA || sentido == 4) {
+        } else if (sentido == ARRIBA || sentido == TODO) {
             
             //arriba
             ax = 0;
@@ -144,7 +146,7 @@ public class MessengerTh extends Thread {
             }
            
             
-        } else if (sentido == ABAJO || sentido == 4) {
+        } else if (sentido == ABAJO || sentido == TODO) {
              //abajo             
             ax = posRow;
             ay = alto - 1;
@@ -167,6 +169,16 @@ public class MessengerTh extends Thread {
                 }
                 //System.out.println("Pasa por aca ABAJO");
                 //System.out.println("Pasa por aca");
+            }
+        } else if (sentido == CENTRO || sentido == TODO) {
+             //centro
+            detiene = revisarCelda(tablero[posRow][posCol]);
+            System.out.println("detiene");
+            
+            System.out.println(detiene);
+            if (detiene == 0 || detiene == 1) {
+                int[] tmpCoords = {delivery, posCol};
+                coords.add(tmpCoords);
             }
         } else {
             System.err.println("Thread {Messenger.java} Caso desconocido...");

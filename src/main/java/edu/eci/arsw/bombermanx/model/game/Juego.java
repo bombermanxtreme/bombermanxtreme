@@ -37,6 +37,7 @@ public class Juego {
     public static final int IZQUIERDA = 3;
     public static final int ANCHO = 20;
     public static final int ALTO = 10;
+    public static final int CENTRO = -1;
     public static final int VIDAPIERDEXBOMBA = 20;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
@@ -170,6 +171,7 @@ public class Juego {
                 tablero[mposRow][mposCol].add(explotara);
             }
         }
+        System.out.println(tablero[explotara.getPosRow()][explotara.getPosCol()].getAll().toString());
 
         return explotara;
     }
@@ -182,7 +184,7 @@ public class Juego {
      * @return 
      */
     public ArrayList<Object> explotar(Bomba explotara) {
-        
+        System.out.println(tablero[explotara.getPosRow()][explotara.getPosCol()].getAll().toString());
         // Quita la bomba y el elemento en la casilla
         Casilla c=tablero[explotara.getPosRow()][explotara.getPosCol()];
         ArrayList<Elemento> t= c.getAll();
@@ -202,12 +204,16 @@ public class Juego {
 
         MessengerTh abajo = new MessengerTh();
         abajo.iniciar(explotara, tablero, ABAJO);
+        
+        MessengerTh centro = new MessengerTh();
+        centro.iniciar(explotara, tablero, CENTRO);
 
         // iniciando hilos
         izquierda.start();
         derecha.start();
         arriba.start();
         abajo.start();
+        centro.start();
         
         try {
             //esperamos
@@ -215,6 +221,7 @@ public class Juego {
             derecha.join();
             arriba.join();
             abajo.join();
+            centro.join();
         } catch (InterruptedException ex) {
             Logger.getLogger(Juego.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -227,11 +234,13 @@ public class Juego {
         tmp_eleme.addAll((ArrayList<Elemento>) derecha.getAfectados().get(0));
         tmp_eleme.addAll((ArrayList<Elemento>) arriba.getAfectados().get(0));
         tmp_eleme.addAll((ArrayList<Elemento>) abajo.getAfectados().get(0));
+        tmp_eleme.addAll((ArrayList<Elemento>) centro.getAfectados().get(0));
         
         ArrayList<int[]> tmp_coords= (ArrayList<int[]>) afectados.get(1);
         tmp_coords.addAll((ArrayList<int[]>) derecha.getAfectados().get(1));
         tmp_coords.addAll((ArrayList<int[]>) arriba.getAfectados().get(1));
         tmp_coords.addAll((ArrayList<int[]>) abajo.getAfectados().get(1));
+        tmp_coords.addAll((ArrayList<int[]>) centro.getAfectados().get(1));
 
         return afectados;
     }
@@ -359,6 +368,7 @@ public class Juego {
                 //Casilla cas = tablero[posRow][posCol].get()
                 //e2 = new Bomba
                 e2 = tablero[posRow][posCol].getAll().get(tablero[posRow][posCol].getAll().size() - 1);
+                tablero[posRow][posCol].reemplazar(e2);
                 //System.out.println("*************** BOMBA: " + e2.toString());
                 changes.add(e2);
             }

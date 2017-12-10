@@ -44,7 +44,6 @@ public class BomberManXAPIControllerCanvas {
             try {
                 
                 if(!gameServices.existeGame(id_sala)){
-                    System.out.println("intentando crear sala");
                     gameServices.createGame(id_sala);
                 }
             } catch (GameCreationException ex) {

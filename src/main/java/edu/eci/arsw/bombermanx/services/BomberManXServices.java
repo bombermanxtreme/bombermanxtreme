@@ -220,12 +220,8 @@ public class BomberManXServices {
                     bomba.getTimer().stop();
                     bomba.estalla();
                     String strCoords = new String();
-
+                    
                     ArrayList<Object> afectados = juego.explotar(bomba);
-
-                    System.out.println("avisamos que EXPLOTA LA BOMBA || " + j.getApodo());
-                    //System.out.println("avisamos que EXPLOTA LA BOMBA || " + bomba.toString());
-                    //System.out.println("AFECTADO----------------");
 
                     ArrayList<int[]> listaTemp = ((ArrayList<int[]>) afectados.get(1));
                     int x;
@@ -258,7 +254,6 @@ public class BomberManXServices {
             });
             t.start();
             bomba.setTimer(t);
-            System.out.println("INCIA - BOMBA || " + j.getApodo());
         }
 
         return res;
