@@ -95,7 +95,7 @@ var appCanvas = (function () {
 		for (let i = 0; i < esta.manes.length; i++) {
 			var man=esta.manes[i];
                         console.log(_id_man);
-			if(man.apodo_jugador==_apodo){
+			if(man.apodo_jugador===_apodo){
 				vida= man.vida;
 				apodo= man.apodo_jugador;
 				bombas= man.bombas;

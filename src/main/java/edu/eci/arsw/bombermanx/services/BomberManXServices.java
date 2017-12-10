@@ -254,11 +254,12 @@ public class BomberManXServices {
                         }
                     }
                 }
-                msgt.convertAndSend("/topic/Estadisticas." + idSala, juego.estadisticasJuego());
+                
             });
             t.start();
             bomba.setTimer(t);
         }
+        msgt.convertAndSend("/topic/Estadisticas." + idSala, juego.estadisticasJuego());
 
         return res;
     }
@@ -269,11 +270,10 @@ public class BomberManXServices {
         if (juego != null) {
             res = true;
             ArrayList<Elemento> changes = juego.moverPersonaje(j, key);
-            //System.out.println("///// Tamaño cambios: " + changes.size());
+            msgt.convertAndSend("/topic/Estadisticas." + idSala,juego.estadisticasJuego());
             if (changes.size() > 0) {
                 ////System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
                 msgt.convertAndSend("/topic/actualizar." + idSala, changes.toString());
-                msgt.convertAndSend("/topic/Estadisticas." + idSala,juego.estadisticasJuego());
             }
         }
         return res;
