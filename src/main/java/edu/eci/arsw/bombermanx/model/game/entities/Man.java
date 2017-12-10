@@ -2,7 +2,6 @@ package edu.eci.arsw.bombermanx.model.game.entities;
 
 import edu.eci.arsw.bombermanx.model.game.Juego;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import javax.swing.Timer;
 
 /**
@@ -16,7 +15,8 @@ public class Man implements Elemento,Destruible {
     private int posCol; // posicion en x
     private int posRow; // posicion en y
     private Integer bombas; //numero de bombas
-    private String color, key;
+    private String color;
+    private String key;
     private int radio;
     private int indice;
     private Timer timer;
@@ -70,7 +70,27 @@ public class Man implements Elemento,Destruible {
     
     @Override
     public String toString(){
-        return "{\"x\":" + posCol + ",\"y\":" + posRow + ",\"vida\":" + vida + ",\"color\":\"" + color + "\",\"apodo_jugador\":\"" + jugador.getApodo() + "\",\"key\":\"" + key + "\",\"tiempo\":"+ Juego.TIEMPOXDANIO+"}";
+        return "{\"x\":" + 
+                posCol + ",\"y\":" + 
+                posRow + ",\"vida\":" + 
+                vida + 
+                ",\"color\":\""+ 
+                color + 
+                "\",\"apodo_jugador\":\"" + 
+                jugador.getApodo()+ 
+                "\",\"key\":\"" + 
+                key + 
+                "\",\"tiempo\":"+ 
+                Juego.TIEMPOXDANIO+
+                "\",\"bombas\":"+ 
+                bombas+
+                "\",\"energia\":"+ 
+                radio + 
+                "\",\"velocidad\":"+ 
+                velocidad+
+                "\",\"img\":"+
+                jugador.getImagen()+
+                "}";
     }
 
     public int getPosRow() {
@@ -97,7 +117,7 @@ public class Man implements Elemento,Destruible {
 
     @Override
     public void explotaBomba() {
-        this.vida = this.vida + Juego.DANIO;
+        this.vida = this.vida - Juego.DANIO;
         bloquear(Juego.TIEMPOXDANIO);
     }
     
@@ -120,6 +140,19 @@ public class Man implements Elemento,Destruible {
         if(bombas<1)bombas=1;
     }
 
+    public int getVida() {
+        return vida;
+    }
+
+    public Integer getBombas() {
+        return bombas;
+    }
+
+    public int getRadio() {
+        return radio;
+    }
+
+    
     public int getVelocidad() {
         return velocidad;
     }

@@ -40,8 +40,8 @@ public class Juego {
     public static final int CENTRO = -1;
     public static final int TODO = 100;
     public static final int VIDAPIERDEXBOMBA = 20;
-    public static final int TIEMPOXDANIO=1000;
-    public static final int DANIO=5;
+    public static final int TIEMPOXDANIO = 1000;
+    public static final int DANIO = 5;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private static final int NUMPODERES = 6;
@@ -90,9 +90,9 @@ public class Juego {
                 // * 'T' = Poder de expansion de explosion de Bomba.
                 // * 'M' = Añadir cantidad de bombas que se pueden colocar al mismo tiempo
                 // * {'@', '-', '/'} = Caracteres especiales para NPCs.
-                
+
                 if (isNumeric(letter)) {
-                    
+
                     if (idJ < jugadores.size()) {
                         //System.out.println("edu.eci.arsw.bombermanx.model.game.Juego.mapearTablero(): ENTREEE");
                         Man manTMP = new Man("black", jugadores.get(idJ), letter, row, col);
@@ -326,9 +326,10 @@ public class Juego {
         ArrayList<Elemento> changes = new ArrayList<>();
         Elemento e1, e2;
         Man man = manes.get(jugadores.indexOf(j));
-        if(man.isBloqueado())
+        if (man.isBloqueado()) {
             return changes;
-        man.bloquear(Math.max(5-man.getVelocidad(),0)*50);
+        }
+        man.bloquear(Math.max(5 - man.getVelocidad(), 0) * 50);
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
 
@@ -362,16 +363,16 @@ public class Juego {
             man.setPosCol(colFutura);
             e1 = man;
             //revisamos si hay un poder
-            ArrayList<Elemento> elem=this.tablero[filFutura][colFutura].getAll();
+            ArrayList<Elemento> elem = this.tablero[filFutura][colFutura].getAll();
             for (int i = 0; i < elem.size(); i++) {
-                if(elem.get(i) instanceof Poder){
+                if (elem.get(i) instanceof Poder) {
                     man.setPoder((Poder) elem.get(i));
                     break;
                 }
             }
             //reemplazamos cualquier cosa por el man
             this.tablero[filFutura][colFutura].reemplazar(e1);
-            
+
             changes.add(e1);
             // Validacion para caso de Espacio pero que colocan una bomba
             if (hay_objeto(posRow, posCol, man)) {
@@ -434,4 +435,19 @@ public class Juego {
         //si nada cambia dejar null
         return p;
     }
+
+    public String estadisticasJuego() {
+        
+        String estManes = "\"manes\":[";
+        // {apodo, vidas, bombas, radio, velocidad, puntos }
+        Man manJ;        
+        for (int i = 0; i < jugadores.size(); i++) {
+            estManes += manes.get(i).toString()+",";           
+        }
+        estManes = "]";
+        String estadisticas = "{\"esEquipo\":" + esEquipos+ ","+estManes+ "}";
+        System.out.println(estadisticas);
+        return estadisticas;
+    }
+
 }

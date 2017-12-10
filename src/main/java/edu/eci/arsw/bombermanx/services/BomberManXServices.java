@@ -39,12 +39,12 @@ public class BomberManXServices {
     /**
      * crea un juego nuevo
      *
-     * @param id_sala
+     * @param idSala
      * @throws GameCreationException
      */
-    public void createGame(int id_sala) throws GameCreationException {
-        if (ps.getSala(id_sala) != null) {
-            cache.createGame(id_sala, ps.getJugadoresListos(id_sala), ps.esEquipos(id_sala));
+    public void createGame(int idSala) throws GameCreationException {
+        if (ps.getSala(idSala) != null) {
+            cache.createGame(idSala, ps.getJugadoresListos(idSala), ps.esEquipos(idSala));
         } else {
             throw new GameCreationException("Sala de juego ya no existe");
         }
@@ -54,24 +54,24 @@ public class BomberManXServices {
     /**
      * verifica si un juego ya existe
      *
-     * @param id_sala
+     * @param idSala
      * @return
      * @throws GameCreationException
      * @throws GameServicesException
      */
-    public boolean existeGame(int id_sala) throws GameCreationException, GameServicesException {
-        return cache.existeGame(id_sala);
+    public boolean existeGame(int idSala) throws GameCreationException, GameServicesException {
+        return cache.existeGame(idSala);
     }
 
     /**
      * retorna los jugadores que se encuentran en una sala
      *
-     * @param id_sala
+     * @param idSala
      * @return
      */
-    public Set<Jugador> getJugadoresDeSala(int id_sala) {
+    public Set<Jugador> getJugadoresDeSala(int idSala) {
         Set<Jugador> r = new HashSet<>();
-        ArrayList<Jugador> jugadores = ps.getJugadoresDeSala(id_sala);
+        ArrayList<Jugador> jugadores = ps.getJugadoresDeSala(idSala);
         for (int i = 0; i < jugadores.size(); i++) {
             r.add(jugadores.get(i));
         }
@@ -194,25 +194,26 @@ public class BomberManXServices {
     /**
      * retorna un juego
      *
-     * @param id_sala
+     * @param idSala
      * @return
      * @throws GameServicesException
      */
-    public Juego getGame(int id_sala) throws GameServicesException {
-        return cache.getGame(id_sala);
+    public Juego getGame(int idSala) throws GameServicesException {
+        return cache.getGame(idSala);
     }
 
     public String getNombreJugador(int id_jugador) throws GameServicesException {
         return pj.seleccionarJugadorPorId(id_jugador).getApodo();
     }
 
-    public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
-        Juego juego = cache.getGame(id_sala);
+    public boolean accionBomba(int idSala, Jugador j) throws GameServicesException {
+        Juego juego = cache.getGame(idSala);
         Bomba bomba = juego.accionBomba(j);
         boolean res = false;
 
         if (bomba != null) {
-            msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":" + bomba.toString() + "}");
+            msgt.convertAndSend("/topic/AccionBomba." + idSala, "{\"bomba\":" + bomba.toString() + "}");
+            msgt.convertAndSend("/topic/Estadisticas." + idSala, juego.estadisticasJuego());
 
             res = true;
             Timer t = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, (ActionEvent e) -> {
@@ -234,7 +235,7 @@ public class BomberManXServices {
                     strCoords += "{\"x\":" + x + ",\"y\":" + y + "},";
                 }
 
-                msgt.convertAndSend("/topic/AccionBomba." + id_sala,
+                msgt.convertAndSend("/topic/AccionBomba." + idSala,
                         "{\"bomba\":" + bomba.toString() + ",\"coords\":[" + strCoords + "]}");
 
                 ArrayList<Elemento> tmp_eleme = (ArrayList<Elemento>) afectados.get(0);
@@ -242,13 +243,13 @@ public class BomberManXServices {
                     Elemento ele = tmp_eleme.get(i);
                     Elemento quedaPoder = juego.explotarElemento(ele);
                     if (ele instanceof Caja) {
-                        msgt.convertAndSend("/topic/DaniarCaja." + id_sala,
+                        msgt.convertAndSend("/topic/DaniarCaja." + idSala,
                                 "{\"caja\":" + ele.toString() + ",\"queda\":" + quedaPoder.toString() + "}");
                     }
                     if (ele instanceof Man) {
-                        msgt.convertAndSend("/topic/ManQuemado." + id_sala, ele.toString());
+                        msgt.convertAndSend("/topic/ManQuemado." + idSala, ele.toString());
                         if (quedaPoder != null) {
-                            msgt.convertAndSend("/topic/DaniarCaja." + id_sala,
+                            msgt.convertAndSend("/topic/DaniarCaja." + idSala,
                                     "{\"caja\":false,\"queda\":" + quedaPoder.toString() + "}");
                         }
                     }
@@ -261,8 +262,8 @@ public class BomberManXServices {
         return res;
     }
 
-    public boolean accionMover(int id_sala, Jugador j, int key) throws GameServicesException {
-        Juego juego = cache.getGame(id_sala);
+    public boolean accionMover(int idSala, Jugador j, int key) throws GameServicesException {
+        Juego juego = cache.getGame(idSala);
         boolean res = false;
         if (juego != null) {
             res = true;
@@ -270,9 +271,11 @@ public class BomberManXServices {
             //System.out.println("///// Tamaño cambios: " + changes.size());
             if (changes.size() > 0) {
                 ////System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
-                msgt.convertAndSend("/topic/actualizar." + id_sala, changes.toString());
+                msgt.convertAndSend("/topic/actualizar." + idSala, changes.toString());
+                //msgt.convertAndSend("/topic/Estadisticas." + idSala,"hola");
             }
         }
         return res;
-    }
+    }    
+    
 }
