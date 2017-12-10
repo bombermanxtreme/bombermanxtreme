@@ -241,7 +241,8 @@ public class Juego {
         tmp_coords.addAll((ArrayList<int[]>) arriba.getAfectados().get(1));
         tmp_coords.addAll((ArrayList<int[]>) abajo.getAfectados().get(1));
         tmp_coords.addAll((ArrayList<int[]>) centro.getAfectados().get(1));
-
+        System.out.println("afectados");
+        System.out.println(afectados.get(1).toString());
         return afectados;
     }
 
