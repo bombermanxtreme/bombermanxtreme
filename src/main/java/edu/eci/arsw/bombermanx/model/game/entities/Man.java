@@ -82,15 +82,15 @@ public class Man implements Elemento,Destruible {
                 key + 
                 "\",\"tiempo\":"+ 
                 Juego.TIEMPOXDANIO+
-                "\",\"bombas\":"+ 
+                ",\"bombas\":"+ 
                 bombas+
-                "\",\"energia\":"+ 
+                ",\"energia\":"+ 
                 radio + 
-                "\",\"velocidad\":"+ 
+                ",\"velocidad\":"+ 
                 velocidad+
-                "\",\"img\":"+
+                ",\"img\":\""+
                 jugador.getImagen()+
-                "}";
+                "\"}";
     }
 
     public int getPosRow() {

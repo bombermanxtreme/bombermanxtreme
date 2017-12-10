@@ -12,6 +12,7 @@ var appCanvas = (function () {
 	var tablero;
 	var _manes;
 	var _id_man;
+	var _apodo;
 	var keyPress = null;
 	var clear;
 
@@ -34,7 +35,7 @@ var appCanvas = (function () {
 
 			//especificamos que estamos atentos a las estadisticas
 			stompClient.subscribe("/topic/Estadisticas." + idSala, function (eventbody) {
-				callback_estadisticas(eventbody.body);
+				callback_estadisticas(eventbody);
 			});
 
 			//Estamos atentos si se daña alguna caja
@@ -82,31 +83,34 @@ var appCanvas = (function () {
 		actualizar();
 	};
 
-	var callback_estadisticas=function(esta){
+	var callback_estadisticas=function(esta_){
+                var esta=eval("("+esta_.body+")");
 		var vida;
 		var bombas;
 		var apodo;
 		var energia;
-		var equipo=esta.equipo;
+		var equipo=esta.esEquipo;
 		var velocidad;
 		var j=Array();
 		for (let i = 0; i < esta.manes.length; i++) {
 			var man=esta.manes[i];
-			if(man.id==_id_man){
+                        console.log(_id_man);
+			if(man.apodo_jugador==_apodo){
 				vida= man.vida;
-				apodo= man.apodo;
+				apodo= man.apodo_jugador;
 				bombas= man.bombas;
 				energia= man.energia;
 				velocidad= man.velocidad;
 			}
 			j[i]={
-				 id_man:man.id,
+				 id_man:man.i,
 				 vida:man.vida,
-				 apodo:man.apodo,
+				 apodo:man.apodo_jugador,
 				 img:man.img
 			};
 		}
 		var html="<table><tr><td>"+estaManes(j,equipo,false)+"</td><td><div class='apodo'>"+apodo+"</div><br>Vida:"+vida+"<br>Bombas:"+bombas+"<br>Energia:"+energia+"<br>Velocidad:"+velocidad+"<br></td><td>"+estaManes(j,equipo,true)+"</td></tr></table>";
+                console.log(html);
 		$("#estadisticas").html(html);
 	}
 
@@ -114,8 +118,8 @@ var appCanvas = (function () {
 		var s="";
 		var orden=Array();
 		
-		for (let i = 0; i < j.length; i++) if(esEquipo && j.equipoB==equipoB){
-			s+="<tr><td><img src='"+j.img+"'></td><td>"+j.vida+"</td><td><img src='"+$("#"+_manes[i].color).attr("src")+"'></td></tr>";
+		for (let i = 0; i < j.length; i++) if(esEquipo && j.equipoB==equipoB || !esEquipo && equipoB==false){
+			s+="<tr><td><img src='"+j[i]._img+"'></td><td>"+j[i].apodo+"</td><td> Vida: "+j[i].vida+"</td><td><img src='"+$("#"+_manes[i].color).attr("src")+"'></td></tr>";
 		}
 		return "<table>"+s+"</table>";
 	};
@@ -204,6 +208,7 @@ var appCanvas = (function () {
 				////console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
 				if (nameCookie === apodo) {
 					_id_man = parseInt(getCookie("iduser"));
+                                        _apodo=getCookie("nombreuser");
 				}
 			}
 			//actualizamos el canvas

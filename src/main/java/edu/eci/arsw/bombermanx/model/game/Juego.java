@@ -440,11 +440,10 @@ public class Juego {
         
         String estManes = "\"manes\":[";
         // {apodo, vidas, bombas, radio, velocidad, puntos }
-        Man manJ;        
         for (int i = 0; i < jugadores.size(); i++) {
             estManes += manes.get(i).toString()+",";           
         }
-        estManes = "]";
+        estManes+= "]";
         String estadisticas = "{\"esEquipo\":" + esEquipos+ ","+estManes+ "}";
         System.out.println(estadisticas);
         return estadisticas;

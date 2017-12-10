@@ -254,6 +254,7 @@ public class BomberManXServices {
                         }
                     }
                 }
+                msgt.convertAndSend("/topic/Estadisticas." + idSala, juego.estadisticasJuego());
             });
             t.start();
             bomba.setTimer(t);
@@ -272,7 +273,7 @@ public class BomberManXServices {
             if (changes.size() > 0) {
                 ////System.out.println("++++ Me pude mover :D: " + changes.get(0).toString() + " - " + changes.get(1).toString());
                 msgt.convertAndSend("/topic/actualizar." + idSala, changes.toString());
-                //msgt.convertAndSend("/topic/Estadisticas." + idSala,"hola");
+                msgt.convertAndSend("/topic/Estadisticas." + idSala,juego.estadisticasJuego());
             }
         }
         return res;
