@@ -5,7 +5,7 @@ package edu.eci.arsw.bombermanx.model.game.entities;
  *
  * @author Kvn CF <ECI>
  */
-abstract class Poder implements Elemento, DejaMover {
+public abstract class Poder implements Elemento, DejaMover {
 
     private String key;
     private int posRow;

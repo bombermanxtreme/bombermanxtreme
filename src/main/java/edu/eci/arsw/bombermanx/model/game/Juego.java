@@ -7,6 +7,7 @@ import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Casilla;
 import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
+import edu.eci.arsw.bombermanx.model.game.entities.Poder;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.DejaMover;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
@@ -40,6 +41,7 @@ public class Juego {
     public static final int TODO = 100;
     public static final int VIDAPIERDEXBOMBA = 20;
     public static final int TIEMPOXDANIO=1000;
+    public static final int DANIO=5;
     public boolean esEquipos;
     public static final int TIEMPOEXPLOTARBOMBAS = 5000;
     private static final int NUMPODERES = 6;
@@ -322,12 +324,16 @@ public class Juego {
      * @return Lista de elementos que fueron afectados
      */
     public ArrayList<Elemento> moverPersonaje(Jugador j, int key) {
+        ArrayList<Elemento> changes = new ArrayList<>();
         Elemento e1, e2;
         Man man = manes.get(jugadores.indexOf(j));
+        if(man.isBloqueado())
+            return changes;
+        System.out.println("camina");
+        man.bloquear(Math.max(5-man.getVelocidad(),0)*50);
         int posCol = man.getPosCol();
         int posRow = man.getPosRow();
 
-        ArrayList<Elemento> changes = new ArrayList<>();
 
         int filFutura = 0;
         int colFutura = 0;
@@ -355,15 +361,22 @@ public class Juego {
         }
 
         if (filFutura >= 0 && colFutura >= 0 && colFutura < ANCHO && filFutura < ALTO && puedo_moverme(filFutura, colFutura)) {
-            //System.out.println("++++++++++++++++-...... Entre para poderme mover");
             man.setPosRow(filFutura);
             man.setPosCol(colFutura);
-            //System.out.println("------ KEY del man: " + man.getKey());
             e1 = man;
+            //revisamos si hay un poder
+            ArrayList<Elemento> elem=this.tablero[filFutura][colFutura].getAll();
+            for (int i = 0; i < elem.size(); i++) {
+                if(elem.get(i) instanceof Poder){
+                    man.setPoder((Poder) elem.get(i));
+                    break;
+                }
+            }
+            //reemplazamos cualquier cosa por el man
             this.tablero[filFutura][colFutura].reemplazar(e1);
+            
             changes.add(e1);
             // Validacion para caso de Espacio pero que colocan una bomba
-            //System.out.println("+++++++++ Verificar si hay bomba en esa posicion:  False:SI: " + hay_objeto(posRow, posCol, man));
             if (hay_objeto(posRow, posCol, man)) {
                 e2 = new Espacio("O", posRow, posCol);
                 this.tablero[posRow][posCol].reemplazar(e2);
