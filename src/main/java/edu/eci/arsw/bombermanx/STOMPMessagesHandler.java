@@ -55,6 +55,7 @@ public class STOMPMessagesHandler {
         //si la sala está casi lista ya no pueden entrar más jugadores
         Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
         PS.removeJugador(idSala,j);
+        enviarListadoJugadoresQuierenJugar(idSala, true);
     }
 
     /**

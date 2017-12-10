@@ -25,7 +25,7 @@ var appCanvas = (function () {
 
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
-            console.log("Conectado: " + frame);
+            //console.log("Conectado: " + frame);
 
             //especificamos que estamos atentos a poner bombas de jugadores
             stompClient.subscribe("/topic/AccionBomba." + idSala, function (eventbody) {
@@ -58,15 +58,15 @@ var appCanvas = (function () {
      */
     var callback_actualizar = function (data) {
         var tempotab = JSON.parse(data.body);
-        console.log(data);
+        //console.log(data);
         var y, x, k;
         for (i = 0; i < tempotab.length; i++) {
             y = tempotab[i].y;
             x = tempotab[i].x;
             k = tempotab[i].key;
             tablero[y][x] = k;
-            console.log("----- Tablero antes de Modificar: " + tablero);
-            console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
+            //console.log("----- Tablero antes de Modificar: " + tablero);
+            //console.log("+++++ Esto es lo que voy a modificar: Y:" + y + ", X:" + x + ", K:" + k);
         }
         clear = true;
         actualizar();
@@ -74,7 +74,7 @@ var appCanvas = (function () {
 
     var callback_DaniarCaja = function (message) {
         var cajaADaniar = eval("("+message.body+")");
-        console.log(cajaADaniar);
+        //console.log(cajaADaniar);
         tablero[cajaADaniar.caja.y][cajaADaniar.caja.x] = "c."+cajaADaniar.queda.key;
         actualizar();
     };
@@ -92,7 +92,12 @@ var appCanvas = (function () {
     var getJuego = function () {
         APIuseful.getJuego(idSala, function (data) {
             var nameCookie = getCookie("nombreuser");
+            if(data=="" || data==null){
+                location.href="jugar.html";
+                return false;
+            }
             var datosJuego = eval("(" + data + ")");
+
             tablero = Array();
             
             //llenamos todo de vacíos
@@ -128,7 +133,7 @@ var appCanvas = (function () {
                 tablero[y][x] = datosJuego.manes[i].key;
 
                 //Verificar KSSP
-                //console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
+                ////console.log("/// Este es el nombre de la sesion = " + appCookie.getNombre());
                 if (nameCookie === apodo) {
                     _id_man = parseInt(getCookie("iduser"));
                 }
@@ -153,7 +158,7 @@ var appCanvas = (function () {
                 colocarBomba();
             else
                 moverPersonaje(key);
-            console.log(key);
+            //console.log(key);
         });
         window.addEventListener('keyup', function (e) {
             key = false;
@@ -167,7 +172,7 @@ var appCanvas = (function () {
      */
     function moverPersonaje(key) {
         if (36 < key && key < 41) {
-            //console.log("/// Me estoy moviendo :D");
+            ////console.log("/// Me estoy moviendo :D");
             keyPress = key;
             stompClient.send("/app/mover." + idSala + "." + key, {}, idJugador);
         }
@@ -191,7 +196,7 @@ var appCanvas = (function () {
      * Encargado de redibujar el canvas
      */
     var actualizar = function () {
-        //console.log(tablero);
+        ////console.log(tablero);
         for (i = 0; i < tablero.length; i++) {
             for (j = 0; j < tablero[i].length; j++) {
                 if (isNumber(tablero[i][j])) {
@@ -259,7 +264,7 @@ var appCanvas = (function () {
                 }
             }
         }
-        console.log("LLENANDO CANVAS");
+        //console.log("LLENANDO CANVAS");
     };
 
     /**
@@ -286,7 +291,7 @@ var appCanvas = (function () {
 	}
     var callback_accionBomba = function (data) {
         var J = eval("(" + data + ")");
-        console.log(J);
+        //console.log(J);
         //bomba
         var bomba = J.bomba;
         //fuego
@@ -363,7 +368,7 @@ var appCanvas = (function () {
         
         this.update = function () {
             if (this.type === "image") {
-                //console.log("++ COLOCANDO IMAGEN de Jugador");
+                ////console.log("++ COLOCANDO IMAGEN de Jugador");
                 var img;
                 var sx, sy, swidth, sheight;
 
@@ -401,7 +406,7 @@ var appCanvas = (function () {
                         this.y,
                         this.ancho, this.alto);
             } else {
-                //console.log(ctx);
+                ////console.log(ctx);
                 ctx.fillStyle = color;
                 ctx.fillRect(this.x, this.y, this.ancho, this.alto);
             }
@@ -428,14 +433,14 @@ var appCanvas = (function () {
          * encargado de realizar la conexión con STOMP
          */
         init() {
-            //console.log("***** Iniciando Script!!");
+            ////console.log("***** Iniciando Script!!");
             idJugador = appCookie.getIdJugador(false);
-            console.log("Jugador: " + idJugador);
+            //console.log("Jugador: " + idJugador);
             // Cargamos elementos clave para dibujar en Tablero
             loadBasicControls();
             // Traer Numero de sala
             idSala = appCookie.getSala();
-            console.log("Este es el numero de Sala en el JS: " + idSala);
+            //console.log("Este es el numero de Sala en el JS: " + idSala);
             //pedir estado inicial del juego
             getJuego();
             //INICIAMOS CONEXIÓN
@@ -449,7 +454,7 @@ var appCanvas = (function () {
                 stompClient.disconnect();
             }
             //setConnected(false);
-            console.log("Desconectado");
+            //console.log("Desconectado");
         }
     };
 

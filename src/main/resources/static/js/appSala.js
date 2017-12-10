@@ -14,7 +14,7 @@ var appSala=(function(){
 			stompClient.disconnect();
 		}
 		//setConnected(false);
-		console.log("Desconectado de Salas");
+		//console.log("Desconectado de Salas");
 	};
 	
 	/**
@@ -27,7 +27,7 @@ var appSala=(function(){
 
 		//subscribe to /topic/TOPICXX when connections succeed
 		stompClient.connect({}, function (frame) {
-			console.log("Conectado: " + frame);
+			//console.log("Conectado: " + frame);
 			
 			//especificamos que estamos atentos de nuevos jugadores que entren
 			stompClient.subscribe("/topic/Salas", function (eventbody) {
@@ -100,7 +100,7 @@ var appSala=(function(){
             //enviamos los datos
             APIuseful.createSala(nombre, equipos, fuegoamigo, function (data) {
                 MJ_load(false);
-                console.log(data);
+                //console.log(data);
                 if (isNaN(data)) {
                     MJ_simple("Crear Sala", "error:<br>" + data);
                     return false;

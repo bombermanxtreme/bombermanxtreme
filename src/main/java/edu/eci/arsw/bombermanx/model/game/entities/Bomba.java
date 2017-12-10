@@ -1,5 +1,7 @@
 package edu.eci.arsw.bombermanx.model.game.entities;
 
+import javax.swing.Timer;
+
 /**
  * Clase abstracta para varios tipos de bombas
  *
@@ -10,6 +12,7 @@ public abstract class Bomba implements Elemento {
     //private String color;
     private String color;
     int posCol;
+    Timer timer;
     int posRow;
     boolean estallo=false;
     private int radio;
@@ -26,6 +29,16 @@ public abstract class Bomba implements Elemento {
         
     }
 
+    public Timer getTimer() {
+        return timer;
+    }
+
+    public void setTimer(Timer timer) {
+        this.timer = timer;
+    }
+
+    
+    
     public int getRadio() {
         return radio;
     }

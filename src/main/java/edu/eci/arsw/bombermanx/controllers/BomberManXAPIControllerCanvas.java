@@ -38,21 +38,24 @@ public class BomberManXAPIControllerCanvas {
     
     // Author: Kevin S. Sanchez (DOCUMENTACIÓN)
     @RequestMapping(path = "/tablero/{id_sala}", method = RequestMethod.GET)
-    public ResponseEntity<?> getTablero(@PathVariable int id_sala) {
+    public ResponseEntity<?> getTablero(@PathVariable int id_sala) throws GameCreationException {
         
         try{
             try {
                 
                 if(!gameServices.existeGame(id_sala)){
+                    System.out.println("intentando crear sala");
                     gameServices.createGame(id_sala);
                 }
             } catch (GameCreationException ex) {
                 Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);
             }
             
-            Juego j = gameServices.getGame(id_sala);
-            //System.out.println("Voy a enviar esto: "  + j.toString());
-            return new ResponseEntity<>(j.toString(), HttpStatus.ACCEPTED);
+            if(gameServices.existeGame(id_sala)){
+                Juego j = gameServices.getGame(id_sala);
+                return new ResponseEntity<>(j.toString(), HttpStatus.ACCEPTED);
+            }
+            else return new ResponseEntity<>(null, HttpStatus.NOT_FOUND); 
         } catch (GameServicesException | NumberFormatException ex) {
             Logger.getLogger(BomberManXAPIControllerCanvas.class.getName()).log(Level.SEVERE, null, ex);     
         }

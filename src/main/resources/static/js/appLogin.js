@@ -80,10 +80,10 @@ var appLogin = (function () {
                             if (data.responseText === "-1") {
                                 console.info("User: " + correo + " no existe " + data.responseText);
                             } else if (data.responseText === "-2") {
-                                console.log("User: " + correo + " contraseña incorrecta, cod: " + data.responseText);
+                                //console.log("User: " + correo + " contraseña incorrecta, cod: " + data.responseText);
                                 MJ_simple("iniciar sesión", "Contraseña Incorrecta :(");
                             } else {
-                                console.log("error desconocido: " + data.responseText);
+                                //console.log("error desconocido: " + data.responseText);
                             }
 
                         }
@@ -134,23 +134,20 @@ var appLogin = (function () {
                 }).done(function (data) {
                     //console.info("registro: " + datosNuevos.correo + " " + datosNuevos.apodo + "  " + " id user: " + data);
                     appCookie.setIdJugador(data);
+                    appCookie.setNombreJugador(apodo);
                     MJ_simple("ingresar", "Bienvenido " + datosNuevos.nombre);
                     location.href = "/login.html";
-                }).fail(function (jqXHR, textStatus) {
-                    /*callback(undefined);
-                     if (jqXHR.status != 404)
-                     alert("Error " + jqXHR.status + " peticion GET!");*/
-                    //console.info("Response text: " + data.responseText);
+                }).fail(function (jqXHR, textStatus) {                    
                     console.info("JQXX"+jqXHR[0]);
                     console.info("text"+textStatus);
                     if (data.responseText === "-2") {
-                        console.log("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
+                        //console.log("No se puede crear el usuario " + datosNuevos.correo + "El usuario ya extiste. Codigo =" + data.responseText);
                         MJ_simple("registrarte", "El usario " + datosNuevos.correo + " ya existe!, usa una dirección de correo diferente.");
                     } else if (data.responseText === "-3") {
-                        console.log("No se puede crear el usuario " + datosNuevos.apodo + "El apodo ya extiste. Codigo =" + data.responseText);
+                        //console.log("No se puede crear el usuario " + datosNuevos.apodo + "El apodo ya extiste. Codigo =" + data.responseText);
                         MJ_simple("registrarte", "El apodo " + datosNuevos.apodo + " ya existe!, usa un apodo diferente.");
                     } else {
-                        console.log("Error desconodido:" + data.responseText);
+                        //console.log("Error desconodido:" + data.responseText);
                     }
                 });
             }

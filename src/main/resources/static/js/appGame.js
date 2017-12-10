@@ -15,7 +15,7 @@ var appGame = (function () {
 
         //subscribe to /topic/TOPICXX when connections succeed
         stompClient.connect({}, function (frame) {
-            console.log("Conectado: " + frame);
+            //console.log("Conectado: " + frame);
             /*
              //especificamos que estamos atentos de nuevos jugadores que entren
              stompClient.subscribe("/topic/JugadoresQuierenJugar." + idSala, function (eventbody) {
@@ -74,7 +74,7 @@ var appGame = (function () {
                 stompClient.disconnect();
             }
             //setConnected(false);
-            console.log("Desconectado");
+            //console.log("Desconectado");
         }
     };
 })();

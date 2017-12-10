@@ -4,7 +4,6 @@ import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.model.game.Juego;
 import edu.eci.arsw.bombermanx.model.game.entities.Bomba;
 import edu.eci.arsw.bombermanx.model.game.entities.Caja;
-import edu.eci.arsw.bombermanx.model.game.entities.Destruible;
 import edu.eci.arsw.bombermanx.model.game.entities.Elemento;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import edu.eci.arsw.bombermanx.model.game.entities.Man;
@@ -38,8 +37,7 @@ public class BomberManXServices {
     @Autowired
     private SimpMessagingTemplate msgt;
 
-    private Timer timer; // Servicio de conteo 5s para las Bombas
-
+    
     /**
      * crea un juego nuevo
      *
@@ -47,7 +45,9 @@ public class BomberManXServices {
      * @throws GameCreationException
      */
     public void createGame(int id_sala) throws GameCreationException {
-        cache.createGame(id_sala, ps.getJugadoresDeSala(id_sala), ps.esEquipos(id_sala));
+        if(ps.getSala(id_sala)!=null)
+            cache.createGame(id_sala, ps.getJugadoresListos(id_sala), ps.esEquipos(id_sala));
+        else throw new GameCreationException("Sala de juego ya no existe");
         //System.out.println("Juego creado en CreateGame");
     }
 
@@ -144,7 +144,7 @@ public class BomberManXServices {
 
             //jugadores diponibles
             //System.out.println("----- jugadores disponibles ---");
-            for (int i = 0; i < jugadores.size(); i++) {
+            for(int i = 0; i < jugadores.size(); i++) {
                 //System.out.println(jugadores.get(i));
             }
 
@@ -191,10 +191,6 @@ public class BomberManXServices {
         return ps.crearSala(creador, nombre, equipos, friendFire);
     }
 
-    public Object getTablero(int i) {
-        return null;
-    }
-
     /**
      * retorna un juego
      *
@@ -211,7 +207,6 @@ public class BomberManXServices {
     }
 
     public boolean accionBomba(int id_sala, Jugador j) throws GameServicesException {
-
         Juego juego = cache.getGame(id_sala);
         Bomba bomba = juego.accionBomba(j);
         boolean res = false;
@@ -220,16 +215,15 @@ public class BomberManXServices {
             msgt.convertAndSend("/topic/AccionBomba." + id_sala, "{\"bomba\":"+bomba.toString()+"}");
 
             res = true;
-            timer = new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
-
+            Timer t= new Timer(Juego.TIEMPOEXPLOTARBOMBAS, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
-                    timer.stop();
+                    bomba.getTimer().stop();
                     bomba.estalla();
                     String strCoords = new String();
 
                     ArrayList<Object> afectados = juego.explotar(bomba);
 
-                    //System.out.println("avisamos que EXPLOTA LA BOMBA || " + j.getApodo());
+                    System.out.println("avisamos que EXPLOTA LA BOMBA || " + j.getApodo());
                     //System.out.println("avisamos que EXPLOTA LA BOMBA || " + bomba.toString());
                     //System.out.println("AFECTADO----------------");
 
@@ -262,7 +256,9 @@ public class BomberManXServices {
                     }
                 }
             });
-            timer.start();
+            t.start();
+            bomba.setTimer(t);
+            System.out.println("INCIA - BOMBA || " + j.getApodo());
         }
 
         return res;

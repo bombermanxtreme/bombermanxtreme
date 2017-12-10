@@ -42,7 +42,8 @@ public class PersistenciaImplSala implements PersistenciaSala {
 
     @Override
     public Sala getSala(int id) {
-        return salas.get(id);
+        Sala s=(salas.size()>id)?salas.get(id):null;
+        return s;
     }
 
     @Override
