@@ -112,7 +112,7 @@ var appJugar = (function () {
                 return false;
             }
             $("#segundos").text(segundosRestantes--);
-            setTimeout(restarSegundos, 100);
+            setTimeout(restarSegundos, 1000);
         };
         setTimeout(restarSegundos, 1000);
 
