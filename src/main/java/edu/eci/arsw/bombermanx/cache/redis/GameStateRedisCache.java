@@ -9,6 +9,7 @@ import edu.eci.arsw.bombermanx.cache.BomberManXCache;
 import edu.eci.arsw.bombermanx.cache.stub.InMemoryBomberManXStatePersistence;
 import edu.eci.arsw.bombermanx.model.game.Juego;
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
+import edu.eci.arsw.bombermanx.persistencia.RedisException;
 import edu.eci.arsw.bombermanx.recursos.TableroTexto;
 import edu.eci.arsw.bombermanx.services.GameCreationException;
 import edu.eci.arsw.bombermanx.services.GameServicesException;
@@ -31,32 +32,30 @@ public class GameStateRedisCache implements BomberManXCache{
 
     @Override
     public void createGame(int id, ArrayList<ArrayList<Jugador>> jugadores, boolean esEquipos) throws GameCreationException {
-        if (gamesState.containsKey(id)) {
-            throw new GameCreationException("el juego " + id + " ya existe.");
-        } else {
-            String[][] tablero; //= null;
-            try {
-                tablero = TableroTexto.muestraContenido(id);
-                System.out.println("creatttte");
-                System.out.println(jugadores);
-                gamesState.put(id, new Juego(jugadores, tablero, esEquipos));
-            } catch (IOException ex) {
-                Logger.getLogger(InMemoryBomberManXStatePersistence.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        String[][] tablero=null;
+        try {
+            tablero = TableroTexto.muestraContenido(0);
+        } catch (IOException ex) {
+            Logger.getLogger(GameStateRedisCache.class.getName()).log(Level.SEVERE, null, ex);
         }
+        new BombarmanXRedisGame(template, id, jugadores, tablero, esEquipos);
     }
 
     @Override
     public Juego getGame(int gameid) throws GameServicesException {
-        if (!existeGame(gameid)) {
-            throw new GameServicesException("El juego " + gameid + " no existe.");
-        } else {
-            return gamesState.get(gameid);
+        BombarmanXRedisGame bxg=null;
+        try {
+            bxg=new BombarmanXRedisGame(template, gameid);
+        } catch (RedisException ex) {
+            Logger.getLogger(GameStateRedisCache.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage()
+            );
         }
+        return bxg;
     }
 
     @Override
     public boolean existeGame(int gameid) throws GameServicesException {
-        return gamesState.containsKey(gameid);
+        return true;
     }
 }
