@@ -47,13 +47,11 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 
 ![](https://www.tuprogramaras.com/wp-content/uploads/2014/04/java.jpg)
 
-
 ![](https://techsparx.com/software-development/spring/img/spring-boot.png)
 
 ![](http://www.trucsweb.com/documents/images/2015/bootstrap4.png)
 
 ![](https://1.bp.blogspot.com/-5g5vVezK8f0/Vtff_EFwuxI/AAAAAAAAA58/23CIw0yCAbs/s1600/ActiveMQ-www.hackthesec.co.in.png)
-
 
 ![](https://upload.wikimedia.org/wikipedia/en/thumb/6/6b/Redis_Logo.svg/1200px-Redis_Logo.svg.png)
 
@@ -64,8 +62,13 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 
 ![](https://sophosnews.files.wordpress.com/2017/01/mongodb.png?w=780&h=408&crop=1)
 
+![](https://robertcastro.co/wp-content/uploads/2017/09/NGINX.png)
 
-![](https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRHGDwxJRXO3w76jjdcf0Ta5cu8QK4eLSIjuzSYiwoXtdL-K96dYg)
+![](https://js.devexpress.com/Content/Images/features/html5-css-javascript-logos.png)
+
+![](http://tecnologiaenvivo.com/wp-content/uploads/2016/02/AJAX_logo_by_gengns.svg_.png)
+
+![](https://stomp.github.io/images/project-logo.png)
 
 
 
