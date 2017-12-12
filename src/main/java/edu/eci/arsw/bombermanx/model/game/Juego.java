@@ -48,7 +48,7 @@ public class Juego {
     private static final int NUMPODERES = 6;
     private ArrayList<Jugador> jugadores;
     private ArrayList<ArrayList<Jugador>> jugadoresEquipos;
-    private Casilla[][] tablero;
+    protected Casilla[][] tablero;
     private ArrayList<Man> manes;
     public static final int MAXIMOJUGADORES = 4;
     private static final int[][] POSJUGADORES = {{0, 0}, {ALTO - 1, ANCHO - 1}, {0, ANCHO - 1}, {ALTO - 1, 0}};
@@ -280,7 +280,7 @@ public class Juego {
      * @param columna
      * @return
      */
-    private boolean hay_objeto(int fila, int columna, Man man) {
+    protected boolean hay_objeto(int fila, int columna, Man man) {
         //System.out.println("--------------------------"+fila+"++++"+columna);
         ArrayList<Elemento> e = tablero[fila][columna].getAll();
         boolean puede = true;
