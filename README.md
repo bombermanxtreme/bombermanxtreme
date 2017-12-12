@@ -34,6 +34,6 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 | Codacy | https://goo.gl/nkfhup |
 | Propuesta del Proyecto | https://goo.gl/hJdGtA
 | BurnDown_Sprint1 | https://docs.google.com/spreadsheets/d/1Xk-FP6lLLw7dM7gwbYdH6SoKfE5XDaPQ1CGRK9AQhhA/edit?usp=sharing |
-| System Architecture Document | - |
+| System Architecture Document | https://drive.google.com/open?id=1w2q187pZ8VPpYv_jYGAalcC6WtXltv4- 
 | Ninja Mock | https://ninjamock.com/s/WFJQFWx   |
 
