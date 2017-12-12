@@ -70,9 +70,9 @@ public class BomberManXAPIController {
     public ResponseEntity<?> getSalas(Model model) {
         try {
             if(PS.getSalas().isEmpty()){
-                PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los BOMBERS",true,true);
-                PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los perdidos",false,true);
-                PS.crearSala(PJ.seleccionarJugadorPorId(0),"Los Devs",false,true);
+                PS.crearSala(PJ.findById(0),"Los BOMBERS",true,true);
+                PS.crearSala(PJ.findById(0),"Los perdidos",false,true);
+                PS.crearSala(PJ.findById(0),"Los Devs",false,true);
             }
             
             Set<Sala> data = gc.getSalas();
@@ -92,7 +92,7 @@ public class BomberManXAPIController {
     @RequestMapping(path = "", method = RequestMethod.POST)
     public ResponseEntity<?> newSala(Model model, @RequestBody CrearSalaAttempt csa) {
         try {
-            int id=gc.crearSala(PJ.seleccionarJugadorPorId(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
+            int id=gc.crearSala(PJ.findById(csa.getId_jugador()), csa.getNombre(), csa.isEquipos(), csa.isFuegoamigo());
             Set<Sala> dataTopic = gc.getSalas();
             msgt.convertAndSend("/topic/Salas", dataTopic.toString());
             return new ResponseEntity<>(id, HttpStatus.ACCEPTED);
