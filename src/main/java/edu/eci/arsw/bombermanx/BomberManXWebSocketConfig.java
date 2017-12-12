@@ -16,15 +16,15 @@ public class BomberManXWebSocketConfig extends AbstractWebSocketMessageBrokerCon
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
-        config.enableSimpleBroker("/topic");
-        //config.enableStompBrokerRelay("/topic/").setRelayHost("10.0.0.4").setRelayPort(61613);
+        //config.enableSimpleBroker("/topic");
+        config.enableStompBrokerRelay("/topic/").setRelayHost("10.0.0.4").setRelayPort(61613);
         config.setApplicationDestinationPrefixes("/app");
     }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        registry.addEndpoint("/stompendpoint").withSockJS();
-        //registry.addEndpoint("/stompendpoint").setAllowedOrigins("*").withSockJS();     
+        //registry.addEndpoint("/stompendpoint").withSockJS();
+        registry.addEndpoint("/stompendpoint").setAllowedOrigins("*").withSockJS();     
     }
     
 }
