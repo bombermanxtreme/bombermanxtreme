@@ -31,6 +31,7 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 | ------ | ------ |
 | Heroku |  https://bombermanxtreme.herokuapp.com/|
 | Servidor | http://13.84.129.14:8090/
+| Scaling | http://13.84.129.14:8080 Balanceador
 | Circle.Ci | https://circleci.com/gh/bombermanxtreme/bombermanxtreme |
 | Codacy | https://goo.gl/nkfhup |
 | Propuesta del Proyecto | https://goo.gl/hJdGtA
