@@ -1,0 +1,8 @@
+spring:
+    data:
+      mongodb:
+        host: ds137336.mlab.com
+        port: 37336
+        database: bombermanx
+        username: bomberman
+        password: bomberman

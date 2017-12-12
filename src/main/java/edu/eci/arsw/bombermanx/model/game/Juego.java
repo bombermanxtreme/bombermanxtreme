@@ -179,7 +179,7 @@ public class Juego {
      * @throws edu.eci.arsw.bombermanx.services.GameServicesException
      */
     public Bomba accionBomba(Jugador jugador) throws GameServicesException {
-        Man man = manes.get(jugadores.indexOf(jugador));
+        Man man = manes.get(getIdJugador(jugador));
         if (man == null) {
             throw new GameServicesException("No se definió correctamente la relación entre jugador y man");
         }
@@ -314,7 +314,13 @@ public class Juego {
     }
 
     public int getIdJugador(Jugador j) {
-        return jugadores.indexOf(j);
+        int id=-1;
+        for (int i = 0; i < jugadores.size(); i++)
+            if(jugadores.get(i).getId()==j.getId()){
+                id=i;
+                break;
+            }
+        return id;
     }
 
     /**
@@ -349,7 +355,7 @@ public class Juego {
     public ArrayList<Elemento> moverPersonaje(Jugador j, int key) {
         ArrayList<Elemento> changes = new ArrayList<>();
         Elemento e1, e2;
-        Man man = manes.get(jugadores.indexOf(j));
+        Man man = manes.get(getIdJugador(j));
         if (man.isBloqueado()) {
             return changes;
         }
