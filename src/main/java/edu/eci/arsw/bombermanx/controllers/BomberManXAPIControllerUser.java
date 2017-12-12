@@ -48,13 +48,15 @@ public class BomberManXAPIControllerUser {
         HttpStatus status;
         int id_login = gameServices.loginJugador(correo, clave);
         String nombre_jugador = "Sin definir";
-        if (id_login >= 0) {
-            try {
-                nombre_jugador = gameServices.getNombreJugador(id_login);
+        
+        try {
+            nombre_jugador = gameServices.getNombreJugador(id_login);
 
-            } catch (GameServicesException ex) {
-                Logger.getLogger(BomberManXAPIControllerUser.class.getName()).log(Level.SEVERE, null, ex);
-            }
+        } catch (GameServicesException ex) {
+            Logger.getLogger(BomberManXAPIControllerUser.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        if (id_login >= 0) {
             status = HttpStatus.ACCEPTED;
         } else {
             status = HttpStatus.NOT_FOUND;

@@ -2,20 +2,29 @@ package edu.eci.arsw.bombermanx.persistencia;
 
 import edu.eci.arsw.bombermanx.model.game.entities.Jugador;
 import java.util.ArrayList;
-import java.util.List;
-import org.springframework.data.mongodb.repository.MongoRepository;
 
 /**
  *
  * @author Kvn CF <ECI>
  */
-public interface PersistenciaJugador extends MongoRepository<Jugador, Integer>{
+public interface PersistenciaJugador {
+
+    /**
+     * Pobla jugadores
+     *
+     */
+    public abstract void poblar();
 
     /**
      * Agregar un jugador nuevo
-     * @param entity 
+     *
+     * @param nombre
+     * @param correo
+     * @param apodo
+     * @param clave
+     * @param imagen
      */
-    public void insert(PersistenciaJugador entity);
+    abstract public void agregarJugador(String nombre, String correo, String apodo, String clave, String imagen);
 
     /**
      * busca dentro de los jugadores creados basado en el id
@@ -23,15 +32,14 @@ public interface PersistenciaJugador extends MongoRepository<Jugador, Integer>{
      * @param idJugador
      * @return jugador
      */
-    public Jugador findById(Integer idJugador);
+    abstract public Jugador seleccionarJugadorPorId(int idJugador);
 
     /**
      * devuelve los jugadores registrados
      *
      * @return
      */
-    @Override
-    public List<Jugador> findAll();
+    public ArrayList<Jugador> getJugadores();
 
     /**
      * devuelve el id del jugador segun el correo, -1 si no esta
@@ -39,5 +47,14 @@ public interface PersistenciaJugador extends MongoRepository<Jugador, Integer>{
      * @param correo
      * @return
      */
-    public Jugador findFirstByCorreo(String correo);
+    public int getIDPorCorreo(String correo);
+
+    /**
+     * Retorna la url de la imagen del jugador
+     *
+     * @param correo
+     * @return
+     */
+    public String getUrlPorCorreo(String correo);
+
 }

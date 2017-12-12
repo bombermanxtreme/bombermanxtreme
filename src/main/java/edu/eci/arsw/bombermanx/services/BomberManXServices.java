@@ -93,14 +93,13 @@ public class BomberManXServices {
     public int loginJugador(String correo, String clave) {
         int id_login = -1; //-1: no se encontro el correo, -2: clave incorrecta
 
-        ArrayList<Jugador> jugadores = (ArrayList<Jugador>) pj.findAll();
+        ArrayList<Jugador> jugadores = pj.getJugadores();
 
         for (int i = 0; i < jugadores.size(); i++) {
             if (jugadores.get(i).getCorreo().equals(correo)) {
 
                 if (jugadores.get(i).getClave().equals(clave)) {
-                    Jugador j=pj.findFirstByCorreo(correo);
-                    id_login = j.getId();
+                    id_login = pj.getIDPorCorreo(correo);
                 } else {
                     id_login = -2;
                 }
@@ -126,7 +125,7 @@ public class BomberManXServices {
         boolean correo_valido = true;
         boolean apodo_valido = true;
 
-        ArrayList<Jugador> jugadores =  (ArrayList<Jugador>) pj.findAll();
+        ArrayList<Jugador> jugadores = pj.getJugadores();
 
         //el correo debe ser unico
         for (int i = 0; i < jugadores.size(); i++) {
@@ -145,11 +144,15 @@ public class BomberManXServices {
         }
 
         if (correo_valido && apodo_valido) {
-            Jugador newj=new Jugador(jugadores.size(),nombre, correo, apodo, clave, imagen);
-            jugadores.add(newj);
-            pj.insert(newj);
-            Jugador j=pj.findFirstByCorreo(correo);
-            id_registro = j.getId();
+            jugadores.add(new Jugador(nombre, correo, apodo, clave, imagen));
+            id_registro = pj.getIDPorCorreo(correo);
+
+            //jugadores diponibles
+            //System.out.println("----- jugadores disponibles ---");
+            for (int i = 0; i < jugadores.size(); i++) {
+                //System.out.println(jugadores.get(i));
+            }
+
         }
 
         return id_registro;
@@ -162,9 +165,7 @@ public class BomberManXServices {
      * @return
      */
     public String getUrl(String correo) {
-        Jugador j=pj.findFirstByCorreo(correo);
-        String url = "";
-        if(j!=null)url = j.getImagen();
+        String url = pj.getUrlPorCorreo(correo);
         return url;
     }
 
@@ -207,7 +208,7 @@ public class BomberManXServices {
     }
 
     public String getNombreJugador(int id_jugador) throws GameServicesException {
-        return pj.findById(id_jugador).getApodo();
+        return pj.seleccionarJugadorPorId(id_jugador).getApodo();
     }
 
     public boolean accionBomba(int idSala, Jugador j) throws GameServicesException {

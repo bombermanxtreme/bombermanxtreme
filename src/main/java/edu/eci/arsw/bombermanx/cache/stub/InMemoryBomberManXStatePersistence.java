@@ -34,8 +34,6 @@ public class InMemoryBomberManXStatePersistence implements BomberManXCache {
             String[][] tablero; //= null;
             try {
                 tablero = TableroTexto.muestraContenido(id);
-                System.out.println("creatttte");
-                System.out.println(jugadores);
                 gamesState.put(id, new Juego(jugadores, tablero, esEquipos));
             } catch (IOException ex) {
                 Logger.getLogger(InMemoryBomberManXStatePersistence.class.getName()).log(Level.SEVERE, null, ex);

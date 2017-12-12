@@ -110,8 +110,6 @@ public class Juego {
                     if (idJ < jugadores.size()) {
                         Jugador j;
                         boolean equipoB;
-                        System.out.println("tanaoo");
-                        System.out.println(jugadoresEquipos);
                         if(idJ>=jugadoresEquipos.get(0).size()){
                             j=jugadoresEquipos.get(1).get(idJ-jugadoresEquipos.get(0).size());
                             equipoB=true;
@@ -179,7 +177,7 @@ public class Juego {
      * @throws edu.eci.arsw.bombermanx.services.GameServicesException
      */
     public Bomba accionBomba(Jugador jugador) throws GameServicesException {
-        Man man = manes.get(getIdJugador(jugador));
+        Man man = manes.get(jugadores.indexOf(jugador));
         if (man == null) {
             throw new GameServicesException("No se definió correctamente la relación entre jugador y man");
         }
@@ -314,13 +312,7 @@ public class Juego {
     }
 
     public int getIdJugador(Jugador j) {
-        int id=-1;
-        for (int i = 0; i < jugadores.size(); i++)
-            if(jugadores.get(i).getId()==j.getId()){
-                id=i;
-                break;
-            }
-        return id;
+        return jugadores.indexOf(j);
     }
 
     /**
@@ -355,7 +347,7 @@ public class Juego {
     public ArrayList<Elemento> moverPersonaje(Jugador j, int key) {
         ArrayList<Elemento> changes = new ArrayList<>();
         Elemento e1, e2;
-        Man man = manes.get(getIdJugador(j));
+        Man man = manes.get(jugadores.indexOf(j));
         if (man.isBloqueado()) {
             return changes;
         }
