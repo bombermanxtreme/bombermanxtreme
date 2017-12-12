@@ -77,9 +77,11 @@ var appLogin = (function () {
                 ).fail(
                         function (data) {
                             console.info("Response text: " + data.responseText);
-                            if (data.responseText === "-1") {
+                            var d=data.responseText.split("~~||~~");
+                            if (d[0] === "-1") {
                                 console.info("User: " + correo + " no existe " + data.responseText);
-                            } else if (data.responseText === "-2") {
+                                MJ_simple("iniciar sesión", "usuario no existe");
+                            } else if (d[0] === "-2") {
                                 //console.log("User: " + correo + " contraseña incorrecta, cod: " + data.responseText);
                                 MJ_simple("iniciar sesión", "Contraseña Incorrecta :(");
                             } else {

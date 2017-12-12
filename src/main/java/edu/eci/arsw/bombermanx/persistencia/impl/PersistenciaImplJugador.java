@@ -9,8 +9,7 @@ import org.springframework.stereotype.Service;
  *
  * @author Kvn CF <ECI>
  */
-@Service
-public class PersistenciaImplJugador implements PersistenciaJugador {
+public class PersistenciaImplJugador {//implements PersistenciaJugador {
 
     private ArrayList<Jugador> jugadores;
 
@@ -19,7 +18,7 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
         poblar();
     }
 
-    @Override
+    //@Override
     public final void poblar() {
         //necesario para evitar error: overridable method call in constructor//
         agregarJugador("Kevin Alvarado", "ka@server.com", "Kevincito", "123", "https://avatarfiles.alphacoders.com/812/81220.jpg");
@@ -29,22 +28,22 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
         agregarJugador("Fanny Pérez", "fp@server.com", "Ynnaf", "123", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRYGIRwH_hoWi2hLZ10SR_WkbQ4s35SiRaaVKd-YPXtibOj0-0i-g");
     }
 
-    @Override
+    //@Override
     public void agregarJugador(String nombre, String correo, String apodo, String clave, String imagen) {
-        jugadores.add(new Jugador(nombre, correo, apodo, clave, imagen));
+        jugadores.add(new Jugador(jugadores.size(),nombre, correo, apodo, clave, imagen));
     }
 
-    @Override
+    //@Override
     public Jugador seleccionarJugadorPorId(int idJugador) {
         return jugadores.get(idJugador);
     }
 
-    @Override
+    //@Override
     public ArrayList<Jugador> getJugadores() {
         return jugadores;
     }
 
-    @Override
+    //@Override
     public int getIDPorCorreo(String correo) {
 
         for (int i = 0; i < jugadores.size(); i++) {
@@ -56,7 +55,7 @@ public class PersistenciaImplJugador implements PersistenciaJugador {
         return -1;
     }
 
-    @Override
+    //@Override
     public String getUrlPorCorreo(String correo) {
         for (int i = 0; i < jugadores.size(); i++) {
             if (jugadores.get(i).getCorreo().equals(correo)) {

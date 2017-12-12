@@ -36,7 +36,7 @@ public class STOMPMessagesHandler {
     @MessageMapping("/EntrarAJuego.{idSala}")
     public boolean handleEntrarAJuego(int idJugador, @DestinationVariable int idSala) throws Exception {
         //si la sala está casi lista ya no pueden entrar más jugadores
-        Jugador j = PJ.seleccionarJugadorPorId(idJugador);
+        Jugador j = PJ.findById(idJugador);
         if (PS.estaCasiLista(idSala) || !PS.addJugador(idSala,j)) {
             enviarListadoJugadoresQuierenJugar(idSala, false);
             return false;
@@ -53,7 +53,7 @@ public class STOMPMessagesHandler {
     @MessageMapping("/Salir/Sala.{idSala}")
     public void handleSalirDeSala(int id_jugador, @DestinationVariable int idSala) throws Exception {
         //si la sala está casi lista ya no pueden entrar más jugadores
-        Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
+        Jugador j = PJ.findById(id_jugador);
         PS.removeJugador(idSala,j);
         enviarListadoJugadoresQuierenJugar(idSala, true);
     }
@@ -67,7 +67,7 @@ public class STOMPMessagesHandler {
      */
     @MessageMapping("/JugadorListo.{idSala}")
     public void handleJugadorListo(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        Jugador jugadorListo = PJ.seleccionarJugadorPorId(id_jugador);
+        Jugador jugadorListo = PJ.findById(id_jugador);
         PS.addJugadorListo(idSala,jugadorListo);
         enviarListadoJugadoresQuierenJugar(idSala, true);
     }
@@ -97,21 +97,21 @@ public class STOMPMessagesHandler {
     
     @MessageMapping("/CambiarGrupo/Sala.{idSala}")
     public void handleCambiarGrupo(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        Jugador jugador = PJ.seleccionarJugadorPorId(id_jugador);
+        Jugador jugador = PJ.findById(id_jugador);
         PS.cambiarDeGrupoJugador(idSala,jugador);
         enviarListadoJugadoresQuierenJugar(idSala, true);
     }
     
     @MessageMapping("/AccionBomba.{idSala}")
     public void accionBomba(int id_jugador, @DestinationVariable int idSala) throws Exception {
-        Jugador j = PJ.seleccionarJugadorPorId(id_jugador);        
+        Jugador j = PJ.findById(id_jugador);        
         gameServices.accionBomba(idSala,j);
     }
     
     // Author: Kevin S. Sanchez (DOCUMENTACION)
     @MessageMapping("/mover.{idSala}.{key}")
     public boolean moverPersonaje(@DestinationVariable int idSala, @DestinationVariable int key, int id_jugador) throws Exception {
-        System.out.println();Jugador j = PJ.seleccionarJugadorPorId(id_jugador);
+        System.out.println();Jugador j = PJ.findById(id_jugador);
         synchronized (msgt) {  
             return gameServices.accionMover(idSala, j, key);
         }
