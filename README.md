@@ -44,7 +44,7 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 ----
 
 
-# Tecnologias Usadas
+# Tecnologías Usadas
 
 ![](https://blog.phusion.nl/content/images/2016/07/Heroku.png)
 
