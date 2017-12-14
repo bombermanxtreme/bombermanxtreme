@@ -30,13 +30,13 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 | Page | Link |
 | ------ | ------ |
 | Heroku |  https://bombermanxtreme.herokuapp.com/|
-| Servidor | http://13.84.129.14:8090/
-| Scaling | http://13.84.129.14:8080 Balanceador
+| Servidor dedicado | http://13.84.129.14:8090/ |
+| Servidor | http://13.65.25.186:8080/ |
 | Circle.Ci | https://circleci.com/gh/bombermanxtreme/bombermanxtreme |
 | Codacy | https://goo.gl/nkfhup |
-| Propuesta del Proyecto | https://goo.gl/hJdGtA
+| Propuesta del Proyecto | https://goo.gl/hJdGtA |
 | BurnDown_Sprint1 | https://docs.google.com/spreadsheets/d/1Xk-FP6lLLw7dM7gwbYdH6SoKfE5XDaPQ1CGRK9AQhhA/edit?usp=sharing |
-| System Architecture Document | https://drive.google.com/open?id=1w2q187pZ8VPpYv_jYGAalcC6WtXltv4- 
+| System Architecture Document | https://drive.google.com/open?id=1w2q187pZ8VPpYv_jYGAalcC6WtXltv4- |
 | Ninja Mock | https://ninjamock.com/s/WFJQFWx   |
 
 
@@ -45,6 +45,12 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 
 
 # Tecnologias Usadas
+
+![](https://blog.phusion.nl/content/images/2016/07/Heroku.png)
+
+![](https://circleci.com/circleci-logo-horizontal-twitter.png)
+
+![](https://www.codacy.com/landing-page-assets/images/codacy-logo/codacy-logo-black.svg)
 
 ![](https://www.tuprogramaras.com/wp-content/uploads/2014/04/java.jpg)
 
@@ -71,7 +77,7 @@ Dillinger is currently extended with the following plugins. Instructions on how 
 
 ![](https://stomp.github.io/images/project-logo.png)
 
-
+![](https://spin.atomicobject.com/wp-content/uploads/20171003153036/github-logo.png)
 
 
 
